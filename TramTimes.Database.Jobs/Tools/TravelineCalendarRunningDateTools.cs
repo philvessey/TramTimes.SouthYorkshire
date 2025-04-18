@@ -15,14 +15,18 @@ public static class TravelineCalendarRunningDateTools
         bool? saturday,
         bool? sunday) {
         
-        if (!startDate.HasValue || !endDate.HasValue)
+        if (!startDate.HasValue ||
+            !endDate.HasValue ||
+            !monday.HasValue ||
+            !tuesday.HasValue ||
+            !wednesday.HasValue ||
+            !thursday.HasValue ||
+            !friday.HasValue ||
+            !saturday.HasValue ||
+            !sunday.HasValue) {
+            
             return await Task.FromResult(result: new List<DateTime>());
-        
-        if (!monday.HasValue || !tuesday.HasValue || !wednesday.HasValue || !thursday.HasValue || !friday.HasValue)
-            return await Task.FromResult(result: new List<DateTime>());
-        
-        if (!saturday.HasValue || !sunday.HasValue)
-            return await Task.FromResult(result: new List<DateTime>());
+        }
         
         var results = new List<DateTime>();
         

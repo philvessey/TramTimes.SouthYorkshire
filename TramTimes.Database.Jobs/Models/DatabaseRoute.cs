@@ -26,10 +26,10 @@ public class DatabaseRoute
     public string? RouteUrl { get; set; }
     
     [UsedImplicitly]
-    public short? RouteColor { get; set; }
+    public string? RouteColor { get; set; }
     
     [UsedImplicitly]
-    public short? RouteTextColor { get; set; }
+    public string? RouteTextColor { get; set; }
     
     [UsedImplicitly]
     public short? RouteSortOrder { get; set; }

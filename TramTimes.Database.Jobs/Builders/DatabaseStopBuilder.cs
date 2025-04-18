@@ -74,7 +74,7 @@ public static class DatabaseStopBuilder
             
             await importer.WriteAsync(
                 value: value.LocationType,
-                npgsqlDbType: NpgsqlDbType.Smallint);
+                npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
                 value: value.ParentStation,
@@ -86,7 +86,7 @@ public static class DatabaseStopBuilder
             
             await importer.WriteAsync(
                 value: value.WheelchairBoarding,
-                npgsqlDbType: NpgsqlDbType.Smallint);
+                npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
                 value: value.LevelId,

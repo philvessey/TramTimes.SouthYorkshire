@@ -78,29 +78,29 @@ public static class DatabaseStopTimeTools
                 {
                     case "pickUp":
                     {
-                        stopTime.PickupType = short.Parse(s: "0");
-                        stopTime.DropOffType = short.Parse(s: "1");
+                        stopTime.PickupType = "0";
+                        stopTime.DropOffType = "1";
                         
                         break;
                     }
                     case "pickUpAndSetDown":
                     {
-                        stopTime.PickupType = short.Parse(s: "0");
-                        stopTime.DropOffType = short.Parse(s: "0");
+                        stopTime.PickupType = "0";
+                        stopTime.DropOffType = "0";
                         
                         break;
                     }
                     case "setDown":
                     {
-                        stopTime.PickupType = short.Parse(s: "1");
-                        stopTime.DropOffType = short.Parse(s: "0");
+                        stopTime.PickupType = "1";
+                        stopTime.DropOffType = "0";
                         
                         break;
                     }
                     default:
                     {
-                        stopTime.PickupType = short.Parse(s: "1");
-                        stopTime.DropOffType = short.Parse(s: "1");
+                        stopTime.PickupType = "1";
+                        stopTime.DropOffType = "1";
                         
                         break;
                     }

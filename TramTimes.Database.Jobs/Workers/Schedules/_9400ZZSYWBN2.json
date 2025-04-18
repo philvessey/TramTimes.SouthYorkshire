@@ -1,0 +1,204 @@
+{
+  "monday": [
+    {
+      "departure_time": "12:01",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:10",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:13",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:25",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:37",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:37",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:49",
+      "route_name": "YELL"
+    }
+  ],
+  "tuesday": [
+    {
+      "departure_time": "12:01",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:10",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:13",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:25",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:37",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:37",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:49",
+      "route_name": "YELL"
+    }
+  ],
+  "wednesday": [
+    {
+      "departure_time": "12:01",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:10",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:13",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:25",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:37",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:37",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:49",
+      "route_name": "YELL"
+    }
+  ],
+  "thursday": [
+    {
+      "departure_time": "12:01",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:10",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:13",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:25",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:37",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:37",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:49",
+      "route_name": "YELL"
+    }
+  ],
+  "friday": [
+    {
+      "departure_time": "12:01",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:10",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:13",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:25",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:37",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:37",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:49",
+      "route_name": "YELL"
+    }
+  ],
+  "saturday": [
+    {
+      "departure_time": "12:01",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:10",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:13",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:25",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:37",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:37",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:49",
+      "route_name": "YELL"
+    }
+  ],
+  "sunday": [
+    {
+      "departure_time": "12:11",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:14",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:34",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:41",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:54",
+      "route_name": "YELL"
+    }
+  ]
+}

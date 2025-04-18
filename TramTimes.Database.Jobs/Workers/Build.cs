@@ -17,8 +17,8 @@ public class Build(
     NpgsqlDataSource dataSource,
     ILogger<Build> logger) : IJob {
     
-    private readonly string _localities = Environment.GetEnvironmentVariable(variable: "LOCALITIES_URL") ?? string.Empty;
-    private readonly string _stops = Environment.GetEnvironmentVariable(variable: "STOPS_URL") ?? string.Empty;
+    private const string Localities = "https://naptan.api.dft.gov.uk/v1/nptg/localities";
+    private const string Stops = "https://naptan.api.dft.gov.uk/v1/access-nodes?dataFormat=csv&atcoAreaCodes=370%2C940";
     
     public async Task Execute(IJobExecutionContext context)
     {
@@ -66,7 +66,7 @@ public class Build(
             }
             else
             {
-                await _localities.DownloadFileAsync(
+                await Localities.DownloadFileAsync(
                     localFolderPath: storage.FullName,
                     localFileName: "localities.csv");
             }
@@ -110,7 +110,7 @@ public class Build(
             }
             else
             {
-                await _stops.DownloadFileAsync(
+                await Stops.DownloadFileAsync(
                     localFolderPath: storage.FullName,
                     localFileName: "stops.csv");
             }

@@ -66,11 +66,11 @@ public static class DatabaseRouteBuilder
             
             await importer.WriteAsync(
                 value: value.RouteColor,
-                npgsqlDbType: NpgsqlDbType.Smallint);
+                npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
                 value: value.RouteTextColor,
-                npgsqlDbType: NpgsqlDbType.Smallint);
+                npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
                 value: value.RouteSortOrder,

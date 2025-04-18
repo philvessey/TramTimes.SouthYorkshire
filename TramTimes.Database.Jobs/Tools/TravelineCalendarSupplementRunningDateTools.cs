@@ -19,14 +19,18 @@ public static class TravelineCalendarSupplementRunningDateTools
         bool? sunday,
         List<DateTime>? dates) {
         
-        if (!startDate.HasValue || !endDate.HasValue)
+        if (!startDate.HasValue ||
+            !endDate.HasValue ||
+            !monday.HasValue ||
+            !tuesday.HasValue ||
+            !wednesday.HasValue ||
+            !thursday.HasValue ||
+            !friday.HasValue ||
+            !saturday.HasValue ||
+            !sunday.HasValue) {
+            
             return await Task.FromResult(result: new List<DateTime>());
-        
-        if (!monday.HasValue || !tuesday.HasValue || !wednesday.HasValue || !thursday.HasValue || !friday.HasValue)
-            return await Task.FromResult(result: new List<DateTime>());
-        
-        if (!saturday.HasValue || !sunday.HasValue)
-            return await Task.FromResult(result: new List<DateTime>());
+        }
         
         var daysOfOperation = operatingProfile?.SpecialDaysOperation?.DaysOfOperation;
         

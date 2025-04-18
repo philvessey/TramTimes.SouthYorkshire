@@ -29,8 +29,8 @@ public class DatabaseTrip
     public string? ShapeId { get; set; }
     
     [UsedImplicitly]
-    public short? WheelchairAccessible { get; set; }
+    public string? WheelchairAccessible { get; set; }
     
     [UsedImplicitly]
-    public short? BikesAllowed { get; set; }
+    public string? BikesAllowed { get; set; }
 }

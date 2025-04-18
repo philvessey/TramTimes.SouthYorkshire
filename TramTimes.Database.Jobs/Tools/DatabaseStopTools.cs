@@ -55,9 +55,9 @@ public static class DatabaseStopTools
                     StopDesc = value.StopPoints[i].NaptanStop?.LocalityName,
                     StopLat = float.Parse(s: value.StopPoints[i].NaptanStop?.Latitude ?? string.Empty),
                     StopLon = float.Parse(s: value.StopPoints[i].NaptanStop?.Longitude ?? string.Empty),
-                    LocationType = short.Parse(s: "0"),
+                    LocationType = "0",
                     StopTimezone = "Europe/London",
-                    WheelchairBoarding = short.Parse(s: "1"),
+                    WheelchairBoarding = "1",
                     PlatformCode = value.StopPoints[i].NaptanStop?.AtcoCode?[^1..]
                 };
                 

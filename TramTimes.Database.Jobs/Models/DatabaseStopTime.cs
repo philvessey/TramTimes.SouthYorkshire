@@ -23,10 +23,10 @@ public class DatabaseStopTime
     public string? StopHeadsign { get; set; }
     
     [UsedImplicitly]
-    public short? PickupType { get; set; }
+    public string? PickupType { get; set; }
     
     [UsedImplicitly]
-    public short? DropOffType { get; set; }
+    public string? DropOffType { get; set; }
     
     [UsedImplicitly]
     public float? ShapeDistTraveled { get; set; }

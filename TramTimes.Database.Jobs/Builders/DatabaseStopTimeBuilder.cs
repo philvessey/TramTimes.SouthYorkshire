@@ -62,11 +62,11 @@ public static class DatabaseStopTimeBuilder
             
             await importer.WriteAsync(
                 value: value.PickupType,
-                npgsqlDbType: NpgsqlDbType.Smallint);
+                npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
                 value: value.DropOffType,
-                npgsqlDbType: NpgsqlDbType.Smallint);
+                npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
                 value: value.ShapeDistTraveled,

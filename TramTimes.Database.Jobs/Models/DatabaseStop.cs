@@ -29,7 +29,7 @@ public class DatabaseStop
     public string? StopUrl { get; set; }
     
     [UsedImplicitly]
-    public short? LocationType { get; set; }
+    public string? LocationType { get; set; }
     
     [UsedImplicitly]
     public string? ParentStation { get; set; }
@@ -38,7 +38,7 @@ public class DatabaseStop
     public string? StopTimezone { get; set; }
     
     [UsedImplicitly]
-    public short? WheelchairBoarding { get; set; }
+    public string? WheelchairBoarding { get; set; }
     
     [UsedImplicitly]
     public string? LevelId { get; set; }

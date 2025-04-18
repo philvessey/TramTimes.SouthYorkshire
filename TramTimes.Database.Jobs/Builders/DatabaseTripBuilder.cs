@@ -70,11 +70,11 @@ public static class DatabaseTripBuilder
             
             await importer.WriteAsync(
                 value: value.WheelchairAccessible,
-                npgsqlDbType: NpgsqlDbType.Smallint);
+                npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
                 value: value.BikesAllowed,
-                npgsqlDbType: NpgsqlDbType.Smallint);
+                npgsqlDbType: NpgsqlDbType.Varchar);
         }
         
         return await Task.FromResult(result: await importer.CompleteAsync());

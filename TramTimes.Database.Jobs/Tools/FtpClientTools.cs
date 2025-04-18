@@ -5,6 +5,7 @@ namespace TramTimes.Database.Jobs.Tools;
 
 public static class FtpClientTools
 {
+    private static readonly string HostName = Environment.GetEnvironmentVariable(variable: "FTP_HOSTNAME") ?? string.Empty;
     private static readonly string UserName = Environment.GetEnvironmentVariable(variable: "FTP_USERNAME") ?? string.Empty;
     private static readonly string Password = Environment.GetEnvironmentVariable(variable: "FTP_PASSWORD") ?? string.Empty;
     
@@ -13,7 +14,7 @@ public static class FtpClientTools
         string remoteFileName) {
         
         var ftpClient = new AsyncFtpClient(
-            host: "tnds.basemap.co.uk",
+            host: HostName,
             credentials: new NetworkCredential(
                 userName: UserName,
                 password: Password));

@@ -1,0 +1,180 @@
+{
+  "monday": [
+    {
+      "departure_time": "12:02",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:14",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:26",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:29",
+      "route_name": "PURP"
+    },
+    {
+      "departure_time": "12:38",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:50",
+      "route_name": "BLUE"
+    }
+  ],
+  "tuesday": [
+    {
+      "departure_time": "12:02",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:14",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:26",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:29",
+      "route_name": "PURP"
+    },
+    {
+      "departure_time": "12:38",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:50",
+      "route_name": "BLUE"
+    }
+  ],
+  "wednesday": [
+    {
+      "departure_time": "12:02",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:14",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:26",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:29",
+      "route_name": "PURP"
+    },
+    {
+      "departure_time": "12:38",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:50",
+      "route_name": "BLUE"
+    }
+  ],
+  "thursday": [
+    {
+      "departure_time": "12:02",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:14",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:26",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:29",
+      "route_name": "PURP"
+    },
+    {
+      "departure_time": "12:38",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:50",
+      "route_name": "BLUE"
+    }
+  ],
+  "friday": [
+    {
+      "departure_time": "12:02",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:14",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:26",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:29",
+      "route_name": "PURP"
+    },
+    {
+      "departure_time": "12:38",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:50",
+      "route_name": "BLUE"
+    }
+  ],
+  "saturday": [
+    {
+      "departure_time": "12:03",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:15",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:27",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:29",
+      "route_name": "PURP"
+    },
+    {
+      "departure_time": "12:39",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:51",
+      "route_name": "BLUE"
+    }
+  ],
+  "sunday": [
+    {
+      "departure_time": "12:10",
+      "route_name": "PURP"
+    },
+    {
+      "departure_time": "12:12",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:32",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:40",
+      "route_name": "PURP"
+    },
+    {
+      "departure_time": "12:52",
+      "route_name": "BLUE"
+    }
+  ]
+}
