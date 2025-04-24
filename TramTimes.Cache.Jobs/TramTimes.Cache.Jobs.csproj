@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+    
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Aspire.Azure.Storage.Blobs" Version="9.2.0" />
+        <PackageReference Include="Aspire.Npgsql" Version="9.2.0" />
+        <PackageReference Include="Aspire.StackExchange.Redis" Version="9.2.0" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.4" />
+        <PackageReference Include="NextDepartures.Standard" Version="3.7.0" />
+        <PackageReference Include="NextDepartures.Storage.Postgres.Aspire" Version="3.7.0" />
+        <PackageReference Include="Quartz.Extensions.Hosting" Version="3.14.0" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <ProjectReference Include="..\TramTimes.Service.Defaults\TramTimes.Service.Defaults.csproj" />
+    </ItemGroup>
+    
+</Project>

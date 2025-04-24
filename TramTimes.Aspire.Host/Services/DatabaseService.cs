@@ -7,7 +7,8 @@ public static class DatabaseService
     public static IDistributedApplicationBuilder AddDatabase(
         this IDistributedApplicationBuilder builder,
         IResourceBuilder<AzureStorageResource> storage,
-        IResourceBuilder<AzureBlobStorageResource> blobs) {
+        IResourceBuilder<AzureBlobStorageResource> blobs,
+        out IResourceBuilder<PostgresDatabaseResource> database) {
         
         var postgres = builder.AddPostgres(name: "postgres")
             .WaitFor(dependency: storage)
@@ -30,9 +31,9 @@ public static class DatabaseService
                 resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
             });
         
-        var database = postgres.AddDatabase(name: "database");
+        database = postgres.AddDatabase(name: "database");
         
-        builder.AddProject<Projects.TramTimes_Database_Jobs>(name: "build-test")
+        builder.AddProject<Projects.TramTimes_Database_Jobs>(name: "database-builder")
             .WaitFor(dependency: database)
             .WithEnvironment(
                 name: "FTP_HOSTNAME",

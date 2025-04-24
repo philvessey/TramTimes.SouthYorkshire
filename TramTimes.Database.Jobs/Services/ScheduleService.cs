@@ -7,24 +7,22 @@ public static class ScheduleService
 {
     public static HostApplicationBuilder AddScheduleDefaults(this HostApplicationBuilder builder)
     {
-        var initJobKey = new JobKey(name: "InitJob");
-        var cronJobKey = new JobKey(name: "CronJob");
-        
         builder.Services.AddQuartz(configure: quartz =>
         {
-            quartz.AddJob<Build>(jobKey: initJobKey)
+            var initKey = new JobKey(name: "Init");
+            var cronKey = new JobKey(name: "Cron");
+            
+            quartz.AddJob<Build>(jobKey: initKey)
                 .AddTrigger(configure: trigger =>
                 {
-                    trigger.WithIdentity(name: "InitTrigger");
-                    trigger.ForJob(jobKey: initJobKey);
+                    trigger.ForJob(jobKey: initKey);
                     trigger.StartNow();
                 });
             
-            quartz.AddJob<Build>(jobKey: cronJobKey)
+            quartz.AddJob<Build>(jobKey: cronKey)
                 .AddTrigger(configure: trigger =>
                 {
-                    trigger.WithIdentity(name: "CronTrigger");
-                    trigger.ForJob(jobKey: cronJobKey);
+                    trigger.ForJob(jobKey: cronKey);
                     trigger.WithCronSchedule(cronExpression: "0 0 4 * * ?");
                 });
         });

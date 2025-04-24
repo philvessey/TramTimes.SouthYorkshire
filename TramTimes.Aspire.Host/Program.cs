@@ -8,7 +8,12 @@ builder.AddStorage(
 
 builder.AddDatabase(
     storage: storage,
-    blobs: blobs);
+    blobs: blobs,
+    database: out var database);
+
+builder.AddCache(
+    blobs: blobs,
+    database: database);
 
 var application = builder.Build();
 application.Run();
