@@ -3,6 +3,7 @@
     <Project Path="TramTimes.Aspire.Host\TramTimes.Aspire.Host.csproj" />
     <Project Path="TramTimes.Cache.Jobs\TramTimes.Cache.Jobs.csproj" />
     <Project Path="TramTimes.Database.Jobs\TramTimes.Database.Jobs.csproj" />
+    <Project Path="TramTimes.Search.Jobs\TramTimes.Search.Jobs.csproj" />
     <Project Path="TramTimes.Service.Defaults\TramTimes.Service.Defaults.csproj" />
     
 </Solution>

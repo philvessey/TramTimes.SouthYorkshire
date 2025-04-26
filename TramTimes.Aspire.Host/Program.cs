@@ -15,5 +15,9 @@ builder.AddCache(
     blobs: blobs,
     database: database);
 
+builder.AddSearch(
+    blobs: blobs,
+    database: database);
+
 var application = builder.Build();
 application.Run();

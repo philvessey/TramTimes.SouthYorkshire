@@ -1,47 +1,47 @@
 {
   "monday": [
     {
-      "departure_time": "12:33",
+      "departure_time": "12:33:00",
       "route_name": "PURP"
     }
   ],
   "tuesday": [
     {
-      "departure_time": "12:33",
+      "departure_time": "12:33:00",
       "route_name": "PURP"
     }
   ],
   "wednesday": [
     {
-      "departure_time": "12:33",
+      "departure_time": "12:33:00",
       "route_name": "PURP"
     }
   ],
   "thursday": [
     {
-      "departure_time": "12:33",
+      "departure_time": "12:33:00",
       "route_name": "PURP"
     }
   ],
   "friday": [
     {
-      "departure_time": "12:33",
+      "departure_time": "12:33:00",
       "route_name": "PURP"
     }
   ],
   "saturday": [
     {
-      "departure_time": "12:33",
+      "departure_time": "12:33:00",
       "route_name": "PURP"
     }
   ],
   "sunday": [
     {
-      "departure_time": "12:14",
+      "departure_time": "12:14:00",
       "route_name": "PURP"
     },
     {
-      "departure_time": "12:44",
+      "departure_time": "12:44:00",
       "route_name": "PURP"
     }
   ]

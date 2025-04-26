@@ -1,13 +1,14 @@
 using System.Text.Json;
+using AutoMapper;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using NextDepartures.Standard;
-using NextDepartures.Standard.Models;
 using NextDepartures.Standard.Types;
 using NextDepartures.Storage.Postgres.Aspire;
 using Npgsql;
 using Quartz;
 using StackExchange.Redis;
+using TramTimes.Cache.Jobs.Models;
 
 namespace TramTimes.Cache.Jobs.Workers;
 
@@ -15,7 +16,8 @@ public class _9400ZZSYHLR1(
     BlobServiceClient blobService,
     NpgsqlDataSource dataSource,
     IConnectionMultiplexer cacheService,
-    ILogger<_9400ZZSYHLR1> logger) : IJob {
+    ILogger<_9400ZZSYHLR1> logger,
+    IMapper mapper) : IJob {
     
     public async Task Execute(IJobExecutionContext context)
     {
@@ -45,19 +47,21 @@ public class _9400ZZSYHLR1(
             var cacheFeed = cacheService.GetDatabase();
             var cacheValue = await cacheFeed.StringGetAsync(key: new RedisKey(key: "9400ZZSYHLR1"));
             
-            List<Service> cacheResults = [];
+            List<WorkerStopPoint> unmappedResults = [];
             
             if (!cacheValue.IsNullOrEmpty)
             {
-                cacheResults = JsonSerializer.Deserialize<List<Service>>(json: cacheValue.ToString()) ?? [];
+                unmappedResults = JsonSerializer.Deserialize<List<WorkerStopPoint>>(json: cacheValue.ToString()) ?? [];
             }
+            
+            var mappedResults = mapper.Map<List<CacheStopPoint>>(source: unmappedResults);
             
             #endregion
             
             #region Check Cache Feed
             
-            if (cacheResults.ElementAtOrDefault(index: 0) is not null &&
-                cacheResults.ElementAt(index: 0).DepartureDateTime > DateTime.Now) {
+            if (mappedResults.ElementAtOrDefault(index: 0) is not null &&
+                mappedResults.ElementAt(index: 0).DepartureDateTime > DateTime.Now) {
                 
                 return;
             }
@@ -71,7 +75,7 @@ public class _9400ZZSYHLR1(
             var databaseResults = await databaseFeed.GetServicesByStopAsync(
                 id: "9400ZZSYHLR1",
                 comparison: ComparisonType.Exact,
-                tolerance: TimeSpan.FromMinutes(value: 59));
+                tolerance: TimeSpan.FromMinutes(value: 359));
             
             #endregion
             
@@ -79,8 +83,8 @@ public class _9400ZZSYHLR1(
             
             await cacheFeed.StringSetAsync(
                 key: new RedisKey(key: "9400ZZSYHLR1"),
-                value: new RedisValue(value: JsonSerializer.Serialize(value: databaseResults)),
-                expiry: TimeSpan.FromMinutes(value: 59));
+                value: new RedisValue(value: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults))),
+                expiry: TimeSpan.FromMinutes(value: 359));
             
             #endregion
             
@@ -92,7 +96,7 @@ public class _9400ZZSYHLR1(
             
             await File.WriteAllTextAsync(
                 path: localPath,
-                contents: JsonSerializer.Serialize(value: cacheResults));
+                contents: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: mappedResults)));
             
             var remotePath = Path.Combine(
                 path1: context.FireTimeUtc.DateTime.ToString(format: "yyyyMMddHHmm"),
@@ -121,7 +125,7 @@ public class _9400ZZSYHLR1(
             
             await File.WriteAllTextAsync(
                 path: localPath,
-                contents: JsonSerializer.Serialize(value: databaseResults));
+                contents: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults)));
             
             remotePath = Path.Combine(
                 path1: context.FireTimeUtc.DateTime.ToString(format: "yyyyMMddHHmm"),

@@ -2,6 +2,7 @@ using Azure.Storage.Blobs;
 using TramTimes.Database.Jobs.Services;
 
 var builder = Host.CreateApplicationBuilder(args: args);
+builder.AddMapperDefaults();
 builder.AddScheduleDefaults();
 builder.AddServiceDefaults();
 

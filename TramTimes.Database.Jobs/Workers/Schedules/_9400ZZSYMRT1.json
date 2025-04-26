@@ -1,179 +1,179 @@
 {
   "monday": [
     {
-      "departure_time": "12:00",
+      "departure_time": "12:00:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:12",
+      "departure_time": "12:12:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:24",
+      "departure_time": "12:24:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:36",
+      "departure_time": "12:36:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:48",
+      "departure_time": "12:48:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:53",
+      "departure_time": "12:53:00",
       "route_name": "PURP"
     }
   ],
   "tuesday": [
     {
-      "departure_time": "12:00",
+      "departure_time": "12:00:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:12",
+      "departure_time": "12:12:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:24",
+      "departure_time": "12:24:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:36",
+      "departure_time": "12:36:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:48",
+      "departure_time": "12:48:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:53",
+      "departure_time": "12:53:00",
       "route_name": "PURP"
     }
   ],
   "wednesday": [
     {
-      "departure_time": "12:00",
+      "departure_time": "12:00:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:12",
+      "departure_time": "12:12:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:24",
+      "departure_time": "12:24:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:36",
+      "departure_time": "12:36:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:48",
+      "departure_time": "12:48:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:53",
+      "departure_time": "12:53:00",
       "route_name": "PURP"
     }
   ],
   "thursday": [
     {
-      "departure_time": "12:00",
+      "departure_time": "12:00:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:12",
+      "departure_time": "12:12:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:24",
+      "departure_time": "12:24:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:36",
+      "departure_time": "12:36:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:48",
+      "departure_time": "12:48:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:53",
+      "departure_time": "12:53:00",
       "route_name": "PURP"
     }
   ],
   "friday": [
     {
-      "departure_time": "12:00",
+      "departure_time": "12:00:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:12",
+      "departure_time": "12:12:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:24",
+      "departure_time": "12:24:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:36",
+      "departure_time": "12:36:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:48",
+      "departure_time": "12:48:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:53",
+      "departure_time": "12:53:00",
       "route_name": "PURP"
     }
   ],
   "saturday": [
     {
-      "departure_time": "12:00",
+      "departure_time": "12:00:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:12",
+      "departure_time": "12:12:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:24",
+      "departure_time": "12:24:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:36",
+      "departure_time": "12:36:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:48",
+      "departure_time": "12:48:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:53",
+      "departure_time": "12:53:00",
       "route_name": "PURP"
     }
   ],
   "sunday": [
     {
-      "departure_time": "12:04",
+      "departure_time": "12:04:00",
       "route_name": "PURP"
     },
     {
-      "departure_time": "12:17",
+      "departure_time": "12:17:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:34",
+      "departure_time": "12:34:00",
       "route_name": "PURP"
     },
     {
-      "departure_time": "12:37",
+      "departure_time": "12:37:00",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:57",
+      "departure_time": "12:57:00",
       "route_name": "BLUE"
     }
   ]

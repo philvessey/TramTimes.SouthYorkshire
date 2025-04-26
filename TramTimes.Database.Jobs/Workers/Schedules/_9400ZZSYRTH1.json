@@ -1,71 +1,71 @@
 {
   "monday": [
     {
-      "departure_time": "12:02",
+      "departure_time": "12:02:00",
       "route_name": "TT"
     },
     {
-      "departure_time": "12:34",
+      "departure_time": "12:34:00",
       "route_name": "TT"
     }
   ],
   "tuesday": [
     {
-      "departure_time": "12:02",
+      "departure_time": "12:02:00",
       "route_name": "TT"
     },
     {
-      "departure_time": "12:34",
+      "departure_time": "12:34:00",
       "route_name": "TT"
     }
   ],
   "wednesday": [
     {
-      "departure_time": "12:02",
+      "departure_time": "12:02:00",
       "route_name": "TT"
     },
     {
-      "departure_time": "12:34",
+      "departure_time": "12:34:00",
       "route_name": "TT"
     }
   ],
   "thursday": [
     {
-      "departure_time": "12:02",
+      "departure_time": "12:02:00",
       "route_name": "TT"
     },
     {
-      "departure_time": "12:34",
+      "departure_time": "12:34:00",
       "route_name": "TT"
     }
   ],
   "friday": [
     {
-      "departure_time": "12:02",
+      "departure_time": "12:02:00",
       "route_name": "TT"
     },
     {
-      "departure_time": "12:34",
+      "departure_time": "12:34:00",
       "route_name": "TT"
     }
   ],
   "saturday": [
     {
-      "departure_time": "12:02",
+      "departure_time": "12:02:00",
       "route_name": "TT"
     },
     {
-      "departure_time": "12:34",
+      "departure_time": "12:34:00",
       "route_name": "TT"
     }
   ],
   "sunday": [
     {
-      "departure_time": "12:05",
+      "departure_time": "12:05:00",
       "route_name": "TT"
     },
     {
-      "departure_time": "12:35",
+      "departure_time": "12:35:00",
       "route_name": "TT"
     }
   ]
