@@ -8,10 +8,11 @@ public static class CacheService
     public static IDistributedApplicationBuilder AddCache(
         this IDistributedApplicationBuilder builder,
         IResourceBuilder<AzureBlobStorageResource> blobs,
+        IResourceBuilder<PostgresServerResource> server,
         IResourceBuilder<PostgresDatabaseResource> database) {
         
         var cache = builder.AddRedis(name: "cache")
-            .WaitFor(dependency: database)
+            .WaitFor(dependency: server)
             .WithDataVolume()
             .WithLifetime(lifetime: ContainerLifetime.Persistent);
         

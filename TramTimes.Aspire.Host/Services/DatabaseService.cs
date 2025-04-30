@@ -9,9 +9,10 @@ public static class DatabaseService
         this IDistributedApplicationBuilder builder,
         IResourceBuilder<AzureStorageResource> storage,
         IResourceBuilder<AzureBlobStorageResource> blobs,
+        out IResourceBuilder<PostgresServerResource> server,
         out IResourceBuilder<PostgresDatabaseResource> database) {
         
-        var postgres = builder.AddPostgres(name: "postgres")
+        server = builder.AddPostgres(name: "server")
             .WaitFor(dependency: storage)
             .WithBindMount(
                 source: "Scripts",
@@ -24,23 +25,23 @@ public static class DatabaseService
         
         if (builder.Environment.IsDevelopment())
         {
-            postgres.WithPgAdmin(configureContainer: resource =>
+            server.WithPgAdmin(configureContainer: resource =>
             {
                 resource.WithLifetime(lifetime: ContainerLifetime.Persistent);
                 resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
             });
             
-            postgres.WithPgWeb(configureContainer: resource =>
+            server.WithPgWeb(configureContainer: resource =>
             {
                 resource.WithLifetime(lifetime: ContainerLifetime.Persistent);
                 resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
             });
         }
         
-        database = postgres.AddDatabase(name: "database");
+        database = server.AddDatabase(name: "database");
         
         builder.AddProject<Projects.TramTimes_Database_Jobs>(name: "database-builder")
-            .WaitFor(dependency: database)
+            .WaitFor(dependency: server)
             .WithEnvironment(
                 name: "FTP_HOSTNAME",
                 parameter: builder.AddParameter(

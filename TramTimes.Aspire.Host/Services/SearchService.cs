@@ -7,10 +7,11 @@ public static class SearchService
     public static IDistributedApplicationBuilder AddSearch(
         this IDistributedApplicationBuilder builder,
         IResourceBuilder<AzureBlobStorageResource> blobs,
+        IResourceBuilder<PostgresServerResource> server,
         IResourceBuilder<PostgresDatabaseResource> database) {
         
         var search = builder.AddElasticsearch(name: "search")
-            .WaitFor(dependency: database)
+            .WaitFor(dependency: server)
             .WithDataVolume()
             .WithLifetime(lifetime: ContainerLifetime.Persistent);
         

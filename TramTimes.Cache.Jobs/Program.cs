@@ -1,4 +1,5 @@
 using Azure.Storage.Blobs;
+using StackExchange.Redis;
 using TramTimes.Cache.Jobs.Services;
 
 var builder = Host.CreateApplicationBuilder(args: args);
@@ -13,8 +14,15 @@ builder.AddRedisClient(connectionName: "cache");
 var application = builder.Build();
 var scope = application.Services.CreateScope();
 
-await scope.ServiceProvider.GetRequiredService<BlobServiceClient>()
+var blobService = scope.ServiceProvider.GetRequiredService<BlobServiceClient>();
+var cacheService = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
+
+await blobService
     .GetBlobContainerClient(blobContainerName: "cache")
     .CreateIfNotExistsAsync();
+
+await cacheService
+    .GetDatabase()
+    .ExecuteAsync(command: "FLUSHDB");
 
 application.Run();

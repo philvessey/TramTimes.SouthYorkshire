@@ -45,17 +45,22 @@ public class _9400ZZSYGLE1(
             #region Get Search Feed
             
             var searchFeed = await searchService.GetAsync<SearchStop>(
-                id: new Id("9400ZZSYGLE1"),
-                configureRequest: request => request.Index("search"));
+                id: "9400ZZSYGLE1",
+                index: "search");
             
-            var unmappedResults = searchFeed.Source?.Points ?? [];
+            List<SearchStopPoint> mappedResults = [];
+            
+            if (searchFeed.Source is not null)
+            {
+                mappedResults = searchFeed.Source.Points ?? [];
+            }
             
             #endregion
             
             #region Check Search Feed
             
-            if (unmappedResults.ElementAtOrDefault(index: 0) is not null &&
-                unmappedResults.ElementAt(index: 0).DepartureDateTime > DateTime.Now) {
+            if (mappedResults.ElementAtOrDefault(index: 0) is not null &&
+                mappedResults.ElementAt(index: 0).DepartureDateTime > DateTime.Now) {
                 
                 return;
             }
@@ -80,11 +85,24 @@ public class _9400ZZSYGLE1(
             
             #endregion
             
+            #region Check Database Feed
+            
+            if (databaseResults is { Latitude: not null, Longitude: not null })
+            {
+                databaseResults.Location = GeoLocation.LatitudeLongitude(latitudeLongitude: new LatLonGeoLocation 
+                {
+                    Lat = databaseResults.Latitude.Value,
+                    Lon = databaseResults.Longitude.Value
+                });
+            }
+            
+            #endregion
+            
             #region Set Search Feed
             
             await searchService.IndexAsync(
                 document: databaseResults,
-                configureRequest: request => request.Index("search"));
+                index: "search");
             
             #endregion
             
@@ -96,7 +114,7 @@ public class _9400ZZSYGLE1(
             
             await File.WriteAllTextAsync(
                 path: localPath,
-                contents: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: unmappedResults)));
+                contents: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: mappedResults)));
             
             var remotePath = Path.Combine(
                 path1: context.FireTimeUtc.DateTime.ToString(format: "yyyyMMddHHmm"),

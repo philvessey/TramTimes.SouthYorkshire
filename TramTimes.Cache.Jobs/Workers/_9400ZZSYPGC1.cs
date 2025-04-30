@@ -44,17 +44,18 @@ public class _9400ZZSYPGC1(
             
             #region Get Cache Feed
             
-            var cacheFeed = cacheService.GetDatabase();
-            var cacheValue = await cacheFeed.StringGetAsync(key: new RedisKey(key: "9400ZZSYPGC1"));
+            var cacheFeed = await cacheService
+                .GetDatabase()
+                .StringGetAsync(key: "9400ZZSYPGC1");
             
-            List<WorkerStopPoint> unmappedResults = [];
+            List<CacheStopPoint> mappedResults = [];
             
-            if (!cacheValue.IsNullOrEmpty)
+            if (!cacheFeed.IsNullOrEmpty)
             {
-                unmappedResults = JsonSerializer.Deserialize<List<WorkerStopPoint>>(json: cacheValue.ToString()) ?? [];
+                mappedResults = mapper.Map<List<CacheStopPoint>>(
+                    source: JsonSerializer.Deserialize<List<WorkerStopPoint>>(
+                        json: cacheFeed.ToString()));
             }
-            
-            var mappedResults = mapper.Map<List<CacheStopPoint>>(source: unmappedResults);
             
             #endregion
             
@@ -81,9 +82,11 @@ public class _9400ZZSYPGC1(
             
             #region Set Cache Feed
             
-            await cacheFeed.StringSetAsync(
-                key: new RedisKey(key: "9400ZZSYPGC1"),
-                value: new RedisValue(value: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults))),
+            await cacheService
+                .GetDatabase()
+                .StringSetAsync(
+                key: "9400ZZSYPGC1",
+                value: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults)),
                 expiry: TimeSpan.FromMinutes(value: 359));
             
             #endregion

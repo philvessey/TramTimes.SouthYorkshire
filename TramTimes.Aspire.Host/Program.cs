@@ -9,14 +9,17 @@ builder.AddStorage(
 builder.AddDatabase(
     storage: storage,
     blobs: blobs,
+    server: out var server,
     database: out var database);
 
 builder.AddCache(
     blobs: blobs,
+    server: server,
     database: database);
 
 builder.AddSearch(
     blobs: blobs,
+    server: server,
     database: database);
 
 var application = builder.Build();
