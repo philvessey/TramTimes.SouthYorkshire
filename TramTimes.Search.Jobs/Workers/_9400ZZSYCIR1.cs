@@ -27,21 +27,6 @@ public class _9400ZZSYCIR1(
         
         try
         {
-            #region Delete Expired Blobs
-            
-            var expiredBlobs = blobService.GetBlobContainerClient(blobContainerName: "search")
-                .GetBlobsAsync(prefix: "9400ZZSYCIR1");
-            
-            await foreach (var blob in expiredBlobs)
-            {
-                if (blob.Properties.LastModified < context.FireTimeUtc.DateTime.AddDays(value: -7))
-                    await blobService.GetBlobContainerClient(blobContainerName: "search")
-                        .GetBlobClient(blobName: blob.Name)
-                        .DeleteAsync();
-            }
-            
-            #endregion
-            
             #region Get Search Feed
             
             var searchFeed = await searchService.GetAsync<SearchStop>(
@@ -78,7 +63,7 @@ public class _9400ZZSYCIR1(
             var serviceResults = await databaseFeed.GetServicesByStopAsync(
                 id: "9400ZZSYCIR1",
                 comparison: ComparisonType.Exact,
-                tolerance: TimeSpan.FromMinutes(value: 179));
+                tolerance: TimeSpan.FromMinutes(value: 359));
             
             var databaseResults = mapper.Map<List<SearchStop>>(source: stopResults).FirstOrDefault() ?? new SearchStop();
             databaseResults.Points = mapper.Map<List<SearchStopPoint>>(source: serviceResults) ?? [];
@@ -163,12 +148,27 @@ public class _9400ZZSYCIR1(
                     });
             
             #endregion
+            
+            #region Delete Expired Blobs
+            
+            var expiredBlobs = blobService.GetBlobContainerClient(blobContainerName: "search")
+                .GetBlobsAsync(prefix: "9400ZZSYCIR1");
+            
+            await foreach (var blob in expiredBlobs)
+            {
+                if (blob.Properties.LastModified < context.FireTimeUtc.DateTime.AddDays(value: -7))
+                    await blobService.GetBlobContainerClient(blobContainerName: "search")
+                        .GetBlobClient(blobName: blob.Name)
+                        .DeleteAsync();
+            }
+            
+            #endregion
         }
         catch (Exception e)
         {
             logger.LogError(
-                message: "Exception thrown: {exception}",
-                args: e.Message);
+                message: "Exception: {exception}",
+                args: e.ToString());
         }
         finally
         {

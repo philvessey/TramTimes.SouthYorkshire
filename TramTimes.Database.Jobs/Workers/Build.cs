@@ -553,8 +553,8 @@ public class Build(
         catch (Exception e)
         {
             logger.LogError(
-                message: "Exception thrown: {exception}",
-                args: e.Message);
+                message: "Exception: {exception}",
+                args: e.ToString());
         }
         finally
         {

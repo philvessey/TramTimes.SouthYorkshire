@@ -15,12 +15,19 @@ builder.AddDatabase(
 builder.AddCache(
     blobs: blobs,
     server: server,
-    database: database);
+    database: database,
+    cache: out var cache);
 
 builder.AddSearch(
     blobs: blobs,
     server: server,
-    database: database);
+    database: database,
+    search: out var search);
+
+builder.AddWeb(
+    database: database,
+    cache: cache,
+    search: search);
 
 var application = builder.Build();
 application.Run();

@@ -8,12 +8,14 @@ public static class SearchService
         this IDistributedApplicationBuilder builder,
         IResourceBuilder<AzureBlobStorageResource> blobs,
         IResourceBuilder<PostgresServerResource> server,
-        IResourceBuilder<PostgresDatabaseResource> database) {
+        IResourceBuilder<PostgresDatabaseResource> database,
+        out IResourceBuilder<ElasticsearchResource> search) {
         
-        var search = builder.AddElasticsearch(name: "search")
+        search = builder.AddElasticsearch(name: "search")
             .WaitFor(dependency: server)
             .WithDataVolume()
-            .WithLifetime(lifetime: ContainerLifetime.Persistent);
+            .WithLifetime(lifetime: ContainerLifetime.Persistent)
+            .WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
         
         builder.AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder")
             .WaitFor(dependency: search)

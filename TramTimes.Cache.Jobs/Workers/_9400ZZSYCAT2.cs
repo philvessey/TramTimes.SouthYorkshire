@@ -27,25 +27,9 @@ public class _9400ZZSYCAT2(
         
         try
         {
-            #region Delete Expired Blobs
-            
-            var expiredBlobs = blobService.GetBlobContainerClient(blobContainerName: "cache")
-                .GetBlobsAsync(prefix: "9400ZZSYCAT2");
-            
-            await foreach (var blob in expiredBlobs)
-            {
-                if (blob.Properties.LastModified < context.FireTimeUtc.DateTime.AddDays(value: -7))
-                    await blobService.GetBlobContainerClient(blobContainerName: "cache")
-                        .GetBlobClient(blobName: blob.Name)
-                        .DeleteAsync();
-            }
-            
-            #endregion
-            
             #region Get Cache Feed
             
-            var cacheFeed = await cacheService
-                .GetDatabase()
+            var cacheFeed = await cacheService.GetDatabase()
                 .StringGetAsync(key: "9400ZZSYCAT2");
             
             List<CacheStopPoint> mappedResults = [];
@@ -76,18 +60,17 @@ public class _9400ZZSYCAT2(
             var databaseResults = await databaseFeed.GetServicesByStopAsync(
                 id: "9400ZZSYCAT2",
                 comparison: ComparisonType.Exact,
-                tolerance: TimeSpan.FromMinutes(value: 359));
+                tolerance: TimeSpan.FromMinutes(value: 719));
             
             #endregion
             
             #region Set Cache Feed
             
-            await cacheService
-                .GetDatabase()
+            await cacheService.GetDatabase()
                 .StringSetAsync(
                     key: "9400ZZSYCAT2",
                     value: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults)),
-                    expiry: TimeSpan.FromMinutes(value: 359));
+                    expiry: TimeSpan.FromMinutes(value: 719));
             
             #endregion
             
@@ -148,12 +131,27 @@ public class _9400ZZSYCAT2(
                     });
             
             #endregion
+            
+            #region Delete Expired Blobs
+            
+            var expiredBlobs = blobService.GetBlobContainerClient(blobContainerName: "cache")
+                .GetBlobsAsync(prefix: "9400ZZSYCAT2");
+            
+            await foreach (var blob in expiredBlobs)
+            {
+                if (blob.Properties.LastModified < context.FireTimeUtc.DateTime.AddDays(value: -7))
+                    await blobService.GetBlobContainerClient(blobContainerName: "cache")
+                        .GetBlobClient(blobName: blob.Name)
+                        .DeleteAsync();
+            }
+            
+            #endregion
         }
         catch (Exception e)
         {
             logger.LogError(
-                message: "Exception thrown: {exception}",
-                args: e.Message);
+                message: "Exception: {exception}",
+                args: e.ToString());
         }
         finally
         {

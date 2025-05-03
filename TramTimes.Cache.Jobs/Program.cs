@@ -17,12 +17,10 @@ var scope = application.Services.CreateScope();
 var blobService = scope.ServiceProvider.GetRequiredService<BlobServiceClient>();
 var cacheService = scope.ServiceProvider.GetRequiredService<IConnectionMultiplexer>();
 
-await blobService
-    .GetBlobContainerClient(blobContainerName: "cache")
+await blobService.GetBlobContainerClient(blobContainerName: "cache")
     .CreateIfNotExistsAsync();
 
-await cacheService
-    .GetDatabase()
+await cacheService.GetDatabase()
     .ExecuteAsync(command: "FLUSHDB");
 
 application.Run();

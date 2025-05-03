@@ -14,5 +14,11 @@ public class SearchStopPoint
     public string? RouteName { get; set; }
     
     [UsedImplicitly]
+    public string? StopId { get; set; }
+    
+    [UsedImplicitly]
+    public string? StopName { get; set; }
+    
+    [UsedImplicitly]
     public string? TripId { get; set; }
 }

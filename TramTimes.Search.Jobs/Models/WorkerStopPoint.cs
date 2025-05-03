@@ -18,6 +18,14 @@ public class WorkerStopPoint
     public string? RouteName { get; set; }
     
     [UsedImplicitly]
+    [JsonPropertyName("stop_id")]
+    public string? StopId { get; set; }
+    
+    [UsedImplicitly]
+    [JsonPropertyName("stop_name")]
+    public string? StopName { get; set; }
+    
+    [UsedImplicitly]
     [JsonPropertyName("trip_id")]
     public string? TripId { get; set; }
 }

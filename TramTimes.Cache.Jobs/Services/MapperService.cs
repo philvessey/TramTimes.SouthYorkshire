@@ -1,5 +1,6 @@
 using System.Globalization;
 using AutoMapper;
+using GTFS.Entities;
 using NextDepartures.Standard.Models;
 using TramTimes.Cache.Jobs.Models;
 
@@ -28,6 +29,9 @@ public static class MapperService
                     destinationMember: point => point.DepartureDateTime,
                     memberOptions: member => member.MapFrom(mapExpression: point =>
                         point.DepartureDateTime!.Value.ToString(CultureInfo.InvariantCulture)));
+            
+            expression.CreateMap<Stop, CacheStop>();
+            expression.CreateMap<Service, CacheStopPoint>();
         });
         
         builder.Services.AddSingleton(implementationInstance: configuration.CreateMapper());

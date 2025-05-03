@@ -215,11 +215,23 @@ public class _9400ZZSYLPH2(
                             RouteName = "unknown"
                         };
                         
-                        var databaseDepartureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
-                        var storageDepartureTime = storageResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        var databaseDepartureTime = "unknown";
+                        var storageDepartureTime = "unknown";
                         
-                        var databaseRouteName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
-                        var storageRouteName = storageResults.ElementAt(index: i).RouteName ?? "unknown";
+                        if (databaseResults.ElementAtOrDefault(index: i) is not null)
+                            databaseDepartureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        
+                        if (storageResults.ElementAtOrDefault(index: i) is not null)
+                            storageDepartureTime = storageResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        
+                        var databaseRouteName = "unknown";
+                        var storageRouteName = "unknown";
+                        
+                        if (databaseResults.ElementAtOrDefault(index: i) is not null)
+                            databaseRouteName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
+                        
+                        if (storageResults.ElementAtOrDefault(index: i) is not null)
+                            storageRouteName = storageResults.ElementAt(index: i).RouteName ?? "unknown";
                         
                         if (databaseResults.ElementAtOrDefault(index: i) is null ||
                             storageResults.ElementAtOrDefault(index: i) is null ||
@@ -244,11 +256,23 @@ public class _9400ZZSYLPH2(
                             RouteName = "unknown"
                         };
                         
-                        var databaseDepartureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
-                        var storageDepartureTime = storageResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        var databaseDepartureTime = "unknown";
+                        var storageDepartureTime = "unknown";
                         
-                        var databaseRouteName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
-                        var storageRouteName = storageResults.ElementAt(index: i).RouteName ?? "unknown";
+                        if (databaseResults.ElementAtOrDefault(index: i) is not null)
+                            databaseDepartureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        
+                        if (storageResults.ElementAtOrDefault(index: i) is not null)
+                            storageDepartureTime = storageResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        
+                        var databaseRouteName = "unknown";
+                        var storageRouteName = "unknown";
+                        
+                        if (databaseResults.ElementAtOrDefault(index: i) is not null)
+                            databaseRouteName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
+                        
+                        if (storageResults.ElementAtOrDefault(index: i) is not null)
+                            storageRouteName = storageResults.ElementAt(index: i).RouteName ?? "unknown";
                         
                         if (databaseResults.ElementAtOrDefault(index: i) is null ||
                             storageResults.ElementAtOrDefault(index: i) is null ||
@@ -273,11 +297,23 @@ public class _9400ZZSYLPH2(
                             RouteName = "unknown"
                         };
                         
-                        var databaseDepartureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
-                        var storageDepartureTime = storageResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        var databaseDepartureTime = "unknown";
+                        var storageDepartureTime = "unknown";
                         
-                        var databaseRouteName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
-                        var storageRouteName = storageResults.ElementAt(index: i).RouteName ?? "unknown";
+                        if (databaseResults.ElementAtOrDefault(index: i) is not null)
+                            databaseDepartureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        
+                        if (storageResults.ElementAtOrDefault(index: i) is not null)
+                            storageDepartureTime = storageResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        
+                        var databaseRouteName = "unknown";
+                        var storageRouteName = "unknown";
+                        
+                        if (databaseResults.ElementAtOrDefault(index: i) is not null)
+                            databaseRouteName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
+                        
+                        if (storageResults.ElementAtOrDefault(index: i) is not null)
+                            storageRouteName = storageResults.ElementAt(index: i).RouteName ?? "unknown";
                         
                         if (databaseResults.ElementAtOrDefault(index: i) is null ||
                             storageResults.ElementAtOrDefault(index: i) is null ||
@@ -302,11 +338,23 @@ public class _9400ZZSYLPH2(
                             RouteName = "unknown"
                         };
                         
-                        var databaseDepartureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
-                        var storageDepartureTime = storageResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        var databaseDepartureTime = "unknown";
+                        var storageDepartureTime = "unknown";
                         
-                        var databaseRouteName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
-                        var storageRouteName = storageResults.ElementAt(index: i).RouteName ?? "unknown";
+                        if (databaseResults.ElementAtOrDefault(index: i) is not null)
+                            databaseDepartureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        
+                        if (storageResults.ElementAtOrDefault(index: i) is not null)
+                            storageDepartureTime = storageResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        
+                        var databaseRouteName = "unknown";
+                        var storageRouteName = "unknown";
+                        
+                        if (databaseResults.ElementAtOrDefault(index: i) is not null)
+                            databaseRouteName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
+                        
+                        if (storageResults.ElementAtOrDefault(index: i) is not null)
+                            storageRouteName = storageResults.ElementAt(index: i).RouteName ?? "unknown";
                         
                         if (databaseResults.ElementAtOrDefault(index: i) is null ||
                             storageResults.ElementAtOrDefault(index: i) is null ||
@@ -331,11 +379,23 @@ public class _9400ZZSYLPH2(
                             RouteName = "unknown"
                         };
                         
-                        var databaseDepartureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
-                        var storageDepartureTime = storageResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        var databaseDepartureTime = "unknown";
+                        var storageDepartureTime = "unknown";
                         
-                        var databaseRouteName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
-                        var storageRouteName = storageResults.ElementAt(index: i).RouteName ?? "unknown";
+                        if (databaseResults.ElementAtOrDefault(index: i) is not null)
+                            databaseDepartureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        
+                        if (storageResults.ElementAtOrDefault(index: i) is not null)
+                            storageDepartureTime = storageResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        
+                        var databaseRouteName = "unknown";
+                        var storageRouteName = "unknown";
+                        
+                        if (databaseResults.ElementAtOrDefault(index: i) is not null)
+                            databaseRouteName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
+                        
+                        if (storageResults.ElementAtOrDefault(index: i) is not null)
+                            storageRouteName = storageResults.ElementAt(index: i).RouteName ?? "unknown";
                         
                         if (databaseResults.ElementAtOrDefault(index: i) is null ||
                             storageResults.ElementAtOrDefault(index: i) is null ||
@@ -360,11 +420,23 @@ public class _9400ZZSYLPH2(
                             RouteName = "unknown"
                         };
                         
-                        var databaseDepartureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
-                        var storageDepartureTime = storageResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        var databaseDepartureTime = "unknown";
+                        var storageDepartureTime = "unknown";
                         
-                        var databaseRouteName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
-                        var storageRouteName = storageResults.ElementAt(index: i).RouteName ?? "unknown";
+                        if (databaseResults.ElementAtOrDefault(index: i) is not null)
+                            databaseDepartureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        
+                        if (storageResults.ElementAtOrDefault(index: i) is not null)
+                            storageDepartureTime = storageResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        
+                        var databaseRouteName = "unknown";
+                        var storageRouteName = "unknown";
+                        
+                        if (databaseResults.ElementAtOrDefault(index: i) is not null)
+                            databaseRouteName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
+                        
+                        if (storageResults.ElementAtOrDefault(index: i) is not null)
+                            storageRouteName = storageResults.ElementAt(index: i).RouteName ?? "unknown";
                         
                         if (databaseResults.ElementAtOrDefault(index: i) is null ||
                             storageResults.ElementAtOrDefault(index: i) is null ||
@@ -389,11 +461,23 @@ public class _9400ZZSYLPH2(
                             RouteName = "unknown"
                         };
                         
-                        var databaseDepartureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
-                        var storageDepartureTime = storageResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        var databaseDepartureTime = "unknown";
+                        var storageDepartureTime = "unknown";
                         
-                        var databaseRouteName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
-                        var storageRouteName = storageResults.ElementAt(index: i).RouteName ?? "unknown";
+                        if (databaseResults.ElementAtOrDefault(index: i) is not null)
+                            databaseDepartureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        
+                        if (storageResults.ElementAtOrDefault(index: i) is not null)
+                            storageDepartureTime = storageResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                        
+                        var databaseRouteName = "unknown";
+                        var storageRouteName = "unknown";
+                        
+                        if (databaseResults.ElementAtOrDefault(index: i) is not null)
+                            databaseRouteName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
+                        
+                        if (storageResults.ElementAtOrDefault(index: i) is not null)
+                            storageRouteName = storageResults.ElementAt(index: i).RouteName ?? "unknown";
                         
                         if (databaseResults.ElementAtOrDefault(index: i) is null ||
                             storageResults.ElementAtOrDefault(index: i) is null ||
@@ -512,8 +596,8 @@ public class _9400ZZSYLPH2(
         catch (Exception e)
         {
             logger.LogError(
-                message: "Exception thrown: {exception}",
-                args: e.Message);
+                message: "Exception: {exception}",
+                args: e.ToString());
         }
         finally
         {

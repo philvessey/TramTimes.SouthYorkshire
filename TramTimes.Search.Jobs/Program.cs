@@ -23,10 +23,10 @@ await blobService
     .GetBlobContainerClient(blobContainerName: "search")
     .CreateIfNotExistsAsync();
 
-var response = await searchService.Indices
+var feed = await searchService.Indices
     .ExistsAsync(indices:"search");
 
-if (response.Exists)
+if (feed.Exists)
     await searchService.Indices
         .DeleteAsync(indices: "search");
 
