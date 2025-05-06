@@ -307,6 +307,23 @@ public class Build(
             
             #region Build Database Data
             
+            const string sql = "create index gtfs_stop_times_idx on gtfs_stop_times (" +
+                               "trip_id, " +
+                               "stop_id, " +
+                               "pickup_type, " +
+                               "arrival_time, " +
+                               "departure_time, " +
+                               "stop_sequence, " +
+                               "stop_headsign, " +
+                               "drop_off_type, " +
+                               "shape_dist_travelled, " +
+                               "timepoint)";
+            
+            var connection = await dataSource.OpenConnectionAsync();
+            
+            var command = new NpgsqlCommand(cmdText: "drop index if exists gtfs_stop_times_idx", connection: connection);
+            await command.ExecuteNonQueryAsync();
+            
             var records = await DatabaseAgencyBuilder.BuildAsync(
                 schedules: results,
                 dataSource: dataSource);
@@ -335,19 +352,7 @@ public class Build(
                 schedules: results,
                 dataSource: dataSource);
             
-            const string sql = "create index on gtfs_stop_times (" +
-                               "trip_id, " +
-                               "stop_id, " +
-                               "pickup_type, " +
-                               "arrival_time, " +
-                               "departure_time, " +
-                               "stop_sequence, " +
-                               "stop_headsign, " +
-                               "drop_off_type, " +
-                               "shape_dist_travelled, " +
-                               "timepoint)";
-            
-            var command = new NpgsqlCommand(cmdText: sql, connection: await dataSource.OpenConnectionAsync());
+            command = new NpgsqlCommand(cmdText: sql, connection: connection);
             await command.ExecuteNonQueryAsync();
             
             #endregion

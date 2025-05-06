@@ -7,7 +7,7 @@ public class Test : IJob
 {
     public async Task Execute(IJobExecutionContext context)
     {
-        #region Arbourthorne Road (To City)
+        #region Arbourthorne Road
         
         var jobDetail = JobBuilder.Create<_9400ZZSYABR1>()
             .Build();
@@ -20,30 +20,22 @@ public class Test : IJob
             jobDetail: jobDetail,
             trigger: trigger);
         
-        var interval = 10;
-        
-        #endregion
-        
-        #region Arbourthorne Road (From City)
-        
         jobDetail = JobBuilder.Create<_9400ZZSYABR2>()
             .Build();
         
         trigger = TriggerBuilder.Create()
-            .StartAt(startTimeUtc: DateBuilder.FutureDate(
-                interval: interval,
-                unit: IntervalUnit.Second))
+            .StartNow()
             .Build();
         
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
         
-        interval += 10;
+        var interval = 10;
         
         #endregion
         
-        #region Attercliffe (To City)
+        #region Attercliffe
         
         jobDetail = JobBuilder.Create<_9400ZZSYATT1>()
             .Build();
@@ -57,12 +49,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Attercliffe (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYATT2>()
             .Build();
@@ -81,7 +67,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Bamforth Street (From City)
+        #region Bamforth Street
         
         jobDetail = JobBuilder.Create<_9400ZZSYBAM1>()
             .Build();
@@ -95,12 +81,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Bamforth Street (To City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYBAM2>()
             .Build();
@@ -119,7 +99,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Birley Moor Road (To City)
+        #region Birley Moor Road
         
         jobDetail = JobBuilder.Create<_9400ZZSYBMR1>()
             .Build();
@@ -133,12 +113,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Birley Moor Road (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYBMR2>()
             .Build();
@@ -157,7 +131,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Birley Lane (To City)
+        #region Birley Lane
         
         jobDetail = JobBuilder.Create<_9400ZZSYBRL1>()
             .Build();
@@ -171,12 +145,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Birley Lane (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYBRL2>()
             .Build();
@@ -195,7 +163,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Castle Square (To Cathedral)
+        #region Castle Square
         
         jobDetail = JobBuilder.Create<_9400ZZSYCAS1>()
             .Build();
@@ -209,12 +177,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Castle Square (From Cathedral)
         
         jobDetail = JobBuilder.Create<_9400ZZSYCAS2>()
             .Build();
@@ -233,7 +195,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Cathedral (To City Hall)
+        #region Cathedral
         
         jobDetail = JobBuilder.Create<_9400ZZSYCAT1>()
             .Build();
@@ -247,12 +209,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Cathedral (From City Hall)
         
         jobDetail = JobBuilder.Create<_9400ZZSYCAT2>()
             .Build();
@@ -271,7 +227,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Cricket Inn Road (To City)
+        #region Cricket Inn Road
         
         jobDetail = JobBuilder.Create<_9400ZZSYCIR1>()
             .Build();
@@ -285,12 +241,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Cricket Inn Road (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYCIR2>()
             .Build();
@@ -309,7 +259,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Carbrook (To City)
+        #region Carbrook
         
         jobDetail = JobBuilder.Create<_9400ZZSYCRB1>()
             .Build();
@@ -323,12 +273,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Carbrook (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYCRB2>()
             .Build();
@@ -347,7 +291,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Crystal Peaks (To City)
+        #region Crystal Peaks
         
         jobDetail = JobBuilder.Create<_9400ZZSYCRY1>()
             .Build();
@@ -361,12 +305,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Crystal Peaks (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYCRY2>()
             .Build();
@@ -385,7 +323,7 @@ public class Test : IJob
         
         #endregion
         
-        #region City Hall (From City)
+        #region City Hall
         
         jobDetail = JobBuilder.Create<_9400ZZSYCYH1>()
             .Build();
@@ -399,12 +337,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region City Hall (To Cathedral)
         
         jobDetail = JobBuilder.Create<_9400ZZSYCYH2>()
             .Build();
@@ -423,7 +355,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Drake House Lane (To City)
+        #region Drake House Lane
         
         jobDetail = JobBuilder.Create<_9400ZZSYDHL1>()
             .Build();
@@ -437,12 +369,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Drake House Lane (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYDHL2>()
             .Build();
@@ -461,7 +387,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Donetsk Way (To City)
+        #region Donetsk Way
         
         jobDetail = JobBuilder.Create<_9400ZZSYDON1>()
             .Build();
@@ -475,12 +401,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Donetsk Way (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYDON2>()
             .Build();
@@ -499,7 +419,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Arena/Olympic Legacy Park (To City)
+        #region Arena/Olympic Legacy Park
         
         jobDetail = JobBuilder.Create<_9400ZZSYDVS1>()
             .Build();
@@ -513,12 +433,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Arena/Olympic Legacy Park (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYDVS2>()
             .Build();
@@ -537,7 +451,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Fitzalan Sq - Ponds Forge (To City)
+        #region Fitzalan Sq - Ponds Forge
         
         jobDetail = JobBuilder.Create<_9400ZZSYFIZ1>()
             .Build();
@@ -551,12 +465,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Fitzalan Sq - Ponds Forge (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYFIZ2>()
             .Build();
@@ -575,7 +483,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Gleadless Townend (To City)
+        #region Gleadless Townend
         
         jobDetail = JobBuilder.Create<_9400ZZSYGLE1>()
             .Build();
@@ -589,12 +497,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Gleadless Townend (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYGLE2>()
             .Build();
@@ -613,7 +515,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Granville Rd - Sheffield College (From City)
+        #region Granville Rd - Sheffield College
         
         jobDetail = JobBuilder.Create<_9400ZZSYGRC1>()
             .Build();
@@ -627,12 +529,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Granville Rd - Sheffield College (To City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYGRC2>()
             .Build();
@@ -651,7 +547,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Hackenthorpe (To City)
+        #region Hackenthorpe
         
         jobDetail = JobBuilder.Create<_9400ZZSYHAK1>()
             .Build();
@@ -665,12 +561,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Hackenthorpe (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYHAK2>()
             .Build();
@@ -689,7 +579,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Herdings Park (To City)
+        #region Herdings Park
         
         jobDetail = JobBuilder.Create<_9400ZZSYHDP1>()
             .Build();
@@ -708,7 +598,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Halfway (To City)
+        #region Halfway
         
         jobDetail = JobBuilder.Create<_9400ZZSYHFW1>()
             .Build();
@@ -727,7 +617,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Hillsborough (From City)
+        #region Hillsborough
         
         jobDetail = JobBuilder.Create<_9400ZZSYHIL1>()
             .Build();
@@ -741,12 +631,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Hillsborough (To City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYHIL2>()
             .Build();
@@ -765,7 +649,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Hillsborough Park (From City)
+        #region Hillsborough Park
         
         jobDetail = JobBuilder.Create<_9400ZZSYHLP1>()
             .Build();
@@ -779,12 +663,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Hillsborough Park (To City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYHLP2>()
             .Build();
@@ -803,7 +681,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Herdings - Leighton Road (To City)
+        #region Herdings - Leighton Road
         
         jobDetail = JobBuilder.Create<_9400ZZSYHLR1>()
             .Build();
@@ -817,12 +695,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Herdings - Leighton Road (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYHLR2>()
             .Build();
@@ -841,7 +713,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Hollinsend (To City)
+        #region Hollinsend
         
         jobDetail = JobBuilder.Create<_9400ZZSYHOL1>()
             .Build();
@@ -855,12 +727,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Hollinsend (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYHOL2>()
             .Build();
@@ -879,7 +745,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Hyde Park (To City)
+        #region Hyde Park
         
         jobDetail = JobBuilder.Create<_9400ZZSYHYP1>()
             .Build();
@@ -893,12 +759,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Hyde Park (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYHYP2>()
             .Build();
@@ -917,7 +777,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Infirmary Road (From City)
+        #region Infirmary Road
         
         jobDetail = JobBuilder.Create<_9400ZZSYINF1>()
             .Build();
@@ -931,12 +791,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Infirmary Road (To City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYINF2>()
             .Build();
@@ -955,7 +809,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Leppings Lane (From City)
+        #region Leppings Lane
         
         jobDetail = JobBuilder.Create<_9400ZZSYLEP1>()
             .Build();
@@ -969,12 +823,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Leppings Lane (To City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYLEP2>()
             .Build();
@@ -993,7 +841,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Langsett - Primrose View (From City)
+        #region Langsett - Primrose View
         
         jobDetail = JobBuilder.Create<_9400ZZSYLPH1>()
             .Build();
@@ -1007,12 +855,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Langsett - Primrose View (To City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYLPH2>()
             .Build();
@@ -1031,7 +873,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Malin Bridge (To City)
+        #region Malin Bridge
         
         jobDetail = JobBuilder.Create<_9400ZZSYMAL1>()
             .Build();
@@ -1050,7 +892,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Meadowhall Interchange (To City)
+        #region Meadowhall Interchange
         
         jobDetail = JobBuilder.Create<_9400ZZSYMHI1>()
             .Build();
@@ -1064,12 +906,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Meadowhall Interchange (To City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYMHI2>()
             .Build();
@@ -1088,7 +924,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Meadowhall South - Tinsley (To City)
+        #region Meadowhall South - Tinsley
         
         jobDetail = JobBuilder.Create<_9400ZZSYMHS1>()
             .Build();
@@ -1102,12 +938,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Meadowhall South - Tinsley (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYMHS2>()
             .Build();
@@ -1126,7 +956,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Middlewood (To City)
+        #region Middlewood
         
         jobDetail = JobBuilder.Create<_9400ZZSYMID1>()
             .Build();
@@ -1145,7 +975,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Manor Top (To City)
+        #region Manor Top
         
         jobDetail = JobBuilder.Create<_9400ZZSYMRT1>()
             .Build();
@@ -1159,12 +989,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Manor Top (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYMRT2>()
             .Build();
@@ -1183,7 +1007,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Moss Way (To City)
+        #region Moss Way
         
         jobDetail = JobBuilder.Create<_9400ZZSYMWY1>()
             .Build();
@@ -1197,12 +1021,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Moss Way (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYMWY2>()
             .Build();
@@ -1221,7 +1039,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Netherthorpe Road (From City)
+        #region Netherthorpe Road
         
         jobDetail = JobBuilder.Create<_9400ZZSYNET1>()
             .Build();
@@ -1235,12 +1053,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Netherthorpe Road (To City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYNET2>()
             .Build();
@@ -1259,7 +1071,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Nunnery Square (From City)
+        #region Nunnery Square
         
         jobDetail = JobBuilder.Create<_9400ZZSYNUN1>()
             .Build();
@@ -1273,12 +1085,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Nunnery Square (To City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYNUN2>()
             .Build();
@@ -1297,7 +1103,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Parkgate (To Sheffield)
+        #region Parkgate
         
         jobDetail = JobBuilder.Create<_9400ZZSYPAR1>()
             .Build();
@@ -1316,7 +1122,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Park Grange Croft (From City)
+        #region Park Grange Croft
         
         jobDetail = JobBuilder.Create<_9400ZZSYPGC1>()
             .Build();
@@ -1330,12 +1136,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Park Grange Croft (To City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYPGC2>()
             .Build();
@@ -1354,7 +1154,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Park Grange (To City)
+        #region Park Grange
         
         jobDetail = JobBuilder.Create<_9400ZZSYPGR1>()
             .Build();
@@ -1368,12 +1168,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Park Grange (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYPGR2>()
             .Build();
@@ -1392,7 +1186,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Rotherham Station (To Sheffield)
+        #region Rotherham Station
         
         jobDetail = JobBuilder.Create<_9400ZZSYRTH1>()
             .Build();
@@ -1406,12 +1200,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Rotherham Station (To Parkgate)
         
         jobDetail = JobBuilder.Create<_9400ZZSYRTH2>()
             .Build();
@@ -1430,7 +1218,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Shalesmoor (From City)
+        #region Shalesmoor
         
         jobDetail = JobBuilder.Create<_9400ZZSYSHL1>()
             .Build();
@@ -1444,12 +1232,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Shalesmoor (To City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYSHL2>()
             .Build();
@@ -1468,7 +1250,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Sheffield Stn - Hallam Uni (From City)
+        #region Sheffield Stn - Hallam Uni
         
         jobDetail = JobBuilder.Create<_9400ZZSYSHU1>()
             .Build();
@@ -1482,12 +1264,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Sheffield Stn - Hallam Uni (To City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYSHU2>()
             .Build();
@@ -1506,7 +1282,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Spring Lane (To City)
+        #region Spring Lane
         
         jobDetail = JobBuilder.Create<_9400ZZSYSPL1>()
             .Build();
@@ -1520,12 +1296,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Spring Lane (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYSPL2>()
             .Build();
@@ -1544,7 +1314,7 @@ public class Test : IJob
         
         #endregion
         
-        #region University of Sheffield (From City)
+        #region University of Sheffield
         
         jobDetail = JobBuilder.Create<_9400ZZSYUNI1>()
             .Build();
@@ -1558,12 +1328,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region University of Sheffield (To City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYUNI2>()
             .Build();
@@ -1582,7 +1346,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Valley Centertainment (From City)
+        #region Valley Centertainment
         
         jobDetail = JobBuilder.Create<_9400ZZSYVEN1>()
             .Build();
@@ -1596,12 +1360,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Valley Centertainment (To City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYVEN2>()
             .Build();
@@ -1620,7 +1378,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Woodbourn Road (To City)
+        #region Woodbourn Road
         
         jobDetail = JobBuilder.Create<_9400ZZSYWBN1>()
             .Build();
@@ -1634,12 +1392,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Woodbourn Road (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYWBN2>()
             .Build();
@@ -1658,7 +1410,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Westfield (To City)
+        #region Westfield
         
         jobDetail = JobBuilder.Create<_9400ZZSYWTF1>()
             .Build();
@@ -1672,12 +1424,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Westfield (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYWTF2>()
             .Build();
@@ -1696,7 +1442,7 @@ public class Test : IJob
         
         #endregion
         
-        #region White Lane (To City)
+        #region White Lane
         
         jobDetail = JobBuilder.Create<_9400ZZSYWTL1>()
             .Build();
@@ -1710,12 +1456,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region White Lane (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYWTL2>()
             .Build();
@@ -1734,7 +1474,7 @@ public class Test : IJob
         
         #endregion
         
-        #region Waterthorpe (To City)
+        #region Waterthorpe
         
         jobDetail = JobBuilder.Create<_9400ZZSYWTR1>()
             .Build();
@@ -1748,12 +1488,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region Waterthorpe (From City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYWTR2>()
             .Build();
@@ -1772,7 +1506,7 @@ public class Test : IJob
         
         #endregion
         
-        #region West Street (From City)
+        #region West Street
         
         jobDetail = JobBuilder.Create<_9400ZZSYWTS1>()
             .Build();
@@ -1786,12 +1520,6 @@ public class Test : IJob
         await context.Scheduler.ScheduleJob(
             jobDetail: jobDetail,
             trigger: trigger);
-        
-        interval += 10;
-        
-        #endregion
-        
-        #region West Street (To City)
         
         jobDetail = JobBuilder.Create<_9400ZZSYWTS2>()
             .Build();

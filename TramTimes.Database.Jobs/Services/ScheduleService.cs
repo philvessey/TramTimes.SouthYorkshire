@@ -10,7 +10,6 @@ public static class ScheduleService
         builder.Services.AddQuartz(configure: quartz =>
         {
             var initKey = new JobKey(name: "Init");
-            var cronKey = new JobKey(name: "Cron");
             
             quartz.AddJob<Build>(jobKey: initKey)
                 .AddTrigger(configure: trigger =>
@@ -19,11 +18,13 @@ public static class ScheduleService
                     trigger.StartNow();
                 });
             
+            var cronKey = new JobKey(name: "Cron");
+            
             quartz.AddJob<Build>(jobKey: cronKey)
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: cronKey);
-                    trigger.WithCronSchedule(cronExpression: "0 0 4 * * ?");
+                    trigger.WithCronSchedule(cronExpression: "0 30 3 * * ?");
                 });
         });
         

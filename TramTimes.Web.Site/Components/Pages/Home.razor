@@ -1,0 +1,164 @@
+﻿@inject ILocalStorageService StorageService
+
+@page "/"
+@page "/{Longitude:double}/{Latitude:double}"
+
+<PageTitle>TramTimes - South Yorkshire</PageTitle>
+
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Tiny"
+                   OnChange="@(match => WindowSize.Tiny = match)" />
+
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Small"
+                   OnChange="@(match => WindowSize.Small = match)" />
+
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Medium"
+                   OnChange="@(match => WindowSize.Medium = match)" />
+
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Large"
+                   OnChange="@(match => WindowSize.Large = match)" />
+
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Ultra"
+                   OnChange="@(match => WindowSize.Ultra = match)" />
+
+@{
+    if (WindowSize.Tiny ?? false)
+    {
+        <div id="home-telerik-map-tiny">
+            <TelerikMap Center="@Center"
+                        Height="100%"
+                        MaxZoom="@TelerikMapDefaults.MaxZoom"
+                        MinZoom="@TelerikMapDefaults.MinZoom"
+                        OnPanEnd="@OnPanEnd"
+                        OnZoomEnd="@OnZoomEnd"
+                        Width="100%"
+                        Zoom="@Zoom">
+                
+                <MapControls>
+                    <MapControlsAttribution Enabled="false"/>
+                    <MapControlsNavigator Enabled="false"/>
+                    <MapControlsZoom Enabled="false"/>
+                </MapControls>
+                
+                <MapLayers>
+                    <MapLayer Type="@MapLayersType.Tile"
+                              Attribution="@TelerikMapDefaults.Attribution"
+                              Subdomains="@TelerikMapDefaults.Subdomains"
+                              UrlTemplate="@TelerikMapDefaults.UrlTemplate">
+                    </MapLayer>
+                </MapLayers>
+            </TelerikMap>
+        </div>
+    }
+    else if (WindowSize.Small ?? false)
+    {
+        <div id="home-telerik-map-small">
+            <TelerikMap Center="@Center"
+                        Height="100%"
+                        MaxZoom="@TelerikMapDefaults.MaxZoom"
+                        MinZoom="@TelerikMapDefaults.MinZoom"
+                        OnPanEnd="@OnPanEnd"
+                        OnZoomEnd="@OnZoomEnd"
+                        Width="100%"
+                        Zoom="@Zoom">
+                
+                <MapControls>
+                    <MapControlsAttribution Enabled="false"/>
+                    <MapControlsNavigator Enabled="false"/>
+                    <MapControlsZoom Enabled="false"/>
+                </MapControls>
+                
+                <MapLayers>
+                    <MapLayer Type="@MapLayersType.Tile"
+                              Attribution="@TelerikMapDefaults.Attribution"
+                              Subdomains="@TelerikMapDefaults.Subdomains"
+                              UrlTemplate="@TelerikMapDefaults.UrlTemplate">
+                    </MapLayer>
+                </MapLayers>
+            </TelerikMap>
+        </div>
+    }
+    else if (WindowSize.Medium ?? false)
+    {
+        <div id="home-telerik-map-medium">
+            <TelerikMap Center="@Center"
+                        Height="100%"
+                        MaxZoom="@TelerikMapDefaults.MaxZoom"
+                        MinZoom="@TelerikMapDefaults.MinZoom"
+                        OnPanEnd="@OnPanEnd"
+                        OnZoomEnd="@OnZoomEnd"
+                        Width="100%"
+                        Zoom="@Zoom">
+                
+                <MapControls>
+                    <MapControlsAttribution Enabled="false"/>
+                    <MapControlsNavigator Enabled="false"/>
+                    <MapControlsZoom Enabled="false"/>
+                </MapControls>
+                
+                <MapLayers>
+                    <MapLayer Type="@MapLayersType.Tile"
+                              Attribution="@TelerikMapDefaults.Attribution"
+                              Subdomains="@TelerikMapDefaults.Subdomains"
+                              UrlTemplate="@TelerikMapDefaults.UrlTemplate">
+                    </MapLayer>
+                </MapLayers>
+            </TelerikMap>
+        </div>
+    }
+    else if (WindowSize.Large ?? false)
+    {
+        <div id="home-telerik-map-large">
+            <TelerikMap Center="@Center"
+                        Height="100%"
+                        MaxZoom="@TelerikMapDefaults.MaxZoom"
+                        MinZoom="@TelerikMapDefaults.MinZoom"
+                        OnPanEnd="@OnPanEnd"
+                        OnZoomEnd="@OnZoomEnd"
+                        Width="100%"
+                        Zoom="@Zoom">
+                
+                <MapControls>
+                    <MapControlsAttribution Enabled="false"/>
+                    <MapControlsNavigator Enabled="false"/>
+                    <MapControlsZoom Enabled="false"/>
+                </MapControls>
+                
+                <MapLayers>
+                    <MapLayer Type="@MapLayersType.Tile"
+                              Attribution="@TelerikMapDefaults.Attribution"
+                              Subdomains="@TelerikMapDefaults.Subdomains"
+                              UrlTemplate="@TelerikMapDefaults.UrlTemplate">
+                    </MapLayer>
+                </MapLayers>
+            </TelerikMap>
+        </div>
+    }
+    else if (WindowSize.Ultra ?? false)
+    {
+        <div id="home-telerik-map-ultra">
+            <TelerikMap Center="@Center"
+                        Height="100%"
+                        MaxZoom="@TelerikMapDefaults.MaxZoom"
+                        MinZoom="@TelerikMapDefaults.MinZoom"
+                        OnPanEnd="@OnPanEnd"
+                        OnZoomEnd="@OnZoomEnd"
+                        Width="100%"
+                        Zoom="@Zoom">
+                
+                <MapControls>
+                    <MapControlsAttribution Position="MapControlsPosition.BottomRight" Enabled="false"/>
+                    <MapControlsNavigator Enabled="false"/>
+                    <MapControlsZoom Enabled="false"/>
+                </MapControls>
+                
+                <MapLayers>
+                    <MapLayer Type="@MapLayersType.Tile"
+                              Attribution="@TelerikMapDefaults.Attribution"
+                              Subdomains="@TelerikMapDefaults.Subdomains"
+                              UrlTemplate="@TelerikMapDefaults.UrlTemplate">
+                    </MapLayer>
+                </MapLayers>
+            </TelerikMap>
+        </div>
+    }
+}

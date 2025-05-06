@@ -3,6 +3,12 @@
 [Oo]bj/
 [Pp]ackages/
 
+# nuget
+**/nuget.config
+
+# telerik
+**/telerik-license.txt
+
 # user
 **/*.idea
 **/*.user

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+    
+    <ItemGroup>
+        <PackageReference Include="Blazored.LocalStorage" />
+        <PackageReference Include="Telerik.UI.for.Blazor" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <ProjectReference Include="..\TramTimes.Service.Defaults\TramTimes.Service.Defaults.csproj" />
+        <ProjectReference Include="..\TramTimes.Web.Utilities\TramTimes.Web.Utilities.csproj" />
+    </ItemGroup>
+    
+</Project>
