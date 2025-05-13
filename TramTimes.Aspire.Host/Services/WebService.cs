@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Hosting;
+
 namespace TramTimes.Aspire.Host.Services;
 
 public static class WebService
@@ -18,10 +20,17 @@ public static class WebService
             .WithUrlForEndpoint("https", annotation => annotation.DisplayText = "Primary")
             .WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Secondary");
         
+        var endpoint = api.GetEndpoint(name: "https");
+        
+        if (builder.Environment.IsDevelopment())
+            endpoint = api.GetEndpoint(name: "http");
+        
         builder.AddProject<Projects.TramTimes_Web_Site>(name: "web-site")
             .WaitFor(dependency: api)
+            .WithEnvironment(
+                name: "API_ENDPOINT",
+                endpointReference: endpoint)
             .WithExternalHttpEndpoints()
-            .WithReference(source: api)
             .WithUrlForEndpoint("https", annotation => annotation.DisplayText = "Primary")
             .WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Secondary");
         

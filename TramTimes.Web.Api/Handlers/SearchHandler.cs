@@ -1,9 +1,9 @@
 using AutoMapper;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.QueryDsl;
-using TramTimes.Web.Api.Extensions;
 using TramTimes.Web.Api.Models;
 using TramTimes.Web.Api.Tools;
+using TramTimes.Web.Utilities.Extensions;
 using TramTimes.Web.Utilities.Models;
 
 namespace TramTimes.Web.Api.Handlers;

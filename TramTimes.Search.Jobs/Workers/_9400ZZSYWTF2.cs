@@ -63,7 +63,7 @@ public class _9400ZZSYWTF2(
             var serviceResults = await databaseFeed.GetServicesByStopAsync(
                 id: "9400ZZSYWTF2",
                 comparison: ComparisonType.Exact,
-                tolerance: TimeSpan.FromMinutes(value: 359));
+                tolerance: TimeSpan.FromMinutes(value: 119));
             
             var databaseResults = mapper.Map<List<SearchStop>>(source: stopResults).FirstOrDefault() ?? new SearchStop();
             databaseResults.Points = mapper.Map<List<SearchStopPoint>>(source: serviceResults) ?? [];

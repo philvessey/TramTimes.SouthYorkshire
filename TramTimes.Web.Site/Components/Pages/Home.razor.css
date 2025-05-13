@@ -1,29 +1,332 @@
-#home-telerik-map-tiny {
+#home-telerik-map {
     height: 100%;
     position: absolute;
     width: 100%;
 }
 
-#home-telerik-map-small {
-    height: 100%;
-    position: absolute;
+#home-telerik-map__tooltip {
+    padding-bottom: 2px;
+    padding-top: 2px;
+    width: 200px;
+}
+
+#home-telerik-map__tooltip__title {
+    color: white;
+    font-size: smaller;
+    font-weight: bold;
+    overflow: hidden;
+    padding-bottom: 2px;
+    position: relative;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#home-telerik-map__tooltip__services {
+    overflow: auto;
+    position: relative;
     width: 100%;
 }
 
-#home-telerik-map-medium {
-    height: 100%;
+#home-telerik-map__tooltip__services ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#home-telerik-map__tooltip__services ul li.default {
+    background-color: #0078c8;
+    color: white;
+    font-size: smaller;
+    font-weight: bold;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    overflow: hidden;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    text-indent: 2px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#home-telerik-map__tooltip__services ul li.blue {
+    background-color: #204f82;
+    color: white;
+    font-size: smaller;
+    font-weight: bold;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    overflow: hidden;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    text-indent: 2px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#home-telerik-map__tooltip__services ul li.purp {
+    background-color: #80276a;
+    color: white;
+    font-size: smaller;
+    font-weight: bold;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    overflow: hidden;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    text-indent: 2px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#home-telerik-map__tooltip__services ul li.tt {
+    background-color: #000000;
+    color: white;
+    font-size: smaller;
+    font-weight: bold;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    overflow: hidden;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    text-indent: 2px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#home-telerik-map__tooltip__services ul li.yell {
+    background-color: #f1bd40;
+    color: black;
+    font-size: smaller;
+    font-weight: bold;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    overflow: hidden;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    text-indent: 2px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#home-telerik-auto-complete {
+    left: 15px;
+    padding: 0;
     position: absolute;
+    top: 15px;
+    width: min(calc(100vw - 30px), 420px);
+}
+
+#home-telerik-auto-complete__failed {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    position: relative;
     width: 100%;
 }
 
-#home-telerik-map-large {
-    height: 100%;
-    position: absolute;
+#home-telerik-auto-complete__failed__name {
+    cursor: default;
+    font-weight: bold;
+    grid-area: 1 / 1 / 2 / 3;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#home-telerik-auto-complete__failed__description {
+    cursor: default;
+    font-size: smaller;
+    grid-area: 2 / 1 / 3 / 3;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#home-telerik-auto-complete__result {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    position: relative;
     width: 100%;
 }
 
-#home-telerik-map-ultra {
-    height: 100%;
-    position: absolute;
-    width: 100%;
+#home-telerik-auto-complete__result__name {
+    cursor: pointer;
+    font-weight: bold;
+    grid-area: 1 / 1 / 2 / 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#home-telerik-auto-complete__result__description {
+    cursor: pointer;
+    font-size: smaller;
+    grid-area: 2 / 1 / 3 / 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#home-telerik-auto-complete__result__services {
+    grid-area: 1 / 2 / 3 / 3;
+}
+
+#home-telerik-auto-complete__result__services ul {
+    align-items: center;
+    display: flex;
+    height: 40px;
+    justify-content: right;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#home-telerik-auto-complete__result__services ul li.default {
+    background-color: #0078c8;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: smaller;
+    font-weight: bold;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#home-telerik-auto-complete__result__services ul li.blue {
+    background-color: #204f82;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: smaller;
+    font-weight: bold;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#home-telerik-auto-complete__result__services ul li.purp {
+    background-color: #80276a;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: smaller;
+    font-weight: bold;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#home-telerik-auto-complete__result__services ul li.tt {
+    background-color: #000000;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: smaller;
+    font-weight: bold;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#home-telerik-auto-complete__result__services ul li.yell {
+    background-color: #f1bd40;
+    color: black;
+    cursor: pointer;
+    display: inline-block;
+    font-size: smaller;
+    font-weight: bold;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
 }

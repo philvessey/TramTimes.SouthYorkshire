@@ -43,6 +43,7 @@ await searchService.Indices
                     { "location", new GeoPointProperty() },
                     { "longitude", new DoubleNumberProperty() },
                     { "name", new TextProperty() },
+                    { "platform", new TextProperty() },
                     { "points", new ObjectProperty() }
                 })));
 

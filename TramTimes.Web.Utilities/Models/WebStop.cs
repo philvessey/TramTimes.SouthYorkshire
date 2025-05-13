@@ -26,6 +26,10 @@ public class WebStop
     public double? Latitude { get; set; }
     
     [UsedImplicitly]
+    [JsonPropertyName("platform")]
+    public string? Platform { get; set; }
+    
+    [UsedImplicitly]
     [JsonPropertyName("points")]
     public List<WebStopPoint>? Points { get; set; }
 }

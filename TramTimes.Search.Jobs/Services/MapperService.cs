@@ -30,7 +30,11 @@ public static class MapperService
                     memberOptions: member => member.MapFrom(mapExpression: point =>
                         point.DepartureDateTime!.Value.ToString(CultureInfo.InvariantCulture)));
             
-            expression.CreateMap<Stop, SearchStop>();
+            expression.CreateMap<Stop, SearchStop>()
+                .ForMember(
+                    destinationMember: stop => stop.Platform,
+                    memberOptions: member => member.MapFrom(mapExpression: stop => stop.PlatformCode));
+            
             expression.CreateMap<Service, SearchStopPoint>();
         });
         

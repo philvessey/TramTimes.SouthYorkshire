@@ -3,3 +3,32 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0;
 }
+
+.k-list-item {
+    color: initial !important;
+    font-weight: initial !important;
+}
+
+.k-map-marker {
+    background-image: url(https://cdn.mapmarker.io/api/v2/font-awesome/v5/pin?background=39509f&size=40);
+    background-repeat: no-repeat;
+    background-size: 40px;
+    color: white;
+    display: flex;
+    font-size: small;
+    font-weight: bold;
+    height: 40px;
+    padding-left: 16px;
+    padding-top: 4px;
+    width: 40px;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+.k-nodata {
+    color: initial !important;
+    font-weight: initial !important;
+}

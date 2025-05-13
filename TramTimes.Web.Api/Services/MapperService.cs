@@ -19,18 +19,6 @@ public static class MapperService
                     memberOptions: member => member.MapFrom(mapExpression: service =>
                         service.DepartureDateTime.ToString(CultureInfo.InvariantCulture)));
             
-            expression.CreateMap<WorkerStopPoint, DatabaseStopPoint>()
-                .ForMember(
-                    destinationMember: point => point.DepartureDateTime,
-                    memberOptions: member => member.MapFrom(mapExpression: point =>
-                        DateTime.Parse(point.DepartureDateTime ?? string.Empty, CultureInfo.InvariantCulture)));
-            
-            expression.CreateMap<DatabaseStopPoint, WebStopPoint>()
-                .ForMember(
-                    destinationMember: point => point.DepartureDateTime,
-                    memberOptions: member => member.MapFrom(mapExpression: point =>
-                        point.DepartureDateTime!.Value.ToString(CultureInfo.InvariantCulture)));
-            
             expression.CreateMap<WorkerStopPoint, CacheStopPoint>()
                 .ForMember(
                     destinationMember: point => point.DepartureDateTime,
@@ -38,6 +26,18 @@ public static class MapperService
                         DateTime.Parse(point.DepartureDateTime ?? string.Empty, CultureInfo.InvariantCulture)));
             
             expression.CreateMap<CacheStopPoint, WebStopPoint>()
+                .ForMember(
+                    destinationMember: point => point.DepartureDateTime,
+                    memberOptions: member => member.MapFrom(mapExpression: point =>
+                        point.DepartureDateTime!.Value.ToString(CultureInfo.InvariantCulture)));
+            
+            expression.CreateMap<WorkerStopPoint, DatabaseStopPoint>()
+                .ForMember(
+                    destinationMember: point => point.DepartureDateTime,
+                    memberOptions: member => member.MapFrom(mapExpression: point =>
+                        DateTime.Parse(point.DepartureDateTime ?? string.Empty, CultureInfo.InvariantCulture)));
+            
+            expression.CreateMap<DatabaseStopPoint, WebStopPoint>()
                 .ForMember(
                     destinationMember: point => point.DepartureDateTime,
                     memberOptions: member => member.MapFrom(mapExpression: point =>
@@ -55,13 +55,23 @@ public static class MapperService
                     memberOptions: member => member.MapFrom(mapExpression: point =>
                         point.DepartureDateTime!.Value.ToString(CultureInfo.InvariantCulture)));
             
-            expression.CreateMap<Stop, DatabaseStop>();
-            expression.CreateMap<DatabaseStop, WebStop>();
+            expression.CreateMap<Stop, CacheStop>()
+                .ForMember(
+                    destinationMember: stop => stop.Platform,
+                    memberOptions: member => member.MapFrom(mapExpression: stop => stop.PlatformCode));
             
-            expression.CreateMap<Stop, CacheStop>();
+            expression.CreateMap<Stop, DatabaseStop>()
+                .ForMember(
+                    destinationMember: stop => stop.Platform,
+                    memberOptions: member => member.MapFrom(mapExpression: stop => stop.PlatformCode));
+            
+            expression.CreateMap<Stop, SearchStop>()
+                .ForMember(
+                    destinationMember: stop => stop.Platform,
+                    memberOptions: member => member.MapFrom(mapExpression: stop => stop.PlatformCode));
+            
             expression.CreateMap<CacheStop, WebStop>();
-            
-            expression.CreateMap<Stop, SearchStop>();
+            expression.CreateMap<DatabaseStop, WebStop>();
             expression.CreateMap<SearchStop, WebStop>();
         });
         

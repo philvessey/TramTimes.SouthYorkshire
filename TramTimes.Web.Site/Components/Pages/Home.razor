@@ -1,42 +1,72 @@
-﻿@inject ILocalStorageService StorageService
+﻿@inject HttpClient HttpService
+@inject NavigationManager NavigationService
+@inject ILocalStorageService StorageService
+@inject IMapper MapperService
 
 @page "/"
 @page "/{Longitude:double}/{Latitude:double}"
 
 <PageTitle>TramTimes - South Yorkshire</PageTitle>
 
-<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Tiny"
-                   OnChange="@(match => WindowSize.Tiny = match)" />
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.MouseExtraSmall"
+                   OnChange="@(match => TelerikDevice.MouseExtraSmall = match)" />
 
-<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Small"
-                   OnChange="@(match => WindowSize.Small = match)" />
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.MouseSmall"
+                   OnChange="@(match => TelerikDevice.MouseSmall = match)" />
 
-<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Medium"
-                   OnChange="@(match => WindowSize.Medium = match)" />
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.MouseMedium"
+                   OnChange="@(match => TelerikDevice.MouseMedium = match)" />
 
-<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Large"
-                   OnChange="@(match => WindowSize.Large = match)" />
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.MouseLarge"
+                   OnChange="@(match => TelerikDevice.MouseLarge = match)" />
 
-<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Ultra"
-                   OnChange="@(match => WindowSize.Ultra = match)" />
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.MouseExtraLarge"
+                   OnChange="@(match => TelerikDevice.MouseExtraLarge = match)" />
+
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.MouseExtraExtraLarge"
+                   OnChange="@(match => TelerikDevice.MouseExtraExtraLarge = match)" />
+
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.TouchExtraSmall"
+                   OnChange="@(match => TelerikDevice.TouchExtraSmall = match)" />
+
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.TouchSmall"
+                   OnChange="@(match => TelerikDevice.TouchSmall = match)" />
+
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.TouchMedium"
+                   OnChange="@(match => TelerikDevice.TouchMedium = match)" />
+
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.TouchLarge"
+                   OnChange="@(match => TelerikDevice.TouchLarge = match)" />
+
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.TouchExtraLarge"
+                   OnChange="@(match => TelerikDevice.TouchExtraLarge = match)" />
+
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.TouchExtraExtraLarge"
+                   OnChange="@(match => TelerikDevice.TouchExtraExtraLarge = match)" />
 
 @{
-    if (WindowSize.Tiny ?? false)
-    {
-        <div id="home-telerik-map-tiny">
+    if ((TelerikDevice.MouseExtraSmall ?? false) ||
+        (TelerikDevice.MouseSmall ?? false) ||
+        (TelerikDevice.MouseMedium ?? false) ||
+        (TelerikDevice.MouseLarge ?? false) ||
+        (TelerikDevice.MouseExtraLarge ?? false) ||
+        (TelerikDevice.MouseExtraExtraLarge ?? false)) {
+        
+        <div id="home-telerik-map">
             <TelerikMap Center="@Center"
                         Height="100%"
                         MaxZoom="@TelerikMapDefaults.MaxZoom"
                         MinZoom="@TelerikMapDefaults.MinZoom"
+                        OnMarkerClick="@OnMarkerClick"
                         OnPanEnd="@OnPanEnd"
                         OnZoomEnd="@OnZoomEnd"
                         Width="100%"
                         Zoom="@Zoom">
                 
                 <MapControls>
-                    <MapControlsAttribution Enabled="false"/>
-                    <MapControlsNavigator Enabled="false"/>
-                    <MapControlsZoom Enabled="false"/>
+                    <MapControlsAttribution Enabled="false" />
+                    <MapControlsNavigator Enabled="false" />
+                    <MapControlsZoom Enabled="false" />
                 </MapControls>
                 
                 <MapLayers>
@@ -44,27 +74,146 @@
                               Attribution="@TelerikMapDefaults.Attribution"
                               Subdomains="@TelerikMapDefaults.Subdomains"
                               UrlTemplate="@TelerikMapDefaults.UrlTemplate">
+                    </MapLayer>
+                    
+                    <MapLayer Type="@MapLayersType.Marker"
+                              Data="@MarkerData"
+                              LocationField="@nameof(TelerikStop.Location)">
+                        
+                        <MapLayerMarkerSettings Template="<span class='k-map-marker'>#= dataItem.Platform #</span>">
+                            <MapLayerMarkerSettingsTooltip>
+                                <Template>
+                                    
+                                    @{
+                                        var item = context.DataItem as TelerikStop ?? new TelerikStop();
+                                    } 
+                                    
+                                    <div id="home-telerik-map__tooltip">
+                                        <div id="home-telerik-map__tooltip__title">@item.Name</div>
+                                        <div id="home-telerik-map__tooltip__services">
+                                            <ul>
+                                                @{
+                                                    var points = item.Points?
+                                                        .Take(count: 5)
+                                                        .Select(selector: point => point)
+                                                        .ToList() ?? [];
+                                                    
+                                                    foreach (var point in points)
+                                                    {
+                                                        var departureTime = point.DepartureDateTime?.ToString(
+                                                            format: "HH:mm",
+                                                            provider: CultureInfo.InvariantCulture);
+                                                        
+                                                        switch (point.RouteName)
+                                                        {
+                                                            case "BLUE":
+                                                                <li class="blue">@departureTime @point.DestinationName</li>
+                                                                break;
+                                                            case "PURP":
+                                                                <li class="purp">@departureTime @point.DestinationName</li>
+                                                                break;
+                                                            case "TT":
+                                                                <li class="tt">@departureTime @point.DestinationName</li>
+                                                                break;
+                                                            case "YELL":
+                                                                <li class="yell">@departureTime @point.DestinationName</li>
+                                                                break;
+                                                            default:
+                                                                <li class="default">@departureTime @point.DestinationName</li>
+                                                                break;
+                                                        }
+                                                    }
+                                                } 
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </Template>
+                            </MapLayerMarkerSettingsTooltip>
+                        </MapLayerMarkerSettings>
                     </MapLayer>
                 </MapLayers>
             </TelerikMap>
         </div>
+        
+        <div id="home-telerik-auto-complete">
+            <TelerikAutoComplete DebounceDelay="@TelerikAutoCompleteDefaults.DebounceDelay"
+                                 Filterable="true"
+                                 MinLength="@TelerikAutoCompleteDefaults.MinCacheLength"
+                                 OnChange="@OnChange"
+                                 OnRead="@OnRead"
+                                 Placeholder="@TelerikAutoCompleteDefaults.Placeholder"
+                                 ValueField="@nameof(TelerikStop.Id)"
+                                 TItem="@TelerikStop">
+                
+                <ItemTemplate>
+                    <div id="home-telerik-auto-complete__result">
+                        <div id="home-telerik-auto-complete__result__name">@context.Name</div>
+                        <div id="home-telerik-auto-complete__result__description">Direction: @context.Direction</div>
+                        <div id="home-telerik-auto-complete__result__services">
+                            <ul>
+                                @{
+                                    var points = context.Points?
+                                        .Take(count: 5)
+                                        .Select(selector: point => point)
+                                        .ToList() ?? [];
+                                    
+                                    foreach (var point in points)
+                                    {
+                                        var departureTime = point.DepartureDateTime?.ToString(
+                                            format: "HH:mm",
+                                            provider: CultureInfo.InvariantCulture);
+                                        
+                                        switch (point.RouteName)
+                                        {
+                                            case "BLUE":
+                                                <li class="blue" title="@point.DestinationName">@departureTime</li>
+                                                break;
+                                            case "PURP":
+                                                <li class="purp" title="@point.DestinationName">@departureTime</li>
+                                                break;
+                                            case "TT":
+                                                <li class="tt" title="@point.DestinationName">@departureTime</li>
+                                                break;
+                                            case "YELL":
+                                                <li class="yell" title="@point.DestinationName">@departureTime</li>
+                                                break;
+                                            default:
+                                                <li class="default" title="@point.DestinationName">@departureTime</li>
+                                                break;
+                                        }
+                                    }
+                                } 
+                            </ul>
+                        </div>
+                    </div>
+                </ItemTemplate>
+                
+                <NoDataTemplate>
+                    <div id="home-telerik-auto-complete__failed">
+                        <div id="home-telerik-auto-complete__failed__name">No Stops Found</div>
+                        <div id="home-telerik-auto-complete__failed__description">Update Search Query and/or Filter</div>
+                    </div>
+                </NoDataTemplate>
+            </TelerikAutoComplete>
+        </div>
     }
-    else if (WindowSize.Small ?? false)
+    else
     {
-        <div id="home-telerik-map-small">
+        <div id="home-telerik-map">
             <TelerikMap Center="@Center"
                         Height="100%"
                         MaxZoom="@TelerikMapDefaults.MaxZoom"
                         MinZoom="@TelerikMapDefaults.MinZoom"
+                        OnMarkerClick="@OnMarkerClick"
                         OnPanEnd="@OnPanEnd"
                         OnZoomEnd="@OnZoomEnd"
                         Width="100%"
                         Zoom="@Zoom">
                 
                 <MapControls>
-                    <MapControlsAttribution Enabled="false"/>
-                    <MapControlsNavigator Enabled="false"/>
-                    <MapControlsZoom Enabled="false"/>
+                    <MapControlsAttribution Enabled="false" />
+                    <MapControlsNavigator Enabled="false" />
+                    <MapControlsZoom Enabled="false" />
                 </MapControls>
                 
                 <MapLayers>
@@ -72,93 +221,80 @@
                               Attribution="@TelerikMapDefaults.Attribution"
                               Subdomains="@TelerikMapDefaults.Subdomains"
                               UrlTemplate="@TelerikMapDefaults.UrlTemplate">
+                    </MapLayer>
+                    
+                    <MapLayer Type="@MapLayersType.Marker"
+                              Data="@MarkerData"
+                              LocationField="@nameof(TelerikStop.Location)">
+                        
+                        <MapLayerMarkerSettings Template="<span class='k-map-marker'>#= dataItem.Platform #</span>">
+                            <MapLayerMarkerSettingsTooltip />
+                        </MapLayerMarkerSettings>
                     </MapLayer>
                 </MapLayers>
             </TelerikMap>
         </div>
-    }
-    else if (WindowSize.Medium ?? false)
-    {
-        <div id="home-telerik-map-medium">
-            <TelerikMap Center="@Center"
-                        Height="100%"
-                        MaxZoom="@TelerikMapDefaults.MaxZoom"
-                        MinZoom="@TelerikMapDefaults.MinZoom"
-                        OnPanEnd="@OnPanEnd"
-                        OnZoomEnd="@OnZoomEnd"
-                        Width="100%"
-                        Zoom="@Zoom">
+        
+        <div id="home-telerik-auto-complete">
+            <TelerikAutoComplete DebounceDelay="@TelerikAutoCompleteDefaults.DebounceDelay"
+                                 Filterable="true"
+                                 MinLength="@TelerikAutoCompleteDefaults.MinCacheLength"
+                                 OnChange="@OnChange"
+                                 OnRead="@OnRead"
+                                 Placeholder="@TelerikAutoCompleteDefaults.Placeholder"
+                                 ValueField="@nameof(TelerikStop.Id)"
+                                 TItem="@TelerikStop">
                 
-                <MapControls>
-                    <MapControlsAttribution Enabled="false"/>
-                    <MapControlsNavigator Enabled="false"/>
-                    <MapControlsZoom Enabled="false"/>
-                </MapControls>
+                <ItemTemplate>
+                    <div id="home-telerik-auto-complete__result">
+                        <div id="home-telerik-auto-complete__result__name">@context.Name</div>
+                        <div id="home-telerik-auto-complete__result__description">Direction: @context.Direction</div>
+                        <div id="home-telerik-auto-complete__result__services">
+                            <ul>
+                                @{
+                                    var points = context.Points?
+                                        .Take(count: 5)
+                                        .Select(selector: point => point)
+                                        .ToList() ?? [];
+                                    
+                                    foreach (var point in points)
+                                    {
+                                        var departureTime = point.DepartureDateTime?.ToString(
+                                            format: "HH:mm",
+                                            provider: CultureInfo.InvariantCulture);
+                                        
+                                        switch (point.RouteName)
+                                        {
+                                            case "BLUE":
+                                                <li class="blue" title="@point.DestinationName">@departureTime</li>
+                                                break;
+                                            case "PURP":
+                                                <li class="purp" title="@point.DestinationName">@departureTime</li>
+                                                break;
+                                            case "TT":
+                                                <li class="tt" title="@point.DestinationName">@departureTime</li>
+                                                break;
+                                            case "YELL":
+                                                <li class="yell" title="@point.DestinationName">@departureTime</li>
+                                                break;
+                                            default:
+                                                <li class="default" title="@point.DestinationName">@departureTime</li>
+                                                break;
+                                        }
+                                    }
+                                } 
+                            </ul>
+                        </div>
+                    </div>
+                </ItemTemplate>
                 
-                <MapLayers>
-                    <MapLayer Type="@MapLayersType.Tile"
-                              Attribution="@TelerikMapDefaults.Attribution"
-                              Subdomains="@TelerikMapDefaults.Subdomains"
-                              UrlTemplate="@TelerikMapDefaults.UrlTemplate">
-                    </MapLayer>
-                </MapLayers>
-            </TelerikMap>
-        </div>
-    }
-    else if (WindowSize.Large ?? false)
-    {
-        <div id="home-telerik-map-large">
-            <TelerikMap Center="@Center"
-                        Height="100%"
-                        MaxZoom="@TelerikMapDefaults.MaxZoom"
-                        MinZoom="@TelerikMapDefaults.MinZoom"
-                        OnPanEnd="@OnPanEnd"
-                        OnZoomEnd="@OnZoomEnd"
-                        Width="100%"
-                        Zoom="@Zoom">
-                
-                <MapControls>
-                    <MapControlsAttribution Enabled="false"/>
-                    <MapControlsNavigator Enabled="false"/>
-                    <MapControlsZoom Enabled="false"/>
-                </MapControls>
-                
-                <MapLayers>
-                    <MapLayer Type="@MapLayersType.Tile"
-                              Attribution="@TelerikMapDefaults.Attribution"
-                              Subdomains="@TelerikMapDefaults.Subdomains"
-                              UrlTemplate="@TelerikMapDefaults.UrlTemplate">
-                    </MapLayer>
-                </MapLayers>
-            </TelerikMap>
-        </div>
-    }
-    else if (WindowSize.Ultra ?? false)
-    {
-        <div id="home-telerik-map-ultra">
-            <TelerikMap Center="@Center"
-                        Height="100%"
-                        MaxZoom="@TelerikMapDefaults.MaxZoom"
-                        MinZoom="@TelerikMapDefaults.MinZoom"
-                        OnPanEnd="@OnPanEnd"
-                        OnZoomEnd="@OnZoomEnd"
-                        Width="100%"
-                        Zoom="@Zoom">
-                
-                <MapControls>
-                    <MapControlsAttribution Position="MapControlsPosition.BottomRight" Enabled="false"/>
-                    <MapControlsNavigator Enabled="false"/>
-                    <MapControlsZoom Enabled="false"/>
-                </MapControls>
-                
-                <MapLayers>
-                    <MapLayer Type="@MapLayersType.Tile"
-                              Attribution="@TelerikMapDefaults.Attribution"
-                              Subdomains="@TelerikMapDefaults.Subdomains"
-                              UrlTemplate="@TelerikMapDefaults.UrlTemplate">
-                    </MapLayer>
-                </MapLayers>
-            </TelerikMap>
+                <NoDataTemplate>
+                    <div id="home-telerik-auto-complete__failed">
+                        <div id="home-telerik-auto-complete__failed__name">No Stops Found</div>
+                        <div id="home-telerik-auto-complete__failed__description">Update Search Query and/or Filter</div>
+                    </div>
+                </NoDataTemplate>
+            </TelerikAutoComplete>
         </div>
     }
 }

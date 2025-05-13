@@ -21,6 +21,9 @@ public class SearchStop
     public double? Longitude { get; set; }
     
     [UsedImplicitly]
+    public string? Platform { get; set; }
+    
+    [UsedImplicitly]
     public GeoLocation? Location { get; set; }
     
     [UsedImplicitly]

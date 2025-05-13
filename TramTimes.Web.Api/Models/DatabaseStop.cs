@@ -20,6 +20,9 @@ public class DatabaseStop
     public double? Longitude { get; set; }
     
     [UsedImplicitly]
+    public string? Platform { get; set; }
+    
+    [UsedImplicitly]
     public double? Distance { get; set; }
     
     [UsedImplicitly]

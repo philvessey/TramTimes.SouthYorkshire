@@ -1,9 +1,9 @@
-namespace TramTimes.Web.Api.Extensions;
+namespace TramTimes.Web.Utilities.Extensions;
 
 public static class ReadOnlyCollectionExtensions
 {
     public static bool IsNullOrEmpty<T>(this IReadOnlyCollection<T>? baseCollection)
     {
-        return baseCollection is { Count: 0 };
+        return baseCollection == null || baseCollection.Count == 0;
     }
 }

@@ -4,8 +4,8 @@ using NextDepartures.Standard;
 using NextDepartures.Standard.Types;
 using NextDepartures.Storage.Postgres.Aspire;
 using Npgsql;
-using TramTimes.Web.Api.Extensions;
 using TramTimes.Web.Api.Models;
+using TramTimes.Web.Utilities.Extensions;
 using TramTimes.Web.Utilities.Models;
 
 namespace TramTimes.Web.Api.Handlers;
@@ -79,7 +79,7 @@ public static class DatabaseHandler
                     source: await feed.GetServicesByStopAsync(
                         id: stop.Id,
                         comparison: ComparisonType.Exact,
-                        tolerance: TimeSpan.FromMinutes(value: 359))));
+                        tolerance: TimeSpan.FromMinutes(value: 119))));
         }
         
         return Results.Json(data: mapperService.Map<List<WebStop>>(source: response));
@@ -108,7 +108,7 @@ public static class DatabaseHandler
                     source: await feed.GetServicesByStopAsync(
                         id: stop.Id,
                         comparison: ComparisonType.Exact,
-                        tolerance: TimeSpan.FromMinutes(value: 359))));
+                        tolerance: TimeSpan.FromMinutes(value: 119))));
         }
         
         return Results.Json(data: mapperService.Map<List<WebStop>>(source: response));
@@ -137,7 +137,7 @@ public static class DatabaseHandler
                     source: await feed.GetServicesByStopAsync(
                         id: stop.Id,
                         comparison: ComparisonType.Exact,
-                        tolerance: TimeSpan.FromMinutes(value: 359))));
+                        tolerance: TimeSpan.FromMinutes(value: 119))));
         }
         
         return Results.Json(data: mapperService.Map<List<WebStop>>(source: response));
@@ -179,7 +179,7 @@ public static class DatabaseHandler
                     source: await feed.GetServicesByStopAsync(
                         id: stop.Id,
                         comparison: ComparisonType.Exact,
-                        tolerance: TimeSpan.FromMinutes(value: 359))));
+                        tolerance: TimeSpan.FromMinutes(value: 119))));
         }
         
         return Results.Json(data: mapperService.Map<List<WebStop>>(
