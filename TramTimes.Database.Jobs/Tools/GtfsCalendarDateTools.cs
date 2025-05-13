@@ -57,9 +57,9 @@ public static class GtfsCalendarDateTools
                 {
                     ServiceId = calendar.ServiceId,
                     
-                    ExceptionDate = $"{item.Calendar?.SupplementRunningDates[i]:yyyy}" +
-                                    $"{item.Calendar?.SupplementRunningDates[i]:MM}" +
-                                    $"{item.Calendar?.SupplementRunningDates[i]:dd}",
+                    ExceptionDate = $"{item.Calendar?.SupplementRunningDates.ElementAt(index: i):yyyy}" +
+                                    $"{item.Calendar?.SupplementRunningDates.ElementAt(index: i):MM}" +
+                                    $"{item.Calendar?.SupplementRunningDates.ElementAt(index: i):dd}",
                     
                     ExceptionType = "1"
                 };
@@ -115,9 +115,9 @@ public static class GtfsCalendarDateTools
                 {
                     ServiceId = calendar.ServiceId,
                     
-                    ExceptionDate = $"{item.Calendar?.SupplementNonRunningDates[i]:yyyy}" +
-                                    $"{item.Calendar?.SupplementNonRunningDates[i]:MM}" +
-                                    $"{item.Calendar?.SupplementNonRunningDates[i]:dd}",
+                    ExceptionDate = $"{item.Calendar?.SupplementNonRunningDates.ElementAt(index: i):yyyy}" +
+                                    $"{item.Calendar?.SupplementNonRunningDates.ElementAt(index: i):MM}" +
+                                    $"{item.Calendar?.SupplementNonRunningDates.ElementAt(index: i):dd}",
                     
                     ExceptionType = "2"
                 };

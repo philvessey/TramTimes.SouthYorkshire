@@ -268,7 +268,7 @@ public class Build(
                             localities: localities,
                             stops: stops,
                             stopPoints: xml.StopPoints,
-                            reference: timingLinks[i].From?.StopPointRef,
+                            reference: timingLinks.ElementAt(index: i).From?.StopPointRef,
                             activity: i > 0 ? "pickUpAndSetDown" : "pickUp",
                             arrivalTime: arrivalTime,
                             departureTime: departureTime);
@@ -279,7 +279,7 @@ public class Build(
                             localities: localities,
                             stops: stops,
                             stopPoints: xml.StopPoints,
-                            reference: timingLinks[i].To?.StopPointRef,
+                            reference: timingLinks.ElementAt(index: i).To?.StopPointRef,
                             activity: i < timingLinks.Count - 1 ? "pickUpAndSetDown" : "setDown",
                             arrivalTime: arrivalTime,
                             departureTime: departureTime);

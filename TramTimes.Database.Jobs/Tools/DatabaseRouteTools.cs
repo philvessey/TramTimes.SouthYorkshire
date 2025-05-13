@@ -54,7 +54,7 @@ public static class DatabaseRouteTools
                 RouteType = item.Mode.ToShort()
             };
             
-            if (route.RouteId != null)
+            if (route.RouteId is not null)
                 results.TryAdd(
                     key: route.RouteId,
                     value: route);

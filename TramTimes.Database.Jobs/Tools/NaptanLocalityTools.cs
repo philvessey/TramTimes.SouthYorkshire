@@ -18,7 +18,7 @@ public static class NaptanLocalityTools
         
         foreach (var item in records)
         {
-            if (item.NptgLocalityCode != null)
+            if (item.NptgLocalityCode is not null)
                 results.TryAdd(
                     key: item.NptgLocalityCode,
                     value: item);

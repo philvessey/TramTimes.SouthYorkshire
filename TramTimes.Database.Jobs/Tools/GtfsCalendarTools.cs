@@ -51,7 +51,7 @@ public static class GtfsCalendarTools
                                      $"{item.Calendar?.Sunday.ToInt().ToString()}";
             }
             
-            if (calendar.ServiceId != null)
+            if (calendar.ServiceId is not null)
                 results.TryAdd(
                     key: calendar.ServiceId,
                     value: calendar);

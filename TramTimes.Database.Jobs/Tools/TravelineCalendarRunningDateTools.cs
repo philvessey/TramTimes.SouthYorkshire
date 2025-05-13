@@ -110,7 +110,7 @@ public static class TravelineCalendarRunningDateTools
         
         var results = schedules.Values
             .Where(predicate: schedule =>
-                schedule.Calendar is { RunningDates: not null } && dates != null && direction != null && line != null &&
+                schedule.Calendar is { RunningDates: not null } && dates is not null && direction is not null && line is not null &&
                 schedule.Calendar.RunningDates.Intersect(second: dates).Any() &&
                 schedule.Direction == direction &&
                 schedule.Line == line);

@@ -60,7 +60,7 @@ public static class GtfsRouteTools
                 RouteType = item.Mode
             };
             
-            if (route.RouteId != null)
+            if (route.RouteId is not null)
                 results.TryAdd(
                     key: route.RouteId,
                     value: route);

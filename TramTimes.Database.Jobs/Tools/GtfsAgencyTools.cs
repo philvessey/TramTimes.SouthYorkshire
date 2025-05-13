@@ -61,7 +61,7 @@ public static class GtfsAgencyTools
                 AgencyPhone = item.OperatorPhone
             };
             
-            if (agency.AgencyId != null)
+            if (agency.AgencyId is not null)
                 results.TryAdd(
                     key: agency.AgencyId,
                     value: agency);

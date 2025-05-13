@@ -4,7 +4,7 @@ public static class StringExtensions
 {
     public static DateTime ToDate(this string? baseString)
     {
-        if (baseString == null)
+        if (baseString is null)
             return DateTime.MinValue;
         
         var month = int.Parse(s: baseString.Substring(
@@ -22,12 +22,12 @@ public static class StringExtensions
     
     public static short ToShort(this string? baseString)
     {
-        return baseString == null ? short.Parse(s: "0") : short.Parse(s: baseString);
+        return baseString is null ? short.Parse(s: "0") : short.Parse(s: baseString);
     }
     
     public static TimeSpan ToTime(this string? baseString)
     {
-        if (baseString == null)
+        if (baseString is null)
             return TimeSpan.MinValue;
         
         var minutes = int.Parse(s: baseString.Substring(

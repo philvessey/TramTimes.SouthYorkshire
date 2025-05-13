@@ -50,7 +50,7 @@ public static class DatabaseCalendarDateTools
                 DatabaseCalendarDate calendarDate = new()
                 {
                     ServiceId = calendar.ServiceId,
-                    ExceptionDate = item.Calendar?.SupplementRunningDates[i],
+                    ExceptionDate = item.Calendar?.SupplementRunningDates.ElementAt(index: i),
                     ExceptionType = short.Parse(s: "1")
                 };
                 
@@ -98,7 +98,7 @@ public static class DatabaseCalendarDateTools
                 DatabaseCalendarDate calendarDate = new()
                 {
                     ServiceId = calendar.ServiceId,
-                    ExceptionDate = item.Calendar?.SupplementNonRunningDates[i],
+                    ExceptionDate = item.Calendar?.SupplementNonRunningDates.ElementAt(index: i),
                     ExceptionType = short.Parse(s: "2")
                 };
                 

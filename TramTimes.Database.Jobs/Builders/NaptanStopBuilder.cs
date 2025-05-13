@@ -17,7 +17,7 @@ public static class NaptanStopBuilder
             key: reference ?? "unknown",
             value: out var value);
         
-        if (value == null)
+        if (value is null)
         {
             return await Task.FromResult(result: new NaptanStop
             {
@@ -25,7 +25,7 @@ public static class NaptanStopBuilder
             });
         }
         
-        if (value.Easting == null || value.Northing == null)
+        if (value.Easting is null || value.Northing is null)
             return await Task.FromResult(result: value);
         
         var eastingNorthing = new EastingNorthing(

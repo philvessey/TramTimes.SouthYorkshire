@@ -127,7 +127,7 @@ public static class TravelineCalendarSupplementNonRunningDateTools
         
         var results = schedules.Values
             .Where(predicate: schedule =>
-                schedule.Calendar is { SupplementNonRunningDates: not null } && dates != null && direction != null && line != null &&
+                schedule.Calendar is { SupplementNonRunningDates: not null } && dates is not null && direction is not null && line is not null &&
                 schedule.Calendar.SupplementNonRunningDates.Intersect(second: dates).Any() &&
                 schedule.Direction == direction &&
                 schedule.Line == line);

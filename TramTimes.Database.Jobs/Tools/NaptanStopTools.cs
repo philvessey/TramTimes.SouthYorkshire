@@ -18,7 +18,7 @@ public static class NaptanStopTools
         
         foreach (var item in records)
         {
-            if (item.AtcoCode != null)
+            if (item.AtcoCode is not null)
                 results.TryAdd(
                     key: item.AtcoCode,
                     value: item);

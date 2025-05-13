@@ -49,37 +49,37 @@ public static class DatabaseStopTools
             {
                 DatabaseStop stop = new()
                 {
-                    StopId = item.StopPoints[i].NaptanStop?.AtcoCode,
-                    StopCode = item.StopPoints[i].NaptanStop?.NaptanCode,
-                    StopName = item.StopPoints[i].NaptanStop?.CommonName,
-                    StopDesc = item.StopPoints[i].NaptanStop?.LocalityName,
-                    StopLat = float.Parse(s: item.StopPoints[i].NaptanStop?.Latitude ?? string.Empty),
-                    StopLon = float.Parse(s: item.StopPoints[i].NaptanStop?.Longitude ?? string.Empty),
+                    StopId = item.StopPoints.ElementAt(index: i).NaptanStop?.AtcoCode,
+                    StopCode = item.StopPoints.ElementAt(index: i).NaptanStop?.NaptanCode,
+                    StopName = item.StopPoints.ElementAt(index: i).NaptanStop?.CommonName,
+                    StopDesc = item.StopPoints.ElementAt(index: i).NaptanStop?.LocalityName,
+                    StopLat = float.Parse(s: item.StopPoints.ElementAt(index: i).NaptanStop?.Latitude ?? string.Empty),
+                    StopLon = float.Parse(s: item.StopPoints.ElementAt(index: i).NaptanStop?.Longitude ?? string.Empty),
                     LocationType = "0",
                     StopTimezone = "Europe/London",
                     WheelchairBoarding = "1",
-                    PlatformCode = item.StopPoints[i].NaptanStop?.AtcoCode?[^1..]
+                    PlatformCode = item.StopPoints.ElementAt(index: i).NaptanStop?.AtcoCode?[^1..]
                 };
                 
                 if (string.IsNullOrWhiteSpace(value: stop.StopId))
-                    stop.StopId = item.StopPoints[i].TravelineStop?.NaptanCode;
+                    stop.StopId = item.StopPoints.ElementAt(index: i).TravelineStop?.NaptanCode;
                 
                 if (string.IsNullOrWhiteSpace(value: stop.StopName))
-                    stop.StopName = item.StopPoints[i].TravelineStop?.CommonName;
+                    stop.StopName = item.StopPoints.ElementAt(index: i).TravelineStop?.CommonName;
                 
                 if (string.IsNullOrWhiteSpace(value: stop.StopDesc))
-                    stop.StopDesc = item.StopPoints[i].TravelineStop?.LocalityName;
+                    stop.StopDesc = item.StopPoints.ElementAt(index: i).TravelineStop?.LocalityName;
                 
                 if (string.IsNullOrWhiteSpace(value: stop.StopLat.ToString()))
-                    stop.StopLat = float.Parse(s: item.StopPoints[i].TravelineStop?.Latitude ?? string.Empty);
+                    stop.StopLat = float.Parse(s: item.StopPoints.ElementAt(index: i).TravelineStop?.Latitude ?? string.Empty);
                 
                 if (string.IsNullOrWhiteSpace(value: stop.StopLon.ToString()))
-                    stop.StopLon = float.Parse(s: item.StopPoints[i].TravelineStop?.Longitude ?? string.Empty);
+                    stop.StopLon = float.Parse(s: item.StopPoints.ElementAt(index: i).TravelineStop?.Longitude ?? string.Empty);
                 
                 if (string.IsNullOrWhiteSpace(value: stop.PlatformCode))
-                    stop.PlatformCode = item.StopPoints[i].TravelineStop?.AtcoCode?[^1..];
+                    stop.PlatformCode = item.StopPoints.ElementAt(index: i).TravelineStop?.AtcoCode?[^1..];
                 
-                if (stop.StopId != null)
+                if (stop.StopId is not null)
                     results.TryAdd(
                         key: stop.StopId,
                         value: stop);

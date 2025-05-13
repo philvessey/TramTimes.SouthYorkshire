@@ -15,7 +15,7 @@ public static class TravelineStopPointTools
         {
             case { Count: > 0 } when index > 0:
             {
-                var link = timingLinks[index - 1];
+                var link = timingLinks.ElementAt(index: index - 1);
                 
                 if (link is { RunTime: not null })
                     value = value.Add(ts: XmlConvert.ToTimeSpan(s: link.RunTime));
@@ -37,7 +37,7 @@ public static class TravelineStopPointTools
         {
             case { Count: > 0 } when index > 0:
             {
-                var link = timingLinks[index - 1];
+                var link = timingLinks.ElementAt(index: index - 1);
                 
                 if (link is { To.WaitTime: not null })
                     value = value.Add(ts: XmlConvert.ToTimeSpan(s: link.To.WaitTime));
@@ -50,7 +50,7 @@ public static class TravelineStopPointTools
         {
             case { Count: > 0 }:
             {
-                var link = timingLinks[index];
+                var link = timingLinks.ElementAt(index: index);
                 
                 if (link is { From.WaitTime: not null })
                     value = value.Add(ts: XmlConvert.ToTimeSpan(s: link.From.WaitTime));

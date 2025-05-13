@@ -58,29 +58,29 @@ public static class GtfsStopTimeTools
                 GtfsStopTime stopTime = new()
                 {
                     TripId = item.Id,
-                    StopId = item.StopPoints[i].NaptanStop?.AtcoCode,
+                    StopId = item.StopPoints.ElementAt(index: i).NaptanStop?.AtcoCode,
                     StopSequence = Convert.ToString(value: i + 1)
                 };
                 
                 if (string.IsNullOrWhiteSpace(value: stopTime.StopId))
-                    stopTime.StopId = item.StopPoints[i].TravelineStop?.AtcoCode;
+                    stopTime.StopId = item.StopPoints.ElementAt(index: i).TravelineStop?.AtcoCode;
                 
-                if (item.StopPoints[i].DepartureTime < timeSpan)
+                if (item.StopPoints.ElementAt(index: i).DepartureTime < timeSpan)
                 {
-                    stopTime.ArrivalTime = item.StopPoints[i].ArrivalTime.ToNextDay().ToString(format: @"hh\:mm\:ss");
-                    stopTime.DepartureTime = item.StopPoints[i].DepartureTime.ToNextDay().ToString(format: @"hh\:mm\:ss");
+                    stopTime.ArrivalTime = item.StopPoints.ElementAt(index: i).ArrivalTime.ToNextDay().ToString(format: @"hh\:mm\:ss");
+                    stopTime.DepartureTime = item.StopPoints.ElementAt(index: i).DepartureTime.ToNextDay().ToString(format: @"hh\:mm\:ss");
                     
-                    timeSpan = item.StopPoints[i].DepartureTime.ToNextDay();
+                    timeSpan = item.StopPoints.ElementAt(index: i).DepartureTime.ToNextDay();
                 }
                 else
                 {
-                    stopTime.ArrivalTime = item.StopPoints[i].ArrivalTime?.ToString(format: @"hh\:mm\:ss");
-                    stopTime.DepartureTime = item.StopPoints[i].DepartureTime?.ToString(format: @"hh\:mm\:ss");
+                    stopTime.ArrivalTime = item.StopPoints.ElementAt(index: i).ArrivalTime?.ToString(format: @"hh\:mm\:ss");
+                    stopTime.DepartureTime = item.StopPoints.ElementAt(index: i).DepartureTime?.ToString(format: @"hh\:mm\:ss");
                     
-                    timeSpan = item.StopPoints[i].DepartureTime ?? TimeSpan.Zero;
+                    timeSpan = item.StopPoints.ElementAt(index: i).DepartureTime ?? TimeSpan.Zero;
                 }
                 
-                switch (item.StopPoints[i].Activity)
+                switch (item.StopPoints.ElementAt(index: i).Activity)
                 {
                     case "pickUp":
                     {

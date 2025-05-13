@@ -20,7 +20,7 @@ public static class TravelineStopBuilder
             key: stopPoint?.Place?.NptgLocalityRef ?? "unknown",
             value: out var locality);
         
-        if (locality == null)
+        if (locality is null)
         {
             return await Task.FromResult(result: new TravelineStop
             {
@@ -47,7 +47,7 @@ public static class TravelineStopBuilder
             AdministrativeAreaCode = stopPoint?.AdministrativeAreaRef
         };
         
-        if (value.Easting == null || value.Northing == null)
+        if (value.Easting is null || value.Northing is null)
             return await Task.FromResult(result: value);
         
         var eastingNorthing = new EastingNorthing(

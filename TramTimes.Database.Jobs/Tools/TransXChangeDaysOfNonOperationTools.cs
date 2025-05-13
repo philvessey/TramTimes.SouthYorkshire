@@ -21,7 +21,7 @@ public static class TransXChangeDaysOfNonOperationTools
         
         List<Holiday> results = [];
         
-        if (daysOfNonOperation?.AllBankHolidays != null)
+        if (daysOfNonOperation?.AllBankHolidays is not null)
         {
             results.Add(item: await HolidayTools.GetNewYearsDayAsync(
                 startDate: startDate,
@@ -68,7 +68,7 @@ public static class TransXChangeDaysOfNonOperationTools
                 endDate: endDate));
         }
         
-        if (daysOfNonOperation?.AllHolidaysExceptChristmas != null)
+        if (daysOfNonOperation?.AllHolidaysExceptChristmas is not null)
         {
             results.Add(item: await HolidayTools.GetNewYearsDayAsync(
                 startDate: startDate,
@@ -95,7 +95,7 @@ public static class TransXChangeDaysOfNonOperationTools
                 endDate: endDate));
         }
         
-        if (daysOfNonOperation?.Christmas != null)
+        if (daysOfNonOperation?.Christmas is not null)
         {
             results.Add(item: await HolidayTools.GetChristmasDayAsync(
                 startDate: startDate,
@@ -106,7 +106,7 @@ public static class TransXChangeDaysOfNonOperationTools
                 endDate: endDate));
         }
         
-        if (daysOfNonOperation?.DisplacementHolidays != null)
+        if (daysOfNonOperation?.DisplacementHolidays is not null)
         {
             results.Add(item: await HolidayTools.GetNewYearsDayHolidayAsync(
                 startDate: startDate,
@@ -121,7 +121,7 @@ public static class TransXChangeDaysOfNonOperationTools
                 endDate: endDate));
         }
         
-        if (daysOfNonOperation?.EarlyRunOff != null)
+        if (daysOfNonOperation?.EarlyRunOff is not null)
         {
             results.Add(item: await HolidayTools.GetChristmasEveAsync(
                 startDate: startDate,
@@ -132,7 +132,7 @@ public static class TransXChangeDaysOfNonOperationTools
                 endDate: endDate));
         }
         
-        if (daysOfNonOperation?.HolidayMondays != null)
+        if (daysOfNonOperation?.HolidayMondays is not null)
         {
             results.Add(item: await HolidayTools.GetEasterMondayAsync(
                 startDate: startDate,
@@ -151,7 +151,7 @@ public static class TransXChangeDaysOfNonOperationTools
                 endDate: endDate));
         }
         
-        if (daysOfNonOperation?.Holidays != null)
+        if (daysOfNonOperation?.Holidays is not null)
         {
             results.Add(item: await HolidayTools.GetNewYearsDayAsync(
                 startDate: startDate,
@@ -162,67 +162,67 @@ public static class TransXChangeDaysOfNonOperationTools
                 endDate: endDate));
         }
         
-        if (daysOfNonOperation?.NewYearsDay != null)
+        if (daysOfNonOperation?.NewYearsDay is not null)
             results.Add(item: await HolidayTools.GetNewYearsDayAsync(
                 startDate: startDate,
                 endDate: endDate));
         
-        if (daysOfNonOperation?.NewYearsDayHoliday != null)
+        if (daysOfNonOperation?.NewYearsDayHoliday is not null)
             results.Add(item: await HolidayTools.GetNewYearsDayHolidayAsync(
                 startDate: startDate,
                 endDate: endDate));
         
-        if (daysOfNonOperation?.GoodFriday != null)
+        if (daysOfNonOperation?.GoodFriday is not null)
             results.Add(item: await HolidayTools.GetGoodFridayAsync(
                 startDate: startDate,
                 endDate: endDate));
         
-        if (daysOfNonOperation?.EasterMonday != null)
+        if (daysOfNonOperation?.EasterMonday is not null)
             results.Add(item: await HolidayTools.GetEasterMondayAsync(
                 startDate: startDate,
                 endDate: endDate));
         
-        if (daysOfNonOperation?.MayDay != null)
+        if (daysOfNonOperation?.MayDay is not null)
             results.Add(item: await HolidayTools.GetMayDayAsync(
                 startDate: startDate,
                 endDate: endDate));
         
-        if (daysOfNonOperation?.SpringBank != null)
+        if (daysOfNonOperation?.SpringBank is not null)
             results.Add(item: await HolidayTools.GetSpringBankAsync(
                 startDate: startDate,
                 endDate: endDate));
         
-        if (daysOfNonOperation?.LateSummerBankHolidayNotScotland != null)
+        if (daysOfNonOperation?.LateSummerBankHolidayNotScotland is not null)
             results.Add(item: await HolidayTools.GetLateSummerBankHolidayNotScotlandAsync(
                 startDate: startDate,
                 endDate: endDate));
         
-        if (daysOfNonOperation?.ChristmasEve != null)
+        if (daysOfNonOperation?.ChristmasEve is not null)
             results.Add(item: await HolidayTools.GetChristmasEveAsync(
                 startDate: startDate,
                 endDate: endDate));
         
-        if (daysOfNonOperation?.ChristmasDay != null)
+        if (daysOfNonOperation?.ChristmasDay is not null)
             results.Add(item: await HolidayTools.GetChristmasDayAsync(
                 startDate: startDate,
                 endDate: endDate));
         
-        if (daysOfNonOperation?.ChristmasDayHoliday != null)
+        if (daysOfNonOperation?.ChristmasDayHoliday is not null)
             results.Add(item: await HolidayTools.GetChristmasDayHolidayAsync(
                 startDate: startDate,
                 endDate: endDate));
         
-        if (daysOfNonOperation?.BoxingDay != null)
+        if (daysOfNonOperation?.BoxingDay is not null)
             results.Add(item: await HolidayTools.GetBoxingDayAsync(
                 startDate: startDate,
                 endDate: endDate));
         
-        if (daysOfNonOperation?.BoxingDayHoliday != null)
+        if (daysOfNonOperation?.BoxingDayHoliday is not null)
             results.Add(item: await HolidayTools.GetBoxingDayHolidayAsync(
                 startDate: startDate,
                 endDate: endDate));
         
-        if (daysOfNonOperation?.NewYearsEve != null)
+        if (daysOfNonOperation?.NewYearsEve is not null)
             results.Add(item: await HolidayTools.GetNewYearsEveAsync(
                 startDate: startDate,
                 endDate: endDate));
