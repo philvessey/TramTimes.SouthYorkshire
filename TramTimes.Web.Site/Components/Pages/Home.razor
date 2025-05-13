@@ -85,41 +85,41 @@
                                 <Template>
                                     
                                     @{
-                                        var item = context.DataItem as TelerikStop ?? new TelerikStop();
+                                        var stop = context.DataItem as TelerikStop ?? new TelerikStop();
                                     } 
                                     
                                     <div id="home-telerik-map__tooltip">
-                                        <div id="home-telerik-map__tooltip__title">@item.Name</div>
+                                        <div id="home-telerik-map__tooltip__title">@stop.Name</div>
                                         <div id="home-telerik-map__tooltip__services">
                                             <ul>
                                                 @{
-                                                    var points = item.Points?
+                                                    var points = stop.Points?
                                                         .Take(count: 5)
                                                         .Select(selector: point => point)
                                                         .ToList() ?? [];
                                                     
-                                                    foreach (var point in points)
+                                                    foreach (var item in points)
                                                     {
-                                                        var departureTime = point.DepartureDateTime?.ToString(
+                                                        var departureTime = item.DepartureDateTime?.ToString(
                                                             format: "HH:mm",
                                                             provider: CultureInfo.InvariantCulture);
                                                         
-                                                        switch (point.RouteName)
+                                                        switch (item.RouteName)
                                                         {
                                                             case "BLUE":
-                                                                <li class="blue">@departureTime @point.DestinationName</li>
+                                                                <li class="blue">@departureTime @item.DestinationName</li>
                                                                 break;
                                                             case "PURP":
-                                                                <li class="purp">@departureTime @point.DestinationName</li>
+                                                                <li class="purp">@departureTime @item.DestinationName</li>
                                                                 break;
                                                             case "TT":
-                                                                <li class="tt">@departureTime @point.DestinationName</li>
+                                                                <li class="tt">@departureTime @item.DestinationName</li>
                                                                 break;
                                                             case "YELL":
-                                                                <li class="yell">@departureTime @point.DestinationName</li>
+                                                                <li class="yell">@departureTime @item.DestinationName</li>
                                                                 break;
                                                             default:
-                                                                <li class="default">@departureTime @point.DestinationName</li>
+                                                                <li class="default">@departureTime @item.DestinationName</li>
                                                                 break;
                                                         }
                                                     }
@@ -157,28 +157,28 @@
                                         .Select(selector: point => point)
                                         .ToList() ?? [];
                                     
-                                    foreach (var point in points)
+                                    foreach (var item in points)
                                     {
-                                        var departureTime = point.DepartureDateTime?.ToString(
+                                        var departureTime = item.DepartureDateTime?.ToString(
                                             format: "HH:mm",
                                             provider: CultureInfo.InvariantCulture);
                                         
-                                        switch (point.RouteName)
+                                        switch (item.RouteName)
                                         {
                                             case "BLUE":
-                                                <li class="blue" title="@point.DestinationName">@departureTime</li>
+                                                <li class="blue" title="@item.DestinationName">@departureTime</li>
                                                 break;
                                             case "PURP":
-                                                <li class="purp" title="@point.DestinationName">@departureTime</li>
+                                                <li class="purp" title="@item.DestinationName">@departureTime</li>
                                                 break;
                                             case "TT":
-                                                <li class="tt" title="@point.DestinationName">@departureTime</li>
+                                                <li class="tt" title="@item.DestinationName">@departureTime</li>
                                                 break;
                                             case "YELL":
-                                                <li class="yell" title="@point.DestinationName">@departureTime</li>
+                                                <li class="yell" title="@item.DestinationName">@departureTime</li>
                                                 break;
                                             default:
-                                                <li class="default" title="@point.DestinationName">@departureTime</li>
+                                                <li class="default" title="@item.DestinationName">@departureTime</li>
                                                 break;
                                         }
                                     }
@@ -257,28 +257,28 @@
                                         .Select(selector: point => point)
                                         .ToList() ?? [];
                                     
-                                    foreach (var point in points)
+                                    foreach (var item in points)
                                     {
-                                        var departureTime = point.DepartureDateTime?.ToString(
+                                        var departureTime = item.DepartureDateTime?.ToString(
                                             format: "HH:mm",
                                             provider: CultureInfo.InvariantCulture);
                                         
-                                        switch (point.RouteName)
+                                        switch (item.RouteName)
                                         {
                                             case "BLUE":
-                                                <li class="blue" title="@point.DestinationName">@departureTime</li>
+                                                <li class="blue" title="@item.DestinationName">@departureTime</li>
                                                 break;
                                             case "PURP":
-                                                <li class="purp" title="@point.DestinationName">@departureTime</li>
+                                                <li class="purp" title="@item.DestinationName">@departureTime</li>
                                                 break;
                                             case "TT":
-                                                <li class="tt" title="@point.DestinationName">@departureTime</li>
+                                                <li class="tt" title="@item.DestinationName">@departureTime</li>
                                                 break;
                                             case "YELL":
-                                                <li class="yell" title="@point.DestinationName">@departureTime</li>
+                                                <li class="yell" title="@item.DestinationName">@departureTime</li>
                                                 break;
                                             default:
-                                                <li class="default" title="@point.DestinationName">@departureTime</li>
+                                                <li class="default" title="@item.DestinationName">@departureTime</li>
                                                 break;
                                         }
                                     }

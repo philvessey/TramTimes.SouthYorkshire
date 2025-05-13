@@ -64,8 +64,8 @@ public partial class Home
             
             if (!cache.IsNullOrEmpty())
             {
-                foreach (var stop in cache!)
-                    stop.Points = stop.Points?.Where(predicate: point => point.DepartureDateTime > DateTime.Now).ToList();
+                foreach (var item in cache!)
+                    item.Points = item.Points?.Where(predicate: point => point.DepartureDateTime > DateTime.Now).ToList();
             }
             
             if (cache?.Any(predicate: stop => stop.Points.IsNullOrEmpty()) == true)
@@ -137,8 +137,8 @@ public partial class Home
         
         if (!cache.IsNullOrEmpty())
         {
-            foreach (var stop in cache!)
-                stop.Points = stop.Points?.Where(predicate: point => point.DepartureDateTime > DateTime.Now).ToList();
+            foreach (var item in cache!)
+                item.Points = item.Points?.Where(predicate: point => point.DepartureDateTime > DateTime.Now).ToList();
         }
         
         if (cache?.Any(predicate: stop => stop.Points.IsNullOrEmpty()) == true)
@@ -200,8 +200,8 @@ public partial class Home
         
         if (!cache.IsNullOrEmpty())
         {
-            foreach (var stop in cache!)
-                stop.Points = stop.Points?.Where(predicate: point => point.DepartureDateTime > DateTime.Now).ToList();
+            foreach (var item in cache!)
+                item.Points = item.Points?.Where(predicate: point => point.DepartureDateTime > DateTime.Now).ToList();
         }
         
         if (cache?.Any(predicate: stop => stop.Points.IsNullOrEmpty()) == true)
@@ -272,8 +272,8 @@ public partial class Home
         
         if (!cache.IsNullOrEmpty())
         {
-            foreach (var stop in cache!)
-                stop.Points = stop.Points?.Where(predicate: point => point.DepartureDateTime > DateTime.Now).ToList();
+            foreach (var item in cache!)
+                item.Points = item.Points?.Where(predicate: point => point.DepartureDateTime > DateTime.Now).ToList();
         }
         
         if (cache?.Any(predicate: stop => stop.Points.IsNullOrEmpty()) == true)
