@@ -68,7 +68,7 @@ public static class SearchHandler
             Query = new WildcardQuery(field: new Field(name: "name"))
             {
                 CaseInsensitive = true,
-                Value = $"*{name}*"
+                Value = $"*{name.ToLowerInvariant()}*"
             }
         };
         

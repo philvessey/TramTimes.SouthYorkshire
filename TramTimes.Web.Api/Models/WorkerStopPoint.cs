@@ -6,26 +6,26 @@ namespace TramTimes.Web.Api.Models;
 public class WorkerStopPoint
 {
     [UsedImplicitly]
-    [JsonPropertyName("departure_date_time")]
+    [JsonPropertyName(name: "departure_date_time")]
     public string? DepartureDateTime { get; set; }
     
     [UsedImplicitly]
-    [JsonPropertyName("destination_name")]
+    [JsonPropertyName(name: "destination_name")]
     public string? DestinationName { get; set; }
     
     [UsedImplicitly]
-    [JsonPropertyName("route_name")]
+    [JsonPropertyName(name: "route_name")]
     public string? RouteName { get; set; }
     
     [UsedImplicitly]
-    [JsonPropertyName("stop_id")]
+    [JsonPropertyName(name: "stop_id")]
     public string? StopId { get; set; }
     
     [UsedImplicitly]
-    [JsonPropertyName("stop_name")]
+    [JsonPropertyName(name: "stop_name")]
     public string? StopName { get; set; }
     
     [UsedImplicitly]
-    [JsonPropertyName("trip_id")]
+    [JsonPropertyName(name: "trip_id")]
     public string? TripId { get; set; }
 }

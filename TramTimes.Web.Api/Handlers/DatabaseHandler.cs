@@ -72,12 +72,12 @@ public static class DatabaseHandler
         
         var response = mapperService.Map<List<DatabaseStop>>(source: request);
         
-        foreach (var stop in response)
+        foreach (var item in response)
         {
-            stop.Points = mapperService.Map<List<DatabaseStopPoint>>(
+            item.Points = mapperService.Map<List<DatabaseStopPoint>>(
                 source: mapperService.Map<List<WorkerStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
-                        id: stop.Id,
+                        id: item.Id,
                         comparison: ComparisonType.Exact,
                         tolerance: TimeSpan.FromMinutes(value: 119))));
         }
@@ -101,12 +101,12 @@ public static class DatabaseHandler
         
         var response = mapperService.Map<List<DatabaseStop>>(source: request);
         
-        foreach (var stop in response)
+        foreach (var item in response)
         {
-            stop.Points = mapperService.Map<List<DatabaseStopPoint>>(
+            item.Points = mapperService.Map<List<DatabaseStopPoint>>(
                 source: mapperService.Map<List<WorkerStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
-                        id: stop.Id,
+                        id: item.Id,
                         comparison: ComparisonType.Exact,
                         tolerance: TimeSpan.FromMinutes(value: 119))));
         }
@@ -122,7 +122,7 @@ public static class DatabaseHandler
         var feed = await Feed.Load(dataStorage: PostgresStorage.Load(dataSource: dataSource));
         
         var request = await feed.GetStopsByNameAsync(
-            name: name.ToUpperInvariant(),
+            name: name.ToLowerInvariant(),
             comparison: ComparisonType.Partial);
         
         if (request.IsNullOrEmpty())
@@ -130,12 +130,12 @@ public static class DatabaseHandler
         
         var response = mapperService.Map<List<DatabaseStop>>(source: request);
         
-        foreach (var stop in response)
+        foreach (var item in response)
         {
-            stop.Points = mapperService.Map<List<DatabaseStopPoint>>(
+            item.Points = mapperService.Map<List<DatabaseStopPoint>>(
                 source: mapperService.Map<List<WorkerStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
-                        id: stop.Id,
+                        id: item.Id,
                         comparison: ComparisonType.Exact,
                         tolerance: TimeSpan.FromMinutes(value: 119))));
         }
@@ -165,19 +165,19 @@ public static class DatabaseHandler
         
         var response = mapperService.Map<List<DatabaseStop>>(source: request);
         
-        foreach (var stop in response)
+        foreach (var item in response)
         {
-            stop.Distance = GeoCalculator.GetDistance(
-                originLatitude: stop.Latitude ?? 0,
-                originLongitude: stop.Longitude ?? 0,
+            item.Distance = GeoCalculator.GetDistance(
+                originLatitude: item.Latitude ?? 0,
+                originLongitude: item.Longitude ?? 0,
                 destinationLatitude: (minLat + maxLat) / 2,
                 destinationLongitude: (minLon + maxLon) / 2,
                 distanceUnit: DistanceUnit.Meters);
             
-            stop.Points = mapperService.Map<List<DatabaseStopPoint>>(
+            item.Points = mapperService.Map<List<DatabaseStopPoint>>(
                 source: mapperService.Map<List<WorkerStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
-                        id: stop.Id,
+                        id: item.Id,
                         comparison: ComparisonType.Exact,
                         tolerance: TimeSpan.FromMinutes(value: 119))));
         }
