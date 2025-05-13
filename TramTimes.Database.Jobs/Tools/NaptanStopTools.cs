@@ -16,12 +16,12 @@ public static class NaptanStopTools
         
         var records = csv.GetRecords<NaptanStop>();
         
-        foreach (var record in records)
+        foreach (var item in records)
         {
-            if (record.AtcoCode != null)
+            if (item.AtcoCode != null)
                 results.TryAdd(
-                    key: record.AtcoCode,
-                    value: record);
+                    key: item.AtcoCode,
+                    value: item);
         }
         
         return await Task.FromResult(result: results);

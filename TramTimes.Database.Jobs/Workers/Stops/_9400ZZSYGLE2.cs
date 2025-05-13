@@ -31,13 +31,13 @@ public class _9400ZZSYGLE2(
             var activeBlobs = blobService.GetBlobContainerClient(blobContainerName: "database")
                 .GetBlobsAsync(prefix: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd") + "/gtfs/");
             
-            await foreach (var blob in activeBlobs)
+            await foreach (var item in activeBlobs)
             {
                 await blobService.GetBlobContainerClient(blobContainerName: "database")
-                    .GetBlobClient(blob.Name)
+                    .GetBlobClient(item.Name)
                     .DownloadToAsync(path: Path.Combine(
                         path1: storage.FullName,
-                        path2: Path.GetFileName(path: blob.Name)));
+                        path2: Path.GetFileName(path: item.Name)));
             }
             
             #endregion

@@ -6,30 +6,30 @@ namespace TramTimes.Database.Jobs.Models;
 public class WorkerSchedule
 {
     [UsedImplicitly]
-    [JsonPropertyName("monday")]
+    [JsonPropertyName(name: "monday")]
     public List<WorkerStopPoint>? Monday { get; set; }
     
     [UsedImplicitly]
-    [JsonPropertyName("tuesday")]
+    [JsonPropertyName(name: "tuesday")]
     public List<WorkerStopPoint>? Tuesday { get; set; }
     
     [UsedImplicitly]
-    [JsonPropertyName("wednesday")]
+    [JsonPropertyName(name: "wednesday")]
     public List<WorkerStopPoint>? Wednesday { get; set; }
     
     [UsedImplicitly]
-    [JsonPropertyName("thursday")]
+    [JsonPropertyName(name: "thursday")]
     public List<WorkerStopPoint>? Thursday { get; set; }
     
     [UsedImplicitly]
-    [JsonPropertyName("friday")]
+    [JsonPropertyName(name: "friday")]
     public List<WorkerStopPoint>? Friday { get; set; }
     
     [UsedImplicitly]
-    [JsonPropertyName("saturday")]
+    [JsonPropertyName(name: "saturday")]
     public List<WorkerStopPoint>? Saturday { get; set; }
     
     [UsedImplicitly]
-    [JsonPropertyName("sunday")]
+    [JsonPropertyName(name: "sunday")]
     public List<WorkerStopPoint>? Sunday { get; set; }
 }

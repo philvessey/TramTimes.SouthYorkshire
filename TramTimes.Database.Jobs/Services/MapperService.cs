@@ -1,3 +1,4 @@
+using System.Globalization;
 using AutoMapper;
 using NextDepartures.Standard.Models;
 using TramTimes.Database.Jobs.Models;
@@ -14,7 +15,7 @@ public static class MapperService
                 .ForMember(
                     destinationMember: point => point.DepartureTime,
                     memberOptions: member => member.MapFrom(mapExpression: service =>
-                        service.DepartureTime.ToString()));
+                        service.DepartureDateTime.ToString(CultureInfo.InvariantCulture)));
         });
         
         builder.Services.AddSingleton(implementationInstance: configuration.CreateMapper());

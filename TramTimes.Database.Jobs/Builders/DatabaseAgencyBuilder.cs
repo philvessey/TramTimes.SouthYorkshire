@@ -25,45 +25,48 @@ public static class DatabaseAgencyBuilder
         
         var connection = await dataSource.OpenConnectionAsync();
         
-        var command = new NpgsqlCommand(cmdText: "truncate table gtfs_agency", connection: connection);
+        var command = new NpgsqlCommand(
+            cmdText: "truncate table gtfs_agency",
+            connection: connection);
+        
         await command.ExecuteNonQueryAsync();
         
         var importer = await connection.BeginBinaryImportAsync(copyFromCommand: $"{sql} from stdin (format binary)");
         
-        foreach (var value in agencies.Values)
+        foreach (var item in agencies.Values)
         {
             await importer.StartRowAsync();
             
             await importer.WriteAsync(
-                value: value.AgencyId,
+                value: item.AgencyId,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.AgencyName,
+                value: item.AgencyName,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.AgencyUrl,
+                value: item.AgencyUrl,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.AgencyTimezone,
+                value: item.AgencyTimezone,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.AgencyLang,
+                value: item.AgencyLang,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.AgencyPhone,
+                value: item.AgencyPhone,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.AgencyFareUrl,
+                value: item.AgencyFareUrl,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.AgencyEmail,
+                value: item.AgencyEmail,
                 npgsqlDbType: NpgsqlDbType.Varchar);
         }
         

@@ -27,53 +27,56 @@ public static class DatabaseTripBuilder
         
         var connection = await dataSource.OpenConnectionAsync();
         
-        var command = new NpgsqlCommand(cmdText: "truncate table gtfs_trips", connection: connection);
+        var command = new NpgsqlCommand(
+            cmdText: "truncate table gtfs_trips",
+            connection: connection);
+        
         await command.ExecuteNonQueryAsync();
         
         var importer = await connection.BeginBinaryImportAsync(copyFromCommand: $"{sql} from stdin (format binary)");
         
-        foreach (var value in trips.Values)
+        foreach (var item in trips.Values)
         {
             await importer.StartRowAsync();
             
             await importer.WriteAsync(
-                value: value.RouteId,
+                value: item.RouteId,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.ServiceId,
+                value: item.ServiceId,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.TripId,
+                value: item.TripId,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.TripHeadsign,
+                value: item.TripHeadsign,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.TripShortName,
+                value: item.TripShortName,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.DirectionId,
+                value: item.DirectionId,
                 npgsqlDbType: NpgsqlDbType.Smallint);
             
             await importer.WriteAsync(
-                value: value.BlockId,
+                value: item.BlockId,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.ShapeId,
+                value: item.ShapeId,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.WheelchairAccessible,
+                value: item.WheelchairAccessible,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.BikesAllowed,
+                value: item.BikesAllowed,
                 npgsqlDbType: NpgsqlDbType.Varchar);
         }
         

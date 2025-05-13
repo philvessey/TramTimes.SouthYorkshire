@@ -9,56 +9,56 @@ public static class GtfsAgencyTools
     {
         var results = new Dictionary<string, GtfsAgency>();
         
-        foreach (var value in schedules.Values)
+        foreach (var item in schedules.Values)
         {
             GtfsCalendar calendar = new()
             {
-                Monday = value.Calendar is { Monday: not null } ? value.Calendar.Monday.ToInt().ToString() : "0",
-                Tuesday = value.Calendar is { Tuesday: not null } ? value.Calendar.Tuesday.ToInt().ToString() : "0",
-                Wednesday = value.Calendar is { Wednesday: not null } ? value.Calendar.Wednesday.ToInt().ToString() : "0",
-                Thursday = value.Calendar is { Thursday: not null } ? value.Calendar.Thursday.ToInt().ToString() : "0",
-                Friday = value.Calendar is { Friday: not null } ? value.Calendar.Friday.ToInt().ToString() : "0",
-                Saturday = value.Calendar is { Saturday: not null } ? value.Calendar.Saturday.ToInt().ToString() : "0",
-                Sunday = value.Calendar is { Sunday: not null } ? value.Calendar.Sunday.ToInt().ToString() : "0",
+                Monday = item.Calendar is { Monday: not null } ? item.Calendar.Monday.ToInt().ToString() : "0",
+                Tuesday = item.Calendar is { Tuesday: not null } ? item.Calendar.Tuesday.ToInt().ToString() : "0",
+                Wednesday = item.Calendar is { Wednesday: not null } ? item.Calendar.Wednesday.ToInt().ToString() : "0",
+                Thursday = item.Calendar is { Thursday: not null } ? item.Calendar.Thursday.ToInt().ToString() : "0",
+                Friday = item.Calendar is { Friday: not null } ? item.Calendar.Friday.ToInt().ToString() : "0",
+                Saturday = item.Calendar is { Saturday: not null } ? item.Calendar.Saturday.ToInt().ToString() : "0",
+                Sunday = item.Calendar is { Sunday: not null } ? item.Calendar.Sunday.ToInt().ToString() : "0",
                 
-                StartDate = $"{value.Calendar?.StartDate?.ToString(format: "yyyy")}" +
-                            $"{value.Calendar?.StartDate?.ToString(format: "MM")}" +
-                            $"{value.Calendar?.StartDate?.ToString(format: "dd")}",
+                StartDate = $"{item.Calendar?.StartDate?.ToString(format: "yyyy")}" +
+                            $"{item.Calendar?.StartDate?.ToString(format: "MM")}" +
+                            $"{item.Calendar?.StartDate?.ToString(format: "dd")}",
                 
-                EndDate = $"{value.Calendar?.EndDate?.ToString(format: "yyyy")}" +
-                          $"{value.Calendar?.EndDate?.ToString(format: "MM")}" +
-                          $"{value.Calendar?.EndDate?.ToString(format: "dd")}"
+                EndDate = $"{item.Calendar?.EndDate?.ToString(format: "yyyy")}" +
+                          $"{item.Calendar?.EndDate?.ToString(format: "MM")}" +
+                          $"{item.Calendar?.EndDate?.ToString(format: "dd")}"
             };
             
-            if (value.Calendar is { StartDate: not null, EndDate: not null })
+            if (item.Calendar is { StartDate: not null, EndDate: not null })
             {
-                calendar.ServiceId = $"{value.ServiceCode}" +
+                calendar.ServiceId = $"{item.ServiceCode}" +
                                      $"-" +
-                                     $"{value.Calendar?.StartDate:yyyy}" +
-                                     $"{value.Calendar?.StartDate:MM}" +
-                                     $"{value.Calendar?.StartDate:dd}" +
+                                     $"{item.Calendar?.StartDate:yyyy}" +
+                                     $"{item.Calendar?.StartDate:MM}" +
+                                     $"{item.Calendar?.StartDate:dd}" +
                                      $"-" +
-                                     $"{value.Calendar?.EndDate:yyyy}" +
-                                     $"{value.Calendar?.EndDate:MM}" +
-                                     $"{value.Calendar?.EndDate:dd}" +
+                                     $"{item.Calendar?.EndDate:yyyy}" +
+                                     $"{item.Calendar?.EndDate:MM}" +
+                                     $"{item.Calendar?.EndDate:dd}" +
                                      $"-" +
-                                     $"{value.Calendar?.Monday.ToInt().ToString()}" +
-                                     $"{value.Calendar?.Tuesday.ToInt().ToString()}" +
-                                     $"{value.Calendar?.Wednesday.ToInt().ToString()}" +
-                                     $"{value.Calendar?.Thursday.ToInt().ToString()}" +
-                                     $"{value.Calendar?.Friday.ToInt().ToString()}" +
-                                     $"{value.Calendar?.Saturday.ToInt().ToString()}" +
-                                     $"{value.Calendar?.Sunday.ToInt().ToString()}";
+                                     $"{item.Calendar?.Monday.ToInt().ToString()}" +
+                                     $"{item.Calendar?.Tuesday.ToInt().ToString()}" +
+                                     $"{item.Calendar?.Wednesday.ToInt().ToString()}" +
+                                     $"{item.Calendar?.Thursday.ToInt().ToString()}" +
+                                     $"{item.Calendar?.Friday.ToInt().ToString()}" +
+                                     $"{item.Calendar?.Saturday.ToInt().ToString()}" +
+                                     $"{item.Calendar?.Sunday.ToInt().ToString()}";
             }
             
             GtfsAgency agency = new()
             {
-                AgencyId = value.OperatorCode,
-                AgencyName = value.OperatorName,
-                AgencyUrl = $"https://www.google.com/search?q={value.OperatorName}",
+                AgencyId = item.OperatorCode,
+                AgencyName = item.OperatorName,
+                AgencyUrl = $"https://www.google.com/search?q={item.OperatorName}",
                 AgencyTimezone = "Europe/London",
                 AgencyLang = "EN",
-                AgencyPhone = value.OperatorPhone
+                AgencyPhone = item.OperatorPhone
             };
             
             if (agency.AgencyId != null)

@@ -9,75 +9,75 @@ public static class DatabaseStopTools
     {
         var results = new Dictionary<string, DatabaseStop>();
         
-        foreach (var value in schedules.Values)
+        foreach (var item in schedules.Values)
         {
             DatabaseCalendar calendar = new()
             {
-                Monday = value.Calendar is { Monday: not null } ? value.Calendar.Monday.ToShort() : short.Parse(s: "0"),
-                Tuesday = value.Calendar is { Tuesday: not null } ? value.Calendar.Tuesday.ToShort() : short.Parse(s: "0"),
-                Wednesday = value.Calendar is { Wednesday: not null } ? value.Calendar.Wednesday.ToShort() : short.Parse(s: "0"),
-                Thursday = value.Calendar is { Thursday: not null } ? value.Calendar.Thursday.ToShort() : short.Parse(s: "0"),
-                Friday = value.Calendar is { Friday: not null } ? value.Calendar.Friday.ToShort() : short.Parse(s: "0"),
-                Saturday = value.Calendar is { Saturday: not null } ? value.Calendar.Saturday.ToShort() : short.Parse(s: "0"),
-                Sunday = value.Calendar is { Sunday: not null } ? value.Calendar.Sunday.ToShort() : short.Parse(s: "0"),
-                StartDate = value.Calendar?.StartDate,
-                EndDate = value.Calendar?.EndDate
+                Monday = item.Calendar is { Monday: not null } ? item.Calendar.Monday.ToShort() : short.Parse(s: "0"),
+                Tuesday = item.Calendar is { Tuesday: not null } ? item.Calendar.Tuesday.ToShort() : short.Parse(s: "0"),
+                Wednesday = item.Calendar is { Wednesday: not null } ? item.Calendar.Wednesday.ToShort() : short.Parse(s: "0"),
+                Thursday = item.Calendar is { Thursday: not null } ? item.Calendar.Thursday.ToShort() : short.Parse(s: "0"),
+                Friday = item.Calendar is { Friday: not null } ? item.Calendar.Friday.ToShort() : short.Parse(s: "0"),
+                Saturday = item.Calendar is { Saturday: not null } ? item.Calendar.Saturday.ToShort() : short.Parse(s: "0"),
+                Sunday = item.Calendar is { Sunday: not null } ? item.Calendar.Sunday.ToShort() : short.Parse(s: "0"),
+                StartDate = item.Calendar?.StartDate,
+                EndDate = item.Calendar?.EndDate
             };
             
-            if (value.Calendar is { StartDate: not null, EndDate: not null })
+            if (item.Calendar is { StartDate: not null, EndDate: not null })
             {
-                calendar.ServiceId = $"{value.ServiceCode}" +
+                calendar.ServiceId = $"{item.ServiceCode}" +
                                      $"-" +
-                                     $"{value.Calendar?.StartDate:yyyy}" +
-                                     $"{value.Calendar?.StartDate:MM}" +
-                                     $"{value.Calendar?.StartDate:dd}" +
+                                     $"{item.Calendar?.StartDate:yyyy}" +
+                                     $"{item.Calendar?.StartDate:MM}" +
+                                     $"{item.Calendar?.StartDate:dd}" +
                                      $"-" +
-                                     $"{value.Calendar?.EndDate:yyyy}" +
-                                     $"{value.Calendar?.EndDate:MM}" +
-                                     $"{value.Calendar?.EndDate:dd}" +
+                                     $"{item.Calendar?.EndDate:yyyy}" +
+                                     $"{item.Calendar?.EndDate:MM}" +
+                                     $"{item.Calendar?.EndDate:dd}" +
                                      $"-" +
-                                     $"{value.Calendar?.Monday.ToInt().ToString()}" +
-                                     $"{value.Calendar?.Tuesday.ToInt().ToString()}" +
-                                     $"{value.Calendar?.Wednesday.ToInt().ToString()}" +
-                                     $"{value.Calendar?.Thursday.ToInt().ToString()}" +
-                                     $"{value.Calendar?.Friday.ToInt().ToString()}" +
-                                     $"{value.Calendar?.Saturday.ToInt().ToString()}" +
-                                     $"{value.Calendar?.Sunday.ToInt().ToString()}";
+                                     $"{item.Calendar?.Monday.ToInt().ToString()}" +
+                                     $"{item.Calendar?.Tuesday.ToInt().ToString()}" +
+                                     $"{item.Calendar?.Wednesday.ToInt().ToString()}" +
+                                     $"{item.Calendar?.Thursday.ToInt().ToString()}" +
+                                     $"{item.Calendar?.Friday.ToInt().ToString()}" +
+                                     $"{item.Calendar?.Saturday.ToInt().ToString()}" +
+                                     $"{item.Calendar?.Sunday.ToInt().ToString()}";
             }
             
-            for (var i = 0; i < value.StopPoints?.Count; i++)
+            for (var i = 0; i < item.StopPoints?.Count; i++)
             {
                 DatabaseStop stop = new()
                 {
-                    StopId = value.StopPoints[i].NaptanStop?.AtcoCode,
-                    StopCode = value.StopPoints[i].NaptanStop?.NaptanCode,
-                    StopName = value.StopPoints[i].NaptanStop?.CommonName,
-                    StopDesc = value.StopPoints[i].NaptanStop?.LocalityName,
-                    StopLat = float.Parse(s: value.StopPoints[i].NaptanStop?.Latitude ?? string.Empty),
-                    StopLon = float.Parse(s: value.StopPoints[i].NaptanStop?.Longitude ?? string.Empty),
+                    StopId = item.StopPoints[i].NaptanStop?.AtcoCode,
+                    StopCode = item.StopPoints[i].NaptanStop?.NaptanCode,
+                    StopName = item.StopPoints[i].NaptanStop?.CommonName,
+                    StopDesc = item.StopPoints[i].NaptanStop?.LocalityName,
+                    StopLat = float.Parse(s: item.StopPoints[i].NaptanStop?.Latitude ?? string.Empty),
+                    StopLon = float.Parse(s: item.StopPoints[i].NaptanStop?.Longitude ?? string.Empty),
                     LocationType = "0",
                     StopTimezone = "Europe/London",
                     WheelchairBoarding = "1",
-                    PlatformCode = value.StopPoints[i].NaptanStop?.AtcoCode?[^1..]
+                    PlatformCode = item.StopPoints[i].NaptanStop?.AtcoCode?[^1..]
                 };
                 
                 if (string.IsNullOrWhiteSpace(value: stop.StopId))
-                    stop.StopId = value.StopPoints[i].TravelineStop?.NaptanCode;
+                    stop.StopId = item.StopPoints[i].TravelineStop?.NaptanCode;
                 
                 if (string.IsNullOrWhiteSpace(value: stop.StopName))
-                    stop.StopName = value.StopPoints[i].TravelineStop?.CommonName;
+                    stop.StopName = item.StopPoints[i].TravelineStop?.CommonName;
                 
                 if (string.IsNullOrWhiteSpace(value: stop.StopDesc))
-                    stop.StopDesc = value.StopPoints[i].TravelineStop?.LocalityName;
+                    stop.StopDesc = item.StopPoints[i].TravelineStop?.LocalityName;
                 
                 if (string.IsNullOrWhiteSpace(value: stop.StopLat.ToString()))
-                    stop.StopLat = float.Parse(s: value.StopPoints[i].TravelineStop?.Latitude ?? string.Empty);
+                    stop.StopLat = float.Parse(s: item.StopPoints[i].TravelineStop?.Latitude ?? string.Empty);
                 
                 if (string.IsNullOrWhiteSpace(value: stop.StopLon.ToString()))
-                    stop.StopLon = float.Parse(s: value.StopPoints[i].TravelineStop?.Longitude ?? string.Empty);
+                    stop.StopLon = float.Parse(s: item.StopPoints[i].TravelineStop?.Longitude ?? string.Empty);
                 
                 if (string.IsNullOrWhiteSpace(value: stop.PlatformCode))
-                    stop.PlatformCode = value.StopPoints[i].TravelineStop?.AtcoCode?[^1..];
+                    stop.PlatformCode = item.StopPoints[i].TravelineStop?.AtcoCode?[^1..];
                 
                 if (stop.StopId != null)
                     results.TryAdd(

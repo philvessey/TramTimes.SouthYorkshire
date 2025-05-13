@@ -27,53 +27,56 @@ public static class DatabaseRouteBuilder
         
         var connection = await dataSource.OpenConnectionAsync();
         
-        var command = new NpgsqlCommand(cmdText: "truncate table gtfs_routes", connection: connection);
+        var command = new NpgsqlCommand(
+            cmdText: "truncate table gtfs_routes",
+            connection: connection);
+        
         await command.ExecuteNonQueryAsync();
         
         var importer = await connection.BeginBinaryImportAsync(copyFromCommand: $"{sql} from stdin (format binary)");
         
-        foreach (var value in routes.Values)
+        foreach (var item in routes.Values)
         {
             await importer.StartRowAsync();
             
             await importer.WriteAsync(
-                value: value.RouteId,
+                value: item.RouteId,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.AgencyId,
+                value: item.AgencyId,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.RouteShortName,
+                value: item.RouteShortName,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.RouteLongName,
+                value: item.RouteLongName,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.RouteDesc,
+                value: item.RouteDesc,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.RouteType,
+                value: item.RouteType,
                 npgsqlDbType: NpgsqlDbType.Smallint);
             
             await importer.WriteAsync(
-                value: value.RouteUrl,
+                value: item.RouteUrl,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.RouteColor,
+                value: item.RouteColor,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.RouteTextColor,
+                value: item.RouteTextColor,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.RouteSortOrder,
+                value: item.RouteSortOrder,
                 npgsqlDbType: NpgsqlDbType.Smallint);
         }
         

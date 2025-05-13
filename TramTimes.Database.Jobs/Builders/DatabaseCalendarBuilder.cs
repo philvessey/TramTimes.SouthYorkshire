@@ -27,53 +27,56 @@ public static class DatabaseCalendarBuilder
         
         var connection = await dataSource.OpenConnectionAsync();
         
-        var command = new NpgsqlCommand(cmdText: "truncate table gtfs_calendar", connection: connection);
+        var command = new NpgsqlCommand(
+            cmdText: "truncate table gtfs_calendar",
+            connection: connection);
+        
         await command.ExecuteNonQueryAsync();
         
         var importer = await connection.BeginBinaryImportAsync(copyFromCommand: $"{sql} from stdin (format binary)");
         
-        foreach (var value in calendars.Values)
+        foreach (var item in calendars.Values)
         {
             await importer.StartRowAsync();
             
             await importer.WriteAsync(
-                value: value.ServiceId,
+                value: item.ServiceId,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.Monday,
+                value: item.Monday,
                 npgsqlDbType: NpgsqlDbType.Smallint);
             
             await importer.WriteAsync(
-                value: value.Tuesday,
+                value: item.Tuesday,
                 npgsqlDbType: NpgsqlDbType.Smallint);
             
             await importer.WriteAsync(
-                value: value.Wednesday,
+                value: item.Wednesday,
                 npgsqlDbType: NpgsqlDbType.Smallint);
             
             await importer.WriteAsync(
-                value: value.Thursday,
+                value: item.Thursday,
                 npgsqlDbType: NpgsqlDbType.Smallint);
             
             await importer.WriteAsync(
-                value: value.Friday,
+                value: item.Friday,
                 npgsqlDbType: NpgsqlDbType.Smallint);
             
             await importer.WriteAsync(
-                value: value.Saturday,
+                value: item.Saturday,
                 npgsqlDbType: NpgsqlDbType.Smallint);
             
             await importer.WriteAsync(
-                value: value.Sunday,
+                value: item.Sunday,
                 npgsqlDbType: NpgsqlDbType.Smallint);
             
             await importer.WriteAsync(
-                value: value.StartDate,
+                value: item.StartDate,
                 npgsqlDbType: NpgsqlDbType.Date);
             
             await importer.WriteAsync(
-                value: value.EndDate,
+                value: item.EndDate,
                 npgsqlDbType: NpgsqlDbType.Date);
         }
         

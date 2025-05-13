@@ -31,69 +31,72 @@ public static class DatabaseStopBuilder
         
         var connection = await dataSource.OpenConnectionAsync();
         
-        var command = new NpgsqlCommand(cmdText: "truncate table gtfs_stops", connection: connection);
+        var command = new NpgsqlCommand(
+            cmdText: "truncate table gtfs_stops",
+            connection: connection);
+        
         await command.ExecuteNonQueryAsync();
         
         var importer = await connection.BeginBinaryImportAsync(copyFromCommand: $"{sql} from stdin (format binary)");
         
-        foreach (var value in stops.Values)
+        foreach (var item in stops.Values)
         {
             await importer.StartRowAsync();
             
             await importer.WriteAsync(
-                value: value.StopId,
+                value: item.StopId,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.StopCode,
+                value: item.StopCode,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.StopName,
+                value: item.StopName,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.StopDesc,
+                value: item.StopDesc,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.StopLat,
+                value: item.StopLat,
                 npgsqlDbType: NpgsqlDbType.Real);
             
             await importer.WriteAsync(
-                value: value.StopLon,
+                value: item.StopLon,
                 npgsqlDbType: NpgsqlDbType.Real);
             
             await importer.WriteAsync(
-                value: value.ZoneId,
+                value: item.ZoneId,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.StopUrl,
+                value: item.StopUrl,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.LocationType,
+                value: item.LocationType,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.ParentStation,
+                value: item.ParentStation,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.StopTimezone,
+                value: item.StopTimezone,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.WheelchairBoarding,
+                value: item.WheelchairBoarding,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.LevelId,
+                value: item.LevelId,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.PlatformCode,
+                value: item.PlatformCode,
                 npgsqlDbType: NpgsqlDbType.Varchar);
         }
         

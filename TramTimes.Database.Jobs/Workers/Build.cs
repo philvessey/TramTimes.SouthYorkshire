@@ -33,11 +33,11 @@ public class Build(
             var expiredBlobs = blobService.GetBlobContainerClient(blobContainerName: "database")
                 .GetBlobsAsync();
             
-            await foreach (var blob in expiredBlobs)
+            await foreach (var item in expiredBlobs)
             {
-                if (blob.Properties.LastModified < context.FireTimeUtc.Date.AddDays(value: -28))
+                if (item.Properties.LastModified < context.FireTimeUtc.Date.AddDays(value: -28))
                     await blobService.GetBlobContainerClient(blobContainerName: "database")
-                        .GetBlobClient(blobName: blob.Name)
+                        .GetBlobClient(blobName: item.Name)
                         .DeleteAsync();
             }
             
@@ -186,18 +186,18 @@ public class Build(
             var validFiles = new List<string>();
             var invalidFiles = new List<string>();
             
-            foreach (var file in rawFiles)
+            foreach (var item in rawFiles)
             {
-                var reader = new StreamReader(path: file);
+                var reader = new StreamReader(path: item);
                 var contents = await reader.ReadToEndAsync();
                 
                 if (contents.Contains(value: "ZZSY"))
                 {
-                    validFiles.Add(item: file);
+                    validFiles.Add(item: item);
                 }
                 else
                 {
-                    invalidFiles.Add(item: file);
+                    invalidFiles.Add(item: item);
                 }
             }
             
@@ -226,18 +226,18 @@ public class Build(
                 if (startDate > endDate)
                     continue;
                 
-                foreach (var vehicleJourney in xml.VehicleJourneys.VehicleJourney)
+                foreach (var item in xml.VehicleJourneys.VehicleJourney)
                 {
                     var calendar = await TravelineCalendarBuilder.BuildAsync(
                         scheduleDate: context.FireTimeUtc.Date,
                         services: xml.Services,
-                        vehicleJourney: vehicleJourney,
+                        vehicleJourney: item,
                         startDate: startDate,
                         endDate: endDate);
                     
                     var journeyPattern = await TransXChangeJourneyPatternTools.GetJourneyPatternAsync(
                         services: xml.Services,
-                        reference: vehicleJourney.JourneyPatternRef);
+                        reference: item.JourneyPatternRef);
                     
                     var schedule = await TravelineScheduleBuilder.BuildAsync(
                         operators: xml.Operators,
@@ -249,7 +249,7 @@ public class Build(
                         patternSections: xml.JourneyPatternSections,
                         references: journeyPattern.JourneyPatternSectionRefs);
                     
-                    var departureTime = vehicleJourney.DepartureTime?.ToTime();
+                    var departureTime = item.DepartureTime?.ToTime();
                     
                     for (var i = 0; i < timingLinks.Count; i++)
                     {
@@ -299,7 +299,9 @@ public class Build(
                     if (duplicate)
                         continue;
                     
-                    results.TryAdd(schedule.Id ?? "unknown", schedule);
+                    results.TryAdd(
+                        key: schedule.Id ?? "unknown",
+                        value: schedule);
                 }
             }
             
@@ -321,7 +323,10 @@ public class Build(
             
             var connection = await dataSource.OpenConnectionAsync();
             
-            var command = new NpgsqlCommand(cmdText: "drop index if exists gtfs_stop_times_idx", connection: connection);
+            var command = new NpgsqlCommand(
+                cmdText: "drop index if exists gtfs_stop_times_idx",
+                connection: connection);
+            
             await command.ExecuteNonQueryAsync();
             
             var records = await DatabaseAgencyBuilder.BuildAsync(
@@ -352,7 +357,10 @@ public class Build(
                 schedules: results,
                 dataSource: dataSource);
             
-            command = new NpgsqlCommand(cmdText: sql, connection: connection);
+            command = new NpgsqlCommand(
+                cmdText: sql,
+                connection: connection);
+            
             await command.ExecuteNonQueryAsync();
             
             #endregion

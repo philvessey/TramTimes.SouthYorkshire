@@ -20,25 +20,28 @@ public static class DatabaseCalendarDateBuilder
         
         var connection = await dataSource.OpenConnectionAsync();
         
-        var command = new NpgsqlCommand(cmdText: "truncate table gtfs_calendar_dates", connection: connection);
+        var command = new NpgsqlCommand(
+            cmdText: "truncate table gtfs_calendar_dates",
+            connection: connection);
+        
         await command.ExecuteNonQueryAsync();
         
         var importer = await connection.BeginBinaryImportAsync(copyFromCommand: $"{sql} from stdin (format binary)");
         
-        foreach (var value in calendarDates.Values)
+        foreach (var item in calendarDates.Values)
         {
             await importer.StartRowAsync();
             
             await importer.WriteAsync(
-                value: value.ServiceId,
+                value: item.ServiceId,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.ExceptionDate,
+                value: item.ExceptionDate,
                 npgsqlDbType: NpgsqlDbType.Date);
             
             await importer.WriteAsync(
-                value: value.ExceptionType,
+                value: item.ExceptionType,
                 npgsqlDbType: NpgsqlDbType.Smallint);
         }
         

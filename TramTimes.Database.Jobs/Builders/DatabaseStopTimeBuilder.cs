@@ -27,53 +27,56 @@ public static class DatabaseStopTimeBuilder
         
         var connection = await dataSource.OpenConnectionAsync();
         
-        var command = new NpgsqlCommand(cmdText: "truncate table gtfs_stop_times", connection: connection);
+        var command = new NpgsqlCommand(
+            cmdText: "truncate table gtfs_stop_times",
+            connection: connection);
+        
         await command.ExecuteNonQueryAsync();
         
         var importer = await connection.BeginBinaryImportAsync(copyFromCommand: $"{sql} from stdin (format binary)");
         
-        foreach (var value in stopTimes.Values)
+        foreach (var item in stopTimes.Values)
         {
             await importer.StartRowAsync();
             
             await importer.WriteAsync(
-                value: value.TripId,
+                value: item.TripId,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.ArrivalTime,
+                value: item.ArrivalTime,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.DepartureTime,
+                value: item.DepartureTime,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.StopId,
+                value: item.StopId,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.StopSequence,
+                value: item.StopSequence,
                 npgsqlDbType: NpgsqlDbType.Smallint);
             
             await importer.WriteAsync(
-                value: value.StopHeadsign,
+                value: item.StopHeadsign,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.PickupType,
+                value: item.PickupType,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.DropOffType,
+                value: item.DropOffType,
                 npgsqlDbType: NpgsqlDbType.Varchar);
             
             await importer.WriteAsync(
-                value: value.ShapeDistTraveled,
+                value: item.ShapeDistTraveled,
                 npgsqlDbType: NpgsqlDbType.Real);
             
             await importer.WriteAsync(
-                value: value.Timepoint,
+                value: item.Timepoint,
                 npgsqlDbType: NpgsqlDbType.Smallint);
         }
         

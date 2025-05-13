@@ -6,10 +6,10 @@ namespace TramTimes.Database.Jobs.Models;
 public class WorkerStopPoint
 {
     [UsedImplicitly]
-    [JsonPropertyName("departure_time")]
+    [JsonPropertyName(name: "departure_time")]
     public string? DepartureTime { get; set; }
     
     [UsedImplicitly]
-    [JsonPropertyName("route_name")]
+    [JsonPropertyName(name: "route_name")]
     public string? RouteName { get; set; }
 }

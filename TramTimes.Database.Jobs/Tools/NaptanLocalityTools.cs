@@ -16,12 +16,12 @@ public static class NaptanLocalityTools
         
         var records = csv.GetRecords<NaptanLocality>();
         
-        foreach (var record in records)
+        foreach (var item in records)
         {
-            if (record.NptgLocalityCode != null)
+            if (item.NptgLocalityCode != null)
                 results.TryAdd(
-                    key: record.NptgLocalityCode,
-                    value: record);
+                    key: item.NptgLocalityCode,
+                    value: item);
         }
         
         return await Task.FromResult(result: results);
