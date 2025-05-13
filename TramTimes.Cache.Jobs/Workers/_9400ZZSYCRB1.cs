@@ -137,11 +137,11 @@ public class _9400ZZSYCRB1(
             var expiredBlobs = blobService.GetBlobContainerClient(blobContainerName: "cache")
                 .GetBlobsAsync(prefix: "9400ZZSYCRB1");
             
-            await foreach (var blob in expiredBlobs)
+            await foreach (var item in expiredBlobs)
             {
-                if (blob.Properties.LastModified < context.FireTimeUtc.DateTime.AddDays(value: -7))
+                if (item.Properties.LastModified < context.FireTimeUtc.DateTime.AddDays(value: -7))
                     await blobService.GetBlobContainerClient(blobContainerName: "cache")
-                        .GetBlobClient(blobName: blob.Name)
+                        .GetBlobClient(blobName: item.Name)
                         .DeleteAsync();
             }
             
