@@ -1,15 +1,32 @@
 using TramTimes.Web.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args: args);
-builder.AddMapperDefaults();
-builder.AddServiceDefaults();
+
+#region inject defaults
+
+builder
+    .AddMapperDefaults()
+    .AddServiceDefaults();
+
+#endregion
+
+#region inject services
 
 builder.AddNpgsqlDataSource(connectionName: "database");
 builder.AddRedisClient(connectionName: "cache");
 builder.AddElasticsearchClient(connectionName: "search");
 
-builder.Services.AddOpenApi();
-builder.Services.AddProblemDetails();
+#endregion
+
+#region add extensions
+
+builder.Services
+    .AddOpenApi()
+    .AddProblemDetails();
+
+#endregion
+
+#region map endpoints
 
 var application = builder.Build();
 application.UseExceptionHandler();
@@ -23,4 +40,7 @@ application.MapDefaultEndpoints();
 application.MapDatabaseEndpoints();
 application.MapCacheEndpoints();
 application.MapSearchEndpoints();
+
+#endregion
+
 application.Run();

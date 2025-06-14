@@ -6,31 +6,49 @@ public static class RegexTools
 {
     public static string RemoveName(string input)
     {
-        var match = RegexBuilder.GetName()
+        #region match valid input
+        
+        var match = RegexBuilder
+            .GetName()
             .Match(input: input);
         
         if (!match.Success)
             return input;
         
-        var output = input.Replace(
+        #endregion
+        
+        #region build result
+        
+        var result = input.Replace(
             oldValue: match.Value,
             newValue: string.Empty);
         
-        return output.TrimStart();
+        #endregion
+        
+        return result.TrimStart();
     }
     
     public static string RemoveDirection(string input)
     {
-        var match = RegexBuilder.GetDirection()
+        #region match valid input
+        
+        var match = RegexBuilder
+            .GetDirection()
             .Match(input: input);
         
         if (!match.Success)
             return input;
         
-        var output = input.Replace(
+        #endregion
+        
+        #region build result
+        
+        var result = input.Replace(
             oldValue: match.Value,
             newValue: string.Empty);
         
-        return output.TrimEnd();
+        #endregion
+        
+        return result.TrimEnd();
     }
 }

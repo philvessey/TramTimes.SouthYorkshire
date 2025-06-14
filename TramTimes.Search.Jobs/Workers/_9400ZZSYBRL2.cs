@@ -13,7 +13,7 @@ using TramTimes.Search.Jobs.Models;
 namespace TramTimes.Search.Jobs.Workers;
 
 public class _9400ZZSYBRL2(
-    BlobServiceClient blobService,
+    BlobContainerClient blobService,
     NpgsqlDataSource dataSource,
     ElasticsearchClient searchService,
     ILogger<_9400ZZSYBRL2> logger,
@@ -21,13 +21,15 @@ public class _9400ZZSYBRL2(
     
     public async Task Execute(IJobExecutionContext context)
     {
+        var guid = Guid.NewGuid();
+        
         var storage = Directory.CreateDirectory(path: Path.Combine(
             path1: Path.GetTempPath(),
-            path2: Guid.NewGuid().ToString()));
+            path2: guid.ToString()));
         
         try
         {
-            #region Get Search Feed
+            #region get search feed
             
             var searchFeed = await searchService.GetAsync<SearchStop>(
                 id: "9400ZZSYBRL2",
@@ -36,25 +38,20 @@ public class _9400ZZSYBRL2(
             List<SearchStopPoint> mappedResults = [];
             
             if (searchFeed.Source is not null)
-            {
                 mappedResults = searchFeed.Source.Points ?? [];
-            }
             
             #endregion
             
-            #region Check Search Feed
+            #region check search feed
             
-            if (mappedResults.ElementAtOrDefault(index: 0) is not null &&
-                mappedResults.ElementAt(index: 0).DepartureDateTime > DateTime.Now) {
-                
+            if (mappedResults.ElementAtOrDefault(index: 0)?.DepartureDateTime > DateTime.Now)
                 return;
-            }
             
             #endregion
             
-            #region Get Database Feed
+            #region get database feed
             
-            var databaseFeed = await Feed.Load(dataStorage: PostgresStorage.Load(dataSource: dataSource));
+            var databaseFeed = await Feed.LoadAsync(dataStorage: PostgresStorage.Load(dataSource: dataSource));
             
             var stopResults = await databaseFeed.GetStopsByIdAsync(
                 id: "9400ZZSYBRL2",
@@ -70,20 +67,18 @@ public class _9400ZZSYBRL2(
             
             #endregion
             
-            #region Check Database Feed
+            #region check database feed
             
             if (databaseResults is { Latitude: not null, Longitude: not null })
-            {
                 databaseResults.Location = GeoLocation.LatitudeLongitude(latitudeLongitude: new LatLonGeoLocation 
                 {
                     Lat = databaseResults.Latitude.Value,
                     Lon = databaseResults.Longitude.Value
                 });
-            }
             
             #endregion
             
-            #region Set Search Feed
+            #region set search feed
             
             await searchService.IndexAsync(
                 document: databaseResults,
@@ -91,7 +86,7 @@ public class _9400ZZSYBRL2(
             
             #endregion
             
-            #region Build Search Results
+            #region build search results
             
             var localPath = Path.Combine(
                 path1: storage.FullName,
@@ -106,7 +101,7 @@ public class _9400ZZSYBRL2(
                 path2: "get",
                 path3: "9400ZZSYBRL2.json");
             
-            await blobService.GetBlobContainerClient(blobContainerName: "search")
+            await blobService
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -120,7 +115,7 @@ public class _9400ZZSYBRL2(
             
             #endregion
             
-            #region Build Database Results
+            #region build database results
             
             localPath = Path.Combine(
                 path1: storage.FullName,
@@ -135,7 +130,7 @@ public class _9400ZZSYBRL2(
                 path2: "set",
                 path3: "9400ZZSYBRL2.json");
             
-            await blobService.GetBlobContainerClient(blobContainerName: "search")
+            await blobService
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -149,18 +144,15 @@ public class _9400ZZSYBRL2(
             
             #endregion
             
-            #region Delete Expired Blobs
+            #region delete expired blobs
             
-            var expiredBlobs = blobService.GetBlobContainerClient(blobContainerName: "search")
-                .GetBlobsAsync(prefix: "9400ZZSYBRL2");
+            var expiredBlobs = blobService.GetBlobsAsync(prefix: "9400ZZSYBRL2");
             
             await foreach (var item in expiredBlobs)
-            {
                 if (item.Properties.LastModified < context.FireTimeUtc.DateTime.AddDays(value: -7))
-                    await blobService.GetBlobContainerClient(blobContainerName: "search")
+                    await blobService
                         .GetBlobClient(blobName: item.Name)
                         .DeleteAsync();
-            }
             
             #endregion
         }

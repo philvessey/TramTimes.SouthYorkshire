@@ -1,20 +1,34 @@
 using TramTimes.Database.Jobs.Models;
+using TramTimes.Database.Jobs.Tools;
 
 namespace TramTimes.Database.Jobs.Builders;
 
 public static class TravelineScheduleBuilder
 {
-    public static async Task<TravelineSchedule> BuildAsync(
+    public static TravelineSchedule Build(
         TransXChangeOperators? operators,
         TransXChangeServices? services,
         TransXChangeJourneyPattern? journeyPattern,
         TravelineCalendar? calendar) {
         
-        var value = new TravelineSchedule
+        #region build unknown
+        
+        var guid = Guid.NewGuid();
+        
+        var unknown = new TravelineSchedule
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = guid.ToString()
+        };
+        
+        #endregion
+        
+        #region build result
+        
+        var result = new TravelineSchedule
+        {
+            Id = guid.ToString(),
             Description = services?.Service?.Description?.Trim(),
-            Direction = journeyPattern?.Direction == "inbound" ? "1" : "0",
+            Direction = TravelineScheduleTools.GetServiceDirection(direction: journeyPattern?.Direction),
             Line = services?.Service?.Lines?.Line?.LineName,
             Mode = "0",
             OperatorCode = operators?.Operator?.NationalOperatorCode,
@@ -25,15 +39,20 @@ public static class TravelineScheduleBuilder
             StopPoints = []
         };
         
-        if (string.IsNullOrWhiteSpace(value: value.OperatorName))
-            value.OperatorName = operators?.Operator?.OperatorNameOnLicence;
+        if (calendar is null)
+            return unknown;
         
-        if (string.IsNullOrWhiteSpace(value: value.OperatorName))
-            value.OperatorName = operators?.Operator?.OperatorShortName;
+        if (string.IsNullOrWhiteSpace(value: result.OperatorName))
+            result.OperatorName = operators?.Operator?.OperatorNameOnLicence;
         
-        if (string.IsNullOrWhiteSpace(value: value.OperatorPhone))
-            value.OperatorPhone = operators?.Operator?.EnquiryTelephoneNumber?.TelNationalNumber;
+        if (string.IsNullOrWhiteSpace(value: result.OperatorName))
+            result.OperatorName = operators?.Operator?.OperatorShortName;
         
-        return await Task.FromResult(result: value);
+        if (string.IsNullOrWhiteSpace(value: result.OperatorPhone))
+            result.OperatorPhone = operators?.Operator?.EnquiryTelephoneNumber?.TelNationalNumber;
+        
+        #endregion
+        
+        return result;
     }
 }

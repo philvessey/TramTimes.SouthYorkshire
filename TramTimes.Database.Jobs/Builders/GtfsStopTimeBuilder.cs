@@ -11,7 +11,13 @@ public static class GtfsStopTimeBuilder
         Dictionary<string, TravelineSchedule> schedules,
         string path) {
         
-        var stopTimes = await GtfsStopTimeTools.GetFromSchedulesAsync(schedules: schedules);
+        #region build stop times
+        
+        var stopTimes = GtfsStopTimeTools.GetFromSchedules(schedules: schedules);
+        
+        #endregion
+        
+        #region build results
         
         StreamWriter writer = new(path: Path.Combine(
             path1: path,
@@ -27,8 +33,10 @@ public static class GtfsStopTimeBuilder
         await csv.WriteRecordsAsync(records: stopTimes.Values);
         await csv.FlushAsync();
         
-        return await Task.FromResult(result: Path.Combine(
+        #endregion
+        
+        return Path.Combine(
             path1: path,
-            path2: "stop_times.txt"));
+            path2: "stop_times.txt");
     }
 }

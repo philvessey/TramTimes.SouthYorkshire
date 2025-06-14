@@ -4,21 +4,33 @@ namespace TramTimes.Database.Jobs.Tools;
 
 public static class TransXChangeJourneyPatternTools
 {
-    public static async Task<TransXChangeJourneyPattern> GetJourneyPatternAsync(
+    public static TransXChangeJourneyPattern GetJourneyPattern(
         TransXChangeServices? services,
         string? reference) {
         
-        return await Task.FromResult(result: services?.Service?.StandardService?.JourneyPattern?
-            .FirstOrDefault(predicate: pattern => pattern.Id == reference) ?? new TransXChangeJourneyPattern());
+        #region build result
+        
+        var result = services?.Service?.StandardService?.JourneyPattern?
+            .FirstOrDefault(predicate: pattern => pattern.Id == reference) ?? new TransXChangeJourneyPattern();
+        
+        #endregion
+        
+        return result;
     }
     
-    public static async Task<List<TransXChangeJourneyPatternTimingLink>> GetTimingLinksAsync(
+    public static List<TransXChangeJourneyPatternTimingLink> GetTimingLinks(
         TransXChangeJourneyPatternSections? patternSections,
         List<string>? references) {
         
-        return await Task.FromResult(result: references?
+        #region build results
+        
+        var results = references?
             .SelectMany(selector: reference => patternSections?.JourneyPatternSection?
                 .FirstOrDefault(predicate: pattern => pattern.Id == reference)?.JourneyPatternTimingLink ?? [])
-            .ToList() ?? []);
+            .ToList() ?? [];
+        
+        #endregion
+        
+        return results;
     }
 }

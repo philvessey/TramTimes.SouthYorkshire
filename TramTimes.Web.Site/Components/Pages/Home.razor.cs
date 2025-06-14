@@ -23,6 +23,8 @@ public partial class Home
         
         if (firstRender)
         {
+            #region get map location
+            
             var location = await StorageService.GetItemAsync<double[]>(key: "location");
             
             if (location is not null && !Latitude.HasValue && !Longitude.HasValue)
@@ -60,13 +62,17 @@ public partial class Home
             
             StateHasChanged();
             
+            #endregion
+            
+            #region get local storage
+            
             var cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache");
             
             if (!cache.IsNullOrEmpty())
-            {
                 foreach (var item in cache!)
-                    item.Points = item.Points?.Where(predicate: point => point.DepartureDateTime > DateTime.Now).ToList();
-            }
+                    item.Points = item.Points?
+                        .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                        .ToList();
             
             if (cache?.Any(predicate: stop => stop.Points.IsNullOrEmpty()) == true)
                 cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
@@ -76,6 +82,10 @@ public partial class Home
             if (!cache.IsNullOrEmpty())
                 MarkerData.AddRange(collection: cache!);
             
+            #endregion
+            
+            #region build query data
+            
             var query = QueryBuilder.GetLocationFromSearch(extent: Extent);
             var response = await HttpService.GetAsync(requestUri: query);
             
@@ -84,6 +94,10 @@ public partial class Home
                 query = QueryBuilder.GetLocationFromDatabase(extent: Extent);
                 response = await HttpService.GetAsync(requestUri: query);
             }
+            
+            #endregion
+            
+            #region build results data
             
             List<WebStop>? data = [];
             
@@ -106,6 +120,10 @@ public partial class Home
             
             StateHasChanged();
             
+            #endregion
+            
+            #region save local storage
+            
             await StorageService.SetItemAsync(
                 key: "location",
                 data: Extent);
@@ -113,33 +131,49 @@ public partial class Home
             await StorageService.SetItemAsync(
                 key: "cache",
                 data: MarkerData.OrderBy(keySelector: stop => stop.Id));
+            
+            #endregion
         }
     }
     
     private void OnChange(object id)
     {
+        #region navigate to stop
+        
         if (SearchData.Any(predicate: stop => stop.Id!.Equals(id as string)))
             NavigationService.NavigateTo(uri: $"/stop/{id as string}");
+        
+        #endregion
     }
     
     private void OnMarkerClick(MapMarkerClickEventArgs args)
     {
+        #region navigate to stop
+        
         if (args.DataItem is TelerikStop stop)
             NavigationService.NavigateTo(uri: $"/stop/{stop.Id}");
+        
+        #endregion
     }
     
     private async Task OnPanEnd(MapPanEndEventArgs args)
     {
+        #region get map location
+        
         Center = args.Center;
         Extent = args.Extent;
+        
+        #endregion
+        
+        #region get local storage
         
         var cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache");
         
         if (!cache.IsNullOrEmpty())
-        {
             foreach (var item in cache!)
-                item.Points = item.Points?.Where(predicate: point => point.DepartureDateTime > DateTime.Now).ToList();
-        }
+                item.Points = item.Points?
+                    .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                    .ToList();
         
         if (cache?.Any(predicate: stop => stop.Points.IsNullOrEmpty()) == true)
             cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
@@ -149,6 +183,10 @@ public partial class Home
         if (!cache.IsNullOrEmpty())
             MarkerData.AddRange(collection: cache!);
         
+        #endregion
+        
+        #region build query data
+        
         var query = QueryBuilder.GetLocationFromSearch(extent: Extent);
         var response = await HttpService.GetAsync(requestUri: query);
         
@@ -157,6 +195,10 @@ public partial class Home
             query = QueryBuilder.GetLocationFromDatabase(extent: Extent);
             response = await HttpService.GetAsync(requestUri: query);
         }
+        
+        #endregion
+        
+        #region build results data
         
         List<WebStop>? data = [];
         
@@ -179,6 +221,10 @@ public partial class Home
         
         StateHasChanged();
         
+        #endregion
+        
+        #region save local storage
+        
         await StorageService.SetItemAsync(
             key: "location",
             data: Extent);
@@ -186,23 +232,32 @@ public partial class Home
         await StorageService.SetItemAsync(
             key: "cache",
             data: MarkerData.OrderBy(keySelector: stop => stop.Id));
+        
+        #endregion
     }
     
     private async Task OnRead(AutoCompleteReadEventArgs readEventArgs)
     {
+        #region get search input
+        
         IList<IFilterDescriptor>? filterDescriptors = readEventArgs.Request.Filters;
         
         if (filterDescriptors.FirstOrDefault() is not FilterDescriptor filterDescriptor)
             return;
         
         var name = filterDescriptor.Value.ToString() ?? string.Empty;
+        
+        #endregion
+        
+        #region get local storage
+        
         var cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache");
         
         if (!cache.IsNullOrEmpty())
-        {
             foreach (var item in cache!)
-                item.Points = item.Points?.Where(predicate: point => point.DepartureDateTime > DateTime.Now).ToList();
-        }
+                item.Points = item.Points?
+                    .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                    .ToList();
         
         if (cache?.Any(predicate: stop => stop.Points.IsNullOrEmpty()) == true)
             cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
@@ -220,6 +275,10 @@ public partial class Home
         if (name.Length < TelerikAutoCompleteDefaults.MinQueryLength)
             return;
         
+        #endregion
+        
+        #region build query data
+        
         var query = QueryBuilder.GetNameFromSearch(name: name);
         var response = await HttpService.GetAsync(requestUri: query);
         
@@ -228,6 +287,10 @@ public partial class Home
             query = QueryBuilder.GetNameFromDatabase(name: name);
             response = await HttpService.GetAsync(requestUri: query);
         }
+        
+        #endregion
+        
+        #region build results data
         
         List<WebStop>? data = [];
         
@@ -253,6 +316,10 @@ public partial class Home
             .ThenByDescending(keySelector: stop => stop.Direction.ContainsIgnoreCase(value: name))
             .ThenBy(keySelector: stop => stop.Name);
         
+        #endregion
+        
+        #region save local storage
+        
         await StorageService.SetItemAsync(
             key: "location",
             data: Extent);
@@ -260,21 +327,29 @@ public partial class Home
         await StorageService.SetItemAsync(
             key: "cache",
             data: SearchData.OrderBy(keySelector: stop => stop.Id));
+        
+        #endregion
     }
     
     private async Task OnZoomEnd(MapZoomEndEventArgs args)
     {
+        #region get map location
+        
         Center = args.Center;
         Extent = args.Extent;
         Zoom = args.Zoom;
         
+        #endregion
+        
+        #region get local storage
+        
         var cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache");
         
         if (!cache.IsNullOrEmpty())
-        {
             foreach (var item in cache!)
-                item.Points = item.Points?.Where(predicate: point => point.DepartureDateTime > DateTime.Now).ToList();
-        }
+                item.Points = item.Points?
+                    .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                    .ToList();
         
         if (cache?.Any(predicate: stop => stop.Points.IsNullOrEmpty()) == true)
             cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
@@ -284,6 +359,10 @@ public partial class Home
         if (!cache.IsNullOrEmpty())
             MarkerData.AddRange(collection: cache!);
         
+        #endregion
+        
+        #region build query data
+        
         var query = QueryBuilder.GetLocationFromSearch(extent: Extent);
         var response = await HttpService.GetAsync(requestUri: query);
         
@@ -292,6 +371,10 @@ public partial class Home
             query = QueryBuilder.GetLocationFromDatabase(extent: Extent);
             response = await HttpService.GetAsync(requestUri: query);
         }
+        
+        #endregion
+        
+        #region build results data
         
         List<WebStop>? data = [];
         
@@ -314,6 +397,10 @@ public partial class Home
         
         StateHasChanged();
         
+        #endregion
+        
+        #region save local storage
+        
         await StorageService.SetItemAsync(
             key: "location",
             data: Extent);
@@ -321,5 +408,7 @@ public partial class Home
         await StorageService.SetItemAsync(
             key: "cache",
             data: MarkerData.OrderBy(keySelector: stop => stop.Id));
+        
+        #endregion
     }
 }

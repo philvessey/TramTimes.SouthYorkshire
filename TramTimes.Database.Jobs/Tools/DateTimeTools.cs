@@ -2,63 +2,103 @@ namespace TramTimes.Database.Jobs.Tools;
 
 public static class DateTimeTools
 {
-    public static async Task<DateTime> GetPeriodStartDateAsync(
+    public static DateTime GetPeriodStartDate(
         DateTime scheduleDate,
         DateTime? startDate) {
+        
+        #region check valid input
         
         if (!startDate.HasValue || startDate == DateTime.MinValue || startDate <= scheduleDate)
-            return await Task.FromResult(result: scheduleDate);
+            return scheduleDate;
         
-        var daysDifference = startDate.Value.Subtract(value: scheduleDate).TotalDays;
+        #endregion
         
-        return await Task.FromResult(result: daysDifference < 27 ? startDate.Value : DateTime.MaxValue);
+        #region build result
+        
+        var result = startDate.Value.Subtract(value: scheduleDate).TotalDays < 27
+            ? startDate.Value
+            : DateTime.MaxValue;
+        
+        #endregion
+        
+        return result;
     }
     
-    public static async Task<DateTime> GetPeriodEndDateAsync(
+    public static DateTime GetPeriodEndDate(
         DateTime scheduleDate,
         DateTime? endDate) {
         
+        #region check valid input
+        
         if (!endDate.HasValue || endDate == DateTime.MinValue)
-            return await Task.FromResult(result: scheduleDate.AddDays(value: 27));
+            return scheduleDate.AddDays(value: 27);
         
         if (endDate < scheduleDate)
-            return await Task.FromResult(result: DateTime.MinValue);
+            return DateTime.MinValue;
         
         if (endDate == scheduleDate)
-            return await Task.FromResult(result: scheduleDate);
+            return scheduleDate;
         
-        var daysDifference = endDate.Value.Subtract(value: scheduleDate).TotalDays;
+        #endregion
         
-        return await Task.FromResult(result: daysDifference > 27 ? scheduleDate.AddDays(value: 27) : endDate.Value);
+        #region build result
+        
+        var result = endDate.Value.Subtract(value: scheduleDate).TotalDays > 27
+            ? scheduleDate.AddDays(value: 27)
+            : endDate.Value;
+        
+        #endregion
+        
+        return result;
     }
     
-    public static async Task<DateTime> GetProfileStartDateAsync(
+    public static DateTime GetProfileStartDate(
         DateTime scheduleDate,
         DateTime? startDate) {
         
+        #region check valid input
+        
         if (!startDate.HasValue || startDate == DateTime.MinValue || startDate < scheduleDate)
-            return await Task.FromResult(result: DateTime.MaxValue);
+            return DateTime.MaxValue;
         
         if (startDate == scheduleDate)
-            return await Task.FromResult(result: startDate.Value);
+            return startDate.Value;
         
-        var daysDifference = startDate.Value.Subtract(value: scheduleDate).TotalDays;
+        #endregion
         
-        return await Task.FromResult(result: daysDifference < 27 ? startDate.Value : DateTime.MaxValue);
+        #region build result
+        
+        var result = startDate.Value.Subtract(value: scheduleDate).TotalDays < 27
+            ? startDate.Value
+            : DateTime.MaxValue;
+        
+        #endregion
+        
+        return result;
     }
     
-    public static async Task<DateTime> GetProfileEndDateAsync(
+    public static DateTime GetProfileEndDate(
         DateTime scheduleDate,
         DateTime? endDate) {
         
+        #region check valid input
+        
         if (!endDate.HasValue || endDate == DateTime.MinValue || endDate < scheduleDate)
-            return await Task.FromResult(result: DateTime.MinValue);
+            return DateTime.MinValue;
         
         if (endDate == scheduleDate)
-            return await Task.FromResult(result: endDate.Value);
+            return endDate.Value;
         
-        var daysDifference = endDate.Value.Subtract(value: scheduleDate).TotalDays;
+        #endregion
         
-        return await Task.FromResult(result: daysDifference < 27 ? endDate.Value : DateTime.MinValue);
+        #region build result
+        
+        var result = endDate.Value.Subtract(value: scheduleDate).TotalDays < 27
+            ? endDate.Value
+            : DateTime.MinValue;
+        
+        #endregion
+        
+        return result;
     }
 }

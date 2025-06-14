@@ -2,6 +2,7 @@ using System.IO.Compression;
 using System.Xml.Serialization;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using FluentFTP;
 using Flurl.Http;
 using Npgsql;
 using Quartz;
@@ -13,7 +14,7 @@ using TramTimes.Database.Jobs.Tools;
 namespace TramTimes.Database.Jobs.Workers;
 
 public class Build(
-    BlobServiceClient blobService,
+    BlobContainerClient blobService,
     NpgsqlDataSource dataSource,
     ILogger<Build> logger) : IJob {
     
@@ -22,58 +23,51 @@ public class Build(
     
     public async Task Execute(IJobExecutionContext context)
     {
+        var guid = Guid.NewGuid();
+        
         var storage = Directory.CreateDirectory(path: Path.Combine(
             path1: Path.GetTempPath(),
-            path2: Guid.NewGuid().ToString()));
+            path2: guid.ToString()));
         
         try
         {
-            #region Delete Expired Blobs
+            #region delete expired blobs
             
-            var expiredBlobs = blobService.GetBlobContainerClient(blobContainerName: "database")
+            var expiredBlobs = blobService
                 .GetBlobsAsync();
             
             await foreach (var item in expiredBlobs)
-            {
                 if (item.Properties.LastModified < context.FireTimeUtc.Date.AddDays(value: -28))
-                    await blobService.GetBlobContainerClient(blobContainerName: "database")
+                    await blobService
                         .GetBlobClient(blobName: item.Name)
                         .DeleteAsync();
-            }
             
             #endregion
             
-            #region Get Naptan Localities
+            #region get naptan localities
             
             var remotePath = Path.Combine(
                 path1: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
                 path2: "raw",
                 path3: "localities.csv");
             
-            var localPath = Path.Combine(
-                path1: storage.FullName,
-                path2: "localities.csv");
-            
-            var blobExists = await blobService.GetBlobContainerClient(blobContainerName: "database")
+            var remoteExists = await blobService
                 .GetBlobClient(blobName: remotePath)
                 .ExistsAsync();
             
-            if (blobExists)
-            {
-                await blobService.GetBlobContainerClient(blobContainerName: "database")
-                    .GetBlobClient(blobName: remotePath)
-                    .DownloadToAsync(path: localPath);
-            }
-            else
-            {
-                await Localities.DownloadFileAsync(
-                    localFolderPath: storage.FullName,
-                    localFileName: "localities.csv");
-            }
+            if (remoteExists)
+                return;
             
-            var localities = await NaptanLocalityTools.GetFromFileAsync(path: localPath);
+            var localPath = await Localities.DownloadFileAsync(
+                localFolderPath: storage.FullName,
+                localFileName: "localities.csv");
             
-            await blobService.GetBlobContainerClient(blobContainerName: "database")
+            if (localPath is null)
+                return;
+            
+            var localities = NaptanLocalityTools.GetFromFile(path: localPath);
+            
+            await blobService
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -87,37 +81,30 @@ public class Build(
             
             #endregion
             
-            #region Get Naptan Stops
+            #region get naptan stops
             
             remotePath = Path.Combine(
                 path1: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
                 path2: "raw",
                 path3: "stops.csv");
             
-            localPath = Path.Combine(
-                path1: storage.FullName,
-                path2: "stops.csv");
-            
-            blobExists = await blobService.GetBlobContainerClient(blobContainerName: "database")
+            remoteExists = await blobService
                 .GetBlobClient(blobName: remotePath)
                 .ExistsAsync();
             
-            if (blobExists)
-            {
-                await blobService.GetBlobContainerClient(blobContainerName: "database")
-                    .GetBlobClient(blobName: remotePath)
-                    .DownloadToAsync(path: localPath);
-            }
-            else
-            {
-                await Stops.DownloadFileAsync(
-                    localFolderPath: storage.FullName,
-                    localFileName: "stops.csv");
-            }
+            if (remoteExists)
+                return;
             
-            var stops = await NaptanStopTools.GetFromFileAsync(path: localPath);
+            localPath = await Stops.DownloadFileAsync(
+                localFolderPath: storage.FullName,
+                localFileName: "stops.csv");
             
-            await blobService.GetBlobContainerClient(blobContainerName: "database")
+            if (localPath is null)
+                return;
+            
+            var stops = NaptanStopTools.GetFromFile(path: localPath);
+            
+            await blobService
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -131,38 +118,35 @@ public class Build(
             
             #endregion
             
-            #region Get Traveline Data
+            #region get traveline data
             
             remotePath = Path.Combine(
                 path1: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
                 path2: "raw",
                 path3: "traveline.zip");
             
-            localPath = Path.Combine(
-                path1: storage.FullName,
-                path2: "traveline.zip");
-            
-            blobExists = await blobService.GetBlobContainerClient(blobContainerName: "database")
+            remoteExists = await blobService
                 .GetBlobClient(blobName: remotePath)
                 .ExistsAsync();
             
-            if (blobExists)
-            {
-                await blobService.GetBlobContainerClient(blobContainerName: "database")
-                    .GetBlobClient(blobName: remotePath)
-                    .DownloadToAsync(path: localPath);
-            }
-            else
-            {
-                await FtpClientTools.GetFromRemoteAsync(
-                    localPath: localPath,
-                    remoteFileName: "Y.zip");
-            }
+            if (remoteExists)
+                return;
             
-            await blobService.GetBlobContainerClient(blobContainerName: "database")
+            var status = await FtpClientTools.GetFromRemoteAsync(
+                localPath: Path.Combine(
+                    path1: storage.FullName,
+                    path2: "traveline.zip"),
+                remoteFileName: "Y.zip");
+            
+            if (status is not FtpStatus.Success)
+                return;
+            
+            await blobService
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
-                    path: localPath,
+                    path: Path.Combine(
+                        path1: storage.FullName,
+                        path2: "traveline.zip"),
                     options: new BlobUploadOptions
                     {
                         HttpHeaders = new BlobHttpHeaders
@@ -173,13 +157,16 @@ public class Build(
             
             #endregion
             
-            #region Process Traveline Data
+            #region process traveline data
             
             ZipFile.ExtractToDirectory(
-                sourceArchiveFileName: localPath,
+                sourceArchiveFileName: Path.Combine(
+                    path1: storage.FullName,
+                    path2: "traveline.zip"),
                 destinationDirectoryName: storage.FullName);
             
-            var rawFiles = Directory.GetFiles(path: storage.FullName)
+            var rawFiles = Directory
+                .GetFiles(path: storage.FullName)
                 .Where(predicate: file => file.EndsWith(value: ".xml"))
                 .ToArray();
             
@@ -192,18 +179,21 @@ public class Build(
                 var contents = await reader.ReadToEndAsync();
                 
                 if (contents.Contains(value: "ZZSY"))
-                {
                     validFiles.Add(item: item);
-                }
-                else
-                {
+            }
+            
+            foreach (var item in rawFiles)
+            {
+                var reader = new StreamReader(path: item);
+                var contents = await reader.ReadToEndAsync();
+                
+                if (!contents.Contains(value: "ZZSY"))
                     invalidFiles.Add(item: item);
-                }
             }
             
             #endregion
             
-            #region Process Schedule Data
+            #region process schedule data
             
             Dictionary<string, TravelineSchedule> results = [];
             
@@ -215,11 +205,11 @@ public class Build(
                 if (xml.VehicleJourneys?.VehicleJourney is null)
                     continue;
                 
-                var startDate = await DateTimeTools.GetPeriodStartDateAsync(
+                var startDate = DateTimeTools.GetPeriodStartDate(
                     scheduleDate: context.FireTimeUtc.Date,
                     startDate: xml.Services?.Service?.OperatingPeriod?.StartDate.ToDate());
                 
-                var endDate = await DateTimeTools.GetPeriodEndDateAsync(
+                var endDate = DateTimeTools.GetPeriodEndDate(
                     scheduleDate: context.FireTimeUtc.Date,
                     endDate: xml.Services?.Service?.OperatingPeriod?.EndDate.ToDate());
                 
@@ -228,24 +218,24 @@ public class Build(
                 
                 foreach (var item in xml.VehicleJourneys.VehicleJourney)
                 {
-                    var calendar = await TravelineCalendarBuilder.BuildAsync(
+                    var calendar = TravelineCalendarBuilder.Build(
                         scheduleDate: context.FireTimeUtc.Date,
                         services: xml.Services,
                         vehicleJourney: item,
                         startDate: startDate,
                         endDate: endDate);
                     
-                    var journeyPattern = await TransXChangeJourneyPatternTools.GetJourneyPatternAsync(
+                    var journeyPattern = TransXChangeJourneyPatternTools.GetJourneyPattern(
                         services: xml.Services,
                         reference: item.JourneyPatternRef);
                     
-                    var schedule = await TravelineScheduleBuilder.BuildAsync(
+                    var schedule = TravelineScheduleBuilder.Build(
                         operators: xml.Operators,
                         services: xml.Services,
                         journeyPattern: journeyPattern,
                         calendar: calendar);
                     
-                    var timingLinks = await TransXChangeJourneyPatternTools.GetTimingLinksAsync(
+                    var timingLinks = TransXChangeJourneyPatternTools.GetTimingLinks(
                         patternSections: xml.JourneyPatternSections,
                         references: journeyPattern.JourneyPatternSectionRefs);
                     
@@ -253,41 +243,45 @@ public class Build(
                     
                     for (var i = 0; i < timingLinks.Count; i++)
                     {
-                        var arrivalTime = departureTime?.Add(ts: await TravelineStopPointTools.GetRunTimeAsync(
+                        var arrivalTime = departureTime?.Add(ts: TravelineStopPointTools.GetRunTime(
                             timingLinks: timingLinks,
                             index: i));
                         
-                        departureTime = arrivalTime?.Add(ts: await TravelineStopPointTools.GetWaitTimeAsync(
+                        departureTime = arrivalTime?.Add(ts: TravelineStopPointTools.GetWaitTime(
                             timingLinks: timingLinks,
                             index: i));
                         
                         if (schedule.StopPoints?.Count > 0)
                             schedule.StopPoints.RemoveAt(index: schedule.StopPoints.Count - 1);
                         
-                        var stopPoint = await TravelineStopPointBuilder.BuildAsync(
+                        var stopPoint = TravelineStopPointBuilder.Build(
                             localities: localities,
                             stops: stops,
                             stopPoints: xml.StopPoints,
                             reference: timingLinks.ElementAt(index: i).From?.StopPointRef,
-                            activity: i > 0 ? "pickUpAndSetDown" : "pickUp",
+                            activity: i > 0
+                                ? "pickUpAndSetDown"
+                                : "pickUp",
                             arrivalTime: arrivalTime,
                             departureTime: departureTime);
                         
                         schedule.StopPoints?.Add(item: stopPoint);
                         
-                        stopPoint = await TravelineStopPointBuilder.BuildAsync(
+                        stopPoint = TravelineStopPointBuilder.Build(
                             localities: localities,
                             stops: stops,
                             stopPoints: xml.StopPoints,
                             reference: timingLinks.ElementAt(index: i).To?.StopPointRef,
-                            activity: i < timingLinks.Count - 1 ? "pickUpAndSetDown" : "setDown",
+                            activity: i < timingLinks.Count - 1
+                                ? "pickUpAndSetDown"
+                                : "setDown",
                             arrivalTime: arrivalTime,
                             departureTime: departureTime);
                         
                         schedule.StopPoints?.Add(item: stopPoint);
                     }
                     
-                    var duplicate = await TravelineScheduleTools.GetDuplicateMatchAsync(
+                    var duplicate = TravelineScheduleTools.GetDuplicateMatch(
                         schedules: results,
                         stopPoints: schedule.StopPoints,
                         runningDates: schedule.Calendar?.RunningDates,
@@ -307,7 +301,7 @@ public class Build(
             
             #endregion
             
-            #region Build Database Data
+            #region build database data
             
             const string sql = "create index gtfs_stop_times_idx on gtfs_stop_times (" +
                                "trip_id, " +
@@ -321,7 +315,7 @@ public class Build(
                                "shape_dist_travelled, " +
                                "timepoint)";
             
-            var connection = await dataSource.OpenConnectionAsync();
+            await using var connection = await dataSource.OpenConnectionAsync();
             
             var command = new NpgsqlCommand(
                 cmdText: "drop index if exists gtfs_stop_times_idx",
@@ -362,10 +356,11 @@ public class Build(
                 connection: connection);
             
             await command.ExecuteNonQueryAsync();
+            await connection.CloseAsync();
             
             #endregion
             
-            #region Build Storage Data
+            #region build storage data
             
             remotePath = Path.Combine(
                 path1: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
@@ -376,7 +371,7 @@ public class Build(
                 schedules: results,
                 path: storage.FullName);
             
-            await blobService.GetBlobContainerClient(blobContainerName: "database")
+            await blobService
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -397,7 +392,7 @@ public class Build(
                 schedules: results,
                 path: storage.FullName);
             
-            await blobService.GetBlobContainerClient(blobContainerName: "database")
+            await blobService
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -418,7 +413,7 @@ public class Build(
                 schedules: results,
                 path: storage.FullName);
             
-            await blobService.GetBlobContainerClient(blobContainerName: "database")
+            await blobService
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -439,7 +434,7 @@ public class Build(
                 schedules: results,
                 path: storage.FullName);
             
-            await blobService.GetBlobContainerClient(blobContainerName: "database")
+            await blobService
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -460,7 +455,7 @@ public class Build(
                 schedules: results,
                 path: storage.FullName);
             
-            await blobService.GetBlobContainerClient(blobContainerName: "database")
+            await blobService
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -481,7 +476,7 @@ public class Build(
                 schedules: results,
                 path: storage.FullName);
             
-            await blobService.GetBlobContainerClient(blobContainerName: "database")
+            await blobService
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -502,7 +497,7 @@ public class Build(
                 schedules: results,
                 path: storage.FullName);
             
-            await blobService.GetBlobContainerClient(blobContainerName: "database")
+            await blobService
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -516,7 +511,7 @@ public class Build(
             
             #endregion
             
-            #region Output Log Messages
+            #region output log messages
             
             logger.LogInformation(
                 message: "READ: {count} naptan localities",
@@ -548,18 +543,16 @@ public class Build(
             
             #endregion
             
-            #region Schedule Test Job
-            
-            var jobDetail = JobBuilder.Create<Test>()
-                .Build();
-            
-            var trigger = TriggerBuilder.Create()
-                .StartNow()
-                .Build();
+            #region schedule test job
             
             await context.Scheduler.ScheduleJob(
-                jobDetail: jobDetail,
-                trigger: trigger);
+                jobDetail: JobBuilder
+                    .Create<Test>()
+                    .Build(),
+                trigger: TriggerBuilder
+                    .Create()
+                    .StartNow()
+                    .Build());
             
             #endregion
         }

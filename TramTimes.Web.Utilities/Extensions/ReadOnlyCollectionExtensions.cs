@@ -4,6 +4,12 @@ public static class ReadOnlyCollectionExtensions
 {
     public static bool IsNullOrEmpty<T>(this IReadOnlyCollection<T>? baseCollection)
     {
-        return baseCollection is null || baseCollection.Count == 0;
+        #region build result
+        
+        var result = baseCollection is null || baseCollection.Count is 0;
+        
+        #endregion
+        
+        return result;
     }
 }

@@ -1,19 +1,27 @@
-using Azure.Storage.Blobs;
 using TramTimes.Database.Jobs.Services;
 
 var builder = Host.CreateApplicationBuilder(args: args);
-builder.AddMapperDefaults();
-builder.AddScheduleDefaults();
-builder.AddServiceDefaults();
 
-builder.AddAzureBlobClient(connectionName: "blobs");
+#region inject defaults
+
+builder
+    .AddMapperDefaults()
+    .AddScheduleDefaults()
+    .AddServiceDefaults();
+
+#endregion
+
+#region inject services
+
+builder.AddAzureBlobContainerClient(connectionName: "database-storage");
 builder.AddNpgsqlDataSource(connectionName: "database");
 
-var application = builder.Build();
-var scope = application.Services.CreateScope();
+#endregion
 
-await scope.ServiceProvider.GetRequiredService<BlobServiceClient>()
-    .GetBlobContainerClient(blobContainerName: "database")
-    .CreateIfNotExistsAsync();
+#region create scope
+
+var application = builder.Build();
+
+#endregion
 
 application.Run();

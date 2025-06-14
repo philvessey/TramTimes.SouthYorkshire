@@ -1,36 +1,38 @@
-using Azure.Storage.Blobs;
 using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.Mapping;
 using TramTimes.Search.Jobs.Models;
 using TramTimes.Search.Jobs.Services;
 
 var builder = Host.CreateApplicationBuilder(args: args);
-builder.AddMapperDefaults();
-builder.AddScheduleDefaults();
-builder.AddServiceDefaults();
 
-builder.AddAzureBlobClient(connectionName: "blobs");
+#region inject defaults
+
+builder
+    .AddMapperDefaults()
+    .AddScheduleDefaults()
+    .AddServiceDefaults();
+
+#endregion
+
+#region inject services
+
+builder.AddAzureBlobContainerClient(connectionName: "search-storage");
 builder.AddNpgsqlDataSource(connectionName: "database");
 builder.AddElasticsearchClient(connectionName: "search");
+
+#endregion
+
+#region create scope
 
 var application = builder.Build();
 var scope = application.Services.CreateScope();
 
-var blobService = scope.ServiceProvider.GetRequiredService<BlobServiceClient>();
-var searchService = scope.ServiceProvider.GetRequiredService<ElasticsearchClient>();
+#endregion
 
-await blobService
-    .GetBlobContainerClient(blobContainerName: "search")
-    .CreateIfNotExistsAsync();
+#region create index
 
-var feed = await searchService.Indices
-    .ExistsAsync(indices:"search");
-
-if (feed.Exists)
-    await searchService.Indices
-        .DeleteAsync(indices: "search");
-
-await searchService.Indices
+await scope.ServiceProvider
+    .GetRequiredService<ElasticsearchClient>().Indices
     .CreateAsync<SearchStop>(
         index: "search",
         configureRequest: request => request
@@ -46,5 +48,7 @@ await searchService.Indices
                     { "platform", new TextProperty() },
                     { "points", new ObjectProperty() }
                 })));
+
+#endregion
 
 application.Run();

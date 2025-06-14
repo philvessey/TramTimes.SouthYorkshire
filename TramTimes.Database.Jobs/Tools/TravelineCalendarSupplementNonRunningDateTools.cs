@@ -5,7 +5,7 @@ namespace TramTimes.Database.Jobs.Tools;
 
 public static class TravelineCalendarSupplementNonRunningDateTools
 {
-    public static async Task<List<DateTime>> GetAllDatesAsync(
+    public static List<DateTime> GetAllDates(
         DateTime scheduleDate,
         TransXChangeOperatingProfile? operatingProfile,
         DateTime? startDate,
@@ -19,30 +19,26 @@ public static class TravelineCalendarSupplementNonRunningDateTools
         bool? sunday,
         List<DateTime>? dates) {
         
-        if (!startDate.HasValue ||
-            !endDate.HasValue ||
-            !monday.HasValue ||
-            !tuesday.HasValue ||
-            !wednesday.HasValue ||
-            !thursday.HasValue ||
-            !friday.HasValue ||
-            !saturday.HasValue ||
-            !sunday.HasValue) {
-            
-            return await Task.FromResult(result: new List<DateTime>());
-        }
+        #region check valid input
+        
+        if (!startDate.HasValue || !endDate.HasValue)
+            return [];
+        
+        #endregion
+        
+        #region build results
         
         var daysOfNonOperation = operatingProfile?.SpecialDaysOperation?.DaysOfNonOperation;
         
-        startDate = await DateTimeTools.GetProfileStartDateAsync(
+        startDate = DateTimeTools.GetProfileStartDate(
             scheduleDate: scheduleDate,
             startDate: daysOfNonOperation?.DateRange?.StartDate.ToDate());
         
-        endDate = await DateTimeTools.GetProfileEndDateAsync(
+        endDate = DateTimeTools.GetProfileEndDate(
             scheduleDate: scheduleDate,
             endDate: daysOfNonOperation?.DateRange?.EndDate.ToDate());
         
-        var results = await TransXChangeDaysOfNonOperationTools.GetAllHolidaysAsync(
+        var results = TransXChangeDaysOfNonOperationTools.GetAllHolidays(
             daysOfNonOperation: daysOfNonOperation,
             startDate: startDate,
             endDate: endDate);
@@ -53,49 +49,49 @@ public static class TravelineCalendarSupplementNonRunningDateTools
             {
                 case DayOfWeek.Monday:
                 {
-                    if (dates?.Contains(value: startDate.Value) == true && monday.Value)
+                    if (monday.HasValue && monday.Value && dates?.Contains(value: startDate.Value) == true)
                         results.Add(item: startDate.Value);
                     
                     break;
                 }
                 case DayOfWeek.Tuesday:
                 {
-                    if (dates?.Contains(value: startDate.Value) == true && tuesday.Value)
+                    if (tuesday.HasValue && tuesday.Value && dates?.Contains(value: startDate.Value) == true)
                         results.Add(item: startDate.Value);
                     
                     break;
                 }
                 case DayOfWeek.Wednesday:
                 {
-                    if (dates?.Contains(value: startDate.Value) == true && wednesday.Value)
+                    if (wednesday.HasValue && wednesday.Value && dates?.Contains(value: startDate.Value) == true)
                         results.Add(item: startDate.Value);
                     
                     break;
                 }
                 case DayOfWeek.Thursday:
                 {
-                    if (dates?.Contains(value: startDate.Value) == true && thursday.Value)
+                    if (thursday.HasValue && thursday.Value && dates?.Contains(value: startDate.Value) == true)
                         results.Add(item: startDate.Value);
                     
                     break;
                 }
                 case DayOfWeek.Friday:
                 {
-                    if (dates?.Contains(value: startDate.Value) == true && friday.Value)
+                    if (friday.HasValue && friday.Value && dates?.Contains(value: startDate.Value) == true)
                         results.Add(item: startDate.Value);
                     
                     break;
                 }
                 case DayOfWeek.Saturday:
                 {
-                    if (dates?.Contains(value: startDate.Value) == true && saturday.Value)
+                    if (saturday.HasValue && saturday.Value && dates?.Contains(value: startDate.Value) == true)
                         results.Add(item: startDate.Value);
                     
                     break;
                 }
                 case DayOfWeek.Sunday:
                 {
-                    if (dates?.Contains(value: startDate.Value) == true && sunday.Value)
+                    if (sunday.HasValue && sunday.Value && dates?.Contains(value: startDate.Value) == true)
                         results.Add(item: startDate.Value);
                     
                     break;
@@ -112,33 +108,37 @@ public static class TravelineCalendarSupplementNonRunningDateTools
             startDate = startDate.Value.AddDays(value: 1);
         }
         
-        return await Task.FromResult(result: results
+        #endregion
+        
+        return results
             .Distinct()
             .OrderBy(keySelector: date => date)
-            .ToList());
+            .ToList();
     }
     
-    public static async Task<bool> GetDuplicateDatesAsync(
+    public static bool GetDuplicateDates(
         Dictionary<string, TravelineSchedule> schedules,
         List<TravelineStopPoint>? stopPoints,
         List<DateTime>? dates,
         string? direction,
         string? line) {
         
-        var results = schedules.Values
-            .Where(predicate: schedule =>
-                schedule.Calendar is { SupplementNonRunningDates: not null } && dates is not null && direction is not null && line is not null &&
-                schedule.Calendar.SupplementNonRunningDates.Intersect(second: dates).Any() &&
-                schedule.Direction == direction &&
-                schedule.Line == line);
+        #region build results
         
-        return await Task.FromResult(result: results
+        var results = schedules.Values.Where(predicate: schedule =>
+            schedule.Calendar is { SupplementNonRunningDates: not null } && dates is not null && direction is not null && line is not null &&
+            schedule.Calendar.SupplementNonRunningDates.Intersect(second: dates).Any() &&
+            schedule.Direction == direction &&
+            schedule.Line == line);
+        
+        #endregion
+        
+        return results
             .Where(predicate: schedule =>
                 schedule.StopPoints?.FirstOrDefault()?.AtcoCode == stopPoints?.FirstOrDefault()?.AtcoCode &&
                 schedule.StopPoints?.FirstOrDefault()?.DepartureTime == stopPoints?.FirstOrDefault()?.DepartureTime)
             .Any(predicate: schedule =>
                 schedule.StopPoints?.LastOrDefault()?.AtcoCode == stopPoints?.LastOrDefault()?.AtcoCode &&
-                schedule.StopPoints?.LastOrDefault()?.ArrivalTime == stopPoints?.LastOrDefault()?.ArrivalTime)
-        );
+                schedule.StopPoints?.LastOrDefault()?.ArrivalTime == stopPoints?.LastOrDefault()?.ArrivalTime);
     }
 }

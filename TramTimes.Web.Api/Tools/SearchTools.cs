@@ -6,7 +6,9 @@ public static class SearchTools
 {
     public static List<SortOptions> SortDistance(LatLonGeoLocation location)
     {
-        var options = new List<SortOptions>
+        #region build results
+        
+        var results = new List<SortOptions>
         {
             SortOptions.GeoDistance(geoDistanceSort: new GeoDistanceSort
             {
@@ -20,6 +22,8 @@ public static class SearchTools
             })
         };
         
-        return options;
+        #endregion
+        
+        return results;
     }
 }

@@ -9,10 +9,21 @@ namespace TramTimes.Database.Jobs.Builders;
 
 public static class TravelineStopBuilder
 {
-    public static async Task<TravelineStop> BuildAsync(
+    public static TravelineStop Build(
         Dictionary<string, NaptanLocality> localities,
         TransXChangeStopPoints? stopPoints,
         string? reference) {
+        
+        #region build unknown
+        
+        var unknown = new TravelineStop
+        {
+            AtcoCode = reference ?? "unknown"
+        };
+        
+        #endregion
+        
+        #region build result
         
         var stopPoint = stopPoints?.StopPoint?.FirstOrDefault(predicate: point => point.AtcoCode == reference);
         
@@ -21,14 +32,9 @@ public static class TravelineStopBuilder
             value: out var locality);
         
         if (locality is null)
-        {
-            return await Task.FromResult(result: new TravelineStop
-            {
-                AtcoCode = reference ?? "unknown"
-            });
-        }
+            return unknown;
         
-        var value = new TravelineStop
+        var result = new TravelineStop
         {
             AtcoCode = reference ?? "unknown",
             CommonName = stopPoint?.Descriptor?.CommonName,
@@ -47,25 +53,23 @@ public static class TravelineStopBuilder
             AdministrativeAreaCode = stopPoint?.AdministrativeAreaRef
         };
         
-        if (value.Easting is null || value.Northing is null)
-            return await Task.FromResult(result: value);
-        
-        var eastingNorthing = new EastingNorthing(
-            easting: double.Parse(s: value.Easting),
-            northing: double.Parse(s: value.Northing));
-        
-        var cartesian = GeoUK.Convert.ToCartesian(
-            ellipsoid: new Airy1830(),
-            projection: new BritishNationalGrid(),
-            coordinates: eastingNorthing);
+        if (result.Easting is null || result.Northing is null)
+            return result;
         
         var latitudeLongitude = GeoUK.Convert.ToLatitudeLongitude(
             ellipsoid: new Wgs84(),
-            coordinates: Transform.Osgb36ToEtrs89(coordinates: cartesian));
+            coordinates: Transform.Osgb36ToEtrs89(coordinates: GeoUK.Convert.ToCartesian(
+                ellipsoid: new Airy1830(),
+                projection: new BritishNationalGrid(),
+                coordinates: new EastingNorthing(
+                    easting: double.Parse(s: result.Easting),
+                    northing: double.Parse(s: result.Northing)))));
         
-        value.Latitude = latitudeLongitude.Latitude.ToString(provider: CultureInfo.InvariantCulture);
-        value.Longitude = latitudeLongitude.Longitude.ToString(provider: CultureInfo.InvariantCulture);
+        result.Latitude = latitudeLongitude.Latitude.ToString(provider: CultureInfo.InvariantCulture);
+        result.Longitude = latitudeLongitude.Longitude.ToString(provider: CultureInfo.InvariantCulture);
         
-        return await Task.FromResult(result: value);
+        #endregion
+        
+        return result;
     }
 }

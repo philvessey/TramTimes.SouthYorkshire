@@ -19,75 +19,106 @@ public static class Extensions
     
     public static TBuilder AddServiceDefaults<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
-        builder.ConfigureOpenTelemetry();
-        builder.AddDefaultHealthChecks();
+        #region inject defaults
         
-        builder.Services.AddServiceDiscovery();
-        builder.Services.ConfigureHttpClientDefaults(configure: http =>
-        {
-            http.AddStandardResilienceHandler();
-            http.AddServiceDiscovery();
-        });
+        builder
+            .ConfigureOpenTelemetry()
+            .AddDefaultHealthChecks();
+        
+        #endregion
+        
+        #region inject services
+        
+        builder.Services
+            .AddServiceDiscovery()
+            .ConfigureHttpClientDefaults(configure: http =>
+            {
+                http.AddStandardResilienceHandler();
+                http.AddServiceDiscovery();
+            });
+        
+        #endregion
         
         return builder;
     }
     
     public static TBuilder ConfigureOpenTelemetry<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
+        #region inject defaults
+        
+        builder.AddOpenTelemetryExporters();
+        
+        #endregion
+        
+        #region inject logging
+        
         builder.Logging.AddOpenTelemetry(configure: logging =>
         {
             logging.IncludeFormattedMessage = true;
             logging.IncludeScopes = true;
         });
         
-        builder.Services.AddOpenTelemetry()
+        #endregion
+        
+        #region inject services
+        
+        builder.Services
+            .AddOpenTelemetry()
             .WithMetrics(configure: metrics =>
             {
-                metrics.AddAspNetCoreInstrumentation()
-                    .AddHttpClientInstrumentation()
-                    .AddRuntimeInstrumentation();
+                metrics.AddAspNetCoreInstrumentation();
+                metrics.AddHttpClientInstrumentation();
+                metrics.AddRuntimeInstrumentation();
             })
             .WithTracing(configure: tracing =>
             {
-                tracing.AddSource(builder.Environment.ApplicationName)
-                    .AddAspNetCoreInstrumentation(options =>
-                        options.Filter = context =>
-                            !context.Request.Path.StartsWithSegments(other: HealthEndpointPath) &&
-                            !context.Request.Path.StartsWithSegments(other: AlivenessEndpointPath))
-                    .AddHttpClientInstrumentation();
+                tracing.AddSource(names: builder.Environment.ApplicationName);
+                tracing.AddAspNetCoreInstrumentation(configureAspNetCoreTraceInstrumentationOptions: options =>
+                    options.Filter = context =>
+                        !context.Request.Path.StartsWithSegments(other: HealthEndpointPath) &&
+                        !context.Request.Path.StartsWithSegments(other: AlivenessEndpointPath));
+                tracing.AddHttpClientInstrumentation();
             });
         
-        builder.AddOpenTelemetryExporters();
+        #endregion
         
         return builder;
     }
     
     private static TBuilder AddOpenTelemetryExporters<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
-        var useOtlpExporter = !string.IsNullOrWhiteSpace(value: builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]);
+        #region inject services
         
-        if (useOtlpExporter)
-        {
-            builder.Services.AddOpenTelemetry()
+        if (!string.IsNullOrWhiteSpace(value: builder.Configuration["OTEL_EXPORTER_OTLP_ENDPOINT"]))
+            builder.Services
+                .AddOpenTelemetry()
                 .UseOtlpExporter();
-        }
+        
+        #endregion
         
         return builder;
     }
     
     public static TBuilder AddDefaultHealthChecks<TBuilder>(this TBuilder builder) where TBuilder : IHostApplicationBuilder
     {
-        builder.Services.AddHealthChecks()
+        #region inject services
+        
+        builder.Services
+            .AddHealthChecks()
             .AddCheck(
                 name: "self",
                 tags: ["live"],
                 check: () => HealthCheckResult.Healthy());
+        
+        #endregion
         
         return builder;
     }
     
     public static WebApplication MapDefaultEndpoints(this WebApplication application)
     {
+        #region map endpoints
+        
         if (application.Environment.IsDevelopment())
         {
             application.MapHealthChecks(pattern: HealthEndpointPath);
@@ -98,6 +129,8 @@ public static class Extensions
                     Predicate = registration => registration.Tags.Contains(item: "live")
                 });
         }
+        
+        #endregion
         
         return application;
     }

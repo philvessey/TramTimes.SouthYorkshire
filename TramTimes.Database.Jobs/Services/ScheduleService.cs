@@ -9,23 +9,30 @@ public static class ScheduleService
     {
         builder.Services.AddQuartz(configure: quartz =>
         {
-            var initKey = new JobKey(name: "Init");
+            #region setup jobs
             
-            quartz.AddJob<Build>(jobKey: initKey)
+            var init = new JobKey(name: "Init");
+            var cron = new JobKey(name: "Cron");
+            
+            quartz
+                .AddJob<Build>(jobKey: init)
                 .AddTrigger(configure: trigger =>
                 {
-                    trigger.ForJob(jobKey: initKey);
+                    trigger.ForJob(jobKey: init);
                     trigger.StartNow();
+                    trigger.WithDescription(description: "Startup job to initialize the database.");
                 });
             
-            var cronKey = new JobKey(name: "Cron");
-            
-            quartz.AddJob<Build>(jobKey: cronKey)
+            quartz
+                .AddJob<Build>(jobKey: cron)
                 .AddTrigger(configure: trigger =>
                 {
-                    trigger.ForJob(jobKey: cronKey);
+                    trigger.ForJob(jobKey: cron);
+                    trigger.StartNow();
                     trigger.WithCronSchedule(cronExpression: "0 30 3 * * ?");
                 });
+            
+            #endregion
         });
         
         builder.Services.AddQuartzHostedService(configure: options =>

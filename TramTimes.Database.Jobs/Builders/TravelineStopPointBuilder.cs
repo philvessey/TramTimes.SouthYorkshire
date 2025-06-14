@@ -4,7 +4,7 @@ namespace TramTimes.Database.Jobs.Builders;
 
 public static class TravelineStopPointBuilder
 {
-    public static async Task<TravelineStopPoint> BuildAsync(
+    public static TravelineStopPoint Build(
         Dictionary<string, NaptanLocality> localities,
         Dictionary<string, NaptanStop> stops,
         TransXChangeStopPoints? stopPoints,
@@ -13,21 +13,39 @@ public static class TravelineStopPointBuilder
         TimeSpan? arrivalTime,
         TimeSpan? departureTime) {
         
-        return await Task.FromResult(result: new TravelineStopPoint
+        #region build unknown
+        
+        var unknown = new TravelineStopPoint
+        {
+            AtcoCode = reference ?? "unknown"
+        };
+        
+        #endregion
+        
+        #region build result
+        
+        var result = new TravelineStopPoint
         {
             AtcoCode = reference,
             Activity = activity,
             ArrivalTime = arrivalTime,
-            DepartureTime = departureTime,
-            
-            NaptanStop = await NaptanStopBuilder.BuildAsync(
-                stops: stops,
-                reference: reference),
-            
-            TravelineStop = await TravelineStopBuilder.BuildAsync(
-                localities: localities,
-                stopPoints: stopPoints,
-                reference: reference)
-        });
+            DepartureTime = departureTime
+        };
+        
+        if (!arrivalTime.HasValue || !departureTime.HasValue)
+            return unknown;
+        
+        result.NaptanStop = NaptanStopBuilder.Build(
+            stops: stops,
+            reference: reference);
+        
+        result.TravelineStop = TravelineStopBuilder.Build(
+            localities: localities,
+            stopPoints: stopPoints,
+            reference: reference);
+        
+        #endregion
+        
+        return result;
     }
 }

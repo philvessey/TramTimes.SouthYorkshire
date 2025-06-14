@@ -4,42 +4,69 @@ public static class StringExtensions
 {
     public static DateTime ToDate(this string? baseString)
     {
+        #region check valid input
+        
         if (baseString is null)
             return DateTime.MinValue;
         
-        var month = int.Parse(s: baseString.Substring(
-            startIndex: 5,
-            length: 2));
+        #endregion
         
-        var day = int.Parse(s: baseString.Substring(
-            startIndex: 8,
-            length: 2));
+        #region build result
         
-        return new DateTime(year: int.Parse(s: baseString[..4]),
-            month: month,
-            day: day);
+        var result = new DateTime(
+            year: int.Parse(s: baseString[..4]),
+            month: int.Parse(s: baseString.Substring(
+                startIndex: 5,
+                length: 2)),
+            day: int.Parse(s: baseString.Substring(
+                startIndex: 8,
+                length: 2)));
+        
+        #endregion
+        
+        return result;
     }
     
     public static short ToShort(this string? baseString)
     {
-        return baseString is null ? short.Parse(s: "0") : short.Parse(s: baseString);
+        #region check valid input
+        
+        if (baseString is null)
+            return short.Parse(s: "0");
+        
+        #endregion
+        
+        #region build result
+        
+        var result = short.Parse(s: baseString);
+        
+        #endregion
+        
+        return result;
     }
     
     public static TimeSpan ToTime(this string? baseString)
     {
+        #region check valid input
+        
         if (baseString is null)
             return TimeSpan.MinValue;
         
-        var minutes = int.Parse(s: baseString.Substring(
-            startIndex: 3,
-            length: 2));
+        #endregion
         
-        var seconds = int.Parse(s: baseString.Substring(
-            startIndex: 6,
-            length: 2));
+        #region build result
         
-        return new TimeSpan(hours: int.Parse(s: baseString[..2]),
-            minutes: minutes,
-            seconds: seconds);
+        var result = new TimeSpan(
+            hours: int.Parse(s: baseString[..2]),
+            minutes: int.Parse(s: baseString.Substring(
+                startIndex: 3,
+                length: 2)),
+            seconds: int.Parse(s: baseString.Substring(
+                startIndex: 6,
+                length: 2)));
+        
+        #endregion
+        
+        return result;
     }
 }

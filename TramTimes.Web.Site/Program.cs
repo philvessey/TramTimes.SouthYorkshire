@@ -4,19 +4,41 @@ using TramTimes.Web.Site.Components;
 using TramTimes.Web.Site.Services;
 
 var builder = WebApplication.CreateBuilder(args: args);
-builder.AddMapperDefaults();
-builder.AddServiceDefaults();
 
-builder.Services.AddBlazoredLocalStorage();
-builder.Services.AddTelerikBlazor();
+#region inject defaults
 
-var components = builder.Services.AddRazorComponents();
-components.AddInteractiveServerComponents();
+builder
+    .AddMapperDefaults()
+    .AddServiceDefaults();
+
+#endregion
+
+#region inject services
+
+builder.Services
+    .AddBlazoredLocalStorage()
+    .AddTelerikBlazor();
+
+#endregion
+
+#region configure services
 
 builder.Services.Configure<HubOptions>(configureOptions: options =>
 {
     options.MaximumReceiveMessageSize = 1024 * 1024;
 });
+
+#endregion
+
+#region add components
+
+builder.Services
+    .AddRazorComponents()
+    .AddInteractiveServerComponents();
+
+#endregion
+
+#region map components
 
 var application = builder.Build();
 application.UseAntiforgery();
@@ -32,5 +54,7 @@ application.MapStaticAssets();
 
 var endpoint = application.MapRazorComponents<Site>();
 endpoint.AddInteractiveServerRenderMode();
+
+#endregion
 
 application.Run();

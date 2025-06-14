@@ -1,13 +1,14 @@
+/*#region global */
+
 html, body {
     background-color: #d7d0ca;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     margin: 0;
 }
 
-.k-list-item {
-    color: initial !important;
-    font-weight: initial !important;
-}
+/*#endregion */
+
+/*#region global-telerik-map */
 
 .k-map-marker {
     background-image: url(https://cdn.mapmarker.io/api/v2/font-awesome/v5/pin?background=39509f&size=40);
@@ -28,7 +29,18 @@ html, body {
     }
 }
 
+/*#endregion */
+
+/*#region global-telerik-auto-complete */
+
+.k-list-item {
+    color: initial !important;
+    font-weight: initial !important;
+}
+
 .k-nodata {
     color: initial !important;
     font-weight: initial !important;
 }
+
+/*#endregion */

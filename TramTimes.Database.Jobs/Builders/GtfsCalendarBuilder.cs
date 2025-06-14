@@ -11,7 +11,13 @@ public static class GtfsCalendarBuilder
         Dictionary<string, TravelineSchedule> schedules,
         string path) {
         
-        var calendars = await GtfsCalendarTools.GetFromSchedulesAsync(schedules: schedules);
+        #region build calendars
+        
+        var calendars = GtfsCalendarTools.GetFromSchedules(schedules: schedules);
+        
+        #endregion
+        
+        #region build results
         
         StreamWriter writer = new(path: Path.Combine(
             path1: path,
@@ -27,8 +33,10 @@ public static class GtfsCalendarBuilder
         await csv.WriteRecordsAsync(records: calendars.Values);
         await csv.FlushAsync();
         
-        return await Task.FromResult(result: Path.Combine(
+        #endregion
+        
+        return Path.Combine(
             path1: path,
-            path2: "calendar.txt"));
+            path2: "calendar.txt");
     }
 }

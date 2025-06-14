@@ -6,9 +6,11 @@ namespace TramTimes.Database.Jobs.Tools;
 
 public static class NaptanLocalityTools
 {
-    public static async Task<Dictionary<string, NaptanLocality>> GetFromFileAsync(string path)
+    public static Dictionary<string, NaptanLocality> GetFromFile(string path)
     {
         var results = new Dictionary<string, NaptanLocality>();
+        
+        #region get records
         
         var csv = new CsvReader(
             reader: new StreamReader(path: path),
@@ -16,14 +18,18 @@ public static class NaptanLocalityTools
         
         var records = csv.GetRecords<NaptanLocality>();
         
+        #endregion
+        
+        #region build results
+        
         foreach (var item in records)
-        {
             if (item.NptgLocalityCode is not null)
                 results.TryAdd(
                     key: item.NptgLocalityCode,
                     value: item);
-        }
         
-        return await Task.FromResult(result: results);
+        #endregion
+        
+        return results;
     }
 }

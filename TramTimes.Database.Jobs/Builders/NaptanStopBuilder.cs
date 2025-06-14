@@ -9,41 +9,45 @@ namespace TramTimes.Database.Jobs.Builders;
 
 public static class NaptanStopBuilder
 {
-    public static async Task<NaptanStop> BuildAsync(
+    public static NaptanStop Build(
         Dictionary<string, NaptanStop> stops,
         string? reference) {
         
+        #region build unknown
+        
+        var unknown = new NaptanStop
+        {
+            AtcoCode = reference ?? "unknown",
+        };
+        
+        #endregion
+        
+        #region build result
+        
         stops.TryGetValue(
             key: reference ?? "unknown",
-            value: out var value);
+            value: out var result);
         
-        if (value is null)
-        {
-            return await Task.FromResult(result: new NaptanStop
-            {
-                AtcoCode = reference ?? "unknown"
-            });
-        }
+        if (result is null)
+            return unknown;
         
-        if (value.Easting is null || value.Northing is null)
-            return await Task.FromResult(result: value);
-        
-        var eastingNorthing = new EastingNorthing(
-            easting: double.Parse(s: value.Easting),
-            northing: double.Parse(s: value.Northing));
-        
-        var cartesian = GeoUK.Convert.ToCartesian(
-            ellipsoid: new Airy1830(),
-            projection: new BritishNationalGrid(),
-            coordinates: eastingNorthing);
+        if (result.Easting is null || result.Northing is null)
+            return result;
         
         var latitudeLongitude = GeoUK.Convert.ToLatitudeLongitude(
             ellipsoid: new Wgs84(),
-            coordinates: Transform.Osgb36ToEtrs89(coordinates: cartesian));
+            coordinates: Transform.Osgb36ToEtrs89(coordinates: GeoUK.Convert.ToCartesian(
+                ellipsoid: new Airy1830(),
+                projection: new BritishNationalGrid(),
+                coordinates: new EastingNorthing(
+                    easting: double.Parse(s: result.Easting),
+                    northing: double.Parse(s: result.Northing)))));
         
-        value.Latitude = latitudeLongitude.Latitude.ToString(provider: CultureInfo.InvariantCulture);
-        value.Longitude = latitudeLongitude.Longitude.ToString(provider: CultureInfo.InvariantCulture);
+        result.Latitude = latitudeLongitude.Latitude.ToString(provider: CultureInfo.InvariantCulture);
+        result.Longitude = latitudeLongitude.Longitude.ToString(provider: CultureInfo.InvariantCulture);
         
-        return await Task.FromResult(result: value);
+        #endregion
+        
+        return result;
     }
 }

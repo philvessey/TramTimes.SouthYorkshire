@@ -11,7 +11,13 @@ public static class DatabaseStopBuilder
         Dictionary<string, TravelineSchedule> schedules,
         NpgsqlDataSource dataSource) {
         
-        var stops = await DatabaseStopTools.GetFromSchedulesAsync(schedules: schedules);
+        #region build stops
+        
+        var stops = DatabaseStopTools.GetFromSchedules(schedules: schedules);
+        
+        #endregion
+        
+        #region build results
         
         const string sql = "copy gtfs_stops (" +
                            "stop_id, " +
@@ -29,7 +35,7 @@ public static class DatabaseStopBuilder
                            "level_id, " +
                            "platform_code)";
         
-        var connection = await dataSource.OpenConnectionAsync();
+        await using var connection = await dataSource.OpenConnectionAsync();
         
         var command = new NpgsqlCommand(
             cmdText: "truncate table gtfs_stops",
@@ -100,6 +106,13 @@ public static class DatabaseStopBuilder
                 npgsqlDbType: NpgsqlDbType.Varchar);
         }
         
-        return await Task.FromResult(result: await importer.CompleteAsync());
+        var results = await importer.CompleteAsync();
+        
+        await importer.CloseAsync();
+        await connection.CloseAsync();
+        
+        #endregion
+        
+        return results;
     }
 }

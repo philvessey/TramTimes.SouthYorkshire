@@ -1,16 +1,20 @@
-using Microsoft.Extensions.Hosting;
+namespace TramTimes.Aspire.Host.Builders;
 
-namespace TramTimes.Aspire.Host.Services;
-
-public static class WebService
+public static class WebBuilder
 {
-    public static IDistributedApplicationBuilder AddWeb(
+    public static void BuildWeb(
         this IDistributedApplicationBuilder builder,
+        IResourceBuilder<PostgresServerResource> server,
         IResourceBuilder<PostgresDatabaseResource> database,
         IResourceBuilder<RedisResource> cache,
         IResourceBuilder<ElasticsearchResource> search) {
         
-        var api = builder.AddProject<Projects.TramTimes_Web_Api>(name: "web-api")
+        #region add api
+        
+        var api = builder
+            .AddProject<Projects.TramTimes_Web_Api>(name: "web-api")
+            .WaitFor(dependency: server)
+            .WaitFor(dependency: database)
             .WaitFor(dependency: cache)
             .WaitFor(dependency: search)
             .WithExternalHttpEndpoints()
@@ -20,20 +24,22 @@ public static class WebService
             .WithUrlForEndpoint("https", annotation => annotation.DisplayText = "Primary")
             .WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Secondary");
         
-        var endpoint = api.GetEndpoint(name: "https");
+        #endregion
         
-        if (builder.Environment.IsDevelopment())
-            endpoint = api.GetEndpoint(name: "http");
+        #region add site
         
-        builder.AddProject<Projects.TramTimes_Web_Site>(name: "web-site")
+        builder
+            .AddProject<Projects.TramTimes_Web_Site>(name: "web-site")
             .WaitFor(dependency: api)
             .WithEnvironment(
                 name: "API_ENDPOINT",
-                endpointReference: endpoint)
+                endpointReference: api.GetEndpoint(name: "https").Exists
+                    ? api.GetEndpoint(name: "https")
+                    : api.GetEndpoint(name: "http"))
             .WithExternalHttpEndpoints()
             .WithUrlForEndpoint("https", annotation => annotation.DisplayText = "Primary")
             .WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Secondary");
         
-        return builder;
+        #endregion
     }
 }

@@ -1,33 +1,50 @@
-using TramTimes.Aspire.Host.Services;
+using TramTimes.Aspire.Host.Builders;
 
 var builder = DistributedApplication.CreateBuilder(args: args);
 
-builder.AddStorage(
-    storage: out var storage,
-    blobs: out var blobs);
+#region build storage
 
-builder.AddDatabase(
-    storage: storage,
-    blobs: blobs,
-    server: out var server,
-    database: out var database);
+var storageResources = builder.BuildStorage();
 
-builder.AddCache(
-    blobs: blobs,
-    server: server,
-    database: database,
-    cache: out var cache);
+#endregion
 
-builder.AddSearch(
-    blobs: blobs,
-    server: server,
-    database: database,
-    search: out var search);
+#region build database
 
-builder.AddWeb(
-    database: database,
-    cache: cache,
-    search: search);
+var databaseResources = builder.BuildDatabase(
+    storage: storageResources.Azure ?? throw new InvalidOperationException("Azure storage not initialized."),
+    container: storageResources.Database ?? throw new InvalidOperationException("Database container not initialized."));
+
+#endregion
+
+#region build cache
+
+var cacheResources = builder.BuildCache(
+    storage: storageResources.Azure ?? throw new InvalidOperationException("Azure storage not initialized."),
+    container: storageResources.Cache ?? throw new InvalidOperationException("Cache container not initialized."),
+    server: databaseResources.Postgres ?? throw new InvalidOperationException("Postgres server not initialized."),
+    database: databaseResources.Database ?? throw new InvalidOperationException("Postgres database not initialized."));
+
+#endregion
+
+#region build search
+
+var searchResources = builder.BuildSearch(
+    storage: storageResources.Azure ?? throw new InvalidOperationException("Azure storage not initialized."),
+    container: storageResources.Search ?? throw new InvalidOperationException("Search container not initialized."),
+    server: databaseResources.Postgres ?? throw new InvalidOperationException("Postgres server not initialized."),
+    database: databaseResources.Database ?? throw new InvalidOperationException("Postgres database not initialized."));
+
+#endregion
+
+#region build web
+
+builder.BuildWeb(
+    server: databaseResources.Postgres ?? throw new InvalidOperationException("Postgres server not initialized."),
+    database: databaseResources.Database ?? throw new InvalidOperationException("Postgres database not initialized."),
+    cache: cacheResources.Redis ?? throw new InvalidOperationException("Redis cache not initialized."),
+    search: searchResources.Elastic ?? throw new InvalidOperationException("Elastic search not initialized."));
+
+#endregion
 
 var application = builder.Build();
 application.Run();

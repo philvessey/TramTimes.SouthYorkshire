@@ -1,18 +1,25 @@
 using Aspire.Hosting.Azure;
-using Microsoft.Extensions.Hosting;
+using TramTimes.Aspire.Host.Resources;
 
-namespace TramTimes.Aspire.Host.Services;
+namespace TramTimes.Aspire.Host.Builders;
 
-public static class DatabaseService
+public static class DatabaseBuilder
 {
-    public static IDistributedApplicationBuilder AddDatabase(
+    public static DatabaseResources BuildDatabase(
         this IDistributedApplicationBuilder builder,
         IResourceBuilder<AzureStorageResource> storage,
-        IResourceBuilder<AzureBlobStorageResource> blobs,
-        out IResourceBuilder<PostgresServerResource> server,
-        out IResourceBuilder<PostgresDatabaseResource> database) {
+        IResourceBuilder<AzureBlobStorageContainerResource> container) {
         
-        server = builder.AddPostgres(name: "server")
+        #region build result
+        
+        var result = new DatabaseResources();
+        
+        #endregion
+        
+        #region add postgres
+        
+        result.Postgres = builder
+            .AddPostgres(name: "server")
             .WaitFor(dependency: storage)
             .WithBindMount(
                 source: "Scripts",
@@ -21,27 +28,28 @@ public static class DatabaseService
             .WithEnvironment(
                 name: "POSTGRES_DB",
                 value: "database")
-            .WithLifetime(lifetime: ContainerLifetime.Persistent);
-        
-        if (builder.Environment.IsDevelopment())
-        {
-            server.WithPgAdmin(configureContainer: resource =>
+            .WithLifetime(lifetime: ContainerLifetime.Persistent)
+            .WithPgAdmin(configureContainer: resource =>
             {
-                resource.WithLifetime(lifetime: ContainerLifetime.Persistent);
+                resource.WithLifetime(lifetime: ContainerLifetime.Session);
+                resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
+            })
+            .WithPgWeb(configureContainer: resource =>
+            {
+                resource.WithLifetime(lifetime: ContainerLifetime.Session);
                 resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
             });
-            
-            server.WithPgWeb(configureContainer: resource =>
-            {
-                resource.WithLifetime(lifetime: ContainerLifetime.Persistent);
-                resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
-            });
-        }
         
-        database = server.AddDatabase(name: "database");
+        result.Database = result.Postgres.AddDatabase(name: "database");
         
-        builder.AddProject<Projects.TramTimes_Database_Jobs>(name: "database-builder")
-            .WaitFor(dependency: server)
+        #endregion
+        
+        #region add project
+        
+        builder
+            .AddProject<Projects.TramTimes_Database_Jobs>(name: "database-builder")
+            .WaitFor(dependency: result.Postgres)
+            .WaitFor(dependency: result.Database)
             .WithEnvironment(
                 name: "FTP_HOSTNAME",
                 parameter: builder.AddParameter(
@@ -62,10 +70,12 @@ public static class DatabaseService
                 parameter: builder.AddParameter(
                     name: "nager-key",
                     secret: true))
-            .WithParentRelationship(parent: database)
-            .WithReference(source: blobs)
-            .WithReference(source: database);
+            .WithParentRelationship(parent: result.Database)
+            .WithReference(source: container)
+            .WithReference(source: result.Database);
         
-        return builder;
+        #endregion
+        
+        return result;
     }
 }

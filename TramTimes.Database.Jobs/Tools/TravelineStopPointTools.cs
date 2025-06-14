@@ -5,11 +5,13 @@ namespace TramTimes.Database.Jobs.Tools;
 
 public static class TravelineStopPointTools
 {
-    public static async Task<TimeSpan> GetRunTimeAsync(
+    public static TimeSpan GetRunTime(
         List<TransXChangeJourneyPatternTimingLink>? timingLinks,
         int index) {
         
-        var value = TimeSpan.Zero;
+        var result = TimeSpan.Zero;
+        
+        #region build result
         
         switch (timingLinks)
         {
@@ -18,20 +20,24 @@ public static class TravelineStopPointTools
                 var link = timingLinks.ElementAt(index: index - 1);
                 
                 if (link is { RunTime: not null })
-                    value = value.Add(ts: XmlConvert.ToTimeSpan(s: link.RunTime));
+                    result = result.Add(ts: XmlConvert.ToTimeSpan(s: link.RunTime));
                 
                 break;
             }
         }
         
-        return await Task.FromResult(result: value);
+        #endregion
+        
+        return result;
     }
     
-    public static async Task<TimeSpan> GetWaitTimeAsync(
+    public static TimeSpan GetWaitTime(
         List<TransXChangeJourneyPatternTimingLink>? timingLinks,
         int index) {
         
-        var value = TimeSpan.Zero;
+        var result = TimeSpan.Zero;
+        
+        #region build result
         
         switch (timingLinks)
         {
@@ -40,7 +46,7 @@ public static class TravelineStopPointTools
                 var link = timingLinks.ElementAt(index: index - 1);
                 
                 if (link is { To.WaitTime: not null })
-                    value = value.Add(ts: XmlConvert.ToTimeSpan(s: link.To.WaitTime));
+                    result = result.Add(ts: XmlConvert.ToTimeSpan(s: link.To.WaitTime));
                 
                 break;
             }
@@ -53,12 +59,14 @@ public static class TravelineStopPointTools
                 var link = timingLinks.ElementAt(index: index);
                 
                 if (link is { From.WaitTime: not null })
-                    value = value.Add(ts: XmlConvert.ToTimeSpan(s: link.From.WaitTime));
+                    result = result.Add(ts: XmlConvert.ToTimeSpan(s: link.From.WaitTime));
                 
                 break;
             }
         }
         
-        return await Task.FromResult(result: value);
+        #endregion
+        
+        return result;
     }
 }

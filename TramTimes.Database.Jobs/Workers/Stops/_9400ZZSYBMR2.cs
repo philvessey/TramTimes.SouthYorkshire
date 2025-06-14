@@ -13,36 +13,36 @@ using TramTimes.Database.Jobs.Models;
 namespace TramTimes.Database.Jobs.Workers.Stops;
 
 public class _9400ZZSYBMR2(
-    BlobServiceClient blobService,
+    BlobContainerClient blobService,
     NpgsqlDataSource dataSource,
     ILogger<_9400ZZSYBMR2> logger,
     IMapper mapper) : IJob {
     
     public async Task Execute(IJobExecutionContext context)
     {
+        var guid = Guid.NewGuid();
+        
         var storage = Directory.CreateDirectory(path: Path.Combine(
             path1: Path.GetTempPath(),
-            path2: Guid.NewGuid().ToString()));
+            path2: guid.ToString()));
         
         try
         {
-            #region Get Active Blobs
+            #region get active blobs
             
-            var activeBlobs = blobService.GetBlobContainerClient(blobContainerName: "database")
+            var activeBlobs = blobService
                 .GetBlobsAsync(prefix: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd") + "/gtfs/");
             
             await foreach (var item in activeBlobs)
-            {
-                await blobService.GetBlobContainerClient(blobContainerName: "database")
+                await blobService
                     .GetBlobClient(item.Name)
                     .DownloadToAsync(path: Path.Combine(
                         path1: storage.FullName,
                         path2: Path.GetFileName(path: item.Name)));
-            }
             
             #endregion
             
-            #region Get Stop Schedule
+            #region get stop schedule
             
             var activeSchedule = JsonSerializer.Deserialize<WorkerSchedule>(json: await File.ReadAllTextAsync(path: Path.Combine(
                 path1: "Workers",
@@ -51,9 +51,9 @@ public class _9400ZZSYBMR2(
             
             #endregion
             
-            #region Get Database Feed
+            #region get database feed
             
-            var databaseFeed = await Feed.Load(dataStorage: PostgresStorage.Load(dataSource: dataSource));
+            var databaseFeed = await Feed.LoadAsync(dataStorage: PostgresStorage.Load(dataSource: dataSource));
             
             var databaseResults = await databaseFeed.GetServicesByStopAsync(
                 id: "9400ZZSYBMR2",
@@ -64,9 +64,9 @@ public class _9400ZZSYBMR2(
             
             #endregion
             
-            #region Get Storage Feed
+            #region get storage feed
             
-            var storageFeed = await Feed.Load(dataStorage: GtfsStorage.Load(path: storage.FullName));
+            var storageFeed = await Feed.LoadAsync(dataStorage: GtfsStorage.Load(path: storage.FullName));
             
             var storageResults = await storageFeed.GetServicesByStopAsync(
                 id: "9400ZZSYBMR2",
@@ -77,7 +77,7 @@ public class _9400ZZSYBMR2(
             
             #endregion
             
-            #region Check Database Feed
+            #region check database feed
             
             switch (context.FireTimeUtc.Date.DayOfWeek)
             {
@@ -138,7 +138,7 @@ public class _9400ZZSYBMR2(
             
             #endregion
             
-            #region Check Storage Feed
+            #region check storage feed
             
             switch (context.FireTimeUtc.Date.DayOfWeek)
             {
@@ -199,7 +199,7 @@ public class _9400ZZSYBMR2(
             
             #endregion
             
-            #region Process Test Results
+            #region process test results
             
             List<WorkerStopPoint> testResults = [];
             
@@ -500,7 +500,7 @@ public class _9400ZZSYBMR2(
             
             #endregion
             
-            #region Build Database Results
+            #region build database results
             
             var localPath = Path.Combine(
                 path1: storage.FullName,
@@ -515,7 +515,7 @@ public class _9400ZZSYBMR2(
                 path2: "record",
                 path3: "9400ZZSYBMR2.json");
             
-            await blobService.GetBlobContainerClient(blobContainerName: "database")
+            await blobService
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -529,7 +529,7 @@ public class _9400ZZSYBMR2(
             
             #endregion
             
-            #region Build Storage Results
+            #region build storage results
             
             localPath = Path.Combine(
                 path1: storage.FullName,
@@ -544,7 +544,7 @@ public class _9400ZZSYBMR2(
                 path2: "service",
                 path3: "9400ZZSYBMR2.json");
             
-            await blobService.GetBlobContainerClient(blobContainerName: "database")
+            await blobService
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -558,7 +558,7 @@ public class _9400ZZSYBMR2(
             
             #endregion
             
-            #region Build Test Results
+            #region build test results
             
             localPath = Path.Combine(
                 path1: storage.FullName,
@@ -573,7 +573,7 @@ public class _9400ZZSYBMR2(
                 path2: "test",
                 path3: "9400ZZSYBMR2.json");
             
-            await blobService.GetBlobContainerClient(blobContainerName: "database")
+            await blobService
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -587,7 +587,7 @@ public class _9400ZZSYBMR2(
             
             #endregion
             
-            #region Delete Job
+            #region delete job
             
             await context.Scheduler.DeleteJob(jobKey: context.JobDetail.Key);
             

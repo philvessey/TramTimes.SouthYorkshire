@@ -13,16 +13,25 @@ public static class CacheHandler
         IMapper mapperService,
         string id) {
         
-        var request = await cacheService.GetDatabase()
+        #region build request
+        
+        var request = await cacheService
+            .GetDatabase()
             .StringGetAsync(key: id.ToUpperInvariant());
         
         if (request.IsNullOrEmpty)
             return Results.NotFound();
         
-        var response = mapperService.Map<List<CacheStopPoint>>(
+        #endregion
+        
+        #region build results
+        
+        var results = mapperService.Map<List<CacheStopPoint>>(
             source: JsonSerializer.Deserialize<List<WorkerStopPoint>>(
                 json: request.ToString()));
         
-        return Results.Json(data: mapperService.Map<List<WebStopPoint>>(source: response));
+        #endregion
+        
+        return Results.Json(data: mapperService.Map<List<WebStopPoint>>(source: results));
     }
 }

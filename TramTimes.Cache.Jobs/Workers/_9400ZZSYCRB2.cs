@@ -13,7 +13,7 @@ using TramTimes.Cache.Jobs.Models;
 namespace TramTimes.Cache.Jobs.Workers;
 
 public class _9400ZZSYCRB2(
-    BlobServiceClient blobService,
+    BlobContainerClient blobService,
     NpgsqlDataSource dataSource,
     IConnectionMultiplexer cacheService,
     ILogger<_9400ZZSYCRB2> logger,
@@ -21,41 +21,39 @@ public class _9400ZZSYCRB2(
     
     public async Task Execute(IJobExecutionContext context)
     {
+        var guid = Guid.NewGuid();
+        
         var storage = Directory.CreateDirectory(path: Path.Combine(
             path1: Path.GetTempPath(),
-            path2: Guid.NewGuid().ToString()));
+            path2: guid.ToString()));
         
         try
         {
-            #region Get Cache Feed
+            #region get cache feed
             
-            var cacheFeed = await cacheService.GetDatabase()
+            var cacheFeed = await cacheService
+                .GetDatabase()
                 .StringGetAsync(key: "9400ZZSYCRB2");
             
             List<CacheStopPoint> mappedResults = [];
             
             if (!cacheFeed.IsNullOrEmpty)
-            {
                 mappedResults = mapper.Map<List<CacheStopPoint>>(
                     source: JsonSerializer.Deserialize<List<WorkerStopPoint>>(
                         json: cacheFeed.ToString()));
-            }
             
             #endregion
             
-            #region Check Cache Feed
+            #region check cache feed
             
-            if (mappedResults.ElementAtOrDefault(index: 0) is not null &&
-                mappedResults.ElementAt(index: 0).DepartureDateTime > DateTime.Now) {
-                
+            if (mappedResults.ElementAtOrDefault(index: 0)?.DepartureDateTime > DateTime.Now)
                 return;
-            }
             
             #endregion
             
-            #region Get Database Feed
+            #region get database feed
             
-            var databaseFeed = await Feed.Load(dataStorage: PostgresStorage.Load(dataSource: dataSource));
+            var databaseFeed = await Feed.LoadAsync(dataStorage: PostgresStorage.Load(dataSource: dataSource));
             
             var databaseResults = await databaseFeed.GetServicesByStopAsync(
                 id: "9400ZZSYCRB2",
@@ -64,9 +62,10 @@ public class _9400ZZSYCRB2(
             
             #endregion
             
-            #region Set Cache Feed
+            #region set cache feed
             
-            await cacheService.GetDatabase()
+            await cacheService
+                .GetDatabase()
                 .StringSetAsync(
                     key: "9400ZZSYCRB2",
                     value: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults)),
@@ -74,7 +73,7 @@ public class _9400ZZSYCRB2(
             
             #endregion
             
-            #region Build Cache Results
+            #region build cache results
             
             var localPath = Path.Combine(
                 path1: storage.FullName,
@@ -89,7 +88,7 @@ public class _9400ZZSYCRB2(
                 path2: "get",
                 path3: "9400ZZSYCRB2.json");
             
-            await blobService.GetBlobContainerClient(blobContainerName: "cache")
+            await blobService
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -103,7 +102,7 @@ public class _9400ZZSYCRB2(
             
             #endregion
             
-            #region Build Database Results
+            #region build database results
             
             localPath = Path.Combine(
                 path1: storage.FullName,
@@ -118,7 +117,7 @@ public class _9400ZZSYCRB2(
                 path2: "set",
                 path3: "9400ZZSYCRB2.json");
             
-            await blobService.GetBlobContainerClient(blobContainerName: "cache")
+            await blobService
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -132,18 +131,15 @@ public class _9400ZZSYCRB2(
             
             #endregion
             
-            #region Delete Expired Blobs
+            #region delete expired blobs
             
-            var expiredBlobs = blobService.GetBlobContainerClient(blobContainerName: "cache")
-                .GetBlobsAsync(prefix: "9400ZZSYCRB2");
+            var expiredBlobs = blobService.GetBlobsAsync(prefix: "9400ZZSYCRB2");
             
             await foreach (var item in expiredBlobs)
-            {
                 if (item.Properties.LastModified < context.FireTimeUtc.DateTime.AddDays(value: -7))
-                    await blobService.GetBlobContainerClient(blobContainerName: "cache")
+                    await blobService
                         .GetBlobClient(blobName: item.Name)
                         .DeleteAsync();
-            }
             
             #endregion
         }

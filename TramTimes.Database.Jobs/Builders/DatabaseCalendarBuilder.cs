@@ -11,7 +11,13 @@ public static class DatabaseCalendarBuilder
         Dictionary<string, TravelineSchedule> schedules,
         NpgsqlDataSource dataSource) {
         
-        var calendars = await DatabaseCalendarTools.GetFromSchedulesAsync(schedules: schedules);
+        #region build calendars
+        
+        var calendars = DatabaseCalendarTools.GetFromSchedules(schedules: schedules);
+        
+        #endregion
+        
+        #region build results
         
         const string sql = "copy gtfs_calendar (" +
                            "service_id, " +
@@ -25,7 +31,7 @@ public static class DatabaseCalendarBuilder
                            "start_date, " +
                            "end_date)";
         
-        var connection = await dataSource.OpenConnectionAsync();
+        await using var connection = await dataSource.OpenConnectionAsync();
         
         var command = new NpgsqlCommand(
             cmdText: "truncate table gtfs_calendar",
@@ -80,6 +86,13 @@ public static class DatabaseCalendarBuilder
                 npgsqlDbType: NpgsqlDbType.Date);
         }
         
-        return await Task.FromResult(result: await importer.CompleteAsync());
+        var results = await importer.CompleteAsync();
+        
+        await importer.CloseAsync();
+        await connection.CloseAsync();
+        
+        #endregion
+        
+        return results;
     }
 }

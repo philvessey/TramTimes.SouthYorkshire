@@ -6,21 +6,43 @@ public static class StringExtensions
         this string? baseString,
         string value) {
         
-        var match = baseString?.IndexOf(
+        #region check valid input
+        
+        if (baseString is null)
+            return false;
+        
+        #endregion
+        
+        #region build result
+        
+        var result = baseString.Contains(
             value: value,
             comparisonType: StringComparison.InvariantCultureIgnoreCase);
         
-        return match >= 0;
+        #endregion
+        
+        return result;
     }
     
     public static bool ContainsRespectCase(
         this string? baseString,
         string value) {
         
-        var match = baseString?.IndexOf(
+        #region check valid input
+        
+        if (baseString is null)
+            return false;
+        
+        #endregion
+        
+        #region build result
+        
+        var result = baseString.Contains(
             value: value,
             comparisonType: StringComparison.InvariantCulture);
         
-        return match >= 0;
+        #endregion
+        
+        return result;
     }
 }

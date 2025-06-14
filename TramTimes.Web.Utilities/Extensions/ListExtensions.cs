@@ -4,6 +4,12 @@ public static class ListExtensions
 {
     public static bool IsNullOrEmpty<T>(this List<T>? baseList)
     {
-        return baseList is null || baseList.Count == 0;
+        #region build result
+        
+        var result = baseList is null || baseList.Count is 0;
+        
+        #endregion
+        
+        return result;
     }
 }

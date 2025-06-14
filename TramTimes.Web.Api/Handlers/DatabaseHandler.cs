@@ -17,7 +17,9 @@ public static class DatabaseHandler
         IMapper mapperService,
         string id) {
         
-        var feed = await Feed.Load(dataStorage: PostgresStorage.Load(dataSource: dataSource));
+        #region build request
+        
+        var feed = await Feed.LoadAsync(dataStorage: PostgresStorage.Load(dataSource: dataSource));
         
         var request = await feed.GetServicesByStopAsync(
             id: id.ToUpperInvariant(),
@@ -27,11 +29,17 @@ public static class DatabaseHandler
         if (request.IsNullOrEmpty())
             return Results.NotFound();
         
-        var response = mapperService.Map<List<DatabaseStopPoint>>(
+        #endregion
+        
+        #region build results
+        
+        var results = mapperService.Map<List<DatabaseStopPoint>>(
             source: mapperService.Map<List<WorkerStopPoint>>(
                 source: request));
         
-        return Results.Json(data: mapperService.Map<List<WebStopPoint>>(source: response));
+        #endregion
+        
+        return Results.Json(data: mapperService.Map<List<WebStopPoint>>(source: results));
     }
     
     public static async Task<IResult> GetServicesByTripAsync(
@@ -39,7 +47,9 @@ public static class DatabaseHandler
         IMapper mapperService,
         string id) {
         
-        var feed = await Feed.Load(dataStorage: PostgresStorage.Load(dataSource: dataSource));
+        #region build request
+        
+        var feed = await Feed.LoadAsync(dataStorage: PostgresStorage.Load(dataSource: dataSource));
         
         var request = await feed.GetServicesByTripAsync(
             id: id.ToUpperInvariant(),
@@ -49,11 +59,17 @@ public static class DatabaseHandler
         if (request.IsNullOrEmpty())
             return Results.NotFound();
         
-        var response = mapperService.Map<List<DatabaseStopPoint>>(
+        #endregion
+        
+        #region build results
+        
+        var results = mapperService.Map<List<DatabaseStopPoint>>(
             source: mapperService.Map<List<WorkerStopPoint>>(
                 source: request));
         
-        return Results.Json(data: mapperService.Map<List<WebStopPoint>>(source: response));
+        #endregion
+        
+        return Results.Json(data: mapperService.Map<List<WebStopPoint>>(source: results));
     }
     
     public static async Task<IResult> GetStopsByIdAsync(
@@ -61,7 +77,9 @@ public static class DatabaseHandler
         IMapper mapperService,
         string id) {
         
-        var feed = await Feed.Load(dataStorage: PostgresStorage.Load(dataSource: dataSource));
+        #region build request
+        
+        var feed = await Feed.LoadAsync(dataStorage: PostgresStorage.Load(dataSource: dataSource));
         
         var request = await feed.GetStopsByIdAsync(
             id: id.ToUpperInvariant(),
@@ -70,19 +88,23 @@ public static class DatabaseHandler
         if (request.IsNullOrEmpty())
             return Results.NotFound();
         
-        var response = mapperService.Map<List<DatabaseStop>>(source: request);
+        #endregion
         
-        foreach (var item in response)
-        {
+        #region build results
+        
+        var results = mapperService.Map<List<DatabaseStop>>(source: request);
+        
+        foreach (var item in results)
             item.Points = mapperService.Map<List<DatabaseStopPoint>>(
                 source: mapperService.Map<List<WorkerStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
                         id: item.Id,
                         comparison: ComparisonType.Exact,
                         tolerance: TimeSpan.FromMinutes(value: 119))));
-        }
         
-        return Results.Json(data: mapperService.Map<List<WebStop>>(source: response));
+        #endregion
+        
+        return Results.Json(data: mapperService.Map<List<WebStop>>(source: results));
     }
     
     public static async Task<IResult> GetStopsByCodeAsync(
@@ -90,7 +112,9 @@ public static class DatabaseHandler
         IMapper mapperService,
         string code) {
         
-        var feed = await Feed.Load(dataStorage: PostgresStorage.Load(dataSource: dataSource));
+        #region build request
+        
+        var feed = await Feed.LoadAsync(dataStorage: PostgresStorage.Load(dataSource: dataSource));
         
         var request = await feed.GetStopsByCodeAsync(
             code: code.ToUpperInvariant(),
@@ -99,19 +123,23 @@ public static class DatabaseHandler
         if (request.IsNullOrEmpty())
             return Results.NotFound();
         
-        var response = mapperService.Map<List<DatabaseStop>>(source: request);
+        #endregion
         
-        foreach (var item in response)
-        {
+        #region build results
+        
+        var results = mapperService.Map<List<DatabaseStop>>(source: request);
+        
+        foreach (var item in results)
             item.Points = mapperService.Map<List<DatabaseStopPoint>>(
                 source: mapperService.Map<List<WorkerStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
                         id: item.Id,
                         comparison: ComparisonType.Exact,
                         tolerance: TimeSpan.FromMinutes(value: 119))));
-        }
         
-        return Results.Json(data: mapperService.Map<List<WebStop>>(source: response));
+        #endregion
+        
+        return Results.Json(data: mapperService.Map<List<WebStop>>(source: results));
     }
     
     public static async Task<IResult> GetStopsByNameAsync(
@@ -119,7 +147,9 @@ public static class DatabaseHandler
         IMapper mapperService,
         string name) {
         
-        var feed = await Feed.Load(dataStorage: PostgresStorage.Load(dataSource: dataSource));
+        #region build request
+        
+        var feed = await Feed.LoadAsync(dataStorage: PostgresStorage.Load(dataSource: dataSource));
         
         var request = await feed.GetStopsByNameAsync(
             name: name.ToLowerInvariant(),
@@ -128,19 +158,23 @@ public static class DatabaseHandler
         if (request.IsNullOrEmpty())
             return Results.NotFound();
         
-        var response = mapperService.Map<List<DatabaseStop>>(source: request);
+        #endregion
         
-        foreach (var item in response)
-        {
+        #region build results
+        
+        var results = mapperService.Map<List<DatabaseStop>>(source: request);
+        
+        foreach (var item in results)
             item.Points = mapperService.Map<List<DatabaseStopPoint>>(
                 source: mapperService.Map<List<WorkerStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
                         id: item.Id,
                         comparison: ComparisonType.Exact,
                         tolerance: TimeSpan.FromMinutes(value: 119))));
-        }
         
-        return Results.Json(data: mapperService.Map<List<WebStop>>(source: response));
+        #endregion
+        
+        return Results.Json(data: mapperService.Map<List<WebStop>>(source: results));
     }
     
     public static async Task<IResult> GetStopsByLocationAsync(
@@ -151,7 +185,9 @@ public static class DatabaseHandler
         double maxLon,
         double maxLat) {
         
-        var feed = await Feed.Load(dataStorage: PostgresStorage.Load(dataSource: dataSource));
+        #region build request
+        
+        var feed = await Feed.LoadAsync(dataStorage: PostgresStorage.Load(dataSource: dataSource));
         
         var request = await feed.GetStopsByLocationAsync(
             minimumLongitude: minLon,
@@ -163,9 +199,13 @@ public static class DatabaseHandler
         if (request.IsNullOrEmpty())
             return Results.NotFound();
         
-        var response = mapperService.Map<List<DatabaseStop>>(source: request);
+        #endregion
         
-        foreach (var item in response)
+        #region build results
+        
+        var results = mapperService.Map<List<DatabaseStop>>(source: request);
+        
+        foreach (var item in results)
         {
             item.Distance = GeoCalculator.GetDistance(
                 originLatitude: item.Latitude ?? 0,
@@ -182,7 +222,9 @@ public static class DatabaseHandler
                         tolerance: TimeSpan.FromMinutes(value: 119))));
         }
         
+        #endregion
+        
         return Results.Json(data: mapperService.Map<List<WebStop>>(
-            source: response.OrderBy(keySelector: stop => stop.Distance)));
+            source: results.OrderBy(keySelector: stop => stop.Distance)));
     }
 }

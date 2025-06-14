@@ -6,51 +6,65 @@ public static class QueryBuilder
     
     public static string GetLocationFromDatabase(double[] extent)
     {
-        return $"{Endpoint}/" +
-               $"database/" +
-               $"stops/" +
-               $"location/" +
-               $"{string.Join(
-                   separator: "/",
-                   values: [
-                       extent.ElementAt(index: 1),
-                       extent.ElementAt(index: 2),
-                       extent.ElementAt(index: 3),
-                       extent.ElementAt(index: 0)
-                   ])}";
+        #region build result
+        
+        var location = string.Join(
+            separator: "/",
+            values:
+            [
+                extent.ElementAt(index: 1),
+                extent.ElementAt(index: 2),
+                extent.ElementAt(index: 3),
+                extent.ElementAt(index: 0)
+            ]);
+        
+        var result = $"{Endpoint}/database/stops/location/{location}";
+        
+        #endregion
+        
+        return result;
     }
     
     public static string GetLocationFromSearch(double[] extent)
     {
-        return $"{Endpoint}/" +
-               $"search/" +
-               $"stops/" +
-               $"location/" +
-               $"{string.Join(
-                   separator: "/",
-                   values: [
-                       extent.ElementAt(index: 1),
-                       extent.ElementAt(index: 2),
-                       extent.ElementAt(index: 3),
-                       extent.ElementAt(index: 0)
-                   ])}";
+        #region build result
+        
+        var location = string.Join(
+            separator: "/",
+            values:
+            [
+                extent.ElementAt(index: 1),
+                extent.ElementAt(index: 2),
+                extent.ElementAt(index: 3),
+                extent.ElementAt(index: 0)
+            ]);
+        
+        var result = $"{Endpoint}/search/stops/location/{location}";
+        
+        #endregion
+        
+        return result;
     }
     
     public static string GetNameFromDatabase(string name)
     {
-        return $"{Endpoint}/" +
-               $"database/" +
-               $"stops/" +
-               $"name/" +
-               $"{name}";
+        #region build result
+        
+        var result = $"{Endpoint}/database/stops/name/{name}";
+        
+        #endregion
+        
+        return result;
     }
     
     public static string GetNameFromSearch(string name)
     {
-        return $"{Endpoint}/" +
-               $"search/" +
-               $"stops/" +
-               $"name/" +
-               $"{name}";
+        #region build result
+        
+        var result = $"{Endpoint}/search/stops/name/{name}";
+        
+        #endregion
+        
+        return result;
     }
 }

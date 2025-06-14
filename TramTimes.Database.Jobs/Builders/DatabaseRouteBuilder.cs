@@ -11,7 +11,13 @@ public static class DatabaseRouteBuilder
         Dictionary<string, TravelineSchedule> schedules,
         NpgsqlDataSource dataSource) {
         
-        var routes = await DatabaseRouteTools.GetFromSchedulesAsync(schedules: schedules);
+        #region build routes
+        
+        var routes = DatabaseRouteTools.GetFromSchedules(schedules: schedules);
+        
+        #endregion
+        
+        #region build results
         
         const string sql = "copy gtfs_routes (" +
                            "route_id, " +
@@ -25,7 +31,7 @@ public static class DatabaseRouteBuilder
                            "route_text_color, " +
                            "route_sort_order)";
         
-        var connection = await dataSource.OpenConnectionAsync();
+        await using var connection = await dataSource.OpenConnectionAsync();
         
         var command = new NpgsqlCommand(
             cmdText: "truncate table gtfs_routes",
@@ -80,6 +86,13 @@ public static class DatabaseRouteBuilder
                 npgsqlDbType: NpgsqlDbType.Smallint);
         }
         
-        return await Task.FromResult(result: await importer.CompleteAsync());
+        var results = await importer.CompleteAsync();
+        
+        await importer.CloseAsync();
+        await connection.CloseAsync();
+        
+        #endregion
+        
+        return results;
     }
 }

@@ -9,9 +9,11 @@ public static class FtpClientTools
     private static readonly string UserName = Environment.GetEnvironmentVariable(variable: "FTP_USERNAME") ?? string.Empty;
     private static readonly string Password = Environment.GetEnvironmentVariable(variable: "FTP_PASSWORD") ?? string.Empty;
     
-    public static async Task GetFromRemoteAsync(
+    public static async Task<FtpStatus> GetFromRemoteAsync(
         string localPath,
         string remoteFileName) {
+        
+        #region connect server
         
         var ftpClient = new AsyncFtpClient(
             host: HostName,
@@ -21,18 +23,28 @@ public static class FtpClientTools
         
         await ftpClient.Connect();
         
+        #endregion
+        
+        #region download file
+        
         var remotePath = Path.Combine(
             path1: "TNDSV2.5",
             path2: remoteFileName);
         
-        await ftpClient.DownloadFile(
+        var result = await ftpClient.DownloadFile(
             localPath: localPath,
             remotePath: remotePath,
             existsMode: FtpLocalExists.Overwrite,
             verifyOptions: FtpVerify.Retry);
         
+        #endregion
+        
+        #region disconnect server
+        
         await ftpClient.Disconnect();
         
-        await Task.CompletedTask;
+        #endregion
+        
+        return result;
     }
 }

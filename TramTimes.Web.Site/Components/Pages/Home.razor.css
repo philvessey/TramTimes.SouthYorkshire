@@ -1,3 +1,5 @@
+/*#region home-telerik-map */
+
 #home-telerik-map {
     height: 100%;
     position: absolute;
@@ -144,6 +146,10 @@
         -webkit-user-select: none;
     }
 }
+
+/*#endregion */
+
+/*#region home-telerik-auto-complete */
 
 #home-telerik-auto-complete {
     left: 15px;
@@ -330,3 +336,5 @@
         -webkit-user-select: none;
     }
 }
+
+/*#endregion */

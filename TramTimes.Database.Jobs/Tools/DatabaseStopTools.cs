@@ -5,21 +5,44 @@ namespace TramTimes.Database.Jobs.Tools;
 
 public static class DatabaseStopTools
 {
-    public static async Task<Dictionary<string, DatabaseStop>> GetFromSchedulesAsync(Dictionary<string, TravelineSchedule> schedules)
+    public static Dictionary<string, DatabaseStop> GetFromSchedules(Dictionary<string, TravelineSchedule> schedules)
     {
         var results = new Dictionary<string, DatabaseStop>();
         
         foreach (var item in schedules.Values)
         {
+            #region build calendar
+            
             DatabaseCalendar calendar = new()
             {
-                Monday = item.Calendar is { Monday: not null } ? item.Calendar.Monday.ToShort() : short.Parse(s: "0"),
-                Tuesday = item.Calendar is { Tuesday: not null } ? item.Calendar.Tuesday.ToShort() : short.Parse(s: "0"),
-                Wednesday = item.Calendar is { Wednesday: not null } ? item.Calendar.Wednesday.ToShort() : short.Parse(s: "0"),
-                Thursday = item.Calendar is { Thursday: not null } ? item.Calendar.Thursday.ToShort() : short.Parse(s: "0"),
-                Friday = item.Calendar is { Friday: not null } ? item.Calendar.Friday.ToShort() : short.Parse(s: "0"),
-                Saturday = item.Calendar is { Saturday: not null } ? item.Calendar.Saturday.ToShort() : short.Parse(s: "0"),
-                Sunday = item.Calendar is { Sunday: not null } ? item.Calendar.Sunday.ToShort() : short.Parse(s: "0"),
+                Monday = item.Calendar is { Monday: not null }
+                    ? item.Calendar.Monday.ToShort()
+                    : short.Parse(s: "0"),
+                
+                Tuesday = item.Calendar is { Tuesday: not null }
+                    ? item.Calendar.Tuesday.ToShort()
+                    : short.Parse(s: "0"),
+                
+                Wednesday = item.Calendar is { Wednesday: not null }
+                    ? item.Calendar.Wednesday.ToShort()
+                    : short.Parse(s: "0"),
+                
+                Thursday = item.Calendar is { Thursday: not null }
+                    ? item.Calendar.Thursday.ToShort()
+                    : short.Parse(s: "0"),
+                
+                Friday = item.Calendar is { Friday: not null }
+                    ? item.Calendar.Friday.ToShort()
+                    : short.Parse(s: "0"),
+                
+                Saturday = item.Calendar is { Saturday: not null }
+                    ? item.Calendar.Saturday.ToShort()
+                    : short.Parse(s: "0"),
+                
+                Sunday = item.Calendar is { Sunday: not null }
+                    ? item.Calendar.Sunday.ToShort()
+                    : short.Parse(s: "0"),
+                
                 StartDate = item.Calendar?.StartDate,
                 EndDate = item.Calendar?.EndDate
             };
@@ -36,14 +59,18 @@ public static class DatabaseStopTools
                                      $"{item.Calendar?.EndDate:MM}" +
                                      $"{item.Calendar?.EndDate:dd}" +
                                      $"-" +
-                                     $"{item.Calendar?.Monday.ToInt().ToString()}" +
-                                     $"{item.Calendar?.Tuesday.ToInt().ToString()}" +
-                                     $"{item.Calendar?.Wednesday.ToInt().ToString()}" +
-                                     $"{item.Calendar?.Thursday.ToInt().ToString()}" +
-                                     $"{item.Calendar?.Friday.ToInt().ToString()}" +
-                                     $"{item.Calendar?.Saturday.ToInt().ToString()}" +
-                                     $"{item.Calendar?.Sunday.ToInt().ToString()}";
+                                     $"{item.Calendar?.Monday.ToInt()}" +
+                                     $"{item.Calendar?.Tuesday.ToInt()}" +
+                                     $"{item.Calendar?.Wednesday.ToInt()}" +
+                                     $"{item.Calendar?.Thursday.ToInt()}" +
+                                     $"{item.Calendar?.Friday.ToInt()}" +
+                                     $"{item.Calendar?.Saturday.ToInt()}" +
+                                     $"{item.Calendar?.Sunday.ToInt()}";
             }
+            
+            #endregion
+            
+            #region build results
             
             for (var i = 0; i < item.StopPoints?.Count; i++)
             {
@@ -84,12 +111,12 @@ public static class DatabaseStopTools
                         key: stop.StopId,
                         value: stop);
             }
+            
+            #endregion
         }
         
-        return await Task.FromResult(results
+        return results
             .OrderBy(keySelector: stop => stop.Value.StopId)
-            .ToDictionary(
-                keySelector: stop => stop.Key,
-                elementSelector: stop => stop.Value));
+            .ToDictionary();
     }
 }

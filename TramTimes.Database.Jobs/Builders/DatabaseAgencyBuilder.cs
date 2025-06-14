@@ -11,7 +11,13 @@ public static class DatabaseAgencyBuilder
         Dictionary<string, TravelineSchedule> schedules,
         NpgsqlDataSource dataSource) {
         
-        var agencies = await DatabaseAgencyTools.GetFromSchedulesAsync(schedules: schedules);
+        #region build agencies
+        
+        var agencies = DatabaseAgencyTools.GetFromSchedules(schedules: schedules);
+        
+        #endregion
+        
+        #region build results
         
         const string sql = "copy gtfs_agency (" +
                            "agency_id, " +
@@ -23,7 +29,7 @@ public static class DatabaseAgencyBuilder
                            "agency_fare_url, " +
                            "agency_email)";
         
-        var connection = await dataSource.OpenConnectionAsync();
+        await using var connection = await dataSource.OpenConnectionAsync();
         
         var command = new NpgsqlCommand(
             cmdText: "truncate table gtfs_agency",
@@ -70,6 +76,13 @@ public static class DatabaseAgencyBuilder
                 npgsqlDbType: NpgsqlDbType.Varchar);
         }
         
-        return await Task.FromResult(result: await importer.CompleteAsync());
+        var results = await importer.CompleteAsync();
+        
+        await importer.CloseAsync();
+        await connection.CloseAsync();
+        
+        #endregion
+        
+        return results;
     }
 }

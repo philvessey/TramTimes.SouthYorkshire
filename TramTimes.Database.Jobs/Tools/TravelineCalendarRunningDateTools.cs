@@ -4,7 +4,7 @@ namespace TramTimes.Database.Jobs.Tools;
 
 public static class TravelineCalendarRunningDateTools
 {
-    public static async Task<List<DateTime>> GetAllDatesAsync(
+    public static List<DateTime> GetAllDates(
         DateTime? startDate,
         DateTime? endDate,
         bool? monday,
@@ -15,18 +15,14 @@ public static class TravelineCalendarRunningDateTools
         bool? saturday,
         bool? sunday) {
         
-        if (!startDate.HasValue ||
-            !endDate.HasValue ||
-            !monday.HasValue ||
-            !tuesday.HasValue ||
-            !wednesday.HasValue ||
-            !thursday.HasValue ||
-            !friday.HasValue ||
-            !saturday.HasValue ||
-            !sunday.HasValue) {
-            
-            return await Task.FromResult(result: new List<DateTime>());
-        }
+        #region check valid input
+        
+        if (!startDate.HasValue || !endDate.HasValue)
+            return [];
+        
+        #endregion
+        
+        #region build results
         
         var results = new List<DateTime>();
         
@@ -36,49 +32,49 @@ public static class TravelineCalendarRunningDateTools
             {
                 case DayOfWeek.Monday:
                 {
-                    if (monday.Value)
+                    if (monday.HasValue && monday.Value)
                         results.Add(item: startDate.Value);
                     
                     break;
                 }
                 case DayOfWeek.Tuesday:
                 {
-                    if (tuesday.Value)
+                    if (tuesday.HasValue && tuesday.Value)
                         results.Add(item: startDate.Value);
                     
                     break;
                 }
                 case DayOfWeek.Wednesday:
                 {
-                    if (wednesday.Value)
+                    if (wednesday.HasValue && wednesday.Value)
                         results.Add(item: startDate.Value);
                     
                     break;
                 }
                 case DayOfWeek.Thursday:
                 {
-                    if (thursday.Value)
+                    if (thursday.HasValue && thursday.Value)
                         results.Add(item: startDate.Value);
                     
                     break;
                 }
                 case DayOfWeek.Friday:
                 {
-                    if (friday.Value)
+                    if (friday.HasValue && friday.Value)
                         results.Add(item: startDate.Value);
                     
                     break;
                 }
                 case DayOfWeek.Saturday:
                 {
-                    if (saturday.Value)
+                    if (saturday.HasValue && saturday.Value)
                         results.Add(item: startDate.Value);
                     
                     break;
                 }
                 case DayOfWeek.Sunday:
                 {
-                    if (sunday.Value)
+                    if (sunday.HasValue && sunday.Value)
                         results.Add(item: startDate.Value);
                     
                     break;
@@ -95,33 +91,37 @@ public static class TravelineCalendarRunningDateTools
             startDate = startDate.Value.AddDays(value: 1);
         }
         
-        return await Task.FromResult(result: results
+        #endregion
+        
+        return results
             .Distinct()
             .OrderBy(keySelector: date => date)
-            .ToList());
+            .ToList();
     }
     
-    public static async Task<bool> GetDuplicateDatesAsync(
+    public static bool GetDuplicateDates(
         Dictionary<string, TravelineSchedule> schedules,
         List<TravelineStopPoint>? stopPoints,
         List<DateTime>? dates,
         string? direction,
         string? line) {
         
-        var results = schedules.Values
-            .Where(predicate: schedule =>
-                schedule.Calendar is { RunningDates: not null } && dates is not null && direction is not null && line is not null &&
-                schedule.Calendar.RunningDates.Intersect(second: dates).Any() &&
-                schedule.Direction == direction &&
-                schedule.Line == line);
+        #region build results
         
-        return await Task.FromResult(result: results
+        var results = schedules.Values.Where(predicate: schedule =>
+            schedule.Calendar is { RunningDates: not null } && dates is not null && direction is not null && line is not null &&
+            schedule.Calendar.RunningDates.Intersect(second: dates).Any() &&
+            schedule.Direction == direction &&
+            schedule.Line == line);
+        
+        #endregion
+        
+        return results
             .Where(predicate: schedule =>
                 schedule.StopPoints?.FirstOrDefault()?.AtcoCode == stopPoints?.FirstOrDefault()?.AtcoCode &&
                 schedule.StopPoints?.FirstOrDefault()?.DepartureTime == stopPoints?.FirstOrDefault()?.DepartureTime)
             .Any(predicate: schedule =>
                 schedule.StopPoints?.LastOrDefault()?.AtcoCode == stopPoints?.LastOrDefault()?.AtcoCode &&
-                schedule.StopPoints?.LastOrDefault()?.ArrivalTime == stopPoints?.LastOrDefault()?.ArrivalTime)
-        );
+                schedule.StopPoints?.LastOrDefault()?.ArrivalTime == stopPoints?.LastOrDefault()?.ArrivalTime);
     }
 }

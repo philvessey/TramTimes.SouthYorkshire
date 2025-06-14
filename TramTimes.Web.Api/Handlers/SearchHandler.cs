@@ -15,6 +15,8 @@ public static class SearchHandler
         IMapper mapperService,
         string id) {
         
+        #region build request
+        
         var request = new SearchRequest(indices: "search")
         {
             Query = new TermQuery(field: new Field(name: "id"))
@@ -23,13 +25,19 @@ public static class SearchHandler
             }
         };
         
-        var response = await searchService.SearchAsync<SearchStop>(request: request);
+        #endregion
         
-        if (!response.IsValidResponse || response.Documents.IsNullOrEmpty())
+        #region build results
+        
+        var results = await searchService.SearchAsync<SearchStop>(request: request);
+        
+        if (!results.IsValidResponse || results.Documents.IsNullOrEmpty())
             return Results.NotFound();
         
+        #endregion
+        
         return Results.Json(data: mapperService.Map<List<WebStop>>(
-            source: response.Documents
+            source: results.Documents
                 .OrderBy(keySelector: stop => stop.Name)
                 .ThenBy(keySelector: stop => stop.Id)));
     }
@@ -39,6 +47,8 @@ public static class SearchHandler
         IMapper mapperService,
         string code) {
         
+        #region build request
+        
         var request = new SearchRequest(indices: "search")
         {
             Query = new TermQuery(field: new Field(name: "code"))
@@ -47,13 +57,19 @@ public static class SearchHandler
             }
         };
         
-        var response = await searchService.SearchAsync<SearchStop>(request: request);
+        #endregion
         
-        if (!response.IsValidResponse || response.Documents.IsNullOrEmpty())
+        #region build results
+        
+        var results = await searchService.SearchAsync<SearchStop>(request: request);
+        
+        if (!results.IsValidResponse || results.Documents.IsNullOrEmpty())
             return Results.NotFound();
         
+        #endregion
+        
         return Results.Json(data: mapperService.Map<List<WebStop>>(
-            source: response.Documents
+            source: results.Documents
                 .OrderBy(keySelector: stop => stop.Name)
                 .ThenBy(keySelector: stop => stop.Id)));
     }
@@ -62,6 +78,8 @@ public static class SearchHandler
         ElasticsearchClient searchService,
         IMapper mapperService,
         string name) {
+        
+        #region build request
         
         var request = new SearchRequest(indices: "search")
         {
@@ -72,13 +90,19 @@ public static class SearchHandler
             }
         };
         
-        var response = await searchService.SearchAsync<SearchStop>(request: request);
+        #endregion
         
-        if (!response.IsValidResponse || response.Documents.IsNullOrEmpty())
+        #region build results
+        
+        var results = await searchService.SearchAsync<SearchStop>(request: request);
+        
+        if (!results.IsValidResponse || results.Documents.IsNullOrEmpty())
             return Results.NotFound();
         
+        #endregion
+        
         return Results.Json(data: mapperService.Map<List<WebStop>>(
-            source: response.Documents
+            source: results.Documents
                 .OrderBy(keySelector: stop => stop.Name)
                 .ThenBy(keySelector: stop => stop.Id)));
     }
@@ -90,6 +114,8 @@ public static class SearchHandler
         double minLat,
         double maxLon,
         double maxLat) {
+        
+        #region build request
         
         var request = new SearchRequest(indices: "search")
         {
@@ -117,10 +143,16 @@ public static class SearchHandler
             })
         };
         
+        #endregion
+        
+        #region build results
+        
         var response = await searchService.SearchAsync<SearchStop>(request: request);
         
         if (!response.IsValidResponse || response.Documents.IsNullOrEmpty())
             return Results.NotFound();
+        
+        #endregion
         
         return Results.Json(data: mapperService.Map<List<WebStop>>(source: response.Documents));
     }
