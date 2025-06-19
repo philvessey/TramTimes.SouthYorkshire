@@ -12,6 +12,7 @@ builder
 
 #region inject services
 
+builder.AddAzureBlobContainerClient(connectionName: "web-storage");
 builder.AddNpgsqlDataSource(connectionName: "database");
 builder.AddRedisClient(connectionName: "cache");
 builder.AddElasticsearchClient(connectionName: "search");
@@ -40,6 +41,11 @@ application.MapDefaultEndpoints();
 application.MapDatabaseEndpoints();
 application.MapCacheEndpoints();
 application.MapSearchEndpoints();
+
+if (application.Environment.IsDevelopment())
+{
+    application.MapWebEndpoints();
+}
 
 #endregion
 

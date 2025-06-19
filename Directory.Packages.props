@@ -3,7 +3,12 @@
     <PropertyGroup>
         <AspireVersion>9.3.1</AspireVersion>
         <ElasticAspireVersion>9.3.0</ElasticAspireVersion>
+        <NextDeparturesVersion>3.7.4</NextDeparturesVersion>
+    </PropertyGroup>
+    
+    <PropertyGroup>
         <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+        <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
     </PropertyGroup>
     
     <ItemGroup>
@@ -34,9 +39,9 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageVersion Include="NextDepartures.Standard" Version="3.7.4" />
-        <PackageVersion Include="NextDepartures.Storage.GTFS" Version="3.7.4" />
-        <PackageVersion Include="NextDepartures.Storage.Postgres.Aspire" Version="3.7.4" />
+        <PackageVersion Include="NextDepartures.Standard" Version="$(NextDeparturesVersion)" />
+        <PackageVersion Include="NextDepartures.Storage.GTFS" Version="$(NextDeparturesVersion)" />
+        <PackageVersion Include="NextDepartures.Storage.Postgres.Aspire" Version="$(NextDeparturesVersion)" />
     </ItemGroup>
     
     <ItemGroup>
@@ -48,13 +53,12 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageVersion Include="coverlet.collector" Version="6.0.4" />
-        <PackageVersion Include="coverlet.console" Version="6.0.4" />
-    </ItemGroup>
-    
-    <ItemGroup>
         <PackageVersion Include="xunit" Version="2.9.3" />
+        <PackageVersion Include="xunit.core" Version="2.9.3" />
         <PackageVersion Include="xunit.assert" Version="2.9.3" />
+        <PackageVersion Include="xunit.extensibility.core" Version="2.9.3" />
+        <PackageVersion Include="xunit.extensibility.execution" Version="2.9.3" />
+        <PackageVersion Include="xunit.runner.console" Version="2.9.3" />
         <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.1" />
     </ItemGroup>
     

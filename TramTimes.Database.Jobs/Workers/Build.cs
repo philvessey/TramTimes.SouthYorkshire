@@ -33,8 +33,7 @@ public class Build(
         {
             #region delete expired blobs
             
-            var expiredBlobs = blobService
-                .GetBlobsAsync();
+            var expiredBlobs = blobService.GetBlobsAsync();
             
             await foreach (var item in expiredBlobs)
                 if (item.Properties.LastModified < context.FireTimeUtc.Date.AddDays(value: -28))

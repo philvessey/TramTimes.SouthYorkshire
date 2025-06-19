@@ -39,6 +39,8 @@ var searchResources = builder.BuildSearch(
 #region build web
 
 builder.BuildWeb(
+    storage: storageResources.Azure ?? throw new InvalidOperationException("Azure storage not initialized."),
+    container: storageResources.Web ?? throw new InvalidOperationException("Web container not initialized."),
     server: databaseResources.Postgres ?? throw new InvalidOperationException("Postgres server not initialized."),
     database: databaseResources.Database ?? throw new InvalidOperationException("Postgres database not initialized."),
     cache: cacheResources.Redis ?? throw new InvalidOperationException("Redis cache not initialized."),

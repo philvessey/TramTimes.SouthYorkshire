@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+    
+    <ItemGroup>
+        <PackageReference Include="Aspire.Azure.Storage.Blobs" />
+        <PackageReference Include="Quartz.Extensions.Hosting" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <ProjectReference Include="..\TramTimes.Service.Defaults\TramTimes.Service.Defaults.csproj" />
+    </ItemGroup>
+    
+</Project>

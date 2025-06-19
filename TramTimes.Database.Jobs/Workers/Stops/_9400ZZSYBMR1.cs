@@ -30,8 +30,7 @@ public class _9400ZZSYBMR1(
         {
             #region get active blobs
             
-            var activeBlobs = blobService
-                .GetBlobsAsync(prefix: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd") + "/gtfs/");
+            var activeBlobs = blobService.GetBlobsAsync(prefix: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd") + "/gtfs/");
             
             await foreach (var item in activeBlobs)
                 await blobService

@@ -44,6 +44,10 @@ public static class StorageBuilder
             name: "search-storage",
             blobContainerName: "search");
         
+        result.Web = blobs.AddBlobContainer(
+            name: "web-storage",
+            blobContainerName: "web");
+        
         #endregion
         
         return result;

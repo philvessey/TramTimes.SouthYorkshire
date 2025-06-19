@@ -16,4 +16,7 @@ public class StorageResources
     
     [UsedImplicitly]
     public IResourceBuilder<AzureBlobStorageContainerResource>? Search { get; set; }
+    
+    [UsedImplicitly]
+    public IResourceBuilder<AzureBlobStorageContainerResource>? Web { get; set; }
 }
