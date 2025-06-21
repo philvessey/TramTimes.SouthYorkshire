@@ -1,23 +1,36 @@
-Write-Host "`e[?25l" -NoNewline
+Write-Host ""
+Write-Host "Running tests..."
 Write-Host ""
 
-Write-Host "Running tests..." -ForegroundColor Yellow
-Write-Host ""
+$output = dotnet test --settings test.runsettings 2>&1 | Out-String
+$allLines = [System.Text.RegularExpressions.Regex]::Split($output, "\r?\n")
+$failLines = $allLines | Where-Object { $_ -match '\[FAIL\]' }
+$skipLines = $allLines | Where-Object { $_ -match '\[SKIP\]' }
+$otherLines = $allLines | Where-Object { $_ -notmatch '\[FAIL\]' -and $_ -notmatch '\[SKIP\]' }
 
-$output = dotnet test | Out-String
+$output = $otherLines -join "`n"
 
 if ($output -match "Failed:\s*(\d+), Passed:\s*(\d+), Skipped:\s*(\d+), Total:\s*(\d+)") {
     $failed, $passed, $skipped, $total = $matches[1], $matches[2], $matches[3], $matches[4]
-    $totalColor = if ([int]$failed -eq 0) { 'Green' } else { 'Red' }
     
     Write-Host ("{0,-8} {1,5}" -f 'Passed', $passed) -ForegroundColor Green
     Write-Host ("{0,-8} {1,5}" -f 'Failed', $failed) -ForegroundColor Red
     Write-Host ("{0,-8} {1,5}" -f 'Skipped', $skipped) -ForegroundColor Yellow
-    Write-Host ("{0,-8} {1,5}" -f 'Total', $total) -ForegroundColor $totalColor
+    Write-Host ("{0,-8} {1,5}" -f 'Total', $total)
+    Write-Host ""
 } else {
-    Write-Host "`e[1A`e[2K" -NoNewline
-    Write-Host "Test Results Missing!" -ForegroundColor Red
+    Write-Host "Test Results Missing!"
+    Write-Host ""
 }
 
-Write-Host "`e[?25h" -NoNewline
-Write-Host ""
+if ($failLines.Count -gt 0) {
+    Write-Host "[FAILED]" -ForegroundColor Red
+    $failLines | ForEach-Object { Write-Host $_ }
+    Write-Host ""
+}
+
+if ($skipLines.Count -gt 0) {
+    Write-Host "[SKIPPED]" -ForegroundColor Yellow
+    $skipLines | ForEach-Object { Write-Host $_ }
+    Write-Host ""
+}

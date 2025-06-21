@@ -28,14 +28,14 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
 		if (AspireManager.Application is null)
 			return;
 		
-		var tokenSource = new CancellationTokenSource(delay: TimeSpan.FromSeconds(seconds: 30));
+		var tokenSource = new CancellationTokenSource(delay: TimeSpan.FromSeconds(seconds: 10));
 		
 		await AspireManager.Application.ResourceNotifications
 			.WaitForResourceHealthyAsync(
 				resourceName: "web-site",
 				cancellationToken: tokenSource.Token)
 			.WaitAsync(
-				timeout: TimeSpan.FromSeconds(seconds: 30),
+				timeout: TimeSpan.FromSeconds(seconds: 10),
 				cancellationToken: tokenSource.Token);
         
 		#endregion
@@ -87,14 +87,14 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
 		if (AspireManager.Application is null)
 			return;
 		
-		var tokenSource = new CancellationTokenSource(delay: TimeSpan.FromSeconds(seconds: 30));
+		var tokenSource = new CancellationTokenSource(delay: TimeSpan.FromSeconds(seconds: 10));
 		
 		await AspireManager.Application.ResourceNotifications
 			.WaitForResourceHealthyAsync(
 				resourceName: "web-site",
 				cancellationToken: tokenSource.Token)
 			.WaitAsync(
-				timeout: TimeSpan.FromSeconds(seconds: 30),
+				timeout: TimeSpan.FromSeconds(seconds: 10),
 				cancellationToken: tokenSource.Token);
         
 		#endregion
@@ -111,6 +111,65 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
 				.ToString(),
 			
 			ColorScheme = ColorScheme.Light,
+			IgnoreHTTPSErrors = true
+		});
+		
+		#endregion
+		
+		#region build page
+        
+		var page = await context.NewPageAsync();
+        
+		#endregion
+        
+		#region run test
+		
+		try
+		{
+			await test(page);
+		}
+		finally
+		{
+			await page.CloseAsync();
+		}
+		
+		await context.CloseAsync();
+		await context.DisposeAsync();
+		
+		#endregion
+	}
+	
+	protected async Task RunTestSystemModeAsync(Func<IPage, Task> test)
+	{
+		#region check health
+        
+		if (AspireManager.Application is null)
+			return;
+		
+		var tokenSource = new CancellationTokenSource(delay: TimeSpan.FromSeconds(seconds: 10));
+		
+		await AspireManager.Application.ResourceNotifications
+			.WaitForResourceHealthyAsync(
+				resourceName: "web-site",
+				cancellationToken: tokenSource.Token)
+			.WaitAsync(
+				timeout: TimeSpan.FromSeconds(seconds: 10),
+				cancellationToken: tokenSource.Token);
+        
+		#endregion
+        
+		#region build context
+		
+		if (PlaywrightManager.Browser is null)
+			return;
+		
+		var context = await PlaywrightManager.Browser.NewContextAsync(options: new BrowserNewContextOptions
+		{
+			BaseURL = AspireManager.Application
+				.GetEndpoint(resourceName: "web-site")
+				.ToString(),
+			
+			ColorScheme = ColorScheme.NoPreference,
 			IgnoreHTTPSErrors = true
 		});
 		
@@ -228,15 +287,19 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
 				await using var fileStream = item.OpenRead();
 				var content = new StreamContent(content: fileStream);
 				
+				var name = item.Name.Replace(
+					oldValue: "|",
+					newValue: "/");
+				
 				content.Headers.Add(
 					name: "Content-Type",
 					value: "image/png");
 				
 				content.Headers.Add(
 					name: "Custom-Name",
-					value: $"{AspireManager.Storage.CreationTimeUtc:yyyyMMddHHmm}|{item.Name}");
+					value: $"{AspireManager.Storage.CreationTimeUtc:yyyyMMdd}/{name}");
 				
-				var blobClient = blobService.GetBlobClient(blobName: $"{AspireManager.Storage.CreationTimeUtc:yyyyMMddHHmm}/{item.Name}");
+				var blobClient = blobService.GetBlobClient(blobName: $"{AspireManager.Storage.CreationTimeUtc:yyyyMMdd}/{name}");
 				
 				var response = await blobClient.UploadAsync(
 					content: await content.ReadAsStreamAsync(),
@@ -270,13 +333,17 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
 				await using var fileStream = item.OpenRead();
 				var content = new StreamContent(content: fileStream);
 				
+				var name = item.Name.Replace(
+					oldValue: "|",
+					newValue: "/");
+				
 				content.Headers.Add(
 					name: "Content-Type",
 					value: "image/png");
 				
 				content.Headers.Add(
 					name: "Custom-Name",
-					value: $"{AspireManager.Storage.CreationTimeUtc:yyyyMMddHHmm}|{item.Name}");
+					value: $"{AspireManager.Storage.CreationTimeUtc:yyyyMMdd}/{name}");
 				
 				var response = await httpClient.PostAsync(
 					requestUri: new Uri(

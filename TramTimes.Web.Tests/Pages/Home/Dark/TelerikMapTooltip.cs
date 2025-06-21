@@ -10,9 +10,16 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
     private byte[]? Screenshot { get; set; }
     private string? Error { get; set; }
     
-    [Fact]
-    public async Task ExtraSmall()
-    {
+    [Theory]
+    [InlineData(-1.3443136700078966, 53.328532846077614, "Halfway", 1)]
+    [InlineData(-1.5082120329876791, 53.40064593919049, "Malin Bridge", 2)]
+    [InlineData(-1.510067739914952, 53.41586234037237, "Middlewood", 3)]
+    public async Task ExtraSmall(
+        double lon,
+        double lat,
+        string expected,
+        int run) {
+        
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
         await RunTestDarkModeAsync(test: async page =>
@@ -27,7 +34,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             
             #region load page
             
-            await page.GotoAsync(url: "/");
+            await page.GotoAsync(url: $"/{lon}/{lat}");
             await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
             
             #endregion
@@ -38,14 +45,25 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             
             try
             {
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map")).ToBeVisibleAsync();
-                await Assertions.Expect(locator: page.Locator(selector: "span:nth-child(3) > .k-map-marker")).ToBeVisibleAsync();
+                var locator = page.Locator(selector: "#home-telerik-map");
                 
-                await page.Locator(selector: "span:nth-child(3) > .k-map-marker").HoverAsync();
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
                 
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map__tooltip")).ToBeVisibleAsync();
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map__tooltip__title")).ToBeVisibleAsync();
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map__tooltip__services")).ToBeVisibleAsync();
+                locator = page.Locator(selector: ".k-map-marker").First;
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                await locator.HoverAsync();
+                
+                locator = page.GetByText(text: expected);
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
             }
             catch (Exception e)
             {
@@ -63,8 +81,8 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: "home-dark-telerik-map-tooltip-extra-small.png"),
-                bytes: Screenshot);
+                    path2: $"home|dark|telerik-map-tooltip|run{run}|01.png"),
+                bytes: Screenshot ?? []);
             
             await UploadTestAsync();
             
@@ -74,9 +92,16 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
         await CompleteTestAsync(error: Error);
     }
     
-    [Fact]
-    public async Task Small()
-    {
+    [Theory]
+    [InlineData(-1.3443136700078966, 53.328532846077614, "Halfway", 1)]
+    [InlineData(-1.5082120329876791, 53.40064593919049, "Malin Bridge", 2)]
+    [InlineData(-1.510067739914952, 53.41586234037237, "Middlewood", 3)]
+    public async Task Small(
+        double lon,
+        double lat,
+        string expected,
+        int run) {
+        
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
         await RunTestDarkModeAsync(test: async page =>
@@ -91,7 +116,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             
             #region load page
             
-            await page.GotoAsync(url: "/");
+            await page.GotoAsync(url: $"/{lon}/{lat}");
             await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
             
             #endregion
@@ -102,14 +127,25 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             
             try
             {
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map")).ToBeVisibleAsync();
-                await Assertions.Expect(locator: page.Locator(selector: "span:nth-child(3) > .k-map-marker")).ToBeVisibleAsync();
+                var locator = page.Locator(selector: "#home-telerik-map");
                 
-                await page.Locator(selector: "span:nth-child(3) > .k-map-marker").HoverAsync();
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
                 
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map__tooltip")).ToBeVisibleAsync();
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map__tooltip__title")).ToBeVisibleAsync();
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map__tooltip__services")).ToBeVisibleAsync();
+                locator = page.Locator(selector: ".k-map-marker").First;
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                await locator.HoverAsync();
+                
+                locator = page.GetByText(text: expected);
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
             }
             catch (Exception e)
             {
@@ -127,8 +163,8 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: "home-dark-telerik-map-tooltip-small.png"),
-                bytes: Screenshot);
+                    path2: $"home|dark|telerik-map-tooltip|run{run}|02.png"),
+                bytes: Screenshot ?? []);
             
             await UploadTestAsync();
             
@@ -138,9 +174,16 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
         await CompleteTestAsync(error: Error);
     }
     
-    [Fact]
-    public async Task Medium()
-    {
+    [Theory]
+    [InlineData(-1.3443136700078966, 53.328532846077614, "Halfway", 1)]
+    [InlineData(-1.5082120329876791, 53.40064593919049, "Malin Bridge", 2)]
+    [InlineData(-1.510067739914952, 53.41586234037237, "Middlewood", 3)]
+    public async Task Medium(
+        double lon,
+        double lat,
+        string expected,
+        int run) {
+        
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
         await RunTestDarkModeAsync(test: async page =>
@@ -155,7 +198,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             
             #region load page
             
-            await page.GotoAsync(url: "/");
+            await page.GotoAsync(url: $"/{lon}/{lat}");
             await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
             
             #endregion
@@ -166,14 +209,25 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             
             try
             {
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map")).ToBeVisibleAsync();
-                await Assertions.Expect(locator: page.Locator(selector: "span:nth-child(3) > .k-map-marker")).ToBeVisibleAsync();
+                var locator = page.Locator(selector: "#home-telerik-map");
                 
-                await page.Locator(selector: "span:nth-child(3) > .k-map-marker").HoverAsync();
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
                 
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map__tooltip")).ToBeVisibleAsync();
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map__tooltip__title")).ToBeVisibleAsync();
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map__tooltip__services")).ToBeVisibleAsync();
+                locator = page.Locator(selector: ".k-map-marker").First;
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                await locator.HoverAsync();
+                
+                locator = page.GetByText(text: expected);
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
             }
             catch (Exception e)
             {
@@ -191,8 +245,8 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: "home-dark-telerik-map-tooltip-medium.png"),
-                bytes: Screenshot);
+                    path2: $"home|dark|telerik-map-tooltip|run{run}|03.png"),
+                bytes: Screenshot ?? []);
             
             await UploadTestAsync();
             
@@ -202,9 +256,16 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
         await CompleteTestAsync(error: Error);
     }
     
-    [Fact]
-    public async Task Large()
-    {
+    [Theory]
+    [InlineData(-1.3443136700078966, 53.328532846077614, "Halfway", 1)]
+    [InlineData(-1.5082120329876791, 53.40064593919049, "Malin Bridge", 2)]
+    [InlineData(-1.510067739914952, 53.41586234037237, "Middlewood", 3)]
+    public async Task Large(
+        double lon,
+        double lat,
+        string expected,
+        int run) {
+        
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
         await RunTestDarkModeAsync(test: async page =>
@@ -219,7 +280,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             
             #region load page
             
-            await page.GotoAsync(url: "/");
+            await page.GotoAsync(url: $"/{lon}/{lat}");
             await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
             
             #endregion
@@ -230,14 +291,25 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             
             try
             {
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map")).ToBeVisibleAsync();
-                await Assertions.Expect(locator: page.Locator(selector: "span:nth-child(3) > .k-map-marker")).ToBeVisibleAsync();
+                var locator = page.Locator(selector: "#home-telerik-map");
                 
-                await page.Locator(selector: "span:nth-child(3) > .k-map-marker").HoverAsync();
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
                 
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map__tooltip")).ToBeVisibleAsync();
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map__tooltip__title")).ToBeVisibleAsync();
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map__tooltip__services")).ToBeVisibleAsync();
+                locator = page.Locator(selector: ".k-map-marker").First;
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                await locator.HoverAsync();
+                
+                locator = page.GetByText(text: expected);
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
             }
             catch (Exception e)
             {
@@ -255,8 +327,8 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: "home-dark-telerik-map-tooltip-large.png"),
-                bytes: Screenshot);
+                    path2: $"home|dark|telerik-map-tooltip|run{run}|04.png"),
+                bytes: Screenshot ?? []);
             
             await UploadTestAsync();
             
@@ -266,9 +338,16 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
         await CompleteTestAsync(error: Error);
     }
     
-    [Fact]
-    public async Task ExtraLarge()
-    {
+    [Theory]
+    [InlineData(-1.3443136700078966, 53.328532846077614, "Halfway", 1)]
+    [InlineData(-1.5082120329876791, 53.40064593919049, "Malin Bridge", 2)]
+    [InlineData(-1.510067739914952, 53.41586234037237, "Middlewood", 3)]
+    public async Task ExtraLarge(
+        double lon,
+        double lat,
+        string expected,
+        int run) {
+        
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
         await RunTestDarkModeAsync(test: async page =>
@@ -283,7 +362,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             
             #region load page
             
-            await page.GotoAsync(url: "/");
+            await page.GotoAsync(url: $"/{lon}/{lat}");
             await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
             
             #endregion
@@ -294,14 +373,25 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             
             try
             {
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map")).ToBeVisibleAsync();
-                await Assertions.Expect(locator: page.Locator(selector: "span:nth-child(3) > .k-map-marker")).ToBeVisibleAsync();
+                var locator = page.Locator(selector: "#home-telerik-map");
                 
-                await page.Locator(selector: "span:nth-child(3) > .k-map-marker").HoverAsync();
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
                 
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map__tooltip")).ToBeVisibleAsync();
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map__tooltip__title")).ToBeVisibleAsync();
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map__tooltip__services")).ToBeVisibleAsync();
+                locator = page.Locator(selector: ".k-map-marker").First;
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                await locator.HoverAsync();
+                
+                locator = page.GetByText(text: expected);
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
             }
             catch (Exception e)
             {
@@ -319,8 +409,8 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: "home-dark-telerik-map-tooltip-extra-large.png"),
-                bytes: Screenshot);
+                    path2: $"home|dark|telerik-map-tooltip|run{run}|05.png"),
+                bytes: Screenshot ?? []);
             
             await UploadTestAsync();
             
@@ -330,9 +420,16 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
         await CompleteTestAsync(error: Error);
     }
     
-    [Fact]
-    public async Task ExtraExtraLarge()
-    {
+    [Theory]
+    [InlineData(-1.3443136700078966, 53.328532846077614, "Halfway", 1)]
+    [InlineData(-1.5082120329876791, 53.40064593919049, "Malin Bridge", 2)]
+    [InlineData(-1.510067739914952, 53.41586234037237, "Middlewood", 3)]
+    public async Task ExtraExtraLarge(
+        double lon,
+        double lat,
+        string expected,
+        int run) {
+        
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
         await RunTestDarkModeAsync(test: async page =>
@@ -347,7 +444,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             
             #region load page
             
-            await page.GotoAsync(url: "/");
+            await page.GotoAsync(url: $"/{lon}/{lat}");
             await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
             
             #endregion
@@ -358,14 +455,25 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             
             try
             {
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map")).ToBeVisibleAsync();
-                await Assertions.Expect(locator: page.Locator(selector: "span:nth-child(3) > .k-map-marker")).ToBeVisibleAsync();
+                var locator = page.Locator(selector: "#home-telerik-map");
                 
-                await page.Locator(selector: "span:nth-child(3) > .k-map-marker").HoverAsync();
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
                 
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map__tooltip")).ToBeVisibleAsync();
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map__tooltip__title")).ToBeVisibleAsync();
-                await Assertions.Expect(locator: page.Locator(selector: "#home-telerik-map__tooltip__services")).ToBeVisibleAsync();
+                locator = page.Locator(selector: ".k-map-marker").First;
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                await locator.HoverAsync();
+                
+                locator = page.GetByText(text: expected);
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
             }
             catch (Exception e)
             {
@@ -383,8 +491,8 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: "home-dark-telerik-map-tooltip-extra-extra-large.png"),
-                bytes: Screenshot);
+                    path2: $"home|dark|telerik-map-tooltip|run{run}|06.png"),
+                bytes: Screenshot ?? []);
             
             await UploadTestAsync();
             

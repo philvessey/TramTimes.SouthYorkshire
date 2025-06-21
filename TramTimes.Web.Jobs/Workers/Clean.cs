@@ -22,7 +22,7 @@ public class Clean(
             var expiredBlobs = blobService.GetBlobsAsync();
             
             await foreach (var item in expiredBlobs)
-                if (item.Properties.LastModified < context.FireTimeUtc.Date.AddDays(value: -7))
+                if (item.Properties.LastModified < context.FireTimeUtc.Date.AddDays(value: -28))
                     await blobService
                         .GetBlobClient(blobName: item.Name)
                         .DeleteAsync();

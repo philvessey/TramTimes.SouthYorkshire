@@ -1,4 +1,3 @@
-using System.Globalization;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using TramTimes.Web.Api.Models;
@@ -33,43 +32,14 @@ public static class WebHandler
         if (string.IsNullOrEmpty(value: customName))
             return Results.BadRequest();
         
-        if (!customName.ContainsIgnoreCase(value: "|") || !customName.EndsWithIgnoreCase(value: ".png"))
-            return Results.NotFound();
-        
-        #endregion
-        
-        #region check prefix
-        
-        var prefix = customName
-            .Split(separator: '|')
-            .FirstOrDefault();
-        
-        var name = customName
-            .Split(separator: '|')
-            .LastOrDefault();
-        
-        if (string.IsNullOrEmpty(value: prefix) || string.IsNullOrEmpty(value: name))
-            return Results.NotFound();
-        
-        #endregion
-        
-        #region get prefix
-        
-        var valid = DateTime.TryParseExact(
-            s: prefix,
-            format: "yyyyMMddHHmm",
-            provider: CultureInfo.InvariantCulture,
-            style: DateTimeStyles.None,
-            out var dateTime);
-        
-        if (!valid || dateTime == default)
+        if (!customName.EndsWithIgnoreCase(value: ".png"))
             return Results.NotFound();
         
         #endregion
         
         #region upload file
         
-        var blobClient = blobService.GetBlobClient(blobName: $"{prefix}/{name}");
+        var blobClient = blobService.GetBlobClient(blobName: customName);
         
         var response = await blobClient.UploadAsync(
             content: request.Body,
@@ -90,8 +60,6 @@ public static class WebHandler
         
         var result = new WebScreenshot
         {
-            Prefix = prefix,
-            Name = name,
             Endpoint = blobClient.Uri.ToString()
         };
         

@@ -13,6 +13,12 @@ public class PlaywrightManager : IAsyncLifetime
     
     public async Task InitializeAsync()
     {
+        #region configure manager
+        
+        Assertions.SetDefaultExpectTimeout(timeout: 10_000);
+        
+        #endregion
+        
         #region create manager
         
         Manager = await Playwright.CreateAsync();

@@ -2,7 +2,7 @@ using Microsoft.Playwright;
 using TramTimes.Web.Tests.Managers;
 using Xunit;
 
-namespace TramTimes.Web.Tests.Pages.Home.Light;
+namespace TramTimes.Web.Tests.Pages.Home.System;
 
 public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireManager: aspireManager)
 {
@@ -22,7 +22,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
-        await RunTestLightModeAsync(test: async page =>
+        await RunTestSystemModeAsync(test: async page =>
         {
             #region configure page
             
@@ -81,7 +81,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"home|light|telerik-map-tooltip|run{run}|01.png"),
+                    path2: $"home|system|telerik-map-tooltip|run{run}|01.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();
@@ -104,7 +104,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
-        await RunTestLightModeAsync(test: async page =>
+        await RunTestSystemModeAsync(test: async page =>
         {
             #region configure page
             
@@ -163,7 +163,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"home|light|telerik-map-tooltip|run{run}|02.png"),
+                    path2: $"home|system|telerik-map-tooltip|run{run}|02.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();
@@ -186,7 +186,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
-        await RunTestLightModeAsync(test: async page =>
+        await RunTestSystemModeAsync(test: async page =>
         {
             #region configure page
             
@@ -245,7 +245,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"home|light|telerik-map-tooltip|run{run}|03.png"),
+                    path2: $"home|system|telerik-map-tooltip|run{run}|03.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();
@@ -268,7 +268,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
-        await RunTestLightModeAsync(test: async page =>
+        await RunTestSystemModeAsync(test: async page =>
         {
             #region configure page
             
@@ -327,7 +327,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"home|light|telerik-map-tooltip|run{run}|04.png"),
+                    path2: $"home|system|telerik-map-tooltip|run{run}|04.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();
@@ -350,7 +350,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
-        await RunTestLightModeAsync(test: async page =>
+        await RunTestSystemModeAsync(test: async page =>
         {
             #region configure page
             
@@ -409,7 +409,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"home|light|telerik-map-tooltip|run{run}|05.png"),
+                    path2: $"home|system|telerik-map-tooltip|run{run}|05.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();
@@ -432,7 +432,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
-        await RunTestLightModeAsync(test: async page =>
+        await RunTestSystemModeAsync(test: async page =>
         {
             #region configure page
             
@@ -491,7 +491,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"home|light|telerik-map-tooltip|run{run}|06.png"),
+                    path2: $"home|system|telerik-map-tooltip|run{run}|06.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();
