@@ -4,19 +4,20 @@ using Xunit;
 
 namespace TramTimes.Web.Tests.Pages.Home.Dark;
 
-public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireManager: aspireManager)
+public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTest(aspireManager: aspireManager)
 {
     private AspireManager AspireManager { get; } = aspireManager ?? throw new ArgumentNullException(paramName: nameof(aspireManager));
     private byte[]? Screenshot { get; set; }
     private string? Error { get; set; }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, "Halfway", 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, "Malin Bridge", 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, "Middlewood", 3)]
+    [InlineData(-1.3443136700078966, 53.328532846077614, "halfw", "Halfway", 1)]
+    [InlineData(-1.5082120329876791, 53.40064593919049, "malin", "Malin Bridge", 2)]
+    [InlineData(-1.510067739914952, 53.41586234037237, "middl", "Middlewood", 3)]
     public async Task ExtraSmall(
         double lon,
         double lat,
+        string query,
         string expected,
         int run) {
         
@@ -45,25 +46,50 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-map");
+                var locator = page.Locator(selector: "#home-telerik-auto-complete");
                 
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
                 
-                locator = page.Locator(selector: ".k-map-marker").First;
+                locator = page.GetByRole(
+                    role: AriaRole.Combobox,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "Search Stops"
+                    });
                 
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
                 
-                await locator.HoverAsync();
+                await locator.ClickAsync();
+                await locator.FillAsync(value: query);
                 
                 locator = page.GetByText(text: expected);
                 
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "Clear"
+                    });
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                await locator.ClickAsync();
+                
+                locator = page.GetByText(text: expected);
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
             }
             catch (Exception e)
             {
@@ -81,7 +107,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"home|dark|telerik-map-tooltip|run{run}|01.png"),
+                    path2: $"home|dark|telerik-auto-complete-open-close|run{run}|01.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();
@@ -93,12 +119,13 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, "Halfway", 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, "Malin Bridge", 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, "Middlewood", 3)]
+    [InlineData(-1.3443136700078966, 53.328532846077614, "halfw", "Halfway", 1)]
+    [InlineData(-1.5082120329876791, 53.40064593919049, "malin", "Malin Bridge", 2)]
+    [InlineData(-1.510067739914952, 53.41586234037237, "middl", "Middlewood", 3)]
     public async Task Small(
         double lon,
         double lat,
+        string query,
         string expected,
         int run) {
         
@@ -127,25 +154,50 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-map");
+                var locator = page.Locator(selector: "#home-telerik-auto-complete");
                 
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
                 
-                locator = page.Locator(selector: ".k-map-marker").First;
+                locator = page.GetByRole(
+                    role: AriaRole.Combobox,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "Search Stops"
+                    });
                 
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
                 
-                await locator.HoverAsync();
+                await locator.ClickAsync();
+                await locator.FillAsync(value: query);
                 
                 locator = page.GetByText(text: expected);
                 
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "Clear"
+                    });
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                await locator.ClickAsync();
+                
+                locator = page.GetByText(text: expected);
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
             }
             catch (Exception e)
             {
@@ -163,7 +215,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"home|dark|telerik-map-tooltip|run{run}|02.png"),
+                    path2: $"home|dark|telerik-auto-complete-open-close|run{run}|02.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();
@@ -175,12 +227,13 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, "Halfway", 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, "Malin Bridge", 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, "Middlewood", 3)]
+    [InlineData(-1.3443136700078966, 53.328532846077614, "halfw", "Halfway", 1)]
+    [InlineData(-1.5082120329876791, 53.40064593919049, "malin", "Malin Bridge", 2)]
+    [InlineData(-1.510067739914952, 53.41586234037237, "middl", "Middlewood", 3)]
     public async Task Medium(
         double lon,
         double lat,
+        string query,
         string expected,
         int run) {
         
@@ -209,25 +262,50 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-map");
+                var locator = page.Locator(selector: "#home-telerik-auto-complete");
                 
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
                 
-                locator = page.Locator(selector: ".k-map-marker").First;
+                locator = page.GetByRole(
+                    role: AriaRole.Combobox,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "Search Stops"
+                    });
                 
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
                 
-                await locator.HoverAsync();
+                await locator.ClickAsync();
+                await locator.FillAsync(value: query);
                 
                 locator = page.GetByText(text: expected);
                 
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "Clear"
+                    });
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                await locator.ClickAsync();
+                
+                locator = page.GetByText(text: expected);
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
             }
             catch (Exception e)
             {
@@ -245,7 +323,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"home|dark|telerik-map-tooltip|run{run}|03.png"),
+                    path2: $"home|dark|telerik-auto-complete-open-close|run{run}|03.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();
@@ -257,12 +335,13 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, "Halfway", 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, "Malin Bridge", 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, "Middlewood", 3)]
+    [InlineData(-1.3443136700078966, 53.328532846077614, "halfw", "Halfway", 1)]
+    [InlineData(-1.5082120329876791, 53.40064593919049, "malin", "Malin Bridge", 2)]
+    [InlineData(-1.510067739914952, 53.41586234037237, "middl", "Middlewood", 3)]
     public async Task Large(
         double lon,
         double lat,
+        string query,
         string expected,
         int run) {
         
@@ -291,25 +370,50 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-map");
+                var locator = page.Locator(selector: "#home-telerik-auto-complete");
                 
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
                 
-                locator = page.Locator(selector: ".k-map-marker").First;
+                locator = page.GetByRole(
+                    role: AriaRole.Combobox,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "Search Stops"
+                    });
                 
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
                 
-                await locator.HoverAsync();
+                await locator.ClickAsync();
+                await locator.FillAsync(value: query);
                 
                 locator = page.GetByText(text: expected);
                 
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "Clear"
+                    });
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                await locator.ClickAsync();
+                
+                locator = page.GetByText(text: expected);
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
             }
             catch (Exception e)
             {
@@ -327,7 +431,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"home|dark|telerik-map-tooltip|run{run}|04.png"),
+                    path2: $"home|dark|telerik-auto-complete-open-close|run{run}|04.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();
@@ -339,12 +443,13 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, "Halfway", 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, "Malin Bridge", 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, "Middlewood", 3)]
+    [InlineData(-1.3443136700078966, 53.328532846077614, "halfw", "Halfway", 1)]
+    [InlineData(-1.5082120329876791, 53.40064593919049, "malin", "Malin Bridge", 2)]
+    [InlineData(-1.510067739914952, 53.41586234037237, "middl", "Middlewood", 3)]
     public async Task ExtraLarge(
         double lon,
         double lat,
+        string query,
         string expected,
         int run) {
         
@@ -373,25 +478,50 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-map");
+                var locator = page.Locator(selector: "#home-telerik-auto-complete");
                 
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
                 
-                locator = page.Locator(selector: ".k-map-marker").First;
+                locator = page.GetByRole(
+                    role: AriaRole.Combobox,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "Search Stops"
+                    });
                 
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
                 
-                await locator.HoverAsync();
+                await locator.ClickAsync();
+                await locator.FillAsync(value: query);
                 
                 locator = page.GetByText(text: expected);
                 
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "Clear"
+                    });
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                await locator.ClickAsync();
+                
+                locator = page.GetByText(text: expected);
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
             }
             catch (Exception e)
             {
@@ -409,7 +539,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"home|dark|telerik-map-tooltip|run{run}|05.png"),
+                    path2: $"home|dark|telerik-auto-complete-open-close|run{run}|05.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();
@@ -421,12 +551,13 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, "Halfway", 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, "Malin Bridge", 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, "Middlewood", 3)]
+    [InlineData(-1.3443136700078966, 53.328532846077614, "halfw", "Halfway", 1)]
+    [InlineData(-1.5082120329876791, 53.40064593919049, "malin", "Malin Bridge", 2)]
+    [InlineData(-1.510067739914952, 53.41586234037237, "middl", "Middlewood", 3)]
     public async Task ExtraExtraLarge(
         double lon,
         double lat,
+        string query,
         string expected,
         int run) {
         
@@ -455,25 +586,50 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-map");
+                var locator = page.Locator(selector: "#home-telerik-auto-complete");
                 
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
                 
-                locator = page.Locator(selector: ".k-map-marker").First;
+                locator = page.GetByRole(
+                    role: AriaRole.Combobox,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "Search Stops"
+                    });
                 
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
                 
-                await locator.HoverAsync();
+                await locator.ClickAsync();
+                await locator.FillAsync(value: query);
                 
                 locator = page.GetByText(text: expected);
                 
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "Clear"
+                    });
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                await locator.ClickAsync();
+                
+                locator = page.GetByText(text: expected);
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
             }
             catch (Exception e)
             {
@@ -491,7 +647,7 @@ public class TelerikMapTooltip(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"home|dark|telerik-map-tooltip|run{run}|06.png"),
+                    path2: $"home|dark|telerik-auto-complete-open-close|run{run}|06.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();

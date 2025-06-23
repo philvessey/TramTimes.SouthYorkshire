@@ -4,7 +4,7 @@ using Xunit;
 
 namespace TramTimes.Web.Tests.Pages.Home.Light;
 
-public class TelerikAutoCompleteResult(AspireManager aspireManager) : BaseTest(aspireManager: aspireManager)
+public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTest(aspireManager: aspireManager)
 {
     private AspireManager AspireManager { get; } = aspireManager ?? throw new ArgumentNullException(paramName: nameof(aspireManager));
     private byte[]? Screenshot { get; set; }
@@ -71,6 +71,25 @@ public class TelerikAutoCompleteResult(AspireManager aspireManager) : BaseTest(a
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "Clear"
+                    });
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                await locator.ClickAsync();
+                
+                locator = page.GetByText(text: expected);
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
             }
             catch (Exception e)
             {
@@ -88,7 +107,7 @@ public class TelerikAutoCompleteResult(AspireManager aspireManager) : BaseTest(a
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"home|light|telerik-auto-complete-result|run{run}|01.png"),
+                    path2: $"home|light|telerik-auto-complete-open-close|run{run}|01.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();
@@ -160,6 +179,25 @@ public class TelerikAutoCompleteResult(AspireManager aspireManager) : BaseTest(a
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "Clear"
+                    });
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                await locator.ClickAsync();
+                
+                locator = page.GetByText(text: expected);
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
             }
             catch (Exception e)
             {
@@ -177,7 +215,7 @@ public class TelerikAutoCompleteResult(AspireManager aspireManager) : BaseTest(a
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"home|light|telerik-auto-complete-result|run{run}|02.png"),
+                    path2: $"home|light|telerik-auto-complete-open-close|run{run}|02.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();
@@ -249,6 +287,25 @@ public class TelerikAutoCompleteResult(AspireManager aspireManager) : BaseTest(a
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "Clear"
+                    });
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                await locator.ClickAsync();
+                
+                locator = page.GetByText(text: expected);
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
             }
             catch (Exception e)
             {
@@ -266,7 +323,7 @@ public class TelerikAutoCompleteResult(AspireManager aspireManager) : BaseTest(a
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"home|light|telerik-auto-complete-result|run{run}|03.png"),
+                    path2: $"home|light|telerik-auto-complete-open-close|run{run}|03.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();
@@ -338,6 +395,25 @@ public class TelerikAutoCompleteResult(AspireManager aspireManager) : BaseTest(a
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "Clear"
+                    });
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                await locator.ClickAsync();
+                
+                locator = page.GetByText(text: expected);
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
             }
             catch (Exception e)
             {
@@ -355,7 +431,7 @@ public class TelerikAutoCompleteResult(AspireManager aspireManager) : BaseTest(a
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"home|light|telerik-auto-complete-result|run{run}|04.png"),
+                    path2: $"home|light|telerik-auto-complete-open-close|run{run}|04.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();
@@ -427,6 +503,25 @@ public class TelerikAutoCompleteResult(AspireManager aspireManager) : BaseTest(a
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "Clear"
+                    });
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                await locator.ClickAsync();
+                
+                locator = page.GetByText(text: expected);
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
             }
             catch (Exception e)
             {
@@ -444,7 +539,7 @@ public class TelerikAutoCompleteResult(AspireManager aspireManager) : BaseTest(a
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"home|light|telerik-auto-complete-result|run{run}|05.png"),
+                    path2: $"home|light|telerik-auto-complete-open-close|run{run}|05.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();
@@ -516,6 +611,25 @@ public class TelerikAutoCompleteResult(AspireManager aspireManager) : BaseTest(a
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "Clear"
+                    });
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                await locator.ClickAsync();
+                
+                locator = page.GetByText(text: expected);
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
             }
             catch (Exception e)
             {
@@ -533,7 +647,7 @@ public class TelerikAutoCompleteResult(AspireManager aspireManager) : BaseTest(a
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"home|light|telerik-auto-complete-result|run{run}|06.png"),
+                    path2: $"home|light|telerik-auto-complete-open-close|run{run}|06.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();

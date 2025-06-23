@@ -70,9 +70,11 @@
                         Zoom="@Zoom">
                 
                 <MapControls>
-                    <MapControlsAttribution Enabled="false" />
+                    <MapControlsAttribution Position="MapControlsPosition.BottomRight"/>
                     <MapControlsNavigator Enabled="false" />
-                    <MapControlsZoom Enabled="false" />
+                    
+                    <MapControlsZoom Enabled="@(TelerikDevice.MouseExtraSmall == false)"
+                                     Position="MapControlsPosition.TopRight"/>
                 </MapControls>
                 
                 <MapLayers>
@@ -100,7 +102,7 @@
                                             <ul>
                                                 @{
                                                     var points = stop.Points?
-                                                        .Take(count: 5)
+                                                        .Take(count: TelerikDevice.MouseExtraSmall == false ? 5 : 3)
                                                         .Select(selector: point => point)
                                                         .ToList() ?? [];
                                                     
@@ -163,7 +165,7 @@
                             <ul>
                                 @{
                                     var points = context.Points?
-                                        .Take(count: 5)
+                                        .Take(count: TelerikDevice.MouseExtraSmall == false ? 5 : 3)
                                         .Select(selector: point => point)
                                         .ToList() ?? [];
                                     
@@ -225,9 +227,11 @@
                         Zoom="@Zoom">
                 
                 <MapControls>
-                    <MapControlsAttribution Enabled="false" />
+                    <MapControlsAttribution Position="MapControlsPosition.BottomRight"/>
                     <MapControlsNavigator Enabled="false" />
-                    <MapControlsZoom Enabled="false" />
+                    
+                    <MapControlsZoom Enabled="@(TelerikDevice.TouchExtraSmall == false)"
+                                     Position="MapControlsPosition.TopRight"/>
                 </MapControls>
                 
                 <MapLayers>
@@ -271,7 +275,7 @@
                             <ul>
                                 @{
                                     var points = context.Points?
-                                        .Take(count: 5)
+                                        .Take(count: TelerikDevice.TouchExtraSmall == false ? 5 : 3)
                                         .Select(selector: point => point)
                                         .ToList() ?? [];
                                     

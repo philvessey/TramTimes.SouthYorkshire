@@ -50,11 +50,33 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
                 
-                locator = page.Locator(selector: ".k-map-marker").First;
+                locator = page.GetByText(text: "OpenStreetMap");
                 
                 await Assertions
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "zoom-in"
+                    });
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "zoom-out"
+                    });
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
             }
             catch (Exception e)
             {
@@ -123,7 +145,29 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
                 
-                locator = page.Locator(selector: ".k-map-marker").First;
+                locator = page.GetByText(text: "OpenStreetMap");
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "zoom-in"
+                    });
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "zoom-out"
+                    });
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -196,7 +240,29 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
                 
-                locator = page.Locator(selector: ".k-map-marker").First;
+                locator = page.GetByText(text: "OpenStreetMap");
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "zoom-in"
+                    });
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "zoom-out"
+                    });
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -269,7 +335,29 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
                 
-                locator = page.Locator(selector: ".k-map-marker").First;
+                locator = page.GetByText(text: "OpenStreetMap");
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "zoom-in"
+                    });
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "zoom-out"
+                    });
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -342,7 +430,29 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
                 
-                locator = page.Locator(selector: ".k-map-marker").First;
+                locator = page.GetByText(text: "OpenStreetMap");
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "zoom-in"
+                    });
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "zoom-out"
+                    });
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -415,7 +525,29 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
                     .Expect(locator: locator)
                     .ToBeVisibleAsync();
                 
-                locator = page.Locator(selector: ".k-map-marker").First;
+                locator = page.GetByText(text: "OpenStreetMap");
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "zoom-in"
+                    });
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeVisibleAsync();
+                
+                locator = page.GetByRole(
+                    role: AriaRole.Button,
+                    options: new PageGetByRoleOptions
+                    {
+                        Name = "zoom-out"
+                    });
                 
                 await Assertions
                     .Expect(locator: locator)
