@@ -27,7 +27,7 @@ builder.Services
 
 #endregion
 
-#region map endpoints
+#region build application
 
 var application = builder.Build();
 application.UseExceptionHandler();

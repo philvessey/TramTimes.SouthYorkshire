@@ -9,7 +9,7 @@ public static class ScheduleService
     {
         builder.Services.AddQuartz(configure: quartz =>
         {
-            #region setup jobs
+            #region clean container
             
             var init = new JobKey(name: "Init");
             var cron = new JobKey(name: "Cron");

@@ -19,7 +19,7 @@ builder.AddRedisClient(connectionName: "cache");
 
 #endregion
 
-#region create scope
+#region build application
 
 var application = builder.Build();
 

@@ -38,7 +38,7 @@ builder.Services
 
 #endregion
 
-#region map components
+#region build application
 
 var application = builder.Build();
 application.UseAntiforgery();

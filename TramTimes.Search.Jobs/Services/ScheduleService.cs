@@ -1,5 +1,6 @@
 using Quartz;
 using TramTimes.Search.Jobs.Workers;
+using TramTimes.Search.Jobs.Workers.Stops;
 
 namespace TramTimes.Search.Jobs.Services;
 
@@ -9,6 +10,31 @@ public static class ScheduleService
     {
         builder.Services.AddQuartz(configure: quartz =>
         {
+            #region clean index
+            
+            var init = new JobKey(name: "Init");
+            var cron = new JobKey(name: "Cron");
+            
+            quartz
+                .AddJob<Clean>(jobKey: init)
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: init);
+                    trigger.StartNow();
+                    trigger.WithDescription(description: "Startup job to clean the index.");
+                });
+            
+            quartz
+                .AddJob<Clean>(jobKey: cron)
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: cron);
+                    trigger.StartNow();
+                    trigger.WithCronSchedule(cronExpression: "0 30 3 * * ?");
+                });
+            
+            #endregion
+            
             #region arbourthorne road
             
             var _9400ZZSYABR1 = new JobKey(name: "9400ZZSYABR1");

@@ -48,5 +48,10 @@ builder.BuildWeb(
 
 #endregion
 
+#region build application
+
 var application = builder.Build();
+
+#endregion
+
 application.Run();

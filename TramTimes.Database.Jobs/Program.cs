@@ -18,7 +18,7 @@ builder.AddNpgsqlDataSource(connectionName: "database");
 
 #endregion
 
-#region create scope
+#region build application
 
 var application = builder.Build();
 
