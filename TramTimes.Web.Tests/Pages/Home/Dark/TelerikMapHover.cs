@@ -11,13 +11,13 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
     private string? Error { get; set; }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, "Halfway", 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, "Malin Bridge", 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, "Middlewood", 3)]
+    [InlineData("Halfway", 53.328532846077614, -1.3443136700078966, 1)]
+    [InlineData("Malin Bridge", 53.40064593919049, -1.5082120329876791, 2)]
+    [InlineData("Middlewood", 53.41586234037237, -1.510067739914952, 3)]
     public async Task ExtraSmall(
-        double lon,
+        string name,
         double lat,
-        string expected,
+        double lon,
         int run) {
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
@@ -35,7 +35,14 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
             #region load page
             
             await page.GotoAsync(url: $"/{lon}/{lat}");
-            await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+            
+            #endregion
+            
+            #region wait page
+            
+            await page.WaitForResponseAsync(urlOrPredicate: response =>
+                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Status == 200);
             
             #endregion
             
@@ -59,7 +66,7 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
                 
                 await locator.HoverAsync();
                 
-                locator = page.GetByText(text: expected);
+                locator = page.GetByText(text: name);
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -93,13 +100,13 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, "Halfway", 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, "Malin Bridge", 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, "Middlewood", 3)]
+    [InlineData("Halfway", 53.328532846077614, -1.3443136700078966, 1)]
+    [InlineData("Malin Bridge", 53.40064593919049, -1.5082120329876791, 2)]
+    [InlineData("Middlewood", 53.41586234037237, -1.510067739914952, 3)]
     public async Task Small(
-        double lon,
+        string name,
         double lat,
-        string expected,
+        double lon,
         int run) {
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
@@ -117,7 +124,14 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
             #region load page
             
             await page.GotoAsync(url: $"/{lon}/{lat}");
-            await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+            
+            #endregion
+            
+            #region wait page
+            
+            await page.WaitForResponseAsync(urlOrPredicate: response =>
+                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Status == 200);
             
             #endregion
             
@@ -141,7 +155,7 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
                 
                 await locator.HoverAsync();
                 
-                locator = page.GetByText(text: expected);
+                locator = page.GetByText(text: name);
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -175,13 +189,13 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, "Halfway", 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, "Malin Bridge", 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, "Middlewood", 3)]
+    [InlineData("Halfway", 53.328532846077614, -1.3443136700078966, 1)]
+    [InlineData("Malin Bridge", 53.40064593919049, -1.5082120329876791, 2)]
+    [InlineData("Middlewood", 53.41586234037237, -1.510067739914952, 3)]
     public async Task Medium(
-        double lon,
+        string name,
         double lat,
-        string expected,
+        double lon,
         int run) {
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
@@ -199,7 +213,14 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
             #region load page
             
             await page.GotoAsync(url: $"/{lon}/{lat}");
-            await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+            
+            #endregion
+            
+            #region wait page
+            
+            await page.WaitForResponseAsync(urlOrPredicate: response =>
+                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Status == 200);
             
             #endregion
             
@@ -223,7 +244,7 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
                 
                 await locator.HoverAsync();
                 
-                locator = page.GetByText(text: expected);
+                locator = page.GetByText(text: name);
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -257,13 +278,13 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, "Halfway", 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, "Malin Bridge", 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, "Middlewood", 3)]
+    [InlineData("Halfway", 53.328532846077614, -1.3443136700078966, 1)]
+    [InlineData("Malin Bridge", 53.40064593919049, -1.5082120329876791, 2)]
+    [InlineData("Middlewood", 53.41586234037237, -1.510067739914952, 3)]
     public async Task Large(
-        double lon,
+        string name,
         double lat,
-        string expected,
+        double lon,
         int run) {
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
@@ -281,7 +302,14 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
             #region load page
             
             await page.GotoAsync(url: $"/{lon}/{lat}");
-            await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+            
+            #endregion
+            
+            #region wait page
+            
+            await page.WaitForResponseAsync(urlOrPredicate: response =>
+                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Status == 200);
             
             #endregion
             
@@ -305,7 +333,7 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
                 
                 await locator.HoverAsync();
                 
-                locator = page.GetByText(text: expected);
+                locator = page.GetByText(text: name);
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -339,13 +367,13 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, "Halfway", 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, "Malin Bridge", 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, "Middlewood", 3)]
+    [InlineData("Halfway", 53.328532846077614, -1.3443136700078966, 1)]
+    [InlineData("Malin Bridge", 53.40064593919049, -1.5082120329876791, 2)]
+    [InlineData("Middlewood", 53.41586234037237, -1.510067739914952, 3)]
     public async Task ExtraLarge(
-        double lon,
+        string name,
         double lat,
-        string expected,
+        double lon,
         int run) {
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
@@ -363,7 +391,14 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
             #region load page
             
             await page.GotoAsync(url: $"/{lon}/{lat}");
-            await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+            
+            #endregion
+            
+            #region wait page
+            
+            await page.WaitForResponseAsync(urlOrPredicate: response =>
+                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Status == 200);
             
             #endregion
             
@@ -387,7 +422,7 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
                 
                 await locator.HoverAsync();
                 
-                locator = page.GetByText(text: expected);
+                locator = page.GetByText(text: name);
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -421,13 +456,13 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, "Halfway", 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, "Malin Bridge", 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, "Middlewood", 3)]
+    [InlineData("Halfway", 53.328532846077614, -1.3443136700078966, 1)]
+    [InlineData("Malin Bridge", 53.40064593919049, -1.5082120329876791, 2)]
+    [InlineData("Middlewood", 53.41586234037237, -1.510067739914952, 3)]
     public async Task ExtraExtraLarge(
-        double lon,
+        string name,
         double lat,
-        string expected,
+        double lon,
         int run) {
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
@@ -445,7 +480,14 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
             #region load page
             
             await page.GotoAsync(url: $"/{lon}/{lat}");
-            await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+            
+            #endregion
+            
+            #region wait page
+            
+            await page.WaitForResponseAsync(urlOrPredicate: response =>
+                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Status == 200);
             
             #endregion
             
@@ -469,7 +511,7 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
                 
                 await locator.HoverAsync();
                 
-                locator = page.GetByText(text: expected);
+                locator = page.GetByText(text: name);
                 
                 await Assertions
                     .Expect(locator: locator)

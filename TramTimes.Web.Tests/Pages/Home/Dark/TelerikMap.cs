@@ -11,12 +11,12 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
     private string? Error { get; set; }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, 3)]
+    [InlineData(53.328532846077614, -1.3443136700078966, 1)]
+    [InlineData(53.40064593919049, -1.5082120329876791, 2)]
+    [InlineData(53.41586234037237, -1.510067739914952, 3)]
     public async Task ExtraSmall(
-        double lon,
         double lat,
+        double lon,
         int run) {
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
@@ -34,7 +34,14 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
             #region load page
             
             await page.GotoAsync(url: $"/{lon}/{lat}");
-            await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+            
+            #endregion
+            
+            #region wait page
+            
+            await page.WaitForResponseAsync(urlOrPredicate: response =>
+                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Status == 200);
             
             #endregion
             
@@ -106,12 +113,12 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, 3)]
+    [InlineData(53.328532846077614, -1.3443136700078966, 1)]
+    [InlineData(53.40064593919049, -1.5082120329876791, 2)]
+    [InlineData(53.41586234037237, -1.510067739914952, 3)]
     public async Task Small(
-        double lon,
         double lat,
+        double lon,
         int run) {
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
@@ -129,7 +136,14 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
             #region load page
             
             await page.GotoAsync(url: $"/{lon}/{lat}");
-            await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+            
+            #endregion
+            
+            #region wait page
+            
+            await page.WaitForResponseAsync(urlOrPredicate: response =>
+                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Status == 200);
             
             #endregion
             
@@ -201,12 +215,12 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, 3)]
+    [InlineData(53.328532846077614, -1.3443136700078966, 1)]
+    [InlineData(53.40064593919049, -1.5082120329876791, 2)]
+    [InlineData(53.41586234037237, -1.510067739914952, 3)]
     public async Task Medium(
-        double lon,
         double lat,
+        double lon,
         int run) {
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
@@ -224,7 +238,14 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
             #region load page
             
             await page.GotoAsync(url: $"/{lon}/{lat}");
-            await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+            
+            #endregion
+            
+            #region wait page
+            
+            await page.WaitForResponseAsync(urlOrPredicate: response =>
+                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Status == 200);
             
             #endregion
             
@@ -296,12 +317,12 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, 3)]
+    [InlineData(53.328532846077614, -1.3443136700078966, 1)]
+    [InlineData(53.40064593919049, -1.5082120329876791, 2)]
+    [InlineData(53.41586234037237, -1.510067739914952, 3)]
     public async Task Large(
-        double lon,
         double lat,
+        double lon,
         int run) {
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
@@ -319,7 +340,14 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
             #region load page
             
             await page.GotoAsync(url: $"/{lon}/{lat}");
-            await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+            
+            #endregion
+            
+            #region wait page
+            
+            await page.WaitForResponseAsync(urlOrPredicate: response =>
+                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Status == 200);
             
             #endregion
             
@@ -391,12 +419,12 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, 3)]
+    [InlineData(53.328532846077614, -1.3443136700078966, 1)]
+    [InlineData(53.40064593919049, -1.5082120329876791, 2)]
+    [InlineData(53.41586234037237, -1.510067739914952, 3)]
     public async Task ExtraLarge(
-        double lon,
         double lat,
+        double lon,
         int run) {
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
@@ -414,7 +442,14 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
             #region load page
             
             await page.GotoAsync(url: $"/{lon}/{lat}");
-            await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+            
+            #endregion
+            
+            #region wait page
+            
+            await page.WaitForResponseAsync(urlOrPredicate: response =>
+                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Status == 200);
             
             #endregion
             
@@ -486,12 +521,12 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, 3)]
+    [InlineData(53.328532846077614, -1.3443136700078966, 1)]
+    [InlineData(53.40064593919049, -1.5082120329876791, 2)]
+    [InlineData(53.41586234037237, -1.510067739914952, 3)]
     public async Task ExtraExtraLarge(
-        double lon,
         double lat,
+        double lon,
         int run) {
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
@@ -509,7 +544,14 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
             #region load page
             
             await page.GotoAsync(url: $"/{lon}/{lat}");
-            await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+            
+            #endregion
+            
+            #region wait page
+            
+            await page.WaitForResponseAsync(urlOrPredicate: response =>
+                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Status == 200);
             
             #endregion
             

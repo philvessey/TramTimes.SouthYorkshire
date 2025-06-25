@@ -11,14 +11,14 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
     private string? Error { get; set; }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, "halfw", "Halfway", 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, "malin", "Malin Bridge", 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, "middl", "Middlewood", 3)]
+    [InlineData("Halfway", 53.328532846077614, -1.3443136700078966, "halfw", 1)]
+    [InlineData("Malin Bridge", 53.40064593919049, -1.5082120329876791, "malin", 2)]
+    [InlineData("Middlewood", 53.41586234037237, -1.510067739914952, "middl", 3)]
     public async Task ExtraSmall(
-        double lon,
+        string name,
         double lat,
+        double lon,
         string query,
-        string expected,
         int run) {
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
@@ -36,7 +36,14 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
             #region load page
             
             await page.GotoAsync(url: $"/{lon}/{lat}");
-            await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+            
+            #endregion
+            
+            #region wait page
+            
+            await page.WaitForResponseAsync(urlOrPredicate: response =>
+                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Status == 200);
             
             #endregion
             
@@ -66,7 +73,7 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
                 await locator.ClickAsync();
                 await locator.FillAsync(value: query);
                 
-                locator = page.GetByText(text: expected);
+                locator = page.GetByText(text: name);
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -85,7 +92,7 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
                 
                 await locator.ClickAsync();
                 
-                locator = page.GetByText(text: expected);
+                locator = page.GetByText(text: name);
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -119,14 +126,14 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, "halfw", "Halfway", 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, "malin", "Malin Bridge", 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, "middl", "Middlewood", 3)]
+    [InlineData("Halfway", 53.328532846077614, -1.3443136700078966, "halfw", 1)]
+    [InlineData("Malin Bridge", 53.40064593919049, -1.5082120329876791, "malin", 2)]
+    [InlineData("Middlewood", 53.41586234037237, -1.510067739914952, "middl", 3)]
     public async Task Small(
-        double lon,
+        string name,
         double lat,
+        double lon,
         string query,
-        string expected,
         int run) {
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
@@ -144,7 +151,14 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
             #region load page
             
             await page.GotoAsync(url: $"/{lon}/{lat}");
-            await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+            
+            #endregion
+            
+            #region wait page
+            
+            await page.WaitForResponseAsync(urlOrPredicate: response =>
+                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Status == 200);
             
             #endregion
             
@@ -174,7 +188,7 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
                 await locator.ClickAsync();
                 await locator.FillAsync(value: query);
                 
-                locator = page.GetByText(text: expected);
+                locator = page.GetByText(text: name);
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -193,7 +207,7 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
                 
                 await locator.ClickAsync();
                 
-                locator = page.GetByText(text: expected);
+                locator = page.GetByText(text: name);
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -227,14 +241,14 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, "halfw", "Halfway", 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, "malin", "Malin Bridge", 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, "middl", "Middlewood", 3)]
+    [InlineData("Halfway", 53.328532846077614, -1.3443136700078966, "halfw", 1)]
+    [InlineData("Malin Bridge", 53.40064593919049, -1.5082120329876791, "malin", 2)]
+    [InlineData("Middlewood", 53.41586234037237, -1.510067739914952, "middl", 3)]
     public async Task Medium(
-        double lon,
+        string name,
         double lat,
+        double lon,
         string query,
-        string expected,
         int run) {
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
@@ -252,7 +266,14 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
             #region load page
             
             await page.GotoAsync(url: $"/{lon}/{lat}");
-            await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+            
+            #endregion
+            
+            #region wait page
+            
+            await page.WaitForResponseAsync(urlOrPredicate: response =>
+                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Status == 200);
             
             #endregion
             
@@ -282,7 +303,7 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
                 await locator.ClickAsync();
                 await locator.FillAsync(value: query);
                 
-                locator = page.GetByText(text: expected);
+                locator = page.GetByText(text: name);
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -301,7 +322,7 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
                 
                 await locator.ClickAsync();
                 
-                locator = page.GetByText(text: expected);
+                locator = page.GetByText(text: name);
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -335,14 +356,14 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, "halfw", "Halfway", 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, "malin", "Malin Bridge", 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, "middl", "Middlewood", 3)]
+    [InlineData("Halfway", 53.328532846077614, -1.3443136700078966, "halfw", 1)]
+    [InlineData("Malin Bridge", 53.40064593919049, -1.5082120329876791, "malin", 2)]
+    [InlineData("Middlewood", 53.41586234037237, -1.510067739914952, "middl", 3)]
     public async Task Large(
-        double lon,
+        string name,
         double lat,
+        double lon,
         string query,
-        string expected,
         int run) {
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
@@ -360,7 +381,14 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
             #region load page
             
             await page.GotoAsync(url: $"/{lon}/{lat}");
-            await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+            
+            #endregion
+            
+            #region wait page
+            
+            await page.WaitForResponseAsync(urlOrPredicate: response =>
+                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Status == 200);
             
             #endregion
             
@@ -390,7 +418,7 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
                 await locator.ClickAsync();
                 await locator.FillAsync(value: query);
                 
-                locator = page.GetByText(text: expected);
+                locator = page.GetByText(text: name);
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -409,7 +437,7 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
                 
                 await locator.ClickAsync();
                 
-                locator = page.GetByText(text: expected);
+                locator = page.GetByText(text: name);
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -443,14 +471,14 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, "halfw", "Halfway", 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, "malin", "Malin Bridge", 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, "middl", "Middlewood", 3)]
+    [InlineData("Halfway", 53.328532846077614, -1.3443136700078966, "halfw", 1)]
+    [InlineData("Malin Bridge", 53.40064593919049, -1.5082120329876791, "malin", 2)]
+    [InlineData("Middlewood", 53.41586234037237, -1.510067739914952, "middl", 3)]
     public async Task ExtraLarge(
-        double lon,
+        string name,
         double lat,
+        double lon,
         string query,
-        string expected,
         int run) {
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
@@ -468,7 +496,14 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
             #region load page
             
             await page.GotoAsync(url: $"/{lon}/{lat}");
-            await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+            
+            #endregion
+            
+            #region wait page
+            
+            await page.WaitForResponseAsync(urlOrPredicate: response =>
+                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Status == 200);
             
             #endregion
             
@@ -498,7 +533,7 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
                 await locator.ClickAsync();
                 await locator.FillAsync(value: query);
                 
-                locator = page.GetByText(text: expected);
+                locator = page.GetByText(text: name);
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -517,7 +552,7 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
                 
                 await locator.ClickAsync();
                 
-                locator = page.GetByText(text: expected);
+                locator = page.GetByText(text: name);
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -551,14 +586,14 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
     }
     
     [Theory]
-    [InlineData(-1.3443136700078966, 53.328532846077614, "halfw", "Halfway", 1)]
-    [InlineData(-1.5082120329876791, 53.40064593919049, "malin", "Malin Bridge", 2)]
-    [InlineData(-1.510067739914952, 53.41586234037237, "middl", "Middlewood", 3)]
+    [InlineData("Halfway", 53.328532846077614, -1.3443136700078966, "halfw", 1)]
+    [InlineData("Malin Bridge", 53.40064593919049, -1.5082120329876791, "malin", 2)]
+    [InlineData("Middlewood", 53.41586234037237, -1.510067739914952, "middl", 3)]
     public async Task ExtraExtraLarge(
-        double lon,
+        string name,
         double lat,
+        double lon,
         string query,
-        string expected,
         int run) {
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
@@ -576,7 +611,14 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
             #region load page
             
             await page.GotoAsync(url: $"/{lon}/{lat}");
-            await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+            
+            #endregion
+            
+            #region wait page
+            
+            await page.WaitForResponseAsync(urlOrPredicate: response =>
+                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Status == 200);
             
             #endregion
             
@@ -606,7 +648,7 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
                 await locator.ClickAsync();
                 await locator.FillAsync(value: query);
                 
-                locator = page.GetByText(text: expected);
+                locator = page.GetByText(text: name);
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -625,7 +667,7 @@ public class TelerikAutoCompleteOpenClose(AspireManager aspireManager) : BaseTes
                 
                 await locator.ClickAsync();
                 
-                locator = page.GetByText(text: expected);
+                locator = page.GetByText(text: name);
                 
                 await Assertions
                     .Expect(locator: locator)

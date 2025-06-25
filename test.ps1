@@ -1,8 +1,18 @@
+param(
+    [string]$filter
+)
+
 Write-Host ""
 Write-Host "Running tests..."
 Write-Host ""
 
-$output = dotnet test --settings test.runsettings 2>&1 | Out-String
+$command = "dotnet test --settings test.runsettings"
+
+if ($filter) {
+    $command += " --filter `"$filter`""
+}
+
+$output = Invoke-Expression "$command 2>&1" | Out-String
 $allLines = [System.Text.RegularExpressions.Regex]::Split($output, "\r?\n")
 $failLines = $allLines | Where-Object { $_ -match '\[FAIL\]' }
 $skipLines = $allLines | Where-Object { $_ -match '\[SKIP\]' }
