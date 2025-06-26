@@ -35,12 +35,12 @@ if ($output -match "Failed:\s*(\d+), Passed:\s*(\d+), Skipped:\s*(\d+), Total:\s
 
 if ($failLines.Count -gt 0) {
     Write-Host "[FAILED]" -ForegroundColor Red
-    $failLines | ForEach-Object { Write-Host $_ }
+    $failLines | ForEach-Object { Write-Host ($_ -replace 'TramTimes\.Web\.Tests\.Pages\.', '') }
     Write-Host ""
 }
 
 if ($skipLines.Count -gt 0) {
     Write-Host "[SKIPPED]" -ForegroundColor Yellow
-    $skipLines | ForEach-Object { Write-Host $_ }
+    $skipLines | ForEach-Object { Write-Host ($_ -replace 'TramTimes\.Web\.Tests\.Pages\.', '') }
     Write-Host ""
 }

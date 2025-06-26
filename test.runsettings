@@ -1,5 +1,13 @@
 <RunSettings>
+    
     <RunConfiguration>
-        <DisableParallelization>true</DisableParallelization>
+        <EnvironmentVariables>
+            <DEBUG>pw:api</DEBUG>
+        </EnvironmentVariables>
     </RunConfiguration>
+    
+    <xUnit>
+        <MaxParallelThreads>1</MaxParallelThreads>
+    </xUnit>
+    
 </RunSettings>

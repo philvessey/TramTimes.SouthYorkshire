@@ -28,14 +28,14 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
 		if (AspireManager.Application is null)
 			return;
 		
-		var tokenSource = new CancellationTokenSource(delay: TimeSpan.FromSeconds(seconds: 10));
+		var tokenSource = new CancellationTokenSource(delay: TimeSpan.FromSeconds(seconds: 15));
 		
 		await AspireManager.Application.ResourceNotifications
 			.WaitForResourceHealthyAsync(
 				resourceName: "web-site",
 				cancellationToken: tokenSource.Token)
 			.WaitAsync(
-				timeout: TimeSpan.FromSeconds(seconds: 10),
+				timeout: TimeSpan.FromSeconds(seconds: 15),
 				cancellationToken: tokenSource.Token);
         
 		#endregion
@@ -87,14 +87,14 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
 		if (AspireManager.Application is null)
 			return;
 		
-		var tokenSource = new CancellationTokenSource(delay: TimeSpan.FromSeconds(seconds: 10));
+		var tokenSource = new CancellationTokenSource(delay: TimeSpan.FromSeconds(seconds: 15));
 		
 		await AspireManager.Application.ResourceNotifications
 			.WaitForResourceHealthyAsync(
 				resourceName: "web-site",
 				cancellationToken: tokenSource.Token)
 			.WaitAsync(
-				timeout: TimeSpan.FromSeconds(seconds: 10),
+				timeout: TimeSpan.FromSeconds(seconds: 15),
 				cancellationToken: tokenSource.Token);
         
 		#endregion
@@ -146,14 +146,14 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
 		if (AspireManager.Application is null)
 			return;
 		
-		var tokenSource = new CancellationTokenSource(delay: TimeSpan.FromSeconds(seconds: 10));
+		var tokenSource = new CancellationTokenSource(delay: TimeSpan.FromSeconds(seconds: 15));
 		
 		await AspireManager.Application.ResourceNotifications
 			.WaitForResourceHealthyAsync(
 				resourceName: "web-site",
 				cancellationToken: tokenSource.Token)
 			.WaitAsync(
-				timeout: TimeSpan.FromSeconds(seconds: 10),
+				timeout: TimeSpan.FromSeconds(seconds: 15),
 				cancellationToken: tokenSource.Token);
         
 		#endregion

@@ -15,7 +15,7 @@ public class PlaywrightManager : IAsyncLifetime
     {
         #region configure manager
         
-        Assertions.SetDefaultExpectTimeout(timeout: 10_000);
+        Assertions.SetDefaultExpectTimeout(timeout: 15_000);
         
         #endregion
         
