@@ -8,10 +8,11 @@ using TramTimes.Web.Utilities.Models;
 
 namespace TramTimes.Web.Site.Components.Pages;
 
-public partial class Home
-{
+public partial class Stop
+{ 
     private List<TelerikStop> MarkerData { get; set; } = [];
     private List<TelerikStop> SearchData { get; set; } = [];
+    private TelerikStop StopData { get; set; } = new();
     private double[] Center { get; set; } = [];
     private double[] Extent { get; set; } = [];
     private string? Query { get; set; }
@@ -97,6 +98,44 @@ public partial class Home
         
         #endregion
         
+        #region build query data
+        
+        var query = QueryBuilder.GetIdFromSearch(id: Id ?? "unknown");
+        var response = await HttpService.GetAsync(requestUri: query);
+        
+        if (!response.IsSuccessStatusCode)
+        {
+            query = QueryBuilder.GetIdFromDatabase(id: Id ?? "unknown");
+            response = await HttpService.GetAsync(requestUri: query);
+        }
+        
+        #endregion
+        
+        #region build results data
+        
+        List<WebStop>? data = [];
+        
+        if (response.IsSuccessStatusCode)
+            data = await response.Content.ReadFromJsonAsync<List<WebStop>>();
+        
+        if (!data.IsNullOrEmpty())
+            StopData = MapperService.Map<TelerikStop>(source: data!.FirstOrDefault());
+        
+        #endregion
+        
+        #region navigate to stop
+        
+        if (StopData is { Latitude: not null, Longitude: not null })
+        {
+            if (Math.Abs(value: StopData.Latitude.Value - Latitude.GetValueOrDefault()) > 1e-6)
+                NavigationService.NavigateTo(uri: $"/stop/{StopData.Id}/{StopData.Longitude}/{StopData.Latitude}/{Zoom}");
+            
+            if (Math.Abs(value: StopData.Longitude.Value - Longitude.GetValueOrDefault()) > 1e-6)
+                NavigationService.NavigateTo(uri: $"/stop/{StopData.Id}/{StopData.Longitude}/{StopData.Latitude}/{Zoom}");
+        }
+        
+        #endregion
+        
         #region get local storage
         
         var cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache");
@@ -119,8 +158,8 @@ public partial class Home
         
         #region build query data
         
-        var query = QueryBuilder.GetLocationFromSearch(extent: Extent);
-        var response = await HttpService.GetAsync(requestUri: query);
+        query = QueryBuilder.GetLocationFromSearch(extent: Extent);
+        response = await HttpService.GetAsync(requestUri: query);
         
         if (!response.IsSuccessStatusCode)
         {
@@ -132,7 +171,7 @@ public partial class Home
         
         #region build results data
         
-        List<WebStop>? data = [];
+        data = [];
         
         if (response.IsSuccessStatusCode)
             data = await response.Content.ReadFromJsonAsync<List<WebStop>>();

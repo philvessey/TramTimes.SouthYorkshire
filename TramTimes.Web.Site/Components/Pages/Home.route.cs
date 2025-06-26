@@ -9,4 +9,7 @@ public partial class Home
     
     [Parameter]
     public double? Latitude { get; set; }
+    
+    [Parameter]
+    public double? Zoom { get; set; }
 }

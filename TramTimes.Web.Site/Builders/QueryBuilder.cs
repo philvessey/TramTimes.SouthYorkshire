@@ -4,6 +4,28 @@ public static class QueryBuilder
 {
     private static readonly string Endpoint = Environment.GetEnvironmentVariable(variable: "API_ENDPOINT") ?? string.Empty;
     
+    public static string GetIdFromDatabase(string id)
+    {
+        #region build result
+        
+        var result = $"{Endpoint}/database/stops/id/{id}";
+        
+        #endregion
+        
+        return result;
+    }
+    
+    public static string GetIdFromSearch(string id)
+    {
+        #region build result
+        
+        var result = $"{Endpoint}/search/stops/id/{id}";
+        
+        #endregion
+        
+        return result;
+    }
+    
     public static string GetLocationFromDatabase(double[] extent)
     {
         #region build result
