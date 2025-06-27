@@ -1,4 +1,5 @@
 using Aspire.Hosting.Azure;
+using Microsoft.Extensions.Hosting;
 using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
@@ -28,19 +29,30 @@ public static class DatabaseBuilder
             .WithEnvironment(
                 name: "POSTGRES_DB",
                 value: "database")
-            .WithLifetime(lifetime: ContainerLifetime.Persistent)
-            .WithPgAdmin(configureContainer: resource =>
-            {
-                resource.WithLifetime(lifetime: ContainerLifetime.Session);
-                resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
-            })
-            .WithPgWeb(configureContainer: resource =>
-            {
-                resource.WithLifetime(lifetime: ContainerLifetime.Session);
-                resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
-            });
+            .WithLifetime(lifetime: ContainerLifetime.Persistent);
+        
+        #endregion
+        
+        #region add database
         
         result.Database = result.Postgres.AddDatabase(name: "database");
+        
+        #endregion
+        
+        #region add tools
+        
+        if (builder.Environment.IsDevelopment())
+            result.Postgres
+                .WithPgAdmin(configureContainer: resource =>
+                {
+                    resource.WithLifetime(lifetime: ContainerLifetime.Session);
+                    resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
+                })
+                .WithPgWeb(configureContainer: resource =>
+                {
+                    resource.WithLifetime(lifetime: ContainerLifetime.Session);
+                    resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
+                });
         
         #endregion
         

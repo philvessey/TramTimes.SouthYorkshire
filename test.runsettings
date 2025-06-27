@@ -3,6 +3,7 @@
     <RunConfiguration>
         <EnvironmentVariables>
             <DEBUG>pw:api</DEBUG>
+            <DOTNET_ENVIRONMENT>Testing</DOTNET_ENVIRONMENT>
         </EnvironmentVariables>
     </RunConfiguration>
     

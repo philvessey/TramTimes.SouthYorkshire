@@ -1,4 +1,5 @@
 using Aspire.Hosting.Azure;
+using Microsoft.Extensions.Hosting;
 using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
@@ -26,17 +27,24 @@ public static class CacheBuilder
             .WaitFor(dependency: server)
             .WaitFor(dependency: database)
             .WithDataVolume()
-            .WithLifetime(lifetime: ContainerLifetime.Persistent)
-            .WithRedisCommander(configureContainer: resource =>
-            {
-                resource.WithLifetime(lifetime: ContainerLifetime.Session);
-                resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
-            })
-            .WithRedisInsight(configureContainer: resource =>
-            {
-                resource.WithLifetime(lifetime: ContainerLifetime.Session);
-                resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
-            });
+            .WithLifetime(lifetime: ContainerLifetime.Persistent);
+        
+        #endregion
+        
+        #region add tools
+        
+        if (builder.Environment.IsDevelopment())
+            result.Redis
+                .WithRedisCommander(configureContainer: resource =>
+                {
+                    resource.WithLifetime(lifetime: ContainerLifetime.Session);
+                    resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
+                })
+                .WithRedisInsight(configureContainer: resource =>
+                {
+                    resource.WithLifetime(lifetime: ContainerLifetime.Session);
+                    resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
+                });
         
         #endregion
         
