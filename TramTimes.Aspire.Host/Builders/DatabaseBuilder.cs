@@ -1,11 +1,12 @@
 using Aspire.Hosting.Azure;
-using Microsoft.Extensions.Hosting;
 using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
 
 public static class DatabaseBuilder
 {
+    private static readonly string Testing = Environment.GetEnvironmentVariable(variable: "ASPIRE_TESTING") ?? string.Empty;
+    
     public static DatabaseResources BuildDatabase(
         this IDistributedApplicationBuilder builder,
         IResourceBuilder<AzureStorageResource> storage,
@@ -41,7 +42,7 @@ public static class DatabaseBuilder
         
         #region add tools
         
-        if (builder.Environment.IsDevelopment())
+        if (string.IsNullOrEmpty(value: Testing))
             result.Postgres
                 .WithPgAdmin(configureContainer: resource =>
                 {
