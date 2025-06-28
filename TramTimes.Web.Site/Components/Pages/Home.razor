@@ -1,5 +1,6 @@
 ﻿@inject HttpClient HttpService
 @inject NavigationManager NavigationService
+@inject IHttpContextAccessor AccessorService
 @inject ILocalStorageService StorageService
 @inject IMapper MapperService
 
@@ -212,6 +213,14 @@
         </div>
         
         <!-- #endregion -->
+        
+        <!-- #region home-local-storage-consent -->
+        
+        <div id="home-local-storage-consent">
+            <LocalStorageConsent />
+        </div>
+        
+        <!-- #endregion -->
     }
     else
     {
@@ -320,6 +329,14 @@
                     </div>
                 </NoDataTemplate>
             </TelerikAutoComplete>
+        </div>
+        
+        <!-- #endregion -->
+        
+        <!-- #region home-local-storage-consent -->
+        
+        <div id="home-local-storage-consent">
+            <LocalStorageConsent />
         </div>
         
         <!-- #endregion -->

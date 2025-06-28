@@ -340,3 +340,13 @@
 }
 
 /*#endregion */
+
+/*#region stop-local-storage-consent */
+
+#stop-local-storage-consent {
+    bottom: 15px;
+    left: 15px;
+    position: fixed;
+}
+
+/*#endregion */

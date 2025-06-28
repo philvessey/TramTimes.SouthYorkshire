@@ -23,6 +23,14 @@ builder.Services
 
 #region configure services
 
+builder.Services.Configure<CookiePolicyOptions>(configureOptions: options =>
+{
+    options.CheckConsentNeeded = _ => true;
+    options.ConsentCookieValue = "true";
+    options.MinimumSameSitePolicy = SameSiteMode.Strict;
+    options.Secure = CookieSecurePolicy.SameAsRequest;
+});
+
 builder.Services.Configure<HubOptions>(configureOptions: options =>
 {
     options.MaximumReceiveMessageSize = 1024 * 1024;
@@ -33,6 +41,7 @@ builder.Services.Configure<HubOptions>(configureOptions: options =>
 #region add components
 
 builder.Services
+    .AddHttpContextAccessor()
     .AddRazorComponents()
     .AddInteractiveServerComponents();
 
@@ -42,6 +51,7 @@ builder.Services
 
 var application = builder.Build();
 application.UseAntiforgery();
+application.UseCookiePolicy();
 application.UseHttpsRedirection();
 application.UseStaticFiles();
 

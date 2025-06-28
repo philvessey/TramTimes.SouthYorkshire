@@ -28,7 +28,7 @@ html, body {
 
 .k-map-marker {
     align-items: flex-start;
-    background-image: url(https://cdn.mapmarker.io/api/v2/font-awesome/v5/pin?background=39509f&size=40);
+    background-image: url(https://cdn.mapmarker.io/api/v2/font-awesome/v5/pin?background=0078c8&size=40);
     background-repeat: no-repeat;
     background-size: 40px;
     color: white;

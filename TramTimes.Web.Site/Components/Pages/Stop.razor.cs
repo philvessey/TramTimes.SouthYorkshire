@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Http.Features;
 using Telerik.Blazor.Components;
 using Telerik.DataSource;
 using TramTimes.Web.Site.Builders;
@@ -8,7 +10,7 @@ using TramTimes.Web.Utilities.Models;
 
 namespace TramTimes.Web.Site.Components.Pages;
 
-public partial class Stop
+public partial class Stop : ComponentBase
 { 
     private List<TelerikStop> MarkerData { get; set; } = [];
     private List<TelerikStop> SearchData { get; set; } = [];
@@ -46,11 +48,21 @@ public partial class Stop
     {
         await base.OnParametersSetAsync();
         
+        #region get storage consent
+        
+        var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
+        var consent = feature?.CanTrack ?? false;
+        
+        #endregion
+        
         #region get map location
         
-        var location = await StorageService.GetItemAsync<double[]>(key: "location");
+        double[] location = [];
         
-        if (location is not null && !Latitude.HasValue && !Longitude.HasValue)
+        if (consent)
+            location = await StorageService.GetItemAsync<double[]>(key: "location") ?? [];
+        
+        if (!location.IsNullOrEmpty() && !Latitude.HasValue && !Longitude.HasValue)
         {
             Center =
             [
@@ -113,13 +125,13 @@ public partial class Stop
         
         #region build results data
         
-        List<WebStop>? data = [];
+        List<WebStop> data = [];
         
         if (response.IsSuccessStatusCode)
-            data = await response.Content.ReadFromJsonAsync<List<WebStop>>();
+            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
         
         if (!data.IsNullOrEmpty())
-            StopData = MapperService.Map<TelerikStop>(source: data!.FirstOrDefault());
+            StopData = MapperService.Map<TelerikStop>(source: data.FirstOrDefault());
         
         #endregion
         
@@ -138,21 +150,24 @@ public partial class Stop
         
         #region get local storage
         
-        var cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache");
+        List<TelerikStop> cache = [];
+        
+        if (consent)
+            cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
         
         if (!cache.IsNullOrEmpty())
-            foreach (var item in cache!)
+            foreach (var item in cache)
                 item.Points = item.Points?
                     .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
                     .ToList();
         
-        if (cache?.Any(predicate: stop => stop.Points.IsNullOrEmpty()) == true)
+        if (cache.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
             cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
         
         MarkerData = [];
         
         if (!cache.IsNullOrEmpty())
-            MarkerData.AddRange(collection: cache!);
+            MarkerData.AddRange(collection: cache);
         
         #endregion
         
@@ -174,11 +189,11 @@ public partial class Stop
         data = [];
         
         if (response.IsSuccessStatusCode)
-            data = await response.Content.ReadFromJsonAsync<List<WebStop>>();
+            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
         
         if (!data.IsNullOrEmpty())
         {
-            foreach (var item in data!)
+            foreach (var item in data)
             {
                 var existing = MarkerData.FirstOrDefault(predicate: stop => stop.Id == item.Id);
                 
@@ -192,15 +207,24 @@ public partial class Stop
         
         #endregion
         
+        #region clear local storage
+        
+        await StorageService.ClearAsync();
+        
+        #endregion
+        
         #region save local storage
         
-        await StorageService.SetItemAsync(
-            key: "location",
-            data: Extent);
-        
-        await StorageService.SetItemAsync(
-            key: "cache",
-            data: MarkerData.OrderBy(keySelector: stop => stop.Id));
+        if (consent)
+        {
+            await StorageService.SetItemAsync(
+                key: "location",
+                data: Extent);
+            
+            await StorageService.SetItemAsync(
+                key: "cache",
+                data: MarkerData.OrderBy(keySelector: stop => stop.Id));
+        }
         
         #endregion
     }
@@ -241,23 +265,33 @@ public partial class Stop
         
         #endregion
         
+        #region get storage consent
+        
+        var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
+        var consent = feature?.CanTrack ?? false;
+        
+        #endregion
+        
         #region get local storage
         
-        var cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache");
+        List<TelerikStop> cache = [];
+        
+        if (consent)
+            cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
         
         if (!cache.IsNullOrEmpty())
-            foreach (var item in cache!)
+            foreach (var item in cache)
                 item.Points = item.Points?
                     .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
                     .ToList();
         
-        if (cache?.Any(predicate: stop => stop.Points.IsNullOrEmpty()) == true)
+        if (cache.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
             cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
         
         MarkerData = [];
         
         if (!cache.IsNullOrEmpty())
-            MarkerData.AddRange(collection: cache!);
+            MarkerData.AddRange(collection: cache);
         
         #endregion
         
@@ -276,14 +310,14 @@ public partial class Stop
         
         #region build results data
         
-        List<WebStop>? data = [];
+        List<WebStop> data = [];
         
         if (response.IsSuccessStatusCode)
-            data = await response.Content.ReadFromJsonAsync<List<WebStop>>();
+            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
         
         if (!data.IsNullOrEmpty())
         {
-            foreach (var item in data!)
+            foreach (var item in data)
             {
                 var existing = MarkerData.FirstOrDefault(predicate: stop => stop.Id == item.Id);
                 
@@ -295,19 +329,26 @@ public partial class Stop
             }
         }
         
-        StateHasChanged();
+        #endregion
+        
+        #region clear local storage
+        
+        await StorageService.ClearAsync();
         
         #endregion
         
         #region save local storage
         
-        await StorageService.SetItemAsync(
-            key: "location",
-            data: Extent);
-        
-        await StorageService.SetItemAsync(
-            key: "cache",
-            data: MarkerData.OrderBy(keySelector: stop => stop.Id));
+        if (consent)
+        {
+            await StorageService.SetItemAsync(
+                key: "location",
+                data: Extent);
+            
+            await StorageService.SetItemAsync(
+                key: "cache",
+                data: MarkerData.OrderBy(keySelector: stop => stop.Id));
+        }
         
         #endregion
     }
@@ -325,23 +366,33 @@ public partial class Stop
         
         #endregion
         
+        #region get storage consent
+        
+        var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
+        var consent = feature?.CanTrack ?? false;
+        
+        #endregion
+        
         #region get local storage
         
-        var cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache");
+        List<TelerikStop> cache = [];
+        
+        if (consent)
+            cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
         
         if (!cache.IsNullOrEmpty())
-            foreach (var item in cache!)
+            foreach (var item in cache)
                 item.Points = item.Points?
                     .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
                     .ToList();
         
-        if (cache?.Any(predicate: stop => stop.Points.IsNullOrEmpty()) == true)
+        if (cache.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
             cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
         
         SearchData = [];
         
         if (!cache.IsNullOrEmpty())
-            SearchData.AddRange(collection: cache!);
+            SearchData.AddRange(collection: cache);
         
         readEventArgs.Data = SearchData
             .OrderByDescending(keySelector: stop => stop.Name.ContainsIgnoreCase(value: name))
@@ -368,14 +419,14 @@ public partial class Stop
         
         #region build results data
         
-        List<WebStop>? data = [];
+        List<WebStop> data = [];
         
         if (response.IsSuccessStatusCode)
-            data = await response.Content.ReadFromJsonAsync<List<WebStop>>();
+            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
         
         if (!data.IsNullOrEmpty())
         {
-            foreach (var item in data!)
+            foreach (var item in data)
             {
                 var existing = SearchData.FirstOrDefault(predicate: stop => stop.Id == item.Id);
                 
@@ -394,15 +445,24 @@ public partial class Stop
         
         #endregion
         
+        #region clear local storage
+        
+        await StorageService.ClearAsync();
+        
+        #endregion
+        
         #region save local storage
         
-        await StorageService.SetItemAsync(
-            key: "location",
-            data: Extent);
-        
-        await StorageService.SetItemAsync(
-            key: "cache",
-            data: SearchData.OrderBy(keySelector: stop => stop.Id));
+        if (consent)
+        {
+            await StorageService.SetItemAsync(
+                key: "location",
+                data: Extent);
+            
+            await StorageService.SetItemAsync(
+                key: "cache",
+                data: SearchData.OrderBy(keySelector: stop => stop.Id));
+        }
         
         #endregion
     }
@@ -417,23 +477,33 @@ public partial class Stop
         
         #endregion
         
+        #region get storage consent
+        
+        var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
+        var consent = feature?.CanTrack ?? false;
+        
+        #endregion
+        
         #region get local storage
         
-        var cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache");
+        List<TelerikStop> cache = [];
+        
+        if (consent)
+            cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
         
         if (!cache.IsNullOrEmpty())
-            foreach (var item in cache!)
+            foreach (var item in cache)
                 item.Points = item.Points?
                     .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
                     .ToList();
         
-        if (cache?.Any(predicate: stop => stop.Points.IsNullOrEmpty()) == true)
+        if (cache.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
             cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
         
         MarkerData = [];
         
         if (!cache.IsNullOrEmpty())
-            MarkerData.AddRange(collection: cache!);
+            MarkerData.AddRange(collection: cache);
         
         #endregion
         
@@ -452,14 +522,14 @@ public partial class Stop
         
         #region build results data
         
-        List<WebStop>? data = [];
+        List<WebStop> data = [];
         
         if (response.IsSuccessStatusCode)
-            data = await response.Content.ReadFromJsonAsync<List<WebStop>>();
+            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
         
         if (!data.IsNullOrEmpty())
         {
-            foreach (var item in data!)
+            foreach (var item in data)
             {
                 var existing = MarkerData.FirstOrDefault(predicate: stop => stop.Id == item.Id);
                 
@@ -471,19 +541,26 @@ public partial class Stop
             }
         }
         
-        StateHasChanged();
+        #endregion
+        
+        #region clear local storage
+        
+        await StorageService.ClearAsync();
         
         #endregion
         
         #region save local storage
         
-        await StorageService.SetItemAsync(
-            key: "location",
-            data: Extent);
-        
-        await StorageService.SetItemAsync(
-            key: "cache",
-            data: MarkerData.OrderBy(keySelector: stop => stop.Id));
+        if (consent)
+        {
+            await StorageService.SetItemAsync(
+                key: "location",
+                data: Extent);
+            
+            await StorageService.SetItemAsync(
+                key: "cache",
+                data: MarkerData.OrderBy(keySelector: stop => stop.Id));
+        }
         
         #endregion
     }
