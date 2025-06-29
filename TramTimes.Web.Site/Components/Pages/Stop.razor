@@ -10,7 +10,7 @@
 
 <PageTitle>TramTimes - South Yorkshire - @StopData.Name</PageTitle>
 
-<!-- #region stop-telerik-media-query -->
+<!-- #region telerik-media-query -->
 
 <TelerikMediaQuery Media="@TelerikMediaQueryDefaults.MouseExtraSmall"
                    OnChange="@(match => TelerikDevice.MouseExtraSmall = match)" />
@@ -58,9 +58,9 @@
         (TelerikDevice.MouseExtraLarge ?? false) ||
         (TelerikDevice.MouseExtraExtraLarge ?? false)) {
         
-        <!-- #region stop-telerik-map -->
+        <!-- #region telerik-map -->
         
-        <div id="stop-telerik-map">
+        <div id="telerik-map">
             <TelerikMap Center="@Center"
                         Height="100%"
                         MaxZoom="@TelerikMapDefaults.MaxZoom"
@@ -96,11 +96,11 @@
                                     
                                     @{
                                         var stop = context.DataItem as TelerikStop ?? new TelerikStop();
-                                    } 
+                                    }
                                     
-                                    <div id="stop-telerik-map__tooltip">
-                                        <div id="stop-telerik-map__tooltip__title">@stop.Name</div>
-                                        <div id="stop-telerik-map__tooltip__services">
+                                    <div id="telerik-map__tooltip">
+                                        <div class="title">@stop.Name</div>
+                                        <div class="services">
                                             <ul>
                                                 @{
                                                     var points = stop.Points?
@@ -133,7 +133,7 @@
                                                                 break;
                                                         }
                                                     }
-                                                } 
+                                                }
                                             </ul>
                                         </div>
                                     </div>
@@ -147,9 +147,9 @@
         
         <!-- #endregion -->
         
-        <!-- #region stop-telerik-auto-complete -->
+        <!-- #region telerik-auto-complete -->
         
-        <div id="stop-telerik-auto-complete">
+        <div id="telerik-auto-complete">
             <TelerikAutoComplete @bind-value="@Query"
                                  DebounceDelay="@TelerikAutoCompleteDefaults.DebounceDelay"
                                  Filterable="true"
@@ -161,10 +161,10 @@
                                  TItem="@TelerikStop">
                 
                 <ItemTemplate>
-                    <div id="stop-telerik-auto-complete__result">
-                        <div id="stop-telerik-auto-complete__result__name">@context.Name</div>
-                        <div id="stop-telerik-auto-complete__result__description">Direction: @context.Direction</div>
-                        <div id="stop-telerik-auto-complete__result__services">
+                    <div id="telerik-auto-complete__result">
+                        <div class="name">@context.Name</div>
+                        <div class="description">Direction: @context.Direction</div>
+                        <div class="services">
                             <ul>
                                 @{
                                     var points = context.Points?
@@ -197,16 +197,16 @@
                                                 break;
                                         }
                                     }
-                                } 
+                                }
                             </ul>
                         </div>
                     </div>
                 </ItemTemplate>
                 
                 <NoDataTemplate>
-                    <div id="stop-telerik-auto-complete__unknown">
-                        <div id="stop-telerik-auto-complete__unknown__name">No Stops Found</div>
-                        <div id="stop-telerik-auto-complete__unknown__description">Update Search Query and/or Filter</div>
+                    <div id="telerik-auto-complete__unknown">
+                        <div class="name">No Stops Found</div>
+                        <div class="description">Update Search Query and/or Filter</div>
                     </div>
                 </NoDataTemplate>
             </TelerikAutoComplete>
@@ -214,19 +214,17 @@
         
         <!-- #endregion -->
         
-        <!-- #region stop-local-storage-consent -->
+        <!-- #region local-storage-consent -->
         
-        <div id="stop-local-storage-consent">
-            <LocalStorageConsent />
-        </div>
+        <LocalStorageConsent />
         
         <!-- #endregion -->
     }
     else
     {
-        <!-- #region stop-telerik-map -->
+        <!-- #region telerik-map -->
         
-        <div id="stop-telerik-map">
+        <div id="telerik-map">
             <TelerikMap Center="@Center"
                         Height="100%"
                         MaxZoom="@TelerikMapDefaults.MaxZoom"
@@ -266,9 +264,9 @@
         
         <!-- #endregion -->
         
-        <!-- #region stop-telerik-auto-complete -->
+        <!-- #region telerik-auto-complete -->
         
-        <div id="stop-telerik-auto-complete">
+        <div id="telerik-auto-complete">
             <TelerikAutoComplete @bind-value="@Query"
                                  DebounceDelay="@TelerikAutoCompleteDefaults.DebounceDelay"
                                  Filterable="true"
@@ -280,10 +278,10 @@
                                  TItem="@TelerikStop">
                 
                 <ItemTemplate>
-                    <div id="stop-telerik-auto-complete__result">
-                        <div id="stop-telerik-auto-complete__result__name">@context.Name</div>
-                        <div id="stop-telerik-auto-complete__result__description">Direction: @context.Direction</div>
-                        <div id="stop-telerik-auto-complete__result__services">
+                    <div id="telerik-auto-complete__result">
+                        <div class="name">@context.Name</div>
+                        <div class="description">Direction: @context.Direction</div>
+                        <div class="services">
                             <ul>
                                 @{
                                     var points = context.Points?
@@ -316,16 +314,16 @@
                                                 break;
                                         }
                                     }
-                                } 
+                                }
                             </ul>
                         </div>
                     </div>
                 </ItemTemplate>
                 
                 <NoDataTemplate>
-                    <div id="stop-telerik-auto-complete__unknown">
-                        <div id="stop-telerik-auto-complete__unknown__name">No Stops Found</div>
-                        <div id="stop-telerik-auto-complete__unknown__description">Update Search Query and/or Filter</div>
+                    <div id="telerik-auto-complete__unknown">
+                        <div id="name">No Stops Found</div>
+                        <div id="description">Update Search Query and/or Filter</div>
                     </div>
                 </NoDataTemplate>
             </TelerikAutoComplete>
@@ -333,11 +331,9 @@
         
         <!-- #endregion -->
         
-        <!-- #region stop-local-storage-consent -->
+        <!-- #region local-storage-consent -->
         
-        <div id="stop-local-storage-consent">
-            <LocalStorageConsent />
-        </div>
+        <LocalStorageConsent />
         
         <!-- #endregion -->
     }

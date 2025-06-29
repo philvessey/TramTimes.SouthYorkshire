@@ -53,7 +53,7 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
             
             try
             {
-                var locator = page.Locator(selector: "#stop-telerik-map");
+                var locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -143,7 +143,7 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
             
             try
             {
-                var locator = page.Locator(selector: "#stop-telerik-map");
+                var locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -233,7 +233,7 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
             
             try
             {
-                var locator = page.Locator(selector: "#stop-telerik-map");
+                var locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -323,7 +323,7 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
             
             try
             {
-                var locator = page.Locator(selector: "#stop-telerik-map");
+                var locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -413,7 +413,7 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
             
             try
             {
-                var locator = page.Locator(selector: "#stop-telerik-map");
+                var locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -503,7 +503,7 @@ public class TelerikMapHover(AspireManager aspireManager) : BaseTest(aspireManag
             
             try
             {
-                var locator = page.Locator(selector: "#stop-telerik-map");
+                var locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)

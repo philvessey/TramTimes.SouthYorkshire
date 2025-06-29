@@ -51,7 +51,7 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-map");
+                var locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -153,7 +153,7 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-map");
+                var locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -255,7 +255,7 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-map");
+                var locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -357,7 +357,7 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-map");
+                var locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -459,7 +459,7 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-map");
+                var locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -561,7 +561,7 @@ public class TelerikMap(AspireManager aspireManager) : BaseTest(aspireManager: a
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-map");
+                var locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)

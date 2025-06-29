@@ -54,7 +54,7 @@ public class TelerikMapClick(AspireManager aspireManager) : BaseTest(aspireManag
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-map");
+                var locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -80,7 +80,7 @@ public class TelerikMapClick(AspireManager aspireManager) : BaseTest(aspireManag
                         pattern: name,
                         options: RegexOptions.None));
                 
-                locator = page.Locator(selector: "#stop-telerik-map");
+                locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -164,7 +164,7 @@ public class TelerikMapClick(AspireManager aspireManager) : BaseTest(aspireManag
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-map");
+                var locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -190,7 +190,7 @@ public class TelerikMapClick(AspireManager aspireManager) : BaseTest(aspireManag
                         pattern: name,
                         options: RegexOptions.None));
                 
-                locator = page.Locator(selector: "#stop-telerik-map");
+                locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -274,7 +274,7 @@ public class TelerikMapClick(AspireManager aspireManager) : BaseTest(aspireManag
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-map");
+                var locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -300,7 +300,7 @@ public class TelerikMapClick(AspireManager aspireManager) : BaseTest(aspireManag
                         pattern: name,
                         options: RegexOptions.None));
                 
-                locator = page.Locator(selector: "#stop-telerik-map");
+                locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -384,7 +384,7 @@ public class TelerikMapClick(AspireManager aspireManager) : BaseTest(aspireManag
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-map");
+                var locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -410,7 +410,7 @@ public class TelerikMapClick(AspireManager aspireManager) : BaseTest(aspireManag
                         pattern: name,
                         options: RegexOptions.None));
                 
-                locator = page.Locator(selector: "#stop-telerik-map");
+                locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -494,7 +494,7 @@ public class TelerikMapClick(AspireManager aspireManager) : BaseTest(aspireManag
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-map");
+                var locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -520,7 +520,7 @@ public class TelerikMapClick(AspireManager aspireManager) : BaseTest(aspireManag
                         pattern: name,
                         options: RegexOptions.None));
                 
-                locator = page.Locator(selector: "#stop-telerik-map");
+                locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -604,7 +604,7 @@ public class TelerikMapClick(AspireManager aspireManager) : BaseTest(aspireManag
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-map");
+                var locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -630,7 +630,7 @@ public class TelerikMapClick(AspireManager aspireManager) : BaseTest(aspireManag
                         pattern: name,
                         options: RegexOptions.None));
                 
-                locator = page.Locator(selector: "#stop-telerik-map");
+                locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)

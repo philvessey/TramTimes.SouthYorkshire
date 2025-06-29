@@ -51,7 +51,7 @@ public class TelerikAutoComplete(AspireManager aspireManager) : BaseTest(aspireM
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-auto-complete");
+                var locator = page.Locator(selector: "telerik-auto-complete");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -136,7 +136,7 @@ public class TelerikAutoComplete(AspireManager aspireManager) : BaseTest(aspireM
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-auto-complete");
+                var locator = page.Locator(selector: "telerik-auto-complete");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -221,7 +221,7 @@ public class TelerikAutoComplete(AspireManager aspireManager) : BaseTest(aspireM
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-auto-complete");
+                var locator = page.Locator(selector: "telerik-auto-complete");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -306,7 +306,7 @@ public class TelerikAutoComplete(AspireManager aspireManager) : BaseTest(aspireM
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-auto-complete");
+                var locator = page.Locator(selector: "telerik-auto-complete");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -391,7 +391,7 @@ public class TelerikAutoComplete(AspireManager aspireManager) : BaseTest(aspireM
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-auto-complete");
+                var locator = page.Locator(selector: "telerik-auto-complete");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -476,7 +476,7 @@ public class TelerikAutoComplete(AspireManager aspireManager) : BaseTest(aspireM
             
             try
             {
-                var locator = page.Locator(selector: "#home-telerik-auto-complete");
+                var locator = page.Locator(selector: "telerik-auto-complete");
                 
                 await Assertions
                     .Expect(locator: locator)

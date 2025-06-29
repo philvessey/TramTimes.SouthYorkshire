@@ -55,7 +55,7 @@ public class TelerikAutoCompleteOpenClick(AspireManager aspireManager) : BaseTes
             
             try
             {
-                var locator = page.Locator(selector: "#stop-telerik-auto-complete");
+                var locator = page.Locator(selector: "telerik-auto-complete");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -95,7 +95,7 @@ public class TelerikAutoCompleteOpenClick(AspireManager aspireManager) : BaseTes
                         pattern: name,
                         options: RegexOptions.None));
                 
-                locator = page.Locator(selector: "#stop-telerik-map");
+                locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -180,7 +180,7 @@ public class TelerikAutoCompleteOpenClick(AspireManager aspireManager) : BaseTes
             
             try
             {
-                var locator = page.Locator(selector: "#stop-telerik-auto-complete");
+                var locator = page.Locator(selector: "telerik-auto-complete");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -220,7 +220,7 @@ public class TelerikAutoCompleteOpenClick(AspireManager aspireManager) : BaseTes
                         pattern: name,
                         options: RegexOptions.None));
                 
-                locator = page.Locator(selector: "#stop-telerik-map");
+                locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -305,7 +305,7 @@ public class TelerikAutoCompleteOpenClick(AspireManager aspireManager) : BaseTes
             
             try
             {
-                var locator = page.Locator(selector: "#stop-telerik-auto-complete");
+                var locator = page.Locator(selector: "telerik-auto-complete");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -345,7 +345,7 @@ public class TelerikAutoCompleteOpenClick(AspireManager aspireManager) : BaseTes
                         pattern: name,
                         options: RegexOptions.None));
                 
-                locator = page.Locator(selector: "#stop-telerik-map");
+                locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -430,7 +430,7 @@ public class TelerikAutoCompleteOpenClick(AspireManager aspireManager) : BaseTes
             
             try
             {
-                var locator = page.Locator(selector: "#stop-telerik-auto-complete");
+                var locator = page.Locator(selector: "telerik-auto-complete");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -470,7 +470,7 @@ public class TelerikAutoCompleteOpenClick(AspireManager aspireManager) : BaseTes
                         pattern: name,
                         options: RegexOptions.None));
                 
-                locator = page.Locator(selector: "#stop-telerik-map");
+                locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -555,7 +555,7 @@ public class TelerikAutoCompleteOpenClick(AspireManager aspireManager) : BaseTes
             
             try
             {
-                var locator = page.Locator(selector: "#stop-telerik-auto-complete");
+                var locator = page.Locator(selector: "telerik-auto-complete");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -595,7 +595,7 @@ public class TelerikAutoCompleteOpenClick(AspireManager aspireManager) : BaseTes
                         pattern: name,
                         options: RegexOptions.None));
                 
-                locator = page.Locator(selector: "#stop-telerik-map");
+                locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -680,7 +680,7 @@ public class TelerikAutoCompleteOpenClick(AspireManager aspireManager) : BaseTes
             
             try
             {
-                var locator = page.Locator(selector: "#stop-telerik-auto-complete");
+                var locator = page.Locator(selector: "telerik-auto-complete");
                 
                 await Assertions
                     .Expect(locator: locator)
@@ -720,7 +720,7 @@ public class TelerikAutoCompleteOpenClick(AspireManager aspireManager) : BaseTes
                         pattern: name,
                         options: RegexOptions.None));
                 
-                locator = page.Locator(selector: "#stop-telerik-map");
+                locator = page.Locator(selector: "telerik-map");
                 
                 await Assertions
                     .Expect(locator: locator)
