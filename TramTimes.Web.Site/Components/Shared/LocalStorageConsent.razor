@@ -8,7 +8,9 @@
 @if (!ShowPolicy)
 {
     <div id="local-storage-consent">
-        <button @onclick="ShowPrivacyPolicy">
+        <button data-testid="local-storage-consent"
+                @onclick="ShowPrivacyPolicy">
+            
             <svg class="icon"
                  fill="currentColor"
                  xmlns="http://www.w3.org/2000/svg"
@@ -22,21 +24,29 @@
 
 @if (ShowPolicy)
 {
-    <div id="local-storage-consent-policy">
+    <div id="local-storage-consent__policy"
+         data-testid="local-storage-consent__policy">
+        
+        @{
+            var url = $"/privacy/{Longitude}/{Latitude}/{Zoom}";    
+        }
+        
         <h3>We Use Cookies!</h3>
-        <p>We use our own cookies to save stop information and your last viewed location. More information about how we use cookies can be found in our <a href="/privacy" target="_blank">privacy policy</a>.</p>
+        <p>We use our own cookies to save stop information and your last viewed location. More information about how we use cookies can be found in our <a href="@url">privacy policy</a>.</p>
         
         <div class="submit">
             <button class="accept"
+                    data-testid="accept"
                     @onclick="AcceptPrivacyPolicy">
                 
-                Accept Cookies
+                Accept
             </button>
             
             <button class="reject"
+                    data-testid="reject"
                     @onclick="RejectPrivacyPolicy">
                 
-                Reject Cookies
+                Reject
             </button>
         </div>
     </div>

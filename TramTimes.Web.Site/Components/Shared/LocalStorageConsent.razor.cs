@@ -11,8 +11,10 @@ public partial class LocalStorageConsent : ComponentBase
     private string? ConsentCookie { get; set; }
     private bool ShowPolicy { get; set; }
     
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
+        await base.OnInitializedAsync();
+        
         #region get feature
         
         var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
@@ -32,8 +34,15 @@ public partial class LocalStorageConsent : ComponentBase
         #endregion
     }
     
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+    }
+    
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        await base.OnAfterRenderAsync(firstRender: firstRender);
+        
         #region create manager
         
         if (firstRender)
@@ -78,6 +87,8 @@ public partial class LocalStorageConsent : ComponentBase
     private async Task RejectPrivacyPolicy()
     {
         #region set cookie
+        
+        ConsentCookie = ConsentCookie?.Replace("true", "false");
         
         if (Manager is not null)
             await Manager.InvokeVoidAsync(

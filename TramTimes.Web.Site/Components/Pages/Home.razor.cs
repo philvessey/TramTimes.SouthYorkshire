@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.JSInterop;
 using Telerik.Blazor.Components;
 using Telerik.DataSource;
 using TramTimes.Web.Site.Builders;
@@ -16,6 +17,7 @@ public partial class Home : ComponentBase
     private List<TelerikStop> SearchData { get; set; } = [];
     private double[] Center { get; set; } = [];
     private double[] Extent { get; set; } = [];
+    private IJSObjectReference? Manager { get; set; }
     private string? Query { get; set; }
     
     protected override async Task OnInitializedAsync()
@@ -190,6 +192,34 @@ public partial class Home : ComponentBase
         #endregion
     }
     
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender: firstRender);
+        
+        #region create javascript manager
+        
+        if (firstRender)
+        {
+            Manager = await JavascriptService.InvokeAsync<IJSObjectReference>(
+                identifier: "import",
+                args: "./Components/Pages/Home.razor.js");
+            
+            var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
+            var consent = "unknown";
+            
+            if (feature is not null)
+                consent = feature.CanTrack
+                    ? "accept"
+                    : "reject";
+            
+            await Manager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"local-storage-consent: {consent}");
+        }
+        
+        #endregion
+    }
+    
     private void OnChange(object id)
     {
         #region navigate to stop
@@ -312,6 +342,15 @@ public partial class Home : ComponentBase
         }
         
         #endregion
+        
+        #region output console message
+        
+        if (Manager is not null)
+            await Manager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"telerik-map: pan {Center.ElementAt(index: 1)},{Center.ElementAt(index: 0)}");
+        
+        #endregion
     }
     
     private async Task OnRead(AutoCompleteReadEventArgs readEventArgs)
@@ -426,6 +465,15 @@ public partial class Home : ComponentBase
         }
         
         #endregion
+        
+        #region output console message
+        
+        if (Manager is not null)
+            await Manager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"telerik-auto-complete: filter {name}");
+        
+        #endregion
     }
     
     private async Task OnZoomEnd(MapZoomEndEventArgs args)
@@ -521,6 +569,40 @@ public partial class Home : ComponentBase
             await StorageService.SetItemAsync(
                 key: "cache",
                 data: MarkerData.OrderBy(keySelector: stop => stop.Id));
+        }
+        
+        #endregion
+        
+        #region output console message
+        
+        if (Manager is not null)
+            await Manager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"telerik-map: zoom {Zoom}");
+        
+        #endregion
+    }
+    
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        #region suppress object finalizer
+		
+        GC.SuppressFinalize(obj: this);
+		
+        #endregion
+        
+        #region dispose javascript manager
+        
+        try
+        {
+            if (Manager is not null)
+                await Manager.DisposeAsync();
+        }
+        catch (JSDisconnectedException e)
+        {
+            LoggerService.LogInformation(
+                message: "Exception: {exception}",
+                args: e.ToString());
         }
         
         #endregion

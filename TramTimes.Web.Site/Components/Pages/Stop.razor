@@ -1,8 +1,12 @@
 ﻿@inject HttpClient HttpService
 @inject NavigationManager NavigationService
 @inject IHttpContextAccessor AccessorService
+@inject IJSRuntime JavascriptService
 @inject ILocalStorageService StorageService
+@inject ILogger<Stop> LoggerService
 @inject IMapper MapperService
+
+@implements IAsyncDisposable
 
 @page "/stop/{Id}"
 @page "/stop/{Id}/{Longitude:double}/{Latitude:double}"
@@ -60,7 +64,9 @@
         
         <!-- #region telerik-map -->
         
-        <div id="telerik-map">
+        <div id="telerik-map"
+             data-testid="telerik-map">
+            
             <TelerikMap Center="@Center"
                         Height="100%"
                         MaxZoom="@TelerikMapDefaults.MaxZoom"
@@ -90,7 +96,7 @@
                               Data="@MarkerData"
                               LocationField="@nameof(TelerikStop.Location)">
                         
-                        <MapLayerMarkerSettings Template="<span class='k-map-marker'>#= dataItem.Platform #</span>">
+                        <MapLayerMarkerSettings Template="<span class='k-map-marker' data-testid='marker'>#= dataItem.Platform #</span>">
                             <MapLayerMarkerSettingsTooltip>
                                 <Template>
                                     
@@ -98,9 +104,18 @@
                                         var stop = context.DataItem as TelerikStop ?? new TelerikStop();
                                     }
                                     
-                                    <div id="telerik-map__tooltip">
-                                        <div class="title">@stop.Name</div>
-                                        <div class="services">
+                                    <div id="telerik-map__tooltip"
+                                         data-testid="telerik-map__tooltip">
+                                        
+                                        <div class="name"
+                                             data-testid="name">
+                                            
+                                            @stop.Name
+                                        </div>
+                                        
+                                        <div class="services"
+                                             data-testid="services">
+                                            
                                             <ul>
                                                 @{
                                                     var points = stop.Points?
@@ -149,7 +164,9 @@
         
         <!-- #region telerik-auto-complete -->
         
-        <div id="telerik-auto-complete">
+        <div id="telerik-auto-complete"
+             data-testid="telerik-auto-complete">
+            
             <TelerikAutoComplete @bind-value="@Query"
                                  DebounceDelay="@TelerikAutoCompleteDefaults.DebounceDelay"
                                  Filterable="true"
@@ -161,10 +178,24 @@
                                  TItem="@TelerikStop">
                 
                 <ItemTemplate>
-                    <div id="telerik-auto-complete__result">
-                        <div class="name">@context.Name</div>
-                        <div class="description">Direction: @context.Direction</div>
-                        <div class="services">
+                    <div id="telerik-auto-complete__result"
+                         data-testid="telerik-auto-complete__result">
+                        
+                        <div class="name"
+                             data-testid="name">
+                            
+                            @context.Name
+                        </div>
+                        
+                        <div class="direction"
+                             data-testid="direction">
+                            
+                            Direction: @context.Direction
+                        </div>
+                        
+                        <div class="services"
+                             data-testid="services">
+                            
                             <ul>
                                 @{
                                     var points = context.Points?
@@ -205,8 +236,8 @@
                 
                 <NoDataTemplate>
                     <div id="telerik-auto-complete__unknown">
-                        <div class="name">No Stops Found</div>
-                        <div class="description">Update Search Query and/or Filter</div>
+                        <div class="error">No Stops Found</div>
+                        <div class="message">Update Search Query and/or Filter</div>
                     </div>
                 </NoDataTemplate>
             </TelerikAutoComplete>
@@ -216,7 +247,9 @@
         
         <!-- #region local-storage-consent -->
         
-        <LocalStorageConsent />
+        <LocalStorageConsent Longitude="Center.ElementAt(index: 1)"
+                             Latitude="Center.ElementAt(index: 0)"
+                             Zoom="Zoom" />
         
         <!-- #endregion -->
     }
@@ -224,7 +257,9 @@
     {
         <!-- #region telerik-map -->
         
-        <div id="telerik-map">
+        <div id="telerik-map"
+             data-testid="telerik-map">
+            
             <TelerikMap Center="@Center"
                         Height="100%"
                         MaxZoom="@TelerikMapDefaults.MaxZoom"
@@ -254,9 +289,7 @@
                               Data="@MarkerData"
                               LocationField="@nameof(TelerikStop.Location)">
                         
-                        <MapLayerMarkerSettings Template="<span class='k-map-marker'>#= dataItem.Platform #</span>">
-                            <MapLayerMarkerSettingsTooltip />
-                        </MapLayerMarkerSettings>
+                        <MapLayerMarkerSettings Template="<span class='k-map-marker' data-testid='marker'>#= dataItem.Platform #</span>" />
                     </MapLayer>
                 </MapLayers>
             </TelerikMap>
@@ -266,7 +299,9 @@
         
         <!-- #region telerik-auto-complete -->
         
-        <div id="telerik-auto-complete">
+        <div id="telerik-auto-complete"
+             data-testid="telerik-auto-complete">
+            
             <TelerikAutoComplete @bind-value="@Query"
                                  DebounceDelay="@TelerikAutoCompleteDefaults.DebounceDelay"
                                  Filterable="true"
@@ -278,10 +313,24 @@
                                  TItem="@TelerikStop">
                 
                 <ItemTemplate>
-                    <div id="telerik-auto-complete__result">
-                        <div class="name">@context.Name</div>
-                        <div class="description">Direction: @context.Direction</div>
-                        <div class="services">
+                    <div id="telerik-auto-complete__result"
+                         data-testid="telerik-auto-complete__result">
+                        
+                        <div class="name"
+                             data-testid="name">
+                            
+                            @context.Name
+                        </div>
+                        
+                        <div class="direction"
+                             data-testid="direction">
+                            
+                            Direction: @context.Direction
+                        </div>
+                        
+                        <div class="services"
+                             data-testid="services">
+                            
                             <ul>
                                 @{
                                     var points = context.Points?
@@ -322,8 +371,8 @@
                 
                 <NoDataTemplate>
                     <div id="telerik-auto-complete__unknown">
-                        <div id="name">No Stops Found</div>
-                        <div id="description">Update Search Query and/or Filter</div>
+                        <div id="error">No Stops Found</div>
+                        <div id="message">Update Search Query and/or Filter</div>
                     </div>
                 </NoDataTemplate>
             </TelerikAutoComplete>
@@ -333,7 +382,9 @@
         
         <!-- #region local-storage-consent -->
         
-        <LocalStorageConsent />
+        <LocalStorageConsent Longitude="Center.ElementAt(index: 1)"
+                             Latitude="Center.ElementAt(index: 0)"
+                             Zoom="Zoom" />
         
         <!-- #endregion -->
     }

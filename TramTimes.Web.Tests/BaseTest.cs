@@ -21,8 +21,11 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
 		#endregion
 	}
 	
-	protected async Task RunTestDarkModeAsync(Func<IPage, Task> test)
-	{
+	protected async Task RunTestAsync(
+		Cookie cookie,
+		ColorScheme scheme,
+		Func<IPage, Task> test) {
+		
 		#region check health
         
 		if (AspireManager.Application is null)
@@ -51,127 +54,15 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
 				.GetEndpoint(resourceName: "web-site")
 				.ToString(),
 			
-			ColorScheme = ColorScheme.Dark,
+			ColorScheme = scheme,
 			IgnoreHTTPSErrors = true
 		});
 		
 		#endregion
 		
-		#region build page
-        
-		var page = await context.NewPageAsync();
-        
-		#endregion
-        
-		#region run test
+		#region add cookies
 		
-		try
-		{
-			await test(page);
-		}
-		finally
-		{
-			await page.CloseAsync();
-		}
-		
-		await context.CloseAsync();
-		await context.DisposeAsync();
-		
-		#endregion
-	}
-	
-	protected async Task RunTestLightModeAsync(Func<IPage, Task> test)
-	{
-		#region check health
-        
-		if (AspireManager.Application is null)
-			return;
-		
-		var tokenSource = new CancellationTokenSource(delay: TimeSpan.FromSeconds(seconds: 15));
-		
-		await AspireManager.Application.ResourceNotifications
-			.WaitForResourceHealthyAsync(
-				resourceName: "web-site",
-				cancellationToken: tokenSource.Token)
-			.WaitAsync(
-				timeout: TimeSpan.FromSeconds(seconds: 15),
-				cancellationToken: tokenSource.Token);
-        
-		#endregion
-        
-		#region build context
-		
-		if (PlaywrightManager.Browser is null)
-			return;
-		
-		var context = await PlaywrightManager.Browser.NewContextAsync(options: new BrowserNewContextOptions
-		{
-			BaseURL = AspireManager.Application
-				.GetEndpoint(resourceName: "web-site")
-				.ToString(),
-			
-			ColorScheme = ColorScheme.Light,
-			IgnoreHTTPSErrors = true
-		});
-		
-		#endregion
-		
-		#region build page
-        
-		var page = await context.NewPageAsync();
-        
-		#endregion
-        
-		#region run test
-		
-		try
-		{
-			await test(page);
-		}
-		finally
-		{
-			await page.CloseAsync();
-		}
-		
-		await context.CloseAsync();
-		await context.DisposeAsync();
-		
-		#endregion
-	}
-	
-	protected async Task RunTestSystemModeAsync(Func<IPage, Task> test)
-	{
-		#region check health
-        
-		if (AspireManager.Application is null)
-			return;
-		
-		var tokenSource = new CancellationTokenSource(delay: TimeSpan.FromSeconds(seconds: 15));
-		
-		await AspireManager.Application.ResourceNotifications
-			.WaitForResourceHealthyAsync(
-				resourceName: "web-site",
-				cancellationToken: tokenSource.Token)
-			.WaitAsync(
-				timeout: TimeSpan.FromSeconds(seconds: 15),
-				cancellationToken: tokenSource.Token);
-        
-		#endregion
-        
-		#region build context
-		
-		if (PlaywrightManager.Browser is null)
-			return;
-		
-		var context = await PlaywrightManager.Browser.NewContextAsync(options: new BrowserNewContextOptions
-		{
-			BaseURL = AspireManager.Application
-				.GetEndpoint(resourceName: "web-site")
-				.ToString(),
-			
-			ColorScheme = ColorScheme.NoPreference,
-			IgnoreHTTPSErrors = true
-		});
+		await context.AddCookiesAsync(cookies: [cookie]);
 		
 		#endregion
 		

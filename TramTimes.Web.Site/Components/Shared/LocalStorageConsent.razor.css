@@ -39,7 +39,7 @@
     width: 24px;
 }
 
-#local-storage-consent-policy {
+#local-storage-consent__policy {
     background-color: white;
     border-radius: 8px;
     bottom: 15px;
@@ -48,11 +48,11 @@
     left: 15px;
     padding: 20px 25px;
     position: fixed;
-    width: min(calc(100vw - 30px), 370px);
+    width: min(calc(100vw - 80px), 368px);
     z-index: 999;
 }
 
-#local-storage-consent-policy h3 {
+#local-storage-consent__policy h3 {
     font-size: 24px;
     margin: 0;
     padding: 8px 0;
@@ -63,7 +63,7 @@
     }
 }
 
-#local-storage-consent-policy p {
+#local-storage-consent__policy p {
     font-size: 15px;
     line-height: 1.3;
     margin: 0;
@@ -75,7 +75,7 @@
     }
 }
 
-#local-storage-consent-policy .submit {
+#local-storage-consent__policy .submit {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
@@ -83,7 +83,7 @@
     margin-top: 20px;
 }
 
-#local-storage-consent-policy .submit button {
+#local-storage-consent__policy .submit button {
     border: none;
     border-radius: 8px;
     cursor: pointer;
@@ -99,22 +99,22 @@
     }
 }
 
-#local-storage-consent-policy .submit button:focus {
+#local-storage-consent__policy .submit button:focus {
     filter: contrast(75%);
     outline: none;
     transform: scale(0.95);
 }
 
-#local-storage-consent-policy .submit button:hover {
+#local-storage-consent__policy .submit button:hover {
     filter: contrast(85%);
 }
 
-#local-storage-consent-policy .submit button.accept {
+#local-storage-consent__policy .submit button.accept {
     background-color: #0078c8;
     color: white;
 }
 
-#local-storage-consent-policy .submit button.reject {
+#local-storage-consent__policy .submit button.reject {
     background-color: #E8E8E8;
     color: #636363;
 }
