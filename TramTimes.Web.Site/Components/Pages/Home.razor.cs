@@ -190,6 +190,20 @@ public partial class Home : ComponentBase
         }
         
         #endregion
+        
+        #region output console message
+        
+        if (Manager is not null && Longitude is not null && Latitude is not null)
+            await Manager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"home: parameters set {Longitude}/{Latitude}");
+        
+        if (Manager is not null && Longitude is null && Latitude is null)
+            await Manager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: "home: parameters set");
+        
+        #endregion
     }
     
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -204,6 +218,10 @@ public partial class Home : ComponentBase
                 identifier: "import",
                 args: "./Components/Pages/Home.razor.js");
             
+            await Manager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: "home: first render");
+            
             var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
             var consent = "unknown";
             
@@ -214,7 +232,7 @@ public partial class Home : ComponentBase
             
             await Manager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"local-storage-consent: {consent}");
+                args: $"home: consent {consent}");
         }
         
         #endregion
@@ -237,12 +255,36 @@ public partial class Home : ComponentBase
         #endregion
     }
     
+    private async Task OnClose()
+    {
+        #region output console message
+        
+        if (Manager is not null)
+            await Manager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: "home: search close");
+        
+        #endregion
+    }
+    
     private void OnMarkerClick(MapMarkerClickEventArgs args)
     {
         #region navigate to stop
         
         if (args.DataItem is TelerikStop stop)
             NavigationService.NavigateTo(uri: $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}");
+        
+        #endregion
+    }
+    
+    private async Task OnOpen()
+    {
+        #region output console message
+        
+        if (Manager is not null)
+            await Manager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: "home: search open");
         
         #endregion
     }
@@ -348,7 +390,7 @@ public partial class Home : ComponentBase
         if (Manager is not null)
             await Manager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"telerik-map: pan {Center.ElementAt(index: 1)},{Center.ElementAt(index: 0)}");
+                args: $"home: map pan {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
         
         #endregion
     }
@@ -471,7 +513,7 @@ public partial class Home : ComponentBase
         if (Manager is not null)
             await Manager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"telerik-auto-complete: filter {name}");
+                args: $"home: search filter {name}");
         
         #endregion
     }
@@ -578,7 +620,7 @@ public partial class Home : ComponentBase
         if (Manager is not null)
             await Manager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"telerik-map: zoom {Zoom}");
+                args: $"home: map zoom {Zoom}");
         
         #endregion
     }

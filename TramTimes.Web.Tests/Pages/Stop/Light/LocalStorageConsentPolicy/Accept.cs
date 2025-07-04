@@ -77,7 +77,7 @@ public class Accept(AspireManager aspireManager) : BaseTest(aspireManager: aspir
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "local-storage-consent: accept")
+                    Predicate = message => message.Text.Equals(value: "stop: consent accept")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -185,7 +185,7 @@ public class Accept(AspireManager aspireManager) : BaseTest(aspireManager: aspir
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "local-storage-consent: accept")
+                    Predicate = message => message.Text.Equals(value: "stop: consent accept")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -293,7 +293,7 @@ public class Accept(AspireManager aspireManager) : BaseTest(aspireManager: aspir
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "local-storage-consent: accept")
+                    Predicate = message => message.Text.Equals(value: "stop: consent accept")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -401,7 +401,7 @@ public class Accept(AspireManager aspireManager) : BaseTest(aspireManager: aspir
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "local-storage-consent: accept")
+                    Predicate = message => message.Text.Equals(value: "stop: consent accept")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -509,7 +509,7 @@ public class Accept(AspireManager aspireManager) : BaseTest(aspireManager: aspir
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "local-storage-consent: accept")
+                    Predicate = message => message.Text.Equals(value: "stop: consent accept")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -617,7 +617,7 @@ public class Accept(AspireManager aspireManager) : BaseTest(aspireManager: aspir
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "local-storage-consent: accept")
+                    Predicate = message => message.Text.Equals(value: "stop: consent accept")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");

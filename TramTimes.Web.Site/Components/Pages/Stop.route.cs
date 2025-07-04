@@ -5,7 +5,7 @@ namespace TramTimes.Web.Site.Components.Pages;
 public partial class Stop
 {
     [Parameter]
-    public string? Id { get; set; }
+    public required string Id { get; set; }
     
     [Parameter]
     public double? Longitude { get; set; }

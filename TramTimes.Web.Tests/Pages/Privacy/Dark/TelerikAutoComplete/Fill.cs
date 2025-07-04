@@ -67,6 +67,11 @@ public class Fill(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                 
                 await locator.FillAsync(value: query);
                 
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Equals(value: $"privacy: search filter {query}")
+                });
+                
                 locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
                 
                 await Assertions
@@ -155,6 +160,11 @@ public class Fill(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                     .ToBeVisibleAsync();
                 
                 await locator.FillAsync(value: query);
+                
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Equals(value: $"privacy: search filter {query}")
+                });
                 
                 locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
                 
@@ -245,6 +255,11 @@ public class Fill(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                 
                 await locator.FillAsync(value: query);
                 
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Equals(value: $"privacy: search filter {query}")
+                });
+                
                 locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
                 
                 await Assertions
@@ -333,6 +348,11 @@ public class Fill(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                     .ToBeVisibleAsync();
                 
                 await locator.FillAsync(value: query);
+                
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Equals(value: $"privacy: search filter {query}")
+                });
                 
                 locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
                 
@@ -423,6 +443,11 @@ public class Fill(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                 
                 await locator.FillAsync(value: query);
                 
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Equals(value: $"privacy: search filter {query}")
+                });
+                
                 locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
                 
                 await Assertions
@@ -511,6 +536,11 @@ public class Fill(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                     .ToBeVisibleAsync();
                 
                 await locator.FillAsync(value: query);
+                
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Equals(value: $"privacy: search filter {query}")
+                });
                 
                 locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
                 

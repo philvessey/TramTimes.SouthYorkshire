@@ -71,6 +71,11 @@ public class Click(AspireManager aspireManager) : BaseTest(aspireManager: aspire
                 
                 await locator.FillAsync(value: query);
                 
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Equals(value: $"home: search filter {query}")
+                });
+                
                 locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
                 
                 await Assertions
@@ -130,6 +135,16 @@ public class Click(AspireManager aspireManager) : BaseTest(aspireManager: aspire
                 await Assertions
                     .Expect(page: page)
                     .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/stop/{id}"));
+                
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
+                
+                locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
                 
                 locator = page.GetByTestId(testId: "telerik-map");
                 
@@ -229,6 +244,11 @@ public class Click(AspireManager aspireManager) : BaseTest(aspireManager: aspire
                 
                 await locator.FillAsync(value: query);
                 
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Equals(value: $"home: search filter {query}")
+                });
+                
                 locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
                 
                 await Assertions
@@ -288,6 +308,16 @@ public class Click(AspireManager aspireManager) : BaseTest(aspireManager: aspire
                 await Assertions
                     .Expect(page: page)
                     .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/stop/{id}"));
+                
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
+                
+                locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
                 
                 locator = page.GetByTestId(testId: "telerik-map");
                 
@@ -387,6 +417,11 @@ public class Click(AspireManager aspireManager) : BaseTest(aspireManager: aspire
                 
                 await locator.FillAsync(value: query);
                 
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Equals(value: $"home: search filter {query}")
+                });
+                
                 locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
                 
                 await Assertions
@@ -446,6 +481,16 @@ public class Click(AspireManager aspireManager) : BaseTest(aspireManager: aspire
                 await Assertions
                     .Expect(page: page)
                     .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/stop/{id}"));
+                
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
+                
+                locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
                 
                 locator = page.GetByTestId(testId: "telerik-map");
                 
@@ -545,6 +590,11 @@ public class Click(AspireManager aspireManager) : BaseTest(aspireManager: aspire
                 
                 await locator.FillAsync(value: query);
                 
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Equals(value: $"home: search filter {query}")
+                });
+                
                 locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
                 
                 await Assertions
@@ -604,6 +654,16 @@ public class Click(AspireManager aspireManager) : BaseTest(aspireManager: aspire
                 await Assertions
                     .Expect(page: page)
                     .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/stop/{id}"));
+                
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
+                
+                locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
                 
                 locator = page.GetByTestId(testId: "telerik-map");
                 
@@ -703,6 +763,11 @@ public class Click(AspireManager aspireManager) : BaseTest(aspireManager: aspire
                 
                 await locator.FillAsync(value: query);
                 
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Equals(value: $"home: search filter {query}")
+                });
+                
                 locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
                 
                 await Assertions
@@ -762,6 +827,16 @@ public class Click(AspireManager aspireManager) : BaseTest(aspireManager: aspire
                 await Assertions
                     .Expect(page: page)
                     .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/stop/{id}"));
+                
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
+                
+                locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
                 
                 locator = page.GetByTestId(testId: "telerik-map");
                 
@@ -861,6 +936,11 @@ public class Click(AspireManager aspireManager) : BaseTest(aspireManager: aspire
                 
                 await locator.FillAsync(value: query);
                 
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Equals(value: $"home: search filter {query}")
+                });
+                
                 locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
                 
                 await Assertions
@@ -920,6 +1000,16 @@ public class Click(AspireManager aspireManager) : BaseTest(aspireManager: aspire
                 await Assertions
                     .Expect(page: page)
                     .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/stop/{id}"));
+                
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
+                
+                locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
+                
+                await Assertions
+                    .Expect(locator: locator)
+                    .ToBeHiddenAsync();
                 
                 locator = page.GetByTestId(testId: "telerik-map");
                 

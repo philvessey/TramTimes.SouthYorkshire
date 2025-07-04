@@ -184,7 +184,7 @@ public class Zoom(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: zoom")
+                    Predicate = message => message.Text.Contains(value: "home: map zoom")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -215,7 +215,7 @@ public class Zoom(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: zoom")
+                    Predicate = message => message.Text.Contains(value: "home: map zoom")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -326,7 +326,7 @@ public class Zoom(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: zoom")
+                    Predicate = message => message.Text.Contains(value: "home: map zoom")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -357,7 +357,7 @@ public class Zoom(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: zoom")
+                    Predicate = message => message.Text.Contains(value: "home: map zoom")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -468,7 +468,7 @@ public class Zoom(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: zoom")
+                    Predicate = message => message.Text.Contains(value: "home: map zoom")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -499,7 +499,7 @@ public class Zoom(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: zoom")
+                    Predicate = message => message.Text.Contains(value: "home: map zoom")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -610,7 +610,7 @@ public class Zoom(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: zoom")
+                    Predicate = message => message.Text.Contains(value: "home: map zoom")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -641,7 +641,7 @@ public class Zoom(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: zoom")
+                    Predicate = message => message.Text.Contains(value: "home: map zoom")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -752,7 +752,7 @@ public class Zoom(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: zoom")
+                    Predicate = message => message.Text.Contains(value: "home: map zoom")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -783,7 +783,7 @@ public class Zoom(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: zoom")
+                    Predicate = message => message.Text.Contains(value: "home: map zoom")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");

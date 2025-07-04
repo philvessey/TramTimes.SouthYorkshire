@@ -70,6 +70,11 @@ public class Blur(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                 
                 await locator.FillAsync(value: query);
                 
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Equals(value: $"stop: search filter {query}")
+                });
+                
                 locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
                 
                 await Assertions
@@ -223,6 +228,11 @@ public class Blur(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                     .ToBeVisibleAsync();
                 
                 await locator.FillAsync(value: query);
+                
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Equals(value: $"stop: search filter {query}")
+                });
                 
                 locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
                 
@@ -378,6 +388,11 @@ public class Blur(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                 
                 await locator.FillAsync(value: query);
                 
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Equals(value: $"stop: search filter {query}")
+                });
+                
                 locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
                 
                 await Assertions
@@ -531,6 +546,11 @@ public class Blur(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                     .ToBeVisibleAsync();
                 
                 await locator.FillAsync(value: query);
+                
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Equals(value: $"stop: search filter {query}")
+                });
                 
                 locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
                 
@@ -686,6 +706,11 @@ public class Blur(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                 
                 await locator.FillAsync(value: query);
                 
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Equals(value: $"stop: search filter {query}")
+                });
+                
                 locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
                 
                 await Assertions
@@ -839,6 +864,11 @@ public class Blur(AspireManager aspireManager) : BaseTest(aspireManager: aspireM
                     .ToBeVisibleAsync();
                 
                 await locator.FillAsync(value: query);
+                
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Equals(value: $"stop: search filter {query}")
+                });
                 
                 locator = page.GetByTestId(testId: "telerik-auto-complete__result").First;
                 

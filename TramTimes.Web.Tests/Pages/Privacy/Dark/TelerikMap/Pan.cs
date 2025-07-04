@@ -78,7 +78,7 @@ public class Pan(AspireManager aspireManager) : BaseTest(aspireManager: aspireMa
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: pan")
+                    Predicate = message => message.Text.Contains(value: "privacy: map pan")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -107,7 +107,7 @@ public class Pan(AspireManager aspireManager) : BaseTest(aspireManager: aspireMa
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: pan")
+                    Predicate = message => message.Text.Contains(value: "privacy: map pan")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -216,7 +216,7 @@ public class Pan(AspireManager aspireManager) : BaseTest(aspireManager: aspireMa
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: pan")
+                    Predicate = message => message.Text.Contains(value: "privacy: map pan")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -245,7 +245,7 @@ public class Pan(AspireManager aspireManager) : BaseTest(aspireManager: aspireMa
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: pan")
+                    Predicate = message => message.Text.Contains(value: "privacy: map pan")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -354,7 +354,7 @@ public class Pan(AspireManager aspireManager) : BaseTest(aspireManager: aspireMa
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: pan")
+                    Predicate = message => message.Text.Contains(value: "privacy: map pan")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -383,7 +383,7 @@ public class Pan(AspireManager aspireManager) : BaseTest(aspireManager: aspireMa
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: pan")
+                    Predicate = message => message.Text.Contains(value: "privacy: map pan")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -492,7 +492,7 @@ public class Pan(AspireManager aspireManager) : BaseTest(aspireManager: aspireMa
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: pan")
+                    Predicate = message => message.Text.Contains(value: "privacy: map pan")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -521,7 +521,7 @@ public class Pan(AspireManager aspireManager) : BaseTest(aspireManager: aspireMa
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: pan")
+                    Predicate = message => message.Text.Contains(value: "privacy: map pan")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -630,7 +630,7 @@ public class Pan(AspireManager aspireManager) : BaseTest(aspireManager: aspireMa
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: pan")
+                    Predicate = message => message.Text.Contains(value: "privacy: map pan")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -659,7 +659,7 @@ public class Pan(AspireManager aspireManager) : BaseTest(aspireManager: aspireMa
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: pan")
+                    Predicate = message => message.Text.Contains(value: "privacy: map pan")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -768,7 +768,7 @@ public class Pan(AspireManager aspireManager) : BaseTest(aspireManager: aspireMa
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: pan")
+                    Predicate = message => message.Text.Contains(value: "privacy: map pan")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");
@@ -797,7 +797,7 @@ public class Pan(AspireManager aspireManager) : BaseTest(aspireManager: aspireMa
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "telerik-map: pan")
+                    Predicate = message => message.Text.Contains(value: "privacy: map pan")
                 });
                 
                 locator = page.GetByTestId(testId: "telerik-map");

@@ -190,6 +190,20 @@ public partial class Privacy : ComponentBase
         }
         
         #endregion
+        
+        #region output console message
+        
+        if (Manager is not null && Longitude is not null && Latitude is not null)
+            await Manager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"privacy: parameters set {Longitude}/{Latitude}");
+        
+        if (Manager is not null && Longitude is null && Latitude is null)
+            await Manager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: "privacy: parameters set");
+        
+        #endregion
     }
     
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -204,6 +218,10 @@ public partial class Privacy : ComponentBase
                 identifier: "import",
                 args: "./Components/Pages/Privacy.razor.js");
             
+            await Manager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: "privacy: first render");
+            
             var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
             var consent = "unknown";
             
@@ -214,7 +232,7 @@ public partial class Privacy : ComponentBase
             
             await Manager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"local-storage-consent: {consent}");
+                args: $"privacy: consent {consent}");
         }
         
         #endregion
@@ -237,12 +255,36 @@ public partial class Privacy : ComponentBase
         #endregion
     }
     
+    private async Task OnClose()
+    {
+        #region output console message
+        
+        if (Manager is not null)
+            await Manager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: "privacy: search close");
+        
+        #endregion
+    }
+    
     private void OnMarkerClick(MapMarkerClickEventArgs args)
     {
         #region navigate to stop
         
         if (args.DataItem is TelerikStop stop)
             NavigationService.NavigateTo(uri: $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}");
+        
+        #endregion
+    }
+    
+    private async Task OnOpen()
+    {
+        #region output console message
+        
+        if (Manager is not null)
+            await Manager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: "privacy: search open");
         
         #endregion
     }
@@ -348,7 +390,7 @@ public partial class Privacy : ComponentBase
         if (Manager is not null)
             await Manager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"telerik-map: pan {Center.ElementAt(index: 1)},{Center.ElementAt(index: 0)}");
+                args: $"privacy: map pan {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
         
         #endregion
     }
@@ -471,7 +513,7 @@ public partial class Privacy : ComponentBase
         if (Manager is not null)
             await Manager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"telerik-auto-complete: filter {name}");
+                args: $"privacy: search filter {name}");
         
         #endregion
     }
@@ -578,7 +620,7 @@ public partial class Privacy : ComponentBase
         if (Manager is not null)
             await Manager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"telerik-map: zoom {Zoom}");
+                args: $"privacy: map zoom {Zoom}");
         
         #endregion
     }

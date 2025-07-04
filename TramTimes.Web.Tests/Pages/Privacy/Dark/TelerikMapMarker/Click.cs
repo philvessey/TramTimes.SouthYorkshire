@@ -117,6 +117,10 @@ public class Click(AspireManager aspireManager) : BaseTest(aspireManager: aspire
                     .Expect(page: page)
                     .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/stop/{id}"));
                 
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
+                
                 locator = page.GetByTestId(testId: "telerik-map");
                 
                 await Assertions
@@ -260,6 +264,10 @@ public class Click(AspireManager aspireManager) : BaseTest(aspireManager: aspire
                 await Assertions
                     .Expect(page: page)
                     .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/stop/{id}"));
+                
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
                 
                 locator = page.GetByTestId(testId: "telerik-map");
                 
@@ -405,6 +413,10 @@ public class Click(AspireManager aspireManager) : BaseTest(aspireManager: aspire
                     .Expect(page: page)
                     .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/stop/{id}"));
                 
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
+                
                 locator = page.GetByTestId(testId: "telerik-map");
                 
                 await Assertions
@@ -548,6 +560,10 @@ public class Click(AspireManager aspireManager) : BaseTest(aspireManager: aspire
                 await Assertions
                     .Expect(page: page)
                     .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/stop/{id}"));
+                
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
                 
                 locator = page.GetByTestId(testId: "telerik-map");
                 
@@ -693,6 +709,10 @@ public class Click(AspireManager aspireManager) : BaseTest(aspireManager: aspire
                     .Expect(page: page)
                     .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/stop/{id}"));
                 
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
+                
                 locator = page.GetByTestId(testId: "telerik-map");
                 
                 await Assertions
@@ -836,6 +856,10 @@ public class Click(AspireManager aspireManager) : BaseTest(aspireManager: aspire
                 await Assertions
                     .Expect(page: page)
                     .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/stop/{id}"));
+                
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
                 
                 locator = page.GetByTestId(testId: "telerik-map");
                 
