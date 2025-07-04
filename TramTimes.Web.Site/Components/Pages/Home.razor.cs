@@ -19,6 +19,7 @@ public partial class Home : ComponentBase
     private double[] Extent { get; set; } = [];
     private IJSObjectReference? Manager { get; set; }
     private string? Query { get; set; }
+    private string? Title { get; set; }
     
     protected override async Task OnInitializedAsync()
     {
@@ -43,6 +44,12 @@ public partial class Home : ComponentBase
         Query ??= string.Empty;
         
         #endregion
+        
+        #region set default title
+        
+        Title ??= "TramTimes - South Yorkshire";
+        
+        #endregion
     }
     
     protected override async Task OnParametersSetAsync()
@@ -58,28 +65,7 @@ public partial class Home : ComponentBase
         
         #region get map location
         
-        double[] location = [];
-        
-        if (consent)
-            location = await StorageService.GetItemAsync<double[]>(key: "location") ?? [];
-        
-        if (!location.IsNullOrEmpty() && !Latitude.HasValue && !Longitude.HasValue)
-        {
-            Center =
-            [
-                (location.ElementAt(index: 0) + location.ElementAt(index: 2)) / 2,
-                (location.ElementAt(index: 1) + location.ElementAt(index: 3)) / 2
-            ];
-            
-            Extent =
-            [
-                location.ElementAt(index: 0),
-                location.ElementAt(index: 1),
-                location.ElementAt(index: 2),
-                location.ElementAt(index: 3)
-            ];
-        }
-        else if (Latitude.HasValue && Longitude.HasValue)
+        if (Latitude.HasValue && Longitude.HasValue)
         {
             Extent =
             [
@@ -108,6 +94,38 @@ public partial class Home : ComponentBase
         {
             Zoom = TelerikMapDefaults.Zoom;
         }
+        
+        if (consent)
+        {
+            var location = await StorageService.GetItemAsync<double[]>(key: "location") ?? [];
+            
+            if (!location.IsNullOrEmpty() && !Latitude.HasValue && !Longitude.HasValue)
+            {
+                Center =
+                [
+                    (location.ElementAt(index: 0) + location.ElementAt(index: 2)) / 2,
+                    (location.ElementAt(index: 1) + location.ElementAt(index: 3)) / 2
+                ];
+                
+                Extent =
+                [
+                    location.ElementAt(index: 0),
+                    location.ElementAt(index: 1),
+                    location.ElementAt(index: 2),
+                    location.ElementAt(index: 3)
+                ];
+            }
+        }
+        
+        #endregion
+        
+        #region navigate to page
+        
+        if (NavigationService.Uri.Equals(value: NavigationService.BaseUri))
+            NavigationService.NavigateTo(
+                uri: $"/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{Zoom}",
+                forceLoad: true,
+                replace: true);
         
         #endregion
         
@@ -190,20 +208,6 @@ public partial class Home : ComponentBase
         }
         
         #endregion
-        
-        #region output console message
-        
-        if (Manager is not null && Longitude is not null && Latitude is not null)
-            await Manager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: $"home: parameters set {Longitude}/{Latitude}");
-        
-        if (Manager is not null && Longitude is null && Latitude is null)
-            await Manager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: "home: parameters set");
-        
-        #endregion
     }
     
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -217,10 +221,6 @@ public partial class Home : ComponentBase
             Manager = await JavascriptService.InvokeAsync<IJSObjectReference>(
                 identifier: "import",
                 args: "./Components/Pages/Home.razor.js");
-            
-            await Manager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: "home: first render");
             
             var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
             var consent = "unknown";

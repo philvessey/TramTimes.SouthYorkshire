@@ -19,6 +19,7 @@ public partial class Privacy : ComponentBase
     private double[] Extent { get; set; } = [];
     private IJSObjectReference? Manager { get; set; }
     private string? Query { get; set; }
+    private string? Title { get; set; }
     
     protected override async Task OnInitializedAsync()
     {
@@ -43,11 +44,23 @@ public partial class Privacy : ComponentBase
         Query ??= string.Empty;
         
         #endregion
+        
+        #region set default title
+        
+        Title ??= "TramTimes - South Yorkshire";
+        
+        #endregion
     }
     
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
+        
+        #region set page title
+        
+        Title = "TramTimes - South Yorkshire - Privacy Policy";
+        
+        #endregion
         
         #region get storage consent
         
@@ -58,28 +71,7 @@ public partial class Privacy : ComponentBase
         
         #region get map location
         
-        double[] location = [];
-        
-        if (consent)
-            location = await StorageService.GetItemAsync<double[]>(key: "location") ?? [];
-        
-        if (!location.IsNullOrEmpty() && !Latitude.HasValue && !Longitude.HasValue)
-        {
-            Center =
-            [
-                (location.ElementAt(index: 0) + location.ElementAt(index: 2)) / 2,
-                (location.ElementAt(index: 1) + location.ElementAt(index: 3)) / 2
-            ];
-            
-            Extent =
-            [
-                location.ElementAt(index: 0),
-                location.ElementAt(index: 1),
-                location.ElementAt(index: 2),
-                location.ElementAt(index: 3)
-            ];
-        }
-        else if (Latitude.HasValue && Longitude.HasValue)
+        if (Latitude.HasValue && Longitude.HasValue)
         {
             Extent =
             [
@@ -108,6 +100,38 @@ public partial class Privacy : ComponentBase
         {
             Zoom = TelerikMapDefaults.Zoom;
         }
+        
+        if (consent)
+        {
+            var location = await StorageService.GetItemAsync<double[]>(key: "location") ?? [];
+            
+            if (!location.IsNullOrEmpty() && !Latitude.HasValue && !Longitude.HasValue)
+            {
+                Center =
+                [
+                    (location.ElementAt(index: 0) + location.ElementAt(index: 2)) / 2,
+                    (location.ElementAt(index: 1) + location.ElementAt(index: 3)) / 2
+                ];
+                
+                Extent =
+                [
+                    location.ElementAt(index: 0),
+                    location.ElementAt(index: 1),
+                    location.ElementAt(index: 2),
+                    location.ElementAt(index: 3)
+                ];
+            }
+        }
+        
+        #endregion
+        
+        #region navigate to page
+        
+        if (NavigationService.Uri.Equals(value: NavigationService.BaseUri + "/privacy"))
+            NavigationService.NavigateTo(
+                uri: $"/privacy/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{Zoom}",
+                forceLoad: true,
+                replace: true);
         
         #endregion
         
@@ -190,20 +214,6 @@ public partial class Privacy : ComponentBase
         }
         
         #endregion
-        
-        #region output console message
-        
-        if (Manager is not null && Longitude is not null && Latitude is not null)
-            await Manager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: $"privacy: parameters set {Longitude}/{Latitude}");
-        
-        if (Manager is not null && Longitude is null && Latitude is null)
-            await Manager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: "privacy: parameters set");
-        
-        #endregion
     }
     
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -217,10 +227,6 @@ public partial class Privacy : ComponentBase
             Manager = await JavascriptService.InvokeAsync<IJSObjectReference>(
                 identifier: "import",
                 args: "./Components/Pages/Privacy.razor.js");
-            
-            await Manager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: "privacy: first render");
             
             var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
             var consent = "unknown";

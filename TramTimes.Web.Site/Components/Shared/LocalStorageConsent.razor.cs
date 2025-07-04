@@ -79,7 +79,8 @@ public partial class LocalStorageConsent : ComponentBase
         
         NavigationService.NavigateTo(
             uri: NavigationService.Uri,
-            forceLoad: true);
+            forceLoad: true,
+            replace: true);
         
         #endregion
     }
@@ -103,7 +104,8 @@ public partial class LocalStorageConsent : ComponentBase
         
         NavigationService.NavigateTo(
             uri: NavigationService.Uri,
-            forceLoad: true);
+            forceLoad: true,
+            replace: true);
         
         #endregion
     }

@@ -20,6 +20,7 @@ public partial class Stop : ComponentBase
     private double[] Extent { get; set; } = [];
     private IJSObjectReference? Manager { get; set; }
     private string? Query { get; set; }
+    private string? Title { get; set; }
     
     protected override async Task OnInitializedAsync()
     {
@@ -44,11 +45,23 @@ public partial class Stop : ComponentBase
         Query ??= string.Empty;
         
         #endregion
+        
+        #region set default title
+        
+        Title ??= "TramTimes - South Yorkshire";
+        
+        #endregion
     }
     
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
+        
+        #region set page title
+        
+        Title = $"TramTimes - South Yorkshire - {Id}";
+        
+        #endregion
         
         #region get storage consent
         
@@ -59,28 +72,7 @@ public partial class Stop : ComponentBase
         
         #region get map location
         
-        double[] location = [];
-        
-        if (consent)
-            location = await StorageService.GetItemAsync<double[]>(key: "location") ?? [];
-        
-        if (!location.IsNullOrEmpty() && !Latitude.HasValue && !Longitude.HasValue)
-        {
-            Center =
-            [
-                (location.ElementAt(index: 0) + location.ElementAt(index: 2)) / 2,
-                (location.ElementAt(index: 1) + location.ElementAt(index: 3)) / 2
-            ];
-            
-            Extent =
-            [
-                location.ElementAt(index: 0),
-                location.ElementAt(index: 1),
-                location.ElementAt(index: 2),
-                location.ElementAt(index: 3)
-            ];
-        }
-        else if (Latitude.HasValue && Longitude.HasValue)
+        if (Latitude.HasValue && Longitude.HasValue)
         {
             Extent =
             [
@@ -110,6 +102,28 @@ public partial class Stop : ComponentBase
             Zoom = TelerikMapDefaults.Zoom;
         }
         
+        if (consent)
+        {
+            var location = await StorageService.GetItemAsync<double[]>(key: "location") ?? [];
+            
+            if (!location.IsNullOrEmpty() && !Latitude.HasValue && !Longitude.HasValue)
+            {
+                Center =
+                [
+                    (location.ElementAt(index: 0) + location.ElementAt(index: 2)) / 2,
+                    (location.ElementAt(index: 1) + location.ElementAt(index: 3)) / 2
+                ];
+                
+                Extent =
+                [
+                    location.ElementAt(index: 0),
+                    location.ElementAt(index: 1),
+                    location.ElementAt(index: 2),
+                    location.ElementAt(index: 3)
+                ];
+            }
+        }
+        
         #endregion
         
         #region build query data
@@ -137,16 +151,28 @@ public partial class Stop : ComponentBase
         
         #endregion
         
-        #region navigate to stop
+        #region navigate to page
         
         if (StopData is { Latitude: not null, Longitude: not null })
         {
             if (Math.Abs(value: StopData.Latitude.Value - Latitude.GetValueOrDefault()) > 1e-6)
-                NavigationService.NavigateTo(uri: $"/stop/{StopData.Id}/{StopData.Longitude}/{StopData.Latitude}/{Zoom}");
+                NavigationService.NavigateTo(
+                    uri: $"/stop/{StopData.Id}/{StopData.Longitude}/{StopData.Latitude}/{Zoom}",
+                    forceLoad: true,
+                    replace: true);
             
             if (Math.Abs(value: StopData.Longitude.Value - Longitude.GetValueOrDefault()) > 1e-6)
-                NavigationService.NavigateTo(uri: $"/stop/{StopData.Id}/{StopData.Longitude}/{StopData.Latitude}/{Zoom}");
+                NavigationService.NavigateTo(
+                    uri: $"/stop/{StopData.Id}/{StopData.Longitude}/{StopData.Latitude}/{Zoom}",
+                    forceLoad: true,
+                    replace: true);
         }
+        
+        #endregion
+        
+        #region set page title
+        
+        Title = $"TramTimes - South Yorkshire - {StopData.Name ?? Id}";
         
         #endregion
         
@@ -229,20 +255,6 @@ public partial class Stop : ComponentBase
         }
         
         #endregion
-        
-        #region output console message
-        
-        if (Manager is not null && Longitude is not null && Latitude is not null)
-            await Manager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: $"stop: parameters set {Id}/{Longitude}/{Latitude}");
-        
-        if (Manager is not null && Longitude is null && Latitude is null)
-            await Manager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: $"stop: parameters set {Id}");
-        
-        #endregion
     }
     
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -256,10 +268,6 @@ public partial class Stop : ComponentBase
             Manager = await JavascriptService.InvokeAsync<IJSObjectReference>(
                 identifier: "import",
                 args: "./Components/Pages/Stop.razor.js");
-            
-            await Manager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: "stop: first render");
             
             var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
             var consent = "unknown";
