@@ -23,6 +23,7 @@ public static class WebBuilder
             .WaitFor(dependency: cache)
             .WaitFor(dependency: search)
             .WithExternalHttpEndpoints()
+            .WithHttpHealthCheck(path: "/healthz")
             .WithReference(source: container)
             .WithReference(source: database)
             .WithReference(source: cache)

@@ -1,3 +1,4 @@
+using TramTimes.Web.Api.Checks;
 using TramTimes.Web.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args: args);
@@ -19,6 +20,16 @@ builder.AddElasticsearchClient(connectionName: "search");
 
 #endregion
 
+#region add checks
+
+builder.Services
+    .AddHealthChecks()
+    .AddCheck<DatabaseCheck>(name: "database-check")
+    .AddCheck<CacheCheck>(name: "cache-check")
+    .AddCheck<SearchCheck>(name: "search-check");
+
+#endregion
+
 #region add extensions
 
 builder.Services
@@ -31,6 +42,7 @@ builder.Services
 
 var application = builder.Build();
 application.UseExceptionHandler();
+application.MapHealthChecks(pattern: "/healthz");
 
 if (application.Environment.IsDevelopment())
 {
