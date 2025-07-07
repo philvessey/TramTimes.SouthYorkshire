@@ -12,24 +12,14 @@ public static class ScheduleService
         {
             #region clean cache
             
-            var init = new JobKey(name: "Init");
-            var cron = new JobKey(name: "Cron");
+            var clean = new JobKey(name: "Clean");
             
             quartz
-                .AddJob<Clean>(jobKey: init)
+                .AddJob<Clean>(jobKey: clean)
                 .AddTrigger(configure: trigger =>
                 {
-                    trigger.ForJob(jobKey: init);
-                    trigger.StartNow();
-                    trigger.WithDescription(description: "Startup job to clean the cache.");
-                });
-            
-            quartz
-                .AddJob<Clean>(jobKey: cron)
-                .AddTrigger(configure: trigger =>
-                {
-                    trigger.ForJob(jobKey: cron);
-                    trigger.StartNow();
+                    trigger.ForJob(jobKey: clean);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
                     trigger.WithCronSchedule(cronExpression: "0 30 3 * * ?");
                 });
             
@@ -985,7 +975,7 @@ public static class ScheduleService
             
             #endregion
             
-            #region shalesmoor
+            #region kelham island
             
             var _9400ZZSYSHL1 = new JobKey(name: "9400ZZSYSHL1");
             var _9400ZZSYSHL2 = new JobKey(name: "9400ZZSYSHL2");

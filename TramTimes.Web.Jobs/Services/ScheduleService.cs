@@ -11,23 +11,13 @@ public static class ScheduleService
         {
             #region clean container
             
-            var init = new JobKey(name: "Init");
-            var cron = new JobKey(name: "Cron");
+            var clean = new JobKey(name: "Clean");
             
             quartz
-                .AddJob<Clean>(jobKey: init)
+                .AddJob<Clean>(jobKey: clean)
                 .AddTrigger(configure: trigger =>
                 {
-                    trigger.ForJob(jobKey: init);
-                    trigger.StartNow();
-                    trigger.WithDescription(description: "Startup job to clean the container.");
-                });
-            
-            quartz
-                .AddJob<Clean>(jobKey: cron)
-                .AddTrigger(configure: trigger =>
-                {
-                    trigger.ForJob(jobKey: cron);
+                    trigger.ForJob(jobKey: clean);
                     trigger.StartNow();
                     trigger.WithCronSchedule(cronExpression: "0 30 3 * * ?");
                 });

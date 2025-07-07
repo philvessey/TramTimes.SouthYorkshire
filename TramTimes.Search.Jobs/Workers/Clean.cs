@@ -33,12 +33,12 @@ public class Clean(
                     .Mappings(configure: map => map
                         .Properties(properties: new Properties<SearchStop>
                         {
-                            { "code", new TextProperty() },
+                            { "code", new KeywordProperty() },
                             { "id", new KeywordProperty() },
                             { "latitude", new DoubleNumberProperty() },
                             { "location", new GeoPointProperty() },
                             { "longitude", new DoubleNumberProperty() },
-                            { "name", new TextProperty() },
+                            { "name", new KeywordProperty() },
                             { "platform", new TextProperty() },
                             { "points", new ObjectProperty() }
                         })));

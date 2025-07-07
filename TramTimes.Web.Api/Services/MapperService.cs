@@ -13,6 +13,13 @@ public static class MapperService
     {
         var configuration = new MapperConfiguration(configure: expression =>
         {
+            #region service -> search stop point
+            
+            expression.CreateMap<Service, SearchStopPoint>();
+            expression.CreateMap<SearchStopPoint, Service>();
+            
+            #endregion
+            
             #region service -> worker stop point
             
             expression

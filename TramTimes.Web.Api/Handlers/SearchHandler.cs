@@ -22,7 +22,8 @@ public static class SearchHandler
             Query = new TermQuery(field: new Field(name: "id"))
             {
                 Value = id.ToUpperInvariant()
-            }
+            },
+            Size = 1000
         };
         
         #endregion
@@ -54,7 +55,8 @@ public static class SearchHandler
             Query = new TermQuery(field: new Field(name: "code"))
             {
                 Value = code.ToUpperInvariant()
-            }
+            },
+            Size = 1000
         };
         
         #endregion
@@ -87,7 +89,8 @@ public static class SearchHandler
             {
                 CaseInsensitive = true,
                 Value = $"*{name.ToLowerInvariant()}*"
-            }
+            },
+            Size = 1000
         };
         
         #endregion
@@ -136,6 +139,7 @@ public static class SearchHandler
                     })
                 })
             },
+            Size = 1000,
             Sort = SearchTools.SortDistance(location: new LatLonGeoLocation
             {
                 Lat = (minLat + maxLat) / 2,

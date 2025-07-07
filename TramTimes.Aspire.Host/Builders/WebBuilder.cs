@@ -23,6 +23,20 @@ public static class WebBuilder
             .WaitFor(dependency: cache)
             .WaitFor(dependency: search)
             .WithExternalHttpEndpoints()
+            .WithHttpCommand(
+                displayName: "Build cache",
+                path: "/web/cache/command",
+                commandOptions: new HttpCommandOptions
+                {
+                    IconName = "Settings"
+                })
+            .WithHttpCommand(
+                displayName: "Build index",
+                path: "/web/index/command",
+                commandOptions: new HttpCommandOptions
+                {
+                    IconName = "Settings"
+                })
             .WithHttpHealthCheck(path: "/healthz")
             .WithReference(source: container)
             .WithReference(source: database)
