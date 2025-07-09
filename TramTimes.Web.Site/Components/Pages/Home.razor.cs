@@ -7,6 +7,7 @@ using Telerik.DataSource;
 using TramTimes.Web.Site.Builders;
 using TramTimes.Web.Site.Defaults;
 using TramTimes.Web.Site.Models;
+using TramTimes.Web.Site.Types;
 using TramTimes.Web.Utilities.Extensions;
 using TramTimes.Web.Utilities.Models;
 
@@ -58,6 +59,12 @@ public partial class Home : ComponentBase
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
+        
+        #region rebind list view
+        
+        ListManager?.Rebind();
+        
+        #endregion
         
         #region get storage consent
         
@@ -171,12 +178,18 @@ public partial class Home : ComponentBase
         
         #region build query data
         
-        var query = QueryBuilder.GetLocationFromSearch(extent: Extent);
+        var query = QueryBuilder.GetStopsFromSearch(
+            type: QueryType.StopLocation,
+            value: Extent);
+        
         var response = await HttpService.GetAsync(requestUri: query);
         
         if (!response.IsSuccessStatusCode)
         {
-            query = QueryBuilder.GetLocationFromDatabase(extent: Extent);
+            query = QueryBuilder.GetStopsFromDatabase(
+                type: QueryType.StopLocation,
+                value: Extent);
+            
             response = await HttpService.GetAsync(requestUri: query);
         }
         
@@ -304,19 +317,24 @@ public partial class Home : ComponentBase
         
         readEventArgs.Data = ListData
             .OrderBy(keySelector: stop => stop.Distance)
-            .ThenBy(keySelector: stop => stop.Name)
-            .ToList();
+            .ThenBy(keySelector: stop => stop.Name);
         
         #endregion
         
         #region build query data
         
-        var query = QueryBuilder.GetLocationFromSearch(extent: Extent);
+        var query = QueryBuilder.GetStopsFromSearch(
+            type: QueryType.StopLocation,
+            value: Extent);
+        
         var response = await HttpService.GetAsync(requestUri: query);
         
         if (!response.IsSuccessStatusCode)
         {
-            query = QueryBuilder.GetLocationFromDatabase(extent: Extent);
+            query = QueryBuilder.GetStopsFromDatabase(
+                type: QueryType.StopLocation,
+                value: Extent);
+            
             response = await HttpService.GetAsync(requestUri: query);
         }
         
@@ -348,8 +366,7 @@ public partial class Home : ComponentBase
         
         readEventArgs.Data = ListData
             .OrderBy(keySelector: stop => stop.Distance)
-            .ThenBy(keySelector: stop => stop.Name)
-            .ToList();
+            .ThenBy(keySelector: stop => stop.Name);
         
         #endregion
         
@@ -379,7 +396,7 @@ public partial class Home : ComponentBase
         if (JavascriptManager is not null)
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"home: search read {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+                args: $"home: list read {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
         
         #endregion
     }
@@ -472,12 +489,18 @@ public partial class Home : ComponentBase
         
         #region build query data
         
-        var query = QueryBuilder.GetLocationFromSearch(extent: Extent);
+        var query = QueryBuilder.GetStopsFromSearch(
+            type: QueryType.StopLocation,
+            value: Extent);
+        
         var response = await HttpService.GetAsync(requestUri: query);
         
         if (!response.IsSuccessStatusCode)
         {
-            query = QueryBuilder.GetLocationFromDatabase(extent: Extent);
+            query = QueryBuilder.GetStopsFromDatabase(
+                type: QueryType.StopLocation,
+                value: Extent);
+            
             response = await HttpService.GetAsync(requestUri: query);
         }
         
@@ -607,12 +630,18 @@ public partial class Home : ComponentBase
         
         #region build query data
         
-        var query = QueryBuilder.GetLocationFromSearch(extent: Extent);
+        var query = QueryBuilder.GetStopsFromSearch(
+            type: QueryType.StopLocation,
+            value: Extent);
+        
         var response = await HttpService.GetAsync(requestUri: query);
         
         if (!response.IsSuccessStatusCode)
         {
-            query = QueryBuilder.GetLocationFromDatabase(extent: Extent);
+            query = QueryBuilder.GetStopsFromDatabase(
+                type: QueryType.StopLocation,
+                value: Extent);
+            
             response = await HttpService.GetAsync(requestUri: query);
         }
         
@@ -775,12 +804,18 @@ public partial class Home : ComponentBase
         
         #region build query data
         
-        var query = QueryBuilder.GetNameFromSearch(name: name);
+        var query = QueryBuilder.GetStopsFromSearch(
+            type: QueryType.StopName,
+            value: name);
+        
         var response = await HttpService.GetAsync(requestUri: query);
         
         if (!response.IsSuccessStatusCode)
         {
-            query = QueryBuilder.GetNameFromDatabase(name: name);
+            query = QueryBuilder.GetStopsFromDatabase(
+                type: QueryType.StopName,
+                value: name);
+            
             response = await HttpService.GetAsync(requestUri: query);
         }
         

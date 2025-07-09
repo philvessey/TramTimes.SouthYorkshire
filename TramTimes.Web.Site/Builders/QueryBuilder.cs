@@ -1,89 +1,123 @@
+using TramTimes.Web.Site.Types;
+
 namespace TramTimes.Web.Site.Builders;
 
 public static class QueryBuilder
 {
     private static readonly string Endpoint = Environment.GetEnvironmentVariable(variable: "API_ENDPOINT") ?? string.Empty;
     
-    public static string GetIdFromDatabase(string id)
-    {
+    public static string GetServicesFromCache(
+        QueryType type,
+        string value) {
+        
         #region build result
         
-        var result = $"{Endpoint}/database/stops/id/{id}";
+        var result = type == QueryType.TripId
+            ? $"{Endpoint}/cache/services/trip/{value}"
+            : $"{Endpoint}/cache/services/stop/{value}";
         
         #endregion
         
         return result;
     }
     
-    public static string GetIdFromSearch(string id)
-    {
+    public static string GetServicesFromDatabase(
+        QueryType type,
+        string value) {
+        
         #region build result
         
-        var result = $"{Endpoint}/search/stops/id/{id}";
+        var result = type == QueryType.TripId
+            ? $"{Endpoint}/database/services/trip/{value}"
+            : $"{Endpoint}/database/services/stop/{value}";
         
         #endregion
         
         return result;
     }
     
-    public static string GetLocationFromDatabase(double[] extent)
-    {
+    public static string GetStopsFromDatabase(
+        QueryType type,
+        string value) {
+        
         #region build result
         
-        var location = string.Join(
-            separator: "/",
-            values:
-            [
-                extent.ElementAt(index: 1),
-                extent.ElementAt(index: 2),
-                extent.ElementAt(index: 3),
-                extent.ElementAt(index: 0)
-            ]);
-        
-        var result = $"{Endpoint}/database/stops/location/{location}";
+        var result = type == QueryType.StopName
+            ? $"{Endpoint}/database/stops/name/{value}"
+            : $"{Endpoint}/database/stops/id/{value}";
         
         #endregion
         
         return result;
     }
     
-    public static string GetLocationFromSearch(double[] extent)
-    {
+    public static string GetStopsFromDatabase(
+        QueryType type,
+        double[] value) {
+        
         #region build result
         
-        var location = string.Join(
-            separator: "/",
-            values:
-            [
-                extent.ElementAt(index: 1),
-                extent.ElementAt(index: 2),
-                extent.ElementAt(index: 3),
-                extent.ElementAt(index: 0)
-            ]);
-        
-        var result = $"{Endpoint}/search/stops/location/{location}";
+        var result = type == QueryType.StopLocation
+            ? $"{Endpoint}/database/stops/location/{string.Join(
+                separator: "/",
+                values:
+                [
+                    value.ElementAt(index: 1),
+                    value.ElementAt(index: 2),
+                    value.ElementAt(index: 3),
+                    value.ElementAt(index: 0)
+                ])}"
+            : $"{Endpoint}/database/stops/point/{string.Join(
+                separator: "/",
+                values:
+                [
+                    value.ElementAt(index: 1),
+                    value.ElementAt(index: 0)
+                ])}";
         
         #endregion
         
         return result;
     }
     
-    public static string GetNameFromDatabase(string name)
-    {
+    public static string GetStopsFromSearch(
+        QueryType type,
+        string value) {
+        
         #region build result
         
-        var result = $"{Endpoint}/database/stops/name/{name}";
+        var result = type == QueryType.StopName
+            ? $"{Endpoint}/search/stops/name/{value}"
+            : $"{Endpoint}/search/stops/id/{value}";
         
         #endregion
         
         return result;
     }
     
-    public static string GetNameFromSearch(string name)
-    {
+    public static string GetStopsFromSearch(
+        QueryType type,
+        double[] value) {
+        
         #region build result
         
-        var result = $"{Endpoint}/search/stops/name/{name}";
+        var result = type == QueryType.StopLocation
+            ? $"{Endpoint}/search/stops/location/{string.Join(
+                separator: "/",
+                values:
+                [
+                    value.ElementAt(index: 1),
+                    value.ElementAt(index: 2),
+                    value.ElementAt(index: 3),
+                    value.ElementAt(index: 0)
+                ])}"
+            : $"{Endpoint}/search/stops/point/{string.Join(
+                separator: "/",
+                values:
+                [
+                    value.ElementAt(index: 1),
+                    value.ElementAt(index: 0)
+                ])}";
         
         #endregion
         

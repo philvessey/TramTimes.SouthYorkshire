@@ -80,19 +80,21 @@
                             Zoom="@Zoom">
                     
                     <MapControls>
-                        <MapControlsAttribution Position="MapControlsPosition.BottomRight"/>
-                        <MapControlsNavigator Enabled="false" />
+                        <MapControlsAttribution Enabled="true" 
+                                                Position="MapControlsPosition.BottomRight" />
+                        
+                        <MapControlsNavigator Enabled="false"
+                                              Position="MapControlsPosition.BottomLeft" />
                         
                         <MapControlsZoom Enabled="@(TelerikDevice.MouseExtraSmall == false)"
-                                         Position="MapControlsPosition.TopRight"/>
+                                         Position="MapControlsPosition.TopRight" />
                     </MapControls>
                     
                     <MapLayers>
                         <MapLayer Type="@MapLayersType.Tile"
                                   Attribution="@TelerikMapDefaults.Attribution"
                                   Subdomains="@TelerikMapDefaults.Subdomains"
-                                  UrlTemplate="@TelerikMapDefaults.UrlTemplate">
-                        </MapLayer>
+                                  UrlTemplate="@TelerikMapDefaults.UrlTemplate" />
                         
                         <MapLayer Type="@MapLayersType.Marker"
                                   Data="@MapData"
@@ -365,19 +367,21 @@
                             Zoom="@Zoom">
                     
                     <MapControls>
-                        <MapControlsAttribution Position="MapControlsPosition.BottomRight"/>
-                        <MapControlsNavigator Enabled="false" />
+                        <MapControlsAttribution Enabled="true" 
+                                                Position="MapControlsPosition.BottomRight" />
                         
-                        <MapControlsZoom Enabled="@(TelerikDevice.TouchExtraSmall == false)"
-                                         Position="MapControlsPosition.TopRight"/>
+                        <MapControlsNavigator Enabled="false"
+                                              Position="MapControlsPosition.BottomLeft" />
+                        
+                        <MapControlsZoom Enabled="@(TelerikDevice.MouseExtraSmall == false)"
+                                         Position="MapControlsPosition.TopRight" />
                     </MapControls>
                     
                     <MapLayers>
                         <MapLayer Type="@MapLayersType.Tile"
                                   Attribution="@TelerikMapDefaults.Attribution"
                                   Subdomains="@TelerikMapDefaults.Subdomains"
-                                  UrlTemplate="@TelerikMapDefaults.UrlTemplate">
-                        </MapLayer>
+                                  UrlTemplate="@TelerikMapDefaults.UrlTemplate" />
                         
                         <MapLayer Type="@MapLayersType.Marker"
                                   Data="@MapData"
@@ -406,7 +410,7 @@
                     <Template>
                         <div id="privacy-telerik-list-view__result"
                              data-testid="telerik-list-view__result"
-                             @onclick="@( _ => OnListChange(context.Id!) )">
+                             @onclick="@( _ => OnListChange(id: context.Id!) )">
                             
                             <div class="name"
                                  data-testid="name">
