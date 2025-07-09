@@ -25,17 +25,31 @@ public static class WebBuilder
             .WithExternalHttpEndpoints()
             .WithHttpCommand(
                 displayName: "Build cache",
-                path: "/web/cache/command",
+                path: "/web/cache/build",
                 commandOptions: new HttpCommandOptions
                 {
                     IconName = "Settings"
                 })
             .WithHttpCommand(
+                displayName: "Delete cache",
+                path: "/web/cache/delete",
+                commandOptions: new HttpCommandOptions
+                {
+                    IconName = "Delete"
+                })
+            .WithHttpCommand(
                 displayName: "Build index",
-                path: "/web/index/command",
+                path: "/web/index/build",
                 commandOptions: new HttpCommandOptions
                 {
                     IconName = "Settings"
+                })
+            .WithHttpCommand(
+                displayName: "Delete index",
+                path: "/web/index/delete",
+                commandOptions: new HttpCommandOptions
+                {
+                    IconName = "Delete"
                 })
             .WithHttpHealthCheck(path: "/healthz")
             .WithReference(source: container)

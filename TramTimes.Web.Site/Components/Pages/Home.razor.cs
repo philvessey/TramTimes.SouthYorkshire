@@ -1,3 +1,4 @@
+using Geolocation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.JSInterop;
@@ -13,11 +14,13 @@ namespace TramTimes.Web.Site.Components.Pages;
 
 public partial class Home : ComponentBase
 {
-    private List<TelerikStop> MarkerData { get; set; } = [];
+    private List<TelerikStop> ListData { get; set; } = [];
+    private List<TelerikStop> MapData { get; set; } = [];
     private List<TelerikStop> SearchData { get; set; } = [];
     private double[] Center { get; set; } = [];
     private double[] Extent { get; set; } = [];
-    private IJSObjectReference? Manager { get; set; }
+    private IJSObjectReference? JavascriptManager { get; set; }
+    private TelerikListView<TelerikStop>? ListManager { get; set; }
     private string? Query { get; set; }
     private string? Title { get; set; }
     
@@ -134,21 +137,35 @@ public partial class Home : ComponentBase
         List<TelerikStop> cache = [];
         
         if (consent)
+        {
             cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
-        
-        if (!cache.IsNullOrEmpty())
+            
             foreach (var item in cache)
                 item.Points = item.Points?
                     .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
                     .ToList();
+            
+            if (cache.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
+                cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
+        }
         
-        if (cache.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
-            cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
-        
-        MarkerData = [];
+        MapData = [];
         
         if (!cache.IsNullOrEmpty())
-            MarkerData.AddRange(collection: cache);
+            MapData.AddRange(collection: cache);
+        
+        foreach (var item in MapData)
+            item.Distance = GeoCalculator.GetDistance(
+                originLatitude: item.Latitude ?? 0,
+                originLongitude: item.Longitude ?? 0,
+                destinationLatitude: Center.ElementAt(index: 0),
+                destinationLongitude: Center.ElementAt(index: 1),
+                distanceUnit: DistanceUnit.Meters);
+        
+        MapData = MapData
+            .OrderBy(keySelector: stop => stop.Distance)
+            .ThenBy(keySelector: stop => stop.Name)
+            .ToList();
         
         #endregion
         
@@ -167,24 +184,32 @@ public partial class Home : ComponentBase
         
         #region build results data
         
-        List<WebStop> data = [];
-        
         if (response.IsSuccessStatusCode)
-            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
-        
-        if (!data.IsNullOrEmpty())
         {
+            var data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
+            
             foreach (var item in data)
             {
-                var existing = MarkerData.FirstOrDefault(predicate: stop => stop.Id == item.Id);
-                
-                if (existing is not null)
-                    MarkerData.Remove(item: existing);
+                if (MapData.FirstOrDefault(predicate: stop => stop.Id == item.Id) is not null)
+                    MapData.Remove(item: MapData.First(predicate: stop => stop.Id == item.Id));
                 
                 if (!item.Points.IsNullOrEmpty())
-                    MarkerData.Add(item: MapperService.Map<TelerikStop>(source: item));
+                    MapData.Add(item: MapperService.Map<TelerikStop>(source: item));
             }
         }
+        
+        foreach (var item in MapData)
+            item.Distance = GeoCalculator.GetDistance(
+                originLatitude: item.Latitude ?? 0,
+                originLongitude: item.Longitude ?? 0,
+                destinationLatitude: Center.ElementAt(index: 0),
+                destinationLongitude: Center.ElementAt(index: 1),
+                distanceUnit: DistanceUnit.Meters);
+        
+        MapData = MapData
+            .OrderBy(keySelector: stop => stop.Distance)
+            .ThenBy(keySelector: stop => stop.Name)
+            .ToList();
         
         #endregion
         
@@ -204,7 +229,7 @@ public partial class Home : ComponentBase
             
             await StorageService.SetItemAsync(
                 key: "cache",
-                data: MarkerData.OrderBy(keySelector: stop => stop.Id));
+                data: MapData.OrderBy(keySelector: stop => stop.Id));
         }
         
         #endregion
@@ -218,7 +243,7 @@ public partial class Home : ComponentBase
         
         if (firstRender)
         {
-            Manager = await JavascriptService.InvokeAsync<IJSObjectReference>(
+            JavascriptManager = await JavascriptService.InvokeAsync<IJSObjectReference>(
                 identifier: "import",
                 args: "./Components/Pages/Home.razor.js");
             
@@ -230,7 +255,7 @@ public partial class Home : ComponentBase
                     ? "accept"
                     : "reject";
             
-            await Manager.InvokeVoidAsync(
+            await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
                 args: $"home: consent {consent}");
         }
@@ -238,7 +263,424 @@ public partial class Home : ComponentBase
         #endregion
     }
     
-    private void OnChange(object id)
+    private async Task OnListReadAsync(ListViewReadEventArgs readEventArgs)
+    {
+        #region get storage consent
+        
+        var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
+        var consent = feature?.CanTrack ?? false;
+        
+        #endregion
+        
+        #region get local storage
+        
+        List<TelerikStop> cache = [];
+        
+        if (consent)
+        {
+            cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
+            
+            foreach (var item in cache)
+                item.Points = item.Points?
+                    .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                    .ToList();
+            
+            if (cache.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
+                cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
+        }
+        
+        ListData = [];
+        
+        if (!cache.IsNullOrEmpty())
+            ListData.AddRange(collection: cache);
+        
+        foreach (var item in ListData)
+            item.Distance = GeoCalculator.GetDistance(
+                originLatitude: item.Latitude ?? 0,
+                originLongitude: item.Longitude ?? 0,
+                destinationLatitude: Center.ElementAt(index: 0),
+                destinationLongitude: Center.ElementAt(index: 1),
+                distanceUnit: DistanceUnit.Meters);
+        
+        readEventArgs.Data = ListData
+            .OrderBy(keySelector: stop => stop.Distance)
+            .ThenBy(keySelector: stop => stop.Name)
+            .ToList();
+        
+        #endregion
+        
+        #region build query data
+        
+        var query = QueryBuilder.GetLocationFromSearch(extent: Extent);
+        var response = await HttpService.GetAsync(requestUri: query);
+        
+        if (!response.IsSuccessStatusCode)
+        {
+            query = QueryBuilder.GetLocationFromDatabase(extent: Extent);
+            response = await HttpService.GetAsync(requestUri: query);
+        }
+        
+        #endregion
+        
+        #region build results data
+        
+        if (response.IsSuccessStatusCode)
+        {
+            var data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
+            
+            foreach (var item in data)
+            {
+                if (ListData.FirstOrDefault(predicate: stop => stop.Id == item.Id) is not null)
+                    ListData.Remove(item: ListData.First(predicate: stop => stop.Id == item.Id));
+                
+                if (!item.Points.IsNullOrEmpty())
+                    ListData.Add(item: MapperService.Map<TelerikStop>(source: item));
+            }
+        }
+        
+        foreach (var item in ListData)
+            item.Distance = GeoCalculator.GetDistance(
+                originLatitude: item.Latitude ?? 0,
+                originLongitude: item.Longitude ?? 0,
+                destinationLatitude: Center.ElementAt(index: 0),
+                destinationLongitude: Center.ElementAt(index: 1),
+                distanceUnit: DistanceUnit.Meters);
+        
+        readEventArgs.Data = ListData
+            .OrderBy(keySelector: stop => stop.Distance)
+            .ThenBy(keySelector: stop => stop.Name)
+            .ToList();
+        
+        #endregion
+        
+        #region clear local storage
+        
+        await StorageService.ClearAsync();
+        
+        #endregion
+        
+        #region save local storage
+        
+        if (consent)
+        {
+            await StorageService.SetItemAsync(
+                key: "location",
+                data: Extent);
+            
+            await StorageService.SetItemAsync(
+                key: "cache",
+                data: ListData.OrderBy(keySelector: stop => stop.Id));
+        }
+        
+        #endregion
+        
+        #region output console message
+        
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"home: search read {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+        
+        #endregion
+    }
+    
+    private void OnListChange(string id)
+    {
+        #region navigate to stop
+        
+        var stop = new TelerikStop();
+        
+        if (ListData.Any(predicate: item => item.Id!.Equals(value: id)))
+            stop = ListData.First(predicate: item => item.Id!.Equals(value: id));
+        
+        Query = string.Empty;
+        
+        if (stop.Id is not null && stop.Longitude is not null && stop.Latitude is not null)
+            NavigationService.NavigateTo(uri: $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}");
+        
+        #endregion
+    }
+    
+    private void OnMapMarkerClick(MapMarkerClickEventArgs args)
+    {
+        #region navigate to stop
+        
+        if (args.DataItem is TelerikStop stop)
+            NavigationService.NavigateTo(uri: $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}");
+        
+        #endregion
+    }
+    
+    private async Task OnMapPanEndAsync(MapPanEndEventArgs args)
+    {
+        #region get map location
+        
+        Center = args.Center;
+        Extent = args.Extent;
+        
+        #endregion
+        
+        #region rebind list view
+        
+        ListManager?.Rebind();
+        
+        #endregion
+        
+        #region get storage consent
+        
+        var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
+        var consent = feature?.CanTrack ?? false;
+        
+        #endregion
+        
+        #region get local storage
+        
+        List<TelerikStop> cache = [];
+        
+        if (consent)
+        {
+            cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
+            
+            foreach (var item in cache)
+                item.Points = item.Points?
+                    .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                    .ToList();
+            
+            if (cache.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
+                cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
+        }
+        
+        MapData = [];
+        
+        if (!cache.IsNullOrEmpty())
+            MapData.AddRange(collection: cache);
+        
+        foreach (var item in MapData)
+            item.Distance = GeoCalculator.GetDistance(
+                originLatitude: item.Latitude ?? 0,
+                originLongitude: item.Longitude ?? 0,
+                destinationLatitude: Center.ElementAt(index: 0),
+                destinationLongitude: Center.ElementAt(index: 1),
+                distanceUnit: DistanceUnit.Meters);
+        
+        MapData = MapData
+            .OrderBy(keySelector: stop => stop.Distance)
+            .ThenBy(keySelector: stop => stop.Name)
+            .ToList();
+        
+        #endregion
+        
+        #region build query data
+        
+        var query = QueryBuilder.GetLocationFromSearch(extent: Extent);
+        var response = await HttpService.GetAsync(requestUri: query);
+        
+        if (!response.IsSuccessStatusCode)
+        {
+            query = QueryBuilder.GetLocationFromDatabase(extent: Extent);
+            response = await HttpService.GetAsync(requestUri: query);
+        }
+        
+        #endregion
+        
+        #region build results data
+        
+        if (response.IsSuccessStatusCode)
+        {
+            var data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
+            
+            foreach (var item in data)
+            {
+                if (MapData.FirstOrDefault(predicate: stop => stop.Id == item.Id) is not null)
+                    MapData.Remove(item: MapData.First(predicate: stop => stop.Id == item.Id));
+                
+                if (!item.Points.IsNullOrEmpty())
+                    MapData.Add(item: MapperService.Map<TelerikStop>(source: item));
+            }
+        }
+        
+        foreach (var item in MapData)
+            item.Distance = GeoCalculator.GetDistance(
+                originLatitude: item.Latitude ?? 0,
+                originLongitude: item.Longitude ?? 0,
+                destinationLatitude: Center.ElementAt(index: 0),
+                destinationLongitude: Center.ElementAt(index: 1),
+                distanceUnit: DistanceUnit.Meters);
+        
+        MapData = MapData
+            .OrderBy(keySelector: stop => stop.Distance)
+            .ThenBy(keySelector: stop => stop.Name)
+            .ToList();
+        
+        #endregion
+        
+        #region clear local storage
+        
+        await StorageService.ClearAsync();
+        
+        #endregion
+        
+        #region save local storage
+        
+        if (consent)
+        {
+            await StorageService.SetItemAsync(
+                key: "location",
+                data: Extent);
+            
+            await StorageService.SetItemAsync(
+                key: "cache",
+                data: MapData.OrderBy(keySelector: stop => stop.Id));
+        }
+        
+        #endregion
+        
+        #region output console message
+        
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"home: map pan {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+        
+        #endregion
+    }
+    
+    private async Task OnMapZoomEndAsync(MapZoomEndEventArgs args)
+    {
+        #region get map location
+        
+        Center = args.Center;
+        Extent = args.Extent;
+        Zoom = args.Zoom;
+        
+        #endregion
+        
+        #region rebind list view
+        
+        ListManager?.Rebind();
+        
+        #endregion
+        
+        #region get storage consent
+        
+        var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
+        var consent = feature?.CanTrack ?? false;
+        
+        #endregion
+        
+        #region get local storage
+        
+        List<TelerikStop> cache = [];
+        
+        if (consent)
+        {
+            cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
+            
+            foreach (var item in cache)
+                item.Points = item.Points?
+                    .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                    .ToList();
+            
+            if (cache.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
+                cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
+        }
+        
+        MapData = [];
+        
+        if (!cache.IsNullOrEmpty())
+            MapData.AddRange(collection: cache);
+        
+        foreach (var item in MapData)
+            item.Distance = GeoCalculator.GetDistance(
+                originLatitude: item.Latitude ?? 0,
+                originLongitude: item.Longitude ?? 0,
+                destinationLatitude: Center.ElementAt(index: 0),
+                destinationLongitude: Center.ElementAt(index: 1),
+                distanceUnit: DistanceUnit.Meters);
+        
+        MapData = MapData
+            .OrderBy(keySelector: stop => stop.Distance)
+            .ThenBy(keySelector: stop => stop.Name)
+            .ToList();
+        
+        #endregion
+        
+        #region build query data
+        
+        var query = QueryBuilder.GetLocationFromSearch(extent: Extent);
+        var response = await HttpService.GetAsync(requestUri: query);
+        
+        if (!response.IsSuccessStatusCode)
+        {
+            query = QueryBuilder.GetLocationFromDatabase(extent: Extent);
+            response = await HttpService.GetAsync(requestUri: query);
+        }
+        
+        #endregion
+        
+        #region build results data
+        
+        if (response.IsSuccessStatusCode)
+        {
+            var data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
+            
+            foreach (var item in data)
+            {
+                if (MapData.FirstOrDefault(predicate: stop => stop.Id == item.Id) is not null)
+                    MapData.Remove(item: MapData.First(predicate: stop => stop.Id == item.Id));
+                
+                if (!item.Points.IsNullOrEmpty())
+                    MapData.Add(item: MapperService.Map<TelerikStop>(source: item));
+            }
+        }
+        
+        foreach (var item in MapData)
+            item.Distance = GeoCalculator.GetDistance(
+                originLatitude: item.Latitude ?? 0,
+                originLongitude: item.Longitude ?? 0,
+                destinationLatitude: Center.ElementAt(index: 0),
+                destinationLongitude: Center.ElementAt(index: 1),
+                distanceUnit: DistanceUnit.Meters);
+        
+        MapData = MapData
+            .OrderBy(keySelector: stop => stop.Distance)
+            .ThenBy(keySelector: stop => stop.Name)
+            .ToList();
+        
+        #endregion
+        
+        #region clear local storage
+        
+        await StorageService.ClearAsync();
+        
+        #endregion
+        
+        #region save local storage
+        
+        if (consent)
+        {
+            await StorageService.SetItemAsync(
+                key: "location",
+                data: Extent);
+            
+            await StorageService.SetItemAsync(
+                key: "cache",
+                data: MapData.OrderBy(keySelector: stop => stop.Id));
+        }
+        
+        #endregion
+        
+        #region output console message
+        
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"home: map zoom {Zoom}");
+        
+        #endregion
+    }
+    
+    private void OnSearchChange(object id)
     {
         #region navigate to stop
         
@@ -255,147 +697,31 @@ public partial class Home : ComponentBase
         #endregion
     }
     
-    private async Task OnClose()
+    private async Task OnSearchCloseAsync()
     {
         #region output console message
         
-        if (Manager is not null)
-            await Manager.InvokeVoidAsync(
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
                 args: "home: search close");
         
         #endregion
     }
     
-    private void OnMarkerClick(MapMarkerClickEventArgs args)
-    {
-        #region navigate to stop
-        
-        if (args.DataItem is TelerikStop stop)
-            NavigationService.NavigateTo(uri: $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}");
-        
-        #endregion
-    }
-    
-    private async Task OnOpen()
+    private async Task OnSearchOpenAsync()
     {
         #region output console message
         
-        if (Manager is not null)
-            await Manager.InvokeVoidAsync(
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
                 args: "home: search open");
         
         #endregion
     }
     
-    private async Task OnPanEnd(MapPanEndEventArgs args)
-    {
-        #region get map location
-        
-        Center = args.Center;
-        Extent = args.Extent;
-        
-        #endregion
-        
-        #region get storage consent
-        
-        var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
-        var consent = feature?.CanTrack ?? false;
-        
-        #endregion
-        
-        #region get local storage
-        
-        List<TelerikStop> cache = [];
-        
-        if (consent)
-            cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
-        
-        if (!cache.IsNullOrEmpty())
-            foreach (var item in cache)
-                item.Points = item.Points?
-                    .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
-                    .ToList();
-        
-        if (cache.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
-            cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
-        
-        MarkerData = [];
-        
-        if (!cache.IsNullOrEmpty())
-            MarkerData.AddRange(collection: cache);
-        
-        #endregion
-        
-        #region build query data
-        
-        var query = QueryBuilder.GetLocationFromSearch(extent: Extent);
-        var response = await HttpService.GetAsync(requestUri: query);
-        
-        if (!response.IsSuccessStatusCode)
-        {
-            query = QueryBuilder.GetLocationFromDatabase(extent: Extent);
-            response = await HttpService.GetAsync(requestUri: query);
-        }
-        
-        #endregion
-        
-        #region build results data
-        
-        List<WebStop> data = [];
-        
-        if (response.IsSuccessStatusCode)
-            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
-        
-        if (!data.IsNullOrEmpty())
-        {
-            foreach (var item in data)
-            {
-                var existing = MarkerData.FirstOrDefault(predicate: stop => stop.Id == item.Id);
-                
-                if (existing is not null)
-                    MarkerData.Remove(item: existing);
-                
-                if (!item.Points.IsNullOrEmpty())
-                    MarkerData.Add(item: MapperService.Map<TelerikStop>(source: item));
-            }
-        }
-        
-        #endregion
-        
-        #region clear local storage
-        
-        await StorageService.ClearAsync();
-        
-        #endregion
-        
-        #region save local storage
-        
-        if (consent)
-        {
-            await StorageService.SetItemAsync(
-                key: "location",
-                data: Extent);
-            
-            await StorageService.SetItemAsync(
-                key: "cache",
-                data: MarkerData.OrderBy(keySelector: stop => stop.Id));
-        }
-        
-        #endregion
-        
-        #region output console message
-        
-        if (Manager is not null)
-            await Manager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: $"home: map pan {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
-        
-        #endregion
-    }
-    
-    private async Task OnRead(AutoCompleteReadEventArgs readEventArgs)
+    private async Task OnSearchReadAsync(AutoCompleteReadEventArgs readEventArgs)
     {
         #region get search input
         
@@ -420,16 +746,17 @@ public partial class Home : ComponentBase
         List<TelerikStop> cache = [];
         
         if (consent)
+        {
             cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
-        
-        if (!cache.IsNullOrEmpty())
+            
             foreach (var item in cache)
                 item.Points = item.Points?
                     .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
                     .ToList();
-        
-        if (cache.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
-            cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
+            
+            if (cache.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
+                cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
+        }
         
         SearchData = [];
         
@@ -461,19 +788,14 @@ public partial class Home : ComponentBase
         
         #region build results data
         
-        List<WebStop> data = [];
-        
         if (response.IsSuccessStatusCode)
-            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
-        
-        if (!data.IsNullOrEmpty())
         {
+            var data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
+            
             foreach (var item in data)
             {
-                var existing = SearchData.FirstOrDefault(predicate: stop => stop.Id == item.Id);
-                
-                if (existing is not null)
-                    SearchData.Remove(item: existing);
+                if (SearchData.FirstOrDefault(predicate: stop => stop.Id == item.Id) is not null)
+                    SearchData.Remove(item: SearchData.First(predicate: stop => stop.Id == item.Id));
                 
                 if (!item.Points.IsNullOrEmpty())
                     SearchData.Add(item: MapperService.Map<TelerikStop>(source: item));
@@ -510,117 +832,10 @@ public partial class Home : ComponentBase
         
         #region output console message
         
-        if (Manager is not null)
-            await Manager.InvokeVoidAsync(
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"home: search filter {name}");
-        
-        #endregion
-    }
-    
-    private async Task OnZoomEnd(MapZoomEndEventArgs args)
-    {
-        #region get map location
-        
-        Center = args.Center;
-        Extent = args.Extent;
-        Zoom = args.Zoom;
-        
-        #endregion
-        
-        #region get storage consent
-        
-        var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
-        var consent = feature?.CanTrack ?? false;
-        
-        #endregion
-        
-        #region get local storage
-        
-        List<TelerikStop> cache = [];
-        
-        if (consent)
-            cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
-        
-        if (!cache.IsNullOrEmpty())
-            foreach (var item in cache)
-                item.Points = item.Points?
-                    .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
-                    .ToList();
-        
-        if (cache.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
-            cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
-        
-        MarkerData = [];
-        
-        if (!cache.IsNullOrEmpty())
-            MarkerData.AddRange(collection: cache);
-        
-        #endregion
-        
-        #region build query data
-        
-        var query = QueryBuilder.GetLocationFromSearch(extent: Extent);
-        var response = await HttpService.GetAsync(requestUri: query);
-        
-        if (!response.IsSuccessStatusCode)
-        {
-            query = QueryBuilder.GetLocationFromDatabase(extent: Extent);
-            response = await HttpService.GetAsync(requestUri: query);
-        }
-        
-        #endregion
-        
-        #region build results data
-        
-        List<WebStop> data = [];
-        
-        if (response.IsSuccessStatusCode)
-            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
-        
-        if (!data.IsNullOrEmpty())
-        {
-            foreach (var item in data)
-            {
-                var existing = MarkerData.FirstOrDefault(predicate: stop => stop.Id == item.Id);
-                
-                if (existing is not null)
-                    MarkerData.Remove(item: existing);
-                
-                if (!item.Points.IsNullOrEmpty())
-                    MarkerData.Add(item: MapperService.Map<TelerikStop>(source: item));
-            }
-        }
-        
-        #endregion
-        
-        #region clear local storage
-        
-        await StorageService.ClearAsync();
-        
-        #endregion
-        
-        #region save local storage
-        
-        if (consent)
-        {
-            await StorageService.SetItemAsync(
-                key: "location",
-                data: Extent);
-            
-            await StorageService.SetItemAsync(
-                key: "cache",
-                data: MarkerData.OrderBy(keySelector: stop => stop.Id));
-        }
-        
-        #endregion
-        
-        #region output console message
-        
-        if (Manager is not null)
-            await Manager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: $"home: map zoom {Zoom}");
+                args: $"home: search read {name}");
         
         #endregion
     }
@@ -637,8 +852,8 @@ public partial class Home : ComponentBase
         
         try
         {
-            if (Manager is not null)
-                await Manager.DisposeAsync();
+            if (JavascriptManager is not null)
+                await JavascriptManager.DisposeAsync();
         }
         catch (JSDisconnectedException e)
         {

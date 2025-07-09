@@ -26,6 +26,9 @@ public class TelerikStop
     public string? Direction { get; set; }
     
     [UsedImplicitly]
+    public double? Distance { get; set; }
+    
+    [UsedImplicitly]
     public double[]? Location { get; set; }
     
     [UsedImplicitly]

@@ -62,7 +62,7 @@ public partial class LocalStorageConsent : ComponentBase
         #endregion
     }
     
-    private async Task AcceptPrivacyPolicy()
+    private async Task AcceptPrivacyPolicyAsync()
     {
         #region set cookie
         
@@ -85,7 +85,7 @@ public partial class LocalStorageConsent : ComponentBase
         #endregion
     }
     
-    private async Task RejectPrivacyPolicy()
+    private async Task RejectPrivacyPolicyAsync()
     {
         #region set cookie
         

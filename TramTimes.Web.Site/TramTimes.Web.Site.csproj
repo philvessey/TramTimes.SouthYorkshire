@@ -3,6 +3,7 @@
     <ItemGroup>
         <PackageReference Include="AutoMapper" />
         <PackageReference Include="Blazored.LocalStorage" />
+        <PackageReference Include="Geolocation" />
         <PackageReference Include="Telerik.UI.for.Blazor" />
     </ItemGroup>
     

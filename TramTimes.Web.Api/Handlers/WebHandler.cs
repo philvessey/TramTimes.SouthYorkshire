@@ -13,7 +13,7 @@ namespace TramTimes.Web.Api.Handlers;
 
 public static class WebHandler
 {
-    public static async Task<IResult> PostCacheByCommandAsync(
+    public static async Task<IResult> PostCacheByBuildAsync(
         NpgsqlDataSource dataSource,
         IConnectionMultiplexer cacheService,
         IMapper mapperService) {
@@ -799,7 +799,23 @@ public static class WebHandler
         return Results.Ok();
     }
     
-    public static async Task<IResult> PostIndexByCommandAsync(
+    public static async Task<IResult> PostCacheByDeleteAsync(
+        NpgsqlDataSource dataSource,
+        IConnectionMultiplexer cacheService,
+        IMapper mapperService) {
+        
+        #region flush keys
+        
+        await cacheService
+            .GetDatabase()
+            .ExecuteAsync(command: "flushdb");
+        
+        #endregion
+        
+        return Results.Ok();
+    }
+    
+    public static async Task<IResult> PostIndexByBuildAsync(
         NpgsqlDataSource dataSource,
         ElasticsearchClient searchService,
         IMapper mapperService) {
@@ -1597,6 +1613,40 @@ public static class WebHandler
             searchService: searchService,
             mapperService: mapperService,
             id: "9400ZZSYWTS2");
+        
+        #endregion
+        
+        return Results.Ok();
+    }
+    
+    public static async Task<IResult> PostIndexByDeleteAsync(
+        NpgsqlDataSource dataSource,
+        ElasticsearchClient searchService,
+        IMapper mapperService) {
+        
+        #region delete index
+        
+        await searchService.Indices.DeleteAsync(indices: "search");
+        
+        #endregion
+        
+        #region create index
+        
+        await searchService.Indices.CreateAsync<SearchStop>(
+            index: "search",
+            configureRequest: request => request
+                .Mappings(configure: map => map
+                    .Properties(properties: new Properties<SearchStop>
+                    {
+                        { "code", new KeywordProperty() },
+                        { "id", new KeywordProperty() },
+                        { "latitude", new DoubleNumberProperty() },
+                        { "location", new GeoPointProperty() },
+                        { "longitude", new DoubleNumberProperty() },
+                        { "name", new KeywordProperty() },
+                        { "platform", new TextProperty() },
+                        { "points", new ObjectProperty() }
+                    })));
         
         #endregion
         
