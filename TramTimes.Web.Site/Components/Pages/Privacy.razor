@@ -62,334 +62,514 @@
         (TelerikDevice.MouseExtraLarge ?? false) ||
         (TelerikDevice.MouseExtraExtraLarge ?? false)) {
         
-        <!-- #region telerik-map -->
-        
-        <div id="telerik-map"
-             data-testid="telerik-map">
+        <div id="privacy">
             
-            <TelerikMap Center="@Center"
-                        Height="100%"
-                        MaxZoom="@TelerikMapDefaults.MaxZoom"
-                        MinZoom="@TelerikMapDefaults.MinZoom"
-                        OnMarkerClick="@OnMarkerClick"
-                        OnPanEnd="@OnPanEnd"
-                        OnZoomEnd="@OnZoomEnd"
-                        Width="100%"
-                        Zoom="@Zoom">
+            <!-- #region telerik-map -->
+            
+            <div id="privacy-telerik-map"
+                 data-testid="telerik-map">
                 
-                <MapControls>
-                    <MapControlsAttribution Position="MapControlsPosition.BottomRight"/>
-                    <MapControlsNavigator Enabled="false" />
+                <TelerikMap Center="@Center"
+                            Height="100%"
+                            MaxZoom="@TelerikMapDefaults.MaxZoom"
+                            MinZoom="@TelerikMapDefaults.MinZoom"
+                            OnMarkerClick="@OnMapMarkerClick"
+                            OnPanEnd="@OnMapPanEndAsync"
+                            OnZoomEnd="@OnMapZoomEndAsync"
+                            Width="100%"
+                            Zoom="@Zoom">
                     
-                    <MapControlsZoom Enabled="@(TelerikDevice.MouseExtraSmall == false)"
-                                     Position="MapControlsPosition.TopRight"/>
-                </MapControls>
-                
-                <MapLayers>
-                    <MapLayer Type="@MapLayersType.Tile"
-                              Attribution="@TelerikMapDefaults.Attribution"
-                              Subdomains="@TelerikMapDefaults.Subdomains"
-                              UrlTemplate="@TelerikMapDefaults.UrlTemplate">
-                    </MapLayer>
-                    
-                    <MapLayer Type="@MapLayersType.Marker"
-                              Data="@MarkerData"
-                              LocationField="@nameof(TelerikStop.Location)">
+                    <MapControls>
+                        <MapControlsAttribution Position="MapControlsPosition.BottomRight"/>
+                        <MapControlsNavigator Enabled="false" />
                         
-                        <MapLayerMarkerSettings Template="<span class='k-map-marker' data-testid='marker'>#= dataItem.Platform #</span>">
-                            <MapLayerMarkerSettingsTooltip>
-                                <Template>
-                                    
-                                    @{
-                                        var stop = context.DataItem as TelerikStop ?? new TelerikStop();
-                                    }
-                                    
-                                    <div id="telerik-map__tooltip"
-                                         data-testid="telerik-map__tooltip">
+                        <MapControlsZoom Enabled="@(TelerikDevice.MouseExtraSmall == false)"
+                                         Position="MapControlsPosition.TopRight"/>
+                    </MapControls>
+                    
+                    <MapLayers>
+                        <MapLayer Type="@MapLayersType.Tile"
+                                  Attribution="@TelerikMapDefaults.Attribution"
+                                  Subdomains="@TelerikMapDefaults.Subdomains"
+                                  UrlTemplate="@TelerikMapDefaults.UrlTemplate">
+                        </MapLayer>
+                        
+                        <MapLayer Type="@MapLayersType.Marker"
+                                  Data="@MapData"
+                                  LocationField="@nameof(TelerikStop.Location)">
+                            
+                            <MapLayerMarkerSettings Template="<span class='k-map-marker' data-testid='marker'>#= dataItem.Platform #</span>">
+                                <MapLayerMarkerSettingsTooltip>
+                                    <Template>
                                         
-                                        <div class="name"
-                                             data-testid="name">
-                                            
-                                            @stop.Name
-                                        </div>
+                                        @{
+                                            var stop = context.DataItem as TelerikStop ?? new TelerikStop();
+                                        }
                                         
-                                        <div class="services"
-                                             data-testid="services">
+                                        <div id="privacy-telerik-map__tooltip"
+                                             data-testid="telerik-map__tooltip">
                                             
-                                            <ul>
-                                                @{
-                                                    var points = stop.Points?
-                                                        .Take(count: TelerikDevice.MouseExtraSmall == false ? 5 : 3)
-                                                        .Select(selector: point => point)
-                                                        .ToList() ?? [];
-                                                    
-                                                    foreach (var item in points)
-                                                    {
-                                                        var departureTime = item.DepartureDateTime?.ToString(
-                                                            format: "HH:mm",
-                                                            provider: CultureInfo.InvariantCulture);
+                                            <div class="name"
+                                                 data-testid="name">
+                                                
+                                                @stop.Name
+                                            </div>
+                                            
+                                            <div class="services"
+                                                 data-testid="services">
+                                                
+                                                <ul>
+                                                    @{
+                                                        var points = stop.Points?
+                                                            .Take(count: TelerikDevice.MouseExtraSmall == false ? 5 : 3)
+                                                            .Select(selector: point => point)
+                                                            .ToList() ?? [];
                                                         
-                                                        switch (item.RouteName)
+                                                        foreach (var item in points)
                                                         {
-                                                            case "BLUE":
-                                                                <li class="blue">@departureTime @item.DestinationName</li>
-                                                                break;
-                                                            case "PURP":
-                                                                <li class="purp">@departureTime @item.DestinationName</li>
-                                                                break;
-                                                            case "TT":
-                                                                <li class="tt">@departureTime @item.DestinationName</li>
-                                                                break;
-                                                            case "YELL":
-                                                                <li class="yell">@departureTime @item.DestinationName</li>
-                                                                break;
-                                                            default:
-                                                                <li class="default">@departureTime @item.DestinationName</li>
-                                                                break;
+                                                            var departureTime = item.DepartureDateTime?.ToString(
+                                                                format: "HH:mm",
+                                                                provider: CultureInfo.InvariantCulture);
+                                                            
+                                                            switch (item.RouteName)
+                                                            {
+                                                                case "BLUE":
+                                                                    <li class="blue">@departureTime @item.DestinationName</li>
+                                                                    break;
+                                                                case "PURP":
+                                                                    <li class="purp">@departureTime @item.DestinationName</li>
+                                                                    break;
+                                                                case "TT":
+                                                                    <li class="tt">@departureTime @item.DestinationName</li>
+                                                                    break;
+                                                                case "YELL":
+                                                                    <li class="yell">@departureTime @item.DestinationName</li>
+                                                                    break;
+                                                                default:
+                                                                    <li class="default">@departureTime @item.DestinationName</li>
+                                                                    break;
+                                                            }
                                                         }
                                                     }
-                                                }
-                                            </ul>
+                                                </ul>
+                                            </div>
                                         </div>
-                                    </div>
-                                </Template>
-                            </MapLayerMarkerSettingsTooltip>
-                        </MapLayerMarkerSettings>
-                    </MapLayer>
-                </MapLayers>
-            </TelerikMap>
-        </div>
-        
-        <!-- #endregion -->
-        
-        <!-- #region telerik-auto-complete -->
-        
-        <div id="telerik-auto-complete"
-             data-testid="telerik-auto-complete">
+                                    </Template>
+                                </MapLayerMarkerSettingsTooltip>
+                            </MapLayerMarkerSettings>
+                        </MapLayer>
+                    </MapLayers>
+                </TelerikMap>
+            </div>
             
-            <TelerikAutoComplete @bind-value="@Query"
-                                 DebounceDelay="@TelerikAutoCompleteDefaults.DebounceDelay"
-                                 Filterable="true"
-                                 MinLength="@TelerikAutoCompleteDefaults.MinCacheLength"
-                                 OnChange="@OnChange"
-                                 OnClose="@OnClose"
-                                 OnOpen="@OnOpen"
-                                 OnRead="@OnRead"
-                                 Placeholder="@TelerikAutoCompleteDefaults.Placeholder"
-                                 ValueField="@nameof(TelerikStop.Id)"
-                                 TItem="@TelerikStop">
+            <!-- #endregion -->
+            
+            <!-- #region telerik-list-view -->
+            
+            <div id="privacy-telerik-list-view"
+                 data-testid="telerik-list-view">
                 
-                <ItemTemplate>
-                    <div id="telerik-auto-complete__result"
-                         data-testid="telerik-auto-complete__result">
-                        
-                        <div class="name"
-                             data-testid="name">
+                <TelerikListView EnableLoaderContainer="false"
+                                 Height="100%"
+                                 OnRead="@OnListReadAsync"
+                                 Width="100%"
+                                 TItem="@TelerikStop"
+                                 @ref="@ListManager">
+                    
+                    <Template>
+                        <div id="privacy-telerik-list-view__result"
+                             data-testid="telerik-list-view__result"
+                             @onclick="@( _ => OnListChange(id: context.Id!) )">
                             
-                            @context.Name
-                        </div>
-                        
-                        <div class="direction"
-                             data-testid="direction">
-                            
-                            Direction: @context.Direction
-                        </div>
-                        
-                        <div class="services"
-                             data-testid="services">
-                            
-                            <ul>
+                            <div class="name"
+                                 data-testid="name">
+                                
                                 @{
-                                    var points = context.Points?
-                                        .Take(count: TelerikDevice.MouseExtraSmall == false ? 5 : 3)
-                                        .Select(selector: point => point)
-                                        .ToList() ?? [];
+                                    var name = context.Name?
+                                        .Split(separator: '-')
+                                        .FirstOrDefault()?
+                                        .Trim();
                                     
-                                    foreach (var item in points)
-                                    {
-                                        var departureTime = item.DepartureDateTime?.ToString(
-                                            format: "HH:mm",
-                                            provider: CultureInfo.InvariantCulture);
+                                    name = name?
+                                        .Split(separator: '/')
+                                        .FirstOrDefault()?
+                                        .Trim();
+                                }
+                                
+                                @name
+                            </div>
+                            
+                            <div class="direction"
+                                 data-testid="direction">
+                                
+                                Direction: @context.Direction
+                            </div>
+                            
+                            <div class="services"
+                                 data-testid="services">
+                                
+                                <ul>
+                                    @{
+                                        var points = context.Points?
+                                            .Take(count: TelerikDevice.MouseExtraSmall == true ? 5 : 3)
+                                            .Select(selector: point => point)
+                                            .ToList() ?? [];
                                         
-                                        switch (item.RouteName)
+                                        foreach (var item in points)
                                         {
-                                            case "BLUE":
-                                                <li class="blue" title="@item.DestinationName">@departureTime</li>
-                                                break;
-                                            case "PURP":
-                                                <li class="purp" title="@item.DestinationName">@departureTime</li>
-                                                break;
-                                            case "TT":
-                                                <li class="tt" title="@item.DestinationName">@departureTime</li>
-                                                break;
-                                            case "YELL":
-                                                <li class="yell" title="@item.DestinationName">@departureTime</li>
-                                                break;
-                                            default:
-                                                <li class="default" title="@item.DestinationName">@departureTime</li>
-                                                break;
+                                            var departureTime = item.DepartureDateTime?.ToString(
+                                                format: "HH:mm",
+                                                provider: CultureInfo.InvariantCulture);
+                                            
+                                            switch (item.RouteName)
+                                            {
+                                                case "BLUE":
+                                                    <li class="blue" title="@item.DestinationName">@departureTime</li>
+                                                    break;
+                                                case "PURP":
+                                                    <li class="purp" title="@item.DestinationName">@departureTime</li>
+                                                    break;
+                                                case "TT":
+                                                    <li class="tt" title="@item.DestinationName">@departureTime</li>
+                                                    break;
+                                                case "YELL":
+                                                    <li class="yell" title="@item.DestinationName">@departureTime</li>
+                                                    break;
+                                                default:
+                                                    <li class="default" title="@item.DestinationName">@departureTime</li>
+                                                    break;
+                                            }
                                         }
                                     }
-                                }
-                            </ul>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                </ItemTemplate>
+                    </Template>
+                </TelerikListView>
+            </div>
+            
+            <!-- #endregion -->
+            
+            <!-- #region telerik-auto-complete -->
+            
+            <div id="privacy-telerik-auto-complete"
+                 data-testid="telerik-auto-complete">
                 
-                <NoDataTemplate>
-                    <div id="telerik-auto-complete__unknown">
-                        <div class="error">No Stops Found</div>
-                        <div class="message">Update Search Query and/or Filter</div>
-                    </div>
-                </NoDataTemplate>
-            </TelerikAutoComplete>
+                <TelerikAutoComplete @bind-value="@Query"
+                                     DebounceDelay="@TelerikAutoCompleteDefaults.DebounceDelay"
+                                     Filterable="true"
+                                     MinLength="@TelerikAutoCompleteDefaults.MinCacheLength"
+                                     OnChange="@OnSearchChange"
+                                     OnClose="@OnSearchCloseAsync"
+                                     OnOpen="@OnSearchOpenAsync"
+                                     OnRead="@OnSearchReadAsync"
+                                     Placeholder="@TelerikAutoCompleteDefaults.Placeholder"
+                                     ValueField="@nameof(TelerikStop.Id)"
+                                     TItem="@TelerikStop">
+                    
+                    <ItemTemplate>
+                        <div id="privacy-telerik-auto-complete__result"
+                             data-testid="telerik-auto-complete__result">
+                            
+                            <div class="name"
+                                 data-testid="name">
+                                
+                                @context.Name
+                            </div>
+                            
+                            <div class="direction"
+                                 data-testid="direction">
+                                
+                                Direction: @context.Direction
+                            </div>
+                            
+                            <div class="services"
+                                 data-testid="services">
+                                
+                                <ul>
+                                    @{
+                                        var points = context.Points?
+                                            .Take(count: TelerikDevice.MouseExtraSmall == false ? 5 : 3)
+                                            .Select(selector: point => point)
+                                            .ToList() ?? [];
+                                        
+                                        foreach (var item in points)
+                                        {
+                                            var departureTime = item.DepartureDateTime?.ToString(
+                                                format: "HH:mm",
+                                                provider: CultureInfo.InvariantCulture);
+                                            
+                                            switch (item.RouteName)
+                                            {
+                                                case "BLUE":
+                                                    <li class="blue" title="@item.DestinationName">@departureTime</li>
+                                                    break;
+                                                case "PURP":
+                                                    <li class="purp" title="@item.DestinationName">@departureTime</li>
+                                                    break;
+                                                case "TT":
+                                                    <li class="tt" title="@item.DestinationName">@departureTime</li>
+                                                    break;
+                                                case "YELL":
+                                                    <li class="yell" title="@item.DestinationName">@departureTime</li>
+                                                    break;
+                                                default:
+                                                    <li class="default" title="@item.DestinationName">@departureTime</li>
+                                                    break;
+                                            }
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                    
+                    <NoDataTemplate>
+                        <div id="privacy-telerik-auto-complete__unknown">
+                            <div class="error">No Stops Found</div>
+                            <div class="message">Update Search Query and/or Filter</div>
+                        </div>
+                    </NoDataTemplate>
+                </TelerikAutoComplete>
+            </div>
+            
+            <!-- #endregion -->
+            
+            <!-- #region local-storage-consent -->
+            
+            <LocalStorageConsent Longitude="Center.ElementAt(index: 1)"
+                                 Latitude="Center.ElementAt(index: 0)"
+                                 Zoom="Zoom"/>
+            
+            <!-- #endregion -->
+            
         </div>
-        
-        <!-- #endregion -->
-        
-        <!-- #region local-storage-consent -->
-        
-        <LocalStorageConsent Longitude="Center.ElementAt(index: 1)"
-                             Latitude="Center.ElementAt(index: 0)"
-                             Zoom="Zoom" />
-        
-        <!-- #endregion -->
     }
     else
     {
-        <!-- #region telerik-map -->
-        
-        <div id="telerik-map"
-             data-testid="telerik-map">
+        <div id="privacy">
             
-            <TelerikMap Center="@Center"
-                        Height="100%"
-                        MaxZoom="@TelerikMapDefaults.MaxZoom"
-                        MinZoom="@TelerikMapDefaults.MinZoom"
-                        OnMarkerClick="@OnMarkerClick"
-                        OnPanEnd="@OnPanEnd"
-                        OnZoomEnd="@OnZoomEnd"
-                        Width="100%"
-                        Zoom="@Zoom">
-                
-                <MapControls>
-                    <MapControlsAttribution Position="MapControlsPosition.BottomRight"/>
-                    <MapControlsNavigator Enabled="false" />
-                    
-                    <MapControlsZoom Enabled="@(TelerikDevice.TouchExtraSmall == false)"
-                                     Position="MapControlsPosition.TopRight"/>
-                </MapControls>
-                
-                <MapLayers>
-                    <MapLayer Type="@MapLayersType.Tile"
-                              Attribution="@TelerikMapDefaults.Attribution"
-                              Subdomains="@TelerikMapDefaults.Subdomains"
-                              UrlTemplate="@TelerikMapDefaults.UrlTemplate">
-                    </MapLayer>
-                    
-                    <MapLayer Type="@MapLayersType.Marker"
-                              Data="@MarkerData"
-                              LocationField="@nameof(TelerikStop.Location)">
-                        
-                        <MapLayerMarkerSettings Template="<span class='k-map-marker' data-testid='marker'>#= dataItem.Platform #</span>" />
-                    </MapLayer>
-                </MapLayers>
-            </TelerikMap>
-        </div>
-        
-        <!-- #endregion -->
-        
-        <!-- #region telerik-auto-complete -->
-        
-        <div id="telerik-auto-complete"
-             data-testid="telerik-auto-complete">
+            <!-- #region telerik-map -->
             
-            <TelerikAutoComplete @bind-value="@Query"
-                                 DebounceDelay="@TelerikAutoCompleteDefaults.DebounceDelay"
-                                 Filterable="true"
-                                 MinLength="@TelerikAutoCompleteDefaults.MinCacheLength"
-                                 OnChange="@OnChange"
-                                 OnClose="@OnClose"
-                                 OnOpen="@OnOpen"
-                                 OnRead="@OnRead"
-                                 Placeholder="@TelerikAutoCompleteDefaults.Placeholder"
-                                 ValueField="@nameof(TelerikStop.Id)"
-                                 TItem="@TelerikStop">
+            <div id="privacy-telerik-map"
+                 data-testid="telerik-map">
                 
-                <ItemTemplate>
-                    <div id="telerik-auto-complete__result"
-                         data-testid="telerik-auto-complete__result">
+                <TelerikMap Center="@Center"
+                            Height="100%"
+                            MaxZoom="@TelerikMapDefaults.MaxZoom"
+                            MinZoom="@TelerikMapDefaults.MinZoom"
+                            OnMarkerClick="@OnMapMarkerClick"
+                            OnPanEnd="@OnMapPanEndAsync"
+                            OnZoomEnd="@OnMapZoomEndAsync"
+                            Width="100%"
+                            Zoom="@Zoom">
+                    
+                    <MapControls>
+                        <MapControlsAttribution Position="MapControlsPosition.BottomRight"/>
+                        <MapControlsNavigator Enabled="false" />
                         
-                        <div class="name"
-                             data-testid="name">
-                            
-                            @context.Name
-                        </div>
+                        <MapControlsZoom Enabled="@(TelerikDevice.TouchExtraSmall == false)"
+                                         Position="MapControlsPosition.TopRight"/>
+                    </MapControls>
+                    
+                    <MapLayers>
+                        <MapLayer Type="@MapLayersType.Tile"
+                                  Attribution="@TelerikMapDefaults.Attribution"
+                                  Subdomains="@TelerikMapDefaults.Subdomains"
+                                  UrlTemplate="@TelerikMapDefaults.UrlTemplate">
+                        </MapLayer>
                         
-                        <div class="direction"
-                             data-testid="direction">
+                        <MapLayer Type="@MapLayersType.Marker"
+                                  Data="@MapData"
+                                  LocationField="@nameof(TelerikStop.Location)">
                             
-                            Direction: @context.Direction
-                        </div>
-                        
-                        <div class="services"
-                             data-testid="services">
+                            <MapLayerMarkerSettings Template="<span class='k-map-marker' data-testid='marker'>#= dataItem.Platform #</span>" />
+                        </MapLayer>
+                    </MapLayers>
+                </TelerikMap>
+            </div>
+            
+            <!-- #endregion -->
+            
+            <!-- #region telerik-list-view -->
+            
+            <div id="privacy-telerik-list-view"
+                 data-testid="telerik-list-view">
+                
+                <TelerikListView EnableLoaderContainer="false"
+                                 Height="100%"
+                                 OnRead="@OnListReadAsync"
+                                 Width="100%"
+                                 TItem="@TelerikStop"
+                                 @ref="@ListManager">
+                    
+                    <Template>
+                        <div id="privacy-telerik-list-view__result"
+                             data-testid="telerik-list-view__result"
+                             @onclick="@( _ => OnListChange(context.Id!) )">
                             
-                            <ul>
+                            <div class="name"
+                                 data-testid="name">
+                                
                                 @{
-                                    var points = context.Points?
-                                        .Take(count: TelerikDevice.TouchExtraSmall == false ? 5 : 3)
-                                        .Select(selector: point => point)
-                                        .ToList() ?? [];
+                                    var name = context.Name?
+                                        .Split(separator: '-')
+                                        .FirstOrDefault()?
+                                        .Trim();
                                     
-                                    foreach (var item in points)
-                                    {
-                                        var departureTime = item.DepartureDateTime?.ToString(
-                                            format: "HH:mm",
-                                            provider: CultureInfo.InvariantCulture);
+                                    name = name?
+                                        .Split(separator: '/')
+                                        .FirstOrDefault()?
+                                        .Trim();
+                                }
+                                
+                                @name
+                            </div>
+                            
+                            <div class="direction"
+                                 data-testid="direction">
+                                
+                                Direction: @context.Direction
+                            </div>
+                            
+                            <div class="services"
+                                 data-testid="services">
+                                
+                                <ul>
+                                    @{
+                                        var points = context.Points?
+                                            .Take(count: TelerikDevice.TouchExtraSmall == true ? 5 : 3)
+                                            .Select(selector: point => point)
+                                            .ToList() ?? [];
                                         
-                                        switch (item.RouteName)
+                                        foreach (var item in points)
                                         {
-                                            case "BLUE":
-                                                <li class="blue" title="@item.DestinationName">@departureTime</li>
-                                                break;
-                                            case "PURP":
-                                                <li class="purp" title="@item.DestinationName">@departureTime</li>
-                                                break;
-                                            case "TT":
-                                                <li class="tt" title="@item.DestinationName">@departureTime</li>
-                                                break;
-                                            case "YELL":
-                                                <li class="yell" title="@item.DestinationName">@departureTime</li>
-                                                break;
-                                            default:
-                                                <li class="default" title="@item.DestinationName">@departureTime</li>
-                                                break;
+                                            var departureTime = item.DepartureDateTime?.ToString(
+                                                format: "HH:mm",
+                                                provider: CultureInfo.InvariantCulture);
+                                            
+                                            switch (item.RouteName)
+                                            {
+                                                case "BLUE":
+                                                    <li class="blue">@departureTime</li>
+                                                    break;
+                                                case "PURP":
+                                                    <li class="purp">@departureTime</li>
+                                                    break;
+                                                case "TT":
+                                                    <li class="tt">@departureTime</li>
+                                                    break;
+                                                case "YELL":
+                                                    <li class="yell">@departureTime</li>
+                                                    break;
+                                                default:
+                                                    <li class="default">@departureTime</li>
+                                                    break;
+                                            }
                                         }
                                     }
-                                }
-                            </ul>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                </ItemTemplate>
+                    </Template>
+                </TelerikListView>
+            </div>
+            
+            <!-- #endregion -->
+            
+            <!-- #region telerik-auto-complete -->
+            
+            <div id="privacy-telerik-auto-complete"
+                 data-testid="telerik-auto-complete">
                 
-                <NoDataTemplate>
-                    <div id="telerik-auto-complete__unknown">
-                        <div class="error">No Stops Found</div>
-                        <div class="message">Update Search Query and/or Filter</div>
-                    </div>
-                </NoDataTemplate>
-            </TelerikAutoComplete>
+                <TelerikAutoComplete @bind-value="@Query"
+                                     DebounceDelay="@TelerikAutoCompleteDefaults.DebounceDelay"
+                                     Filterable="true"
+                                     MinLength="@TelerikAutoCompleteDefaults.MinCacheLength"
+                                     OnChange="@OnSearchChange"
+                                     OnClose="@OnSearchCloseAsync"
+                                     OnOpen="@OnSearchOpenAsync"
+                                     OnRead="@OnSearchReadAsync"
+                                     Placeholder="@TelerikAutoCompleteDefaults.Placeholder"
+                                     ValueField="@nameof(TelerikStop.Id)"
+                                     TItem="@TelerikStop">
+                    
+                    <ItemTemplate>
+                        <div id="privacy-telerik-auto-complete__result"
+                             data-testid="telerik-auto-complete__result">
+                            
+                            <div class="name"
+                                 data-testid="name">
+                                
+                                @context.Name
+                            </div>
+                            
+                            <div class="direction"
+                                 data-testid="direction">
+                                
+                                Direction: @context.Direction
+                            </div>
+                            
+                            <div class="services"
+                                 data-testid="services">
+                                
+                                <ul>
+                                    @{
+                                        var points = context.Points?
+                                            .Take(count: TelerikDevice.TouchExtraSmall == false ? 5 : 3)
+                                            .Select(selector: point => point)
+                                            .ToList() ?? [];
+                                        
+                                        foreach (var item in points)
+                                        {
+                                            var departureTime = item.DepartureDateTime?.ToString(
+                                                format: "HH:mm",
+                                                provider: CultureInfo.InvariantCulture);
+                                            
+                                            switch (item.RouteName)
+                                            {
+                                                case "BLUE":
+                                                    <li class="blue">@departureTime</li>
+                                                    break;
+                                                case "PURP":
+                                                    <li class="purp">@departureTime</li>
+                                                    break;
+                                                case "TT":
+                                                    <li class="tt">@departureTime</li>
+                                                    break;
+                                                case "YELL":
+                                                    <li class="yell">@departureTime</li>
+                                                    break;
+                                                default:
+                                                    <li class="default">@departureTime</li>
+                                                    break;
+                                            }
+                                        }
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                    
+                    <NoDataTemplate>
+                        <div id="privacy-telerik-auto-complete__unknown">
+                            <div class="error">No Stops Found</div>
+                            <div class="message">Update Search Query and/or Filter</div>
+                        </div>
+                    </NoDataTemplate>
+                </TelerikAutoComplete>
+            </div>
+            
+            <!-- #endregion -->
+            
+            <!-- #region local-storage-consent -->
+            
+            <LocalStorageConsent Longitude="Center.ElementAt(index: 1)"
+                                 Latitude="Center.ElementAt(index: 0)"
+                                 Zoom="Zoom" />
+            
+            <!-- #endregion -->
+            
         </div>
-        
-        <!-- #endregion -->
-        
-        <!-- #region local-storage-consent -->
-        
-        <LocalStorageConsent Longitude="Center.ElementAt(index: 1)"
-                             Latitude="Center.ElementAt(index: 0)"
-                             Zoom="Zoom" />
-        
-        <!-- #endregion -->
     }
 }

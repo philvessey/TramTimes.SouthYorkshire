@@ -1,0 +1,503 @@
+#privacy {
+    display: grid;
+    grid-template-columns: 1fr 296px;
+    grid-template-rows: 100%;
+    height: 100vh;
+    width: 100vw;
+}
+
+/*#region telerik-auto-complete */
+
+#privacy-telerik-auto-complete {
+    left: 15px;
+    padding: 0;
+    position: fixed;
+    top: 15px;
+    width: min(calc(100vw - 30px), 420px);
+}
+
+#privacy-telerik-auto-complete__result {
+    display: grid;
+    grid-template-columns: 60% 40%;
+    grid-template-rows: 50% 50%;
+    width: 100%;
+}
+
+#privacy-telerik-auto-complete__result .name {
+    cursor: pointer;
+    font-weight: bold;
+    grid-area: 1 / 1 / 2 / 2;
+    margin-right: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#privacy-telerik-auto-complete__result .direction {
+    cursor: pointer;
+    font-size: smaller;
+    grid-area: 2 / 1 / 3 / 2;
+    margin-right: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#privacy-telerik-auto-complete__result .services {
+    grid-area: 1 / 2 / 3 / 3;
+}
+
+#privacy-telerik-auto-complete__result .services ul {
+    align-items: center;
+    display: flex;
+    height: 40px;
+    justify-content: right;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#privacy-telerik-auto-complete__result .services ul li.default {
+    background-color: #0078c8;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: smaller;
+    font-weight: bold;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#privacy-telerik-auto-complete__result .services ul li.blue {
+    background-color: #204f82;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: smaller;
+    font-weight: bold;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#privacy-telerik-auto-complete__result .services ul li.purp {
+    background-color: #80276a;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: smaller;
+    font-weight: bold;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#privacy-telerik-auto-complete__result .services ul li.tt {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: smaller;
+    font-weight: bold;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#privacy-telerik-auto-complete__result .services ul li.yell {
+    background-color: #f1bd40;
+    color: black;
+    cursor: pointer;
+    display: inline-block;
+    font-size: smaller;
+    font-weight: bold;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#privacy-telerik-auto-complete__unknown {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
+    width: 100%;
+}
+
+#privacy-telerik-auto-complete__unknown .error {
+    cursor: default;
+    font-weight: bold;
+    grid-area: 1 / 1 / 2 / 3;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#privacy-telerik-auto-complete__unknown .message {
+    cursor: default;
+    font-size: smaller;
+    grid-area: 2 / 1 / 3 / 3;
+    overflow: hidden;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+/*#endregion */
+
+/*#region telerik-map */
+
+#privacy-telerik-map {
+    grid-area: 1 / 1 / 2 / 2;
+    height: 100%;
+    width: 100%;
+}
+
+#privacy-telerik-map__tooltip {
+    padding-bottom: 2px;
+    padding-top: 2px;
+    width: 200px;
+}
+
+#privacy-telerik-map__tooltip .name {
+    color: white;
+    font-size: smaller;
+    font-weight: bold;
+    overflow: hidden;
+    padding-bottom: 2px;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#privacy-telerik-map__tooltip .services {
+    overflow: auto;
+    width: 100%;
+}
+
+#privacy-telerik-map__tooltip .services ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#privacy-telerik-map__tooltip .services ul li.default {
+    background-color: #0078c8;
+    color: white;
+    font-size: smaller;
+    font-weight: bold;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    overflow: hidden;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    text-indent: 2px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#privacy-telerik-map__tooltip .services ul li.blue {
+    background-color: #204f82;
+    color: white;
+    font-size: smaller;
+    font-weight: bold;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    overflow: hidden;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    text-indent: 2px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#privacy-telerik-map__tooltip .services ul li.purp {
+    background-color: #80276a;
+    color: white;
+    font-size: smaller;
+    font-weight: bold;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    overflow: hidden;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    text-indent: 2px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#privacy-telerik-map__tooltip .services ul li.tt {
+    background-color: black;
+    color: white;
+    font-size: smaller;
+    font-weight: bold;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    overflow: hidden;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    text-indent: 2px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#privacy-telerik-map__tooltip .services ul li.yell {
+    background-color: #f1bd40;
+    color: black;
+    font-size: smaller;
+    font-weight: bold;
+    margin-bottom: 2px;
+    margin-top: 2px;
+    overflow: hidden;
+    padding-bottom: 2px;
+    padding-top: 2px;
+    text-indent: 2px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+/*#endregion */
+
+/*#region telerik-list-view */
+
+#privacy-telerik-list-view {
+    grid-area: 1 / 2 / 2 / 3;
+    height: 100%;
+    width: 100%;
+}
+
+#privacy-telerik-list-view__result {
+    box-sizing: border-box;
+    display: grid;
+    grid-template-columns: 60% 40%;
+    grid-template-rows: 50% 50%;
+    padding: 4px;
+    width: 100%;
+}
+
+#privacy-telerik-list-view__result:hover {
+    background-color: #ebebeb;
+}
+
+#privacy-telerik-list-view__result .name {
+    cursor: pointer;
+    font-weight: bold;
+    grid-area: 1 / 1 / 2 / 2;
+    margin-right: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#privacy-telerik-list-view__result .direction {
+    cursor: pointer;
+    font-size: smaller;
+    grid-area: 2 / 1 / 3 / 2;
+    margin-right: 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#privacy-telerik-list-view__result .services {
+    grid-area: 1 / 2 / 3 / 3;
+}
+
+#privacy-telerik-list-view__result .services ul {
+    align-items: center;
+    display: flex;
+    height: 40px;
+    justify-content: right;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#privacy-telerik-list-view__result .services ul li.default {
+    background-color: #0078c8;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: smaller;
+    font-weight: bold;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#privacy-telerik-list-view__result .services ul li.blue {
+    background-color: #204f82;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: smaller;
+    font-weight: bold;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#privacy-telerik-list-view__result .services ul li.purp {
+    background-color: #80276a;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: smaller;
+    font-weight: bold;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#privacy-telerik-list-view__result .services ul li.tt {
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: smaller;
+    font-weight: bold;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+#privacy-telerik-list-view__result .services ul li.yell {
+    background-color: #f1bd40;
+    color: black;
+    cursor: pointer;
+    display: inline-block;
+    font-size: smaller;
+    font-weight: bold;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    
+    .prevent-select {
+        user-select: none;
+        -webkit-user-select: none;
+    }
+}
+
+/*#endregion */
