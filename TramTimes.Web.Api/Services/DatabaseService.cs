@@ -71,5 +71,16 @@ public static class DatabaseService
         builder.WithTags(tags: "database");
         
         #endregion
+        
+        #region endpoint -> /database/stops/point/
+        
+        builder = application.MapGet(
+            pattern: "/database/stops/point/{lon:double}/{lat:double}",
+            handler: DatabaseHandler.GetStopsByPointAsync);
+        
+        builder.WithSummary(summary: "Get Stops from Postgres Database.");
+        builder.WithTags(tags: "database");
+        
+        #endregion
     }
 }

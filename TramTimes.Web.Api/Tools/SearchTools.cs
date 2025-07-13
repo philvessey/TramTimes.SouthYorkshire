@@ -4,7 +4,7 @@ namespace TramTimes.Web.Api.Tools;
 
 public static class SearchTools
 {
-    public static List<SortOptions> SortDistance(LatLonGeoLocation location)
+    public static List<SortOptions> SortByDistance(LatLonGeoLocation location)
     {
         #region build results
         
@@ -20,6 +20,21 @@ public static class SearchTools
                     GeoLocation.LatitudeLongitude(latitudeLongitude: location)
                 }
             })
+        };
+        
+        #endregion
+        
+        return results;
+    }
+    
+    public static List<SortOptions> SortByNameThenById()
+    {
+        #region build results
+        
+        var results = new List<SortOptions>
+        {
+            SortOptions.Field(field: new Field(name: "name")),
+            SortOptions.Field(field: new Field(name: "id"))
         };
         
         #endregion

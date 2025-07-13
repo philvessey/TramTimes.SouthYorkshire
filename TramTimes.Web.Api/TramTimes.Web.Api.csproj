@@ -6,7 +6,6 @@
         <PackageReference Include="Aspire.StackExchange.Redis" />
         <PackageReference Include="AutoMapper" />
         <PackageReference Include="Elastic.Clients.Elasticsearch.Aspire" />
-        <PackageReference Include="Geolocation" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
         <PackageReference Include="NextDepartures.Standard" />
         <PackageReference Include="NextDepartures.Storage.Postgres.Aspire" />

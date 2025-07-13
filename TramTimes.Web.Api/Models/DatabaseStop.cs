@@ -23,8 +23,5 @@ public class DatabaseStop
     public string? Platform { get; set; }
     
     [UsedImplicitly]
-    public double? Distance { get; set; }
-    
-    [UsedImplicitly]
     public List<DatabaseStopPoint>? Points { get; set; }
 }

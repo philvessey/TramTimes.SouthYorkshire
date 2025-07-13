@@ -1,5 +1,4 @@
 using AutoMapper;
-using Geolocation;
 using NextDepartures.Standard;
 using NextDepartures.Standard.Types;
 using NextDepartures.Storage.Postgres.Aspire;
@@ -206,25 +205,53 @@ public static class DatabaseHandler
         var results = mapperService.Map<List<DatabaseStop>>(source: request);
         
         foreach (var item in results)
-        {
-            item.Distance = GeoCalculator.GetDistance(
-                originLatitude: item.Latitude ?? 0,
-                originLongitude: item.Longitude ?? 0,
-                destinationLatitude: (minLat + maxLat) / 2,
-                destinationLongitude: (minLon + maxLon) / 2,
-                distanceUnit: DistanceUnit.Meters);
-            
             item.Points = mapperService.Map<List<DatabaseStopPoint>>(
                 source: mapperService.Map<List<WorkerStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
                         id: item.Id,
                         comparison: ComparisonType.Exact,
                         tolerance: TimeSpan.FromMinutes(value: 119))));
-        }
         
         #endregion
         
-        return Results.Json(data: mapperService.Map<List<WebStop>>(
-            source: results.OrderBy(keySelector: stop => stop.Distance)));
+        return Results.Json(data: mapperService.Map<List<WebStop>>(source: results));
+    }
+    
+    public static async Task<IResult> GetStopsByPointAsync(
+        NpgsqlDataSource dataSource,
+        IMapper mapperService,
+        double lon,
+        double lat) {
+        
+        #region build request
+        
+        var feed = await Feed.LoadAsync(dataStorage: PostgresStorage.Load(dataSource: dataSource));
+        
+        var request = await feed.GetStopsByPointAsync(
+            longitude: lon,
+            latitude: lat,
+            distance: 1,
+            comparison: ComparisonType.Partial);
+        
+        if (request.IsNullOrEmpty())
+            return Results.NotFound();
+        
+        #endregion
+        
+        #region build results
+        
+        var results = mapperService.Map<List<DatabaseStop>>(source: request);
+        
+        foreach (var item in results)
+            item.Points = mapperService.Map<List<DatabaseStopPoint>>(
+                source: mapperService.Map<List<WorkerStopPoint>>(
+                    source: await feed.GetServicesByStopAsync(
+                        id: item.Id,
+                        comparison: ComparisonType.Exact,
+                        tolerance: TimeSpan.FromMinutes(value: 119))));
+        
+        #endregion
+        
+        return Results.Json(data: mapperService.Map<List<WebStop>>(source: results));
     }
 }

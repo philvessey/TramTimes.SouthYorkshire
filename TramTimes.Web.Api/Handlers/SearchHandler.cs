@@ -23,7 +23,8 @@ public static class SearchHandler
             {
                 Value = id.ToUpperInvariant()
             },
-            Size = 1000
+            Size = 1000,
+            Sort = SearchTools.SortByNameThenById()
         };
         
         #endregion
@@ -37,10 +38,7 @@ public static class SearchHandler
         
         #endregion
         
-        return Results.Json(data: mapperService.Map<List<WebStop>>(
-            source: results.Documents
-                .OrderBy(keySelector: stop => stop.Name)
-                .ThenBy(keySelector: stop => stop.Id)));
+        return Results.Json(data: mapperService.Map<List<WebStop>>(source: results.Documents));
     }
     
     public static async Task<IResult> GetStopsByCodeAsync(
@@ -56,7 +54,8 @@ public static class SearchHandler
             {
                 Value = code.ToUpperInvariant()
             },
-            Size = 1000
+            Size = 1000,
+            Sort = SearchTools.SortByNameThenById()
         };
         
         #endregion
@@ -70,10 +69,7 @@ public static class SearchHandler
         
         #endregion
         
-        return Results.Json(data: mapperService.Map<List<WebStop>>(
-            source: results.Documents
-                .OrderBy(keySelector: stop => stop.Name)
-                .ThenBy(keySelector: stop => stop.Id)));
+        return Results.Json(data: mapperService.Map<List<WebStop>>(source: results.Documents));
     }
     
     public static async Task<IResult> GetStopsByNameAsync(
@@ -90,7 +86,8 @@ public static class SearchHandler
                 CaseInsensitive = true,
                 Value = $"*{name.ToLowerInvariant()}*"
             },
-            Size = 1000
+            Size = 1000,
+            Sort = SearchTools.SortByNameThenById()
         };
         
         #endregion
@@ -104,10 +101,7 @@ public static class SearchHandler
         
         #endregion
         
-        return Results.Json(data: mapperService.Map<List<WebStop>>(
-            source: results.Documents
-                .OrderBy(keySelector: stop => stop.Name)
-                .ThenBy(keySelector: stop => stop.Id)));
+        return Results.Json(data: mapperService.Map<List<WebStop>>(source: results.Documents));
     }
     
     public static async Task<IResult> GetStopsByLocationAsync(
@@ -140,7 +134,7 @@ public static class SearchHandler
                 })
             },
             Size = 1000,
-            Sort = SearchTools.SortDistance(location: new LatLonGeoLocation
+            Sort = SearchTools.SortByDistance(location: new LatLonGeoLocation
             {
                 Lat = (minLat + maxLat) / 2,
                 Lon = (minLon + maxLon) / 2
@@ -151,13 +145,55 @@ public static class SearchHandler
         
         #region build results
         
-        var response = await searchService.SearchAsync<SearchStop>(request: request);
+        var results = await searchService.SearchAsync<SearchStop>(request: request);
         
-        if (!response.IsValidResponse || response.Documents.IsNullOrEmpty())
+        if (!results.IsValidResponse || results.Documents.IsNullOrEmpty())
             return Results.NotFound();
         
         #endregion
         
-        return Results.Json(data: mapperService.Map<List<WebStop>>(source: response.Documents));
+        return Results.Json(data: mapperService.Map<List<WebStop>>(source: results.Documents));
+    }
+    
+    public static async Task<IResult> GetStopsByPointAsync(
+        ElasticsearchClient searchService,
+        IMapper mapperService,
+        double lon,
+        double lat) {
+        
+        #region build request
+        
+        var request = new SearchRequest(indices: "search")
+        {
+            Query = new GeoDistanceQuery
+            {
+                Field = new Field(name: "location"),
+                Distance = "1km",
+                Location = GeoLocation.LatitudeLongitude(latitudeLongitude: new LatLonGeoLocation
+                {
+                    Lat = lat,
+                    Lon = lon
+                })
+            },
+            Size = 1000,
+            Sort = SearchTools.SortByDistance(location: new LatLonGeoLocation
+            {
+                Lat = lat,
+                Lon = lon
+            })
+        };
+        
+        #endregion
+        
+        #region build results
+        
+        var results = await searchService.SearchAsync<SearchStop>(request: request);
+        
+        if (!results.IsValidResponse || results.Documents.IsNullOrEmpty())
+            return Results.NotFound();
+        
+        #endregion
+        
+        return Results.Json(data: mapperService.Map<List<WebStop>>(source: results.Documents));
     }
 }

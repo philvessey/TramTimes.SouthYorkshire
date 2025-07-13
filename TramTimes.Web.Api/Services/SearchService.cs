@@ -49,5 +49,16 @@ public static class SearchService
         builder.WithTags(tags: "search");
         
         #endregion
+        
+        #region endpoint -> /search/stops/point/
+        
+        builder = application.MapGet(
+            pattern: "/search/stops/point/{lon:double}/{lat:double}",
+            handler: SearchHandler.GetStopsByPointAsync);
+        
+        builder.WithSummary(summary: "Get Stops from Elastic Search.");
+        builder.WithTags(tags: "search");
+        
+        #endregion
     }
 }

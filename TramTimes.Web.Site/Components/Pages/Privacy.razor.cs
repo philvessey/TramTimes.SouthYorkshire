@@ -19,7 +19,6 @@ public partial class Privacy : ComponentBase
     private List<TelerikStop> MapData { get; set; } = [];
     private List<TelerikStop> SearchData { get; set; } = [];
     private double[] Center { get; set; } = [];
-    private double[] Extent { get; set; } = [];
     private IJSObjectReference? JavascriptManager { get; set; }
     private TelerikListView<TelerikStop>? ListManager { get; set; }
     private string? Query { get; set; }
@@ -33,13 +32,6 @@ public partial class Privacy : ComponentBase
         
         if (Center.IsNullOrEmpty())
             Center = TelerikMapDefaults.Center;
-        
-        #endregion
-        
-        #region set default extent
-        
-        if (Extent.IsNullOrEmpty())
-            Extent = TelerikMapDefaults.Extent;
         
         #endregion
         
@@ -83,14 +75,6 @@ public partial class Privacy : ComponentBase
         
         if (Latitude.HasValue && Longitude.HasValue)
         {
-            Extent =
-            [
-                Latitude.Value + TelerikMapDefaults.ExtentOffset,
-                Longitude.Value - TelerikMapDefaults.ExtentOffset,
-                Latitude.Value - TelerikMapDefaults.ExtentOffset,
-                Longitude.Value + TelerikMapDefaults.ExtentOffset
-            ];
-            
             Center =
             [
                 Latitude.Value,
@@ -119,16 +103,8 @@ public partial class Privacy : ComponentBase
             {
                 Center =
                 [
-                    (location.ElementAt(index: 0) + location.ElementAt(index: 2)) / 2,
-                    (location.ElementAt(index: 1) + location.ElementAt(index: 3)) / 2
-                ];
-                
-                Extent =
-                [
                     location.ElementAt(index: 0),
-                    location.ElementAt(index: 1),
-                    location.ElementAt(index: 2),
-                    location.ElementAt(index: 3)
+                    location.ElementAt(index: 1)
                 ];
             }
         }
@@ -185,16 +161,16 @@ public partial class Privacy : ComponentBase
         #region build query data
         
         var query = QueryBuilder.GetStopsFromSearch(
-            type: QueryType.StopLocation,
-            value: Extent);
+            type: QueryType.StopPoint,
+            value: Center);
         
         var response = await HttpService.GetAsync(requestUri: query);
         
         if (!response.IsSuccessStatusCode)
         {
             query = QueryBuilder.GetStopsFromDatabase(
-                type: QueryType.StopLocation,
-                value: Extent);
+                type: QueryType.StopPoint,
+                value: Center);
             
             response = await HttpService.GetAsync(requestUri: query);
         }
@@ -244,7 +220,7 @@ public partial class Privacy : ComponentBase
         {
             await StorageService.SetItemAsync(
                 key: "location",
-                data: Extent);
+                data: Center);
             
             await StorageService.SetItemAsync(
                 key: "cache",
@@ -330,16 +306,16 @@ public partial class Privacy : ComponentBase
         #region build query data
         
         var query = QueryBuilder.GetStopsFromSearch(
-            type: QueryType.StopLocation,
-            value: Extent);
+            type: QueryType.StopPoint,
+            value: Center);
         
         var response = await HttpService.GetAsync(requestUri: query);
         
         if (!response.IsSuccessStatusCode)
         {
             query = QueryBuilder.GetStopsFromDatabase(
-                type: QueryType.StopLocation,
-                value: Extent);
+                type: QueryType.StopPoint,
+                value: Center);
             
             response = await HttpService.GetAsync(requestUri: query);
         }
@@ -388,7 +364,7 @@ public partial class Privacy : ComponentBase
         {
             await StorageService.SetItemAsync(
                 key: "location",
-                data: Extent);
+                data: Center);
             
             await StorageService.SetItemAsync(
                 key: "cache",
@@ -439,7 +415,6 @@ public partial class Privacy : ComponentBase
         #region get map location
         
         Center = args.Center;
-        Extent = args.Extent;
         
         #endregion
         
@@ -497,7 +472,7 @@ public partial class Privacy : ComponentBase
         
         var query = QueryBuilder.GetStopsFromSearch(
             type: QueryType.StopLocation,
-            value: Extent);
+            value: args.Extent);
         
         var response = await HttpService.GetAsync(requestUri: query);
         
@@ -505,7 +480,7 @@ public partial class Privacy : ComponentBase
         {
             query = QueryBuilder.GetStopsFromDatabase(
                 type: QueryType.StopLocation,
-                value: Extent);
+                value: args.Extent);
             
             response = await HttpService.GetAsync(requestUri: query);
         }
@@ -555,7 +530,7 @@ public partial class Privacy : ComponentBase
         {
             await StorageService.SetItemAsync(
                 key: "location",
-                data: Extent);
+                data: Center);
             
             await StorageService.SetItemAsync(
                 key: "cache",
@@ -579,7 +554,6 @@ public partial class Privacy : ComponentBase
         #region get map location
         
         Center = args.Center;
-        Extent = args.Extent;
         Zoom = args.Zoom;
         
         #endregion
@@ -638,7 +612,7 @@ public partial class Privacy : ComponentBase
         
         var query = QueryBuilder.GetStopsFromSearch(
             type: QueryType.StopLocation,
-            value: Extent);
+            value: args.Extent);
         
         var response = await HttpService.GetAsync(requestUri: query);
         
@@ -646,7 +620,7 @@ public partial class Privacy : ComponentBase
         {
             query = QueryBuilder.GetStopsFromDatabase(
                 type: QueryType.StopLocation,
-                value: Extent);
+                value: args.Extent);
             
             response = await HttpService.GetAsync(requestUri: query);
         }
@@ -696,7 +670,7 @@ public partial class Privacy : ComponentBase
         {
             await StorageService.SetItemAsync(
                 key: "location",
-                data: Extent);
+                data: Center);
             
             await StorageService.SetItemAsync(
                 key: "cache",
@@ -862,7 +836,7 @@ public partial class Privacy : ComponentBase
         {
             await StorageService.SetItemAsync(
                 key: "location",
-                data: Extent);
+                data: Center);
             
             await StorageService.SetItemAsync(
                 key: "cache",

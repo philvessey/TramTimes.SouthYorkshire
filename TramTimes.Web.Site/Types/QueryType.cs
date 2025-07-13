@@ -5,5 +5,6 @@ public enum QueryType
     StopId = 0,
     StopName = 1,
     StopLocation = 2,
-    TripId = 3
+    StopPoint = 3,
+    TripId = 4
 }
