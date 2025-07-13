@@ -17,6 +17,7 @@
 }
 
 #home-telerik-auto-complete__result {
+    cursor: pointer;
     display: grid;
     grid-template-columns: 60% 40%;
     grid-template-rows: 50% 50%;
@@ -355,6 +356,7 @@
 
 #home-telerik-list-view__result {
     box-sizing: border-box;
+    cursor: pointer;
     display: grid;
     grid-template-columns: 60% 40%;
     grid-template-rows: 50% 50%;

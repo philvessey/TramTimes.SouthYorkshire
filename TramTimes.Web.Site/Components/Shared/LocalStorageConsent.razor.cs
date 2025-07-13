@@ -9,6 +9,7 @@ public partial class LocalStorageConsent : ComponentBase
 {
     private IJSObjectReference? Manager { get; set; }
     private string? ConsentCookie { get; set; }
+    private bool ShowOutline { get; set; }
     private bool ShowPolicy { get; set; }
     
     protected override async Task OnInitializedAsync()
@@ -27,8 +28,9 @@ public partial class LocalStorageConsent : ComponentBase
         
         #endregion
         
-        #region toggle policy
+        #region set toggles
         
+        ShowOutline = false;
         ShowPolicy = false;
         
         #endregion
@@ -46,18 +48,50 @@ public partial class LocalStorageConsent : ComponentBase
         #region create manager
         
         if (firstRender)
+        {
             Manager = await JavascriptService.InvokeAsync<IJSObjectReference>(
                 identifier: "import",
                 args: "./Components/Shared/LocalStorageConsent.razor.js");
+            
+            var consent = await Manager.InvokeAsync<string>(
+                identifier: "getCookie",
+                args: ".AspNet.Consent");
+            
+            if (string.IsNullOrEmpty(value: consent))
+                ShowPrivacyOutline();
+        }
+        
+        #endregion
+    }
+    
+    private void ShowPrivacyOutline()
+    {
+        #region set toggles
+        
+        ShowOutline = true;
+        ShowPolicy = false;
+        
+        #endregion
+        
+        #region change state
+        
+        StateHasChanged();
         
         #endregion
     }
     
     private void ShowPrivacyPolicy()
     {
-        #region toggle policy
+        #region set toggles
         
-        ShowPolicy = !ShowPolicy;
+        ShowOutline = false;
+        ShowPolicy = true;
+        
+        #endregion
+        
+        #region change state
+        
+        StateHasChanged();
         
         #endregion
     }
@@ -65,6 +99,8 @@ public partial class LocalStorageConsent : ComponentBase
     private async Task AcceptPrivacyPolicyAsync()
     {
         #region set cookie
+        
+        ConsentCookie = ConsentCookie?.Replace("false", "true");
         
         if (Manager is not null)
             await Manager.InvokeVoidAsync(
@@ -95,7 +131,7 @@ public partial class LocalStorageConsent : ComponentBase
             await Manager.InvokeVoidAsync(
                 identifier: "setCookie",
                 args: [ConsentCookie, DateTime.UtcNow
-                    .AddDays(value: -1)
+                    .AddDays(value: 365)
                     .ToString(provider: CultureInfo.InvariantCulture)]);
         
         #endregion

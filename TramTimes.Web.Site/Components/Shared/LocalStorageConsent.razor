@@ -5,11 +5,11 @@
 
 @implements IAsyncDisposable
 
-@if (!ShowPolicy)
+@if (!ShowOutline && !ShowPolicy)
 {
     <div id="local-storage-consent">
         <button data-testid="local-storage-consent"
-                @onclick="ShowPrivacyPolicy">
+                @onclick="ShowPrivacyOutline">
             
             <svg class="icon"
                  fill="currentColor"
@@ -22,17 +22,45 @@
     </div>
 }
 
-@if (ShowPolicy)
+@if (ShowOutline && !ShowPolicy)
+{
+    <div id="local-storage-consent__outline"
+         data-testid="local-storage-consent__outline">
+        
+        <h3>We Use Cookies!</h3>
+        <p>We use our own cookies and your browsers local storage to save stop information and your last viewed location. More information about how we use your data can be found in our <a @onclick="ShowPrivacyPolicy">privacy policy</a>.</p>
+        
+        <div class="submit">
+            <button class="accept"
+                    data-testid="accept"
+                    @onclick="AcceptPrivacyPolicyAsync">
+                
+                Accept
+            </button>
+            
+            <button class="reject"
+                    data-testid="reject"
+                    @onclick="RejectPrivacyPolicyAsync">
+                
+                Reject
+            </button>
+        </div>
+    </div>
+}
+
+@if (!ShowOutline && ShowPolicy)
 {
     <div id="local-storage-consent__policy"
          data-testid="local-storage-consent__policy">
         
-        @{
-            var url = $"/privacy/{Longitude}/{Latitude}/{Zoom}";    
-        }
+        <h3>Privacy Policy</h3>
         
-        <h3>We Use Cookies!</h3>
-        <p>We use our own cookies to save stop information and your last viewed location. More information about how we use cookies can be found in our <a href="@url">privacy policy</a>.</p>
+        <div class="content">
+            <p>TramTimes values your privacy. The only cookie data stored is your consent to this privacy policy. No tracking or advertising cookies are used.</p><br />
+            <p>We use your browsers local storage to save information about the stops you view. Saving stop information helps us create a cache for faster access to stops you view the most. If you reject consent the site will function normally but you will have to search for stops, either on the map or search input each time you visit the site.</p><br />
+            <p>We use your browsers local storage to save your last viewed location. Saving your last viewed location allows us to quickly return you to the last location you viewed when you return to the site. If you reject consent the site will function normally but you will be returned to the default map location each time you visit the site.</p><br />
+            <p>TramTimes does not share any of your data with third parties. The data stored in your browsers local storage is only accessible by TramTimes and all data remains on your device.</p>
+        </div>
         
         <div class="submit">
             <button class="accept"
