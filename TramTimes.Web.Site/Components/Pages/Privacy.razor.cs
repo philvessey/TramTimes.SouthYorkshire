@@ -21,6 +21,7 @@ public partial class Privacy : ComponentBase
     private double[] Center { get; set; } = [];
     private IJSObjectReference? JavascriptManager { get; set; }
     private TelerikListView<TelerikStop>? ListManager { get; set; }
+    private bool? Disposed { get; set; }
     private string? Query { get; set; }
     private string? Title { get; set; }
     
@@ -234,25 +235,41 @@ public partial class Privacy : ComponentBase
     {
         await base.OnAfterRenderAsync(firstRender: firstRender);
         
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
         #region create javascript manager
         
         if (firstRender)
         {
-            JavascriptManager = await JavascriptService.InvokeAsync<IJSObjectReference>(
-                identifier: "import",
-                args: "./Components/Pages/Privacy.razor.js");
-            
-            var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
-            var consent = "unknown";
-            
-            if (feature is not null)
-                consent = feature.CanTrack
-                    ? "accept"
-                    : "reject";
-            
-            await JavascriptManager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: $"privacy: consent {consent}");
+            try
+            {
+                JavascriptManager = await JavascriptService.InvokeAsync<IJSObjectReference>(
+                    identifier: "import",
+                    args: "./Components/Pages/Privacy.razor.js");
+                
+                var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
+                var consent = "unknown";
+                
+                if (feature is not null)
+                    consent = feature.CanTrack
+                        ? "accept"
+                        : "reject";
+                
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: $"privacy: consent {consent}");
+            }
+            catch (ObjectDisposedException e)
+            {
+                LoggerService.LogInformation(
+                    message: "Exception: {exception}",
+                    args: e.ToString());
+            }
         }
         
         #endregion
@@ -373,12 +390,28 @@ public partial class Privacy : ComponentBase
         
         #endregion
         
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
         #region output console message
         
-        if (JavascriptManager is not null)
-            await JavascriptManager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: $"privacy: list read {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+        try
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: $"privacy: list read {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+        }
+        catch (ObjectDisposedException e)
+        {
+            LoggerService.LogInformation(
+                message: "Exception: {exception}",
+                args: e.ToString());
+        }
         
         #endregion
     }
@@ -539,12 +572,28 @@ public partial class Privacy : ComponentBase
         
         #endregion
         
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
         #region output console message
         
-        if (JavascriptManager is not null)
-            await JavascriptManager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: $"privacy: map pan {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+        try
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: $"privacy: map pan {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+        }
+        catch (ObjectDisposedException e)
+        {
+            LoggerService.LogInformation(
+                message: "Exception: {exception}",
+                args: e.ToString());
+        }
         
         #endregion
     }
@@ -679,12 +728,28 @@ public partial class Privacy : ComponentBase
         
         #endregion
         
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
         #region output console message
         
-        if (JavascriptManager is not null)
-            await JavascriptManager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: $"privacy: map zoom {Zoom}");
+        try
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: $"privacy: map zoom {Zoom}");
+        }
+        catch (ObjectDisposedException e)
+        {
+            LoggerService.LogInformation(
+                message: "Exception: {exception}",
+                args: e.ToString());
+        }
         
         #endregion
     }
@@ -708,24 +773,56 @@ public partial class Privacy : ComponentBase
     
     private async Task OnSearchCloseAsync()
     {
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
         #region output console message
         
-        if (JavascriptManager is not null)
-            await JavascriptManager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: "privacy: search close");
+        try
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: "privacy: search close");
+        }
+        catch (ObjectDisposedException e)
+        {
+            LoggerService.LogInformation(
+                message: "Exception: {exception}",
+                args: e.ToString());
+        }
         
         #endregion
     }
     
     private async Task OnSearchOpenAsync()
     {
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
         #region output console message
         
-        if (JavascriptManager is not null)
-            await JavascriptManager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: "privacy: search open");
+        try
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: "privacy: search open");
+        }
+        catch (ObjectDisposedException e)
+        {
+            LoggerService.LogInformation(
+                message: "Exception: {exception}",
+                args: e.ToString());
+        }
         
         #endregion
     }
@@ -845,18 +942,40 @@ public partial class Privacy : ComponentBase
         
         #endregion
         
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
         #region output console message
         
-        if (JavascriptManager is not null)
-            await JavascriptManager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: $"privacy: search read {name}");
+        try
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: $"privacy: search read {name}");
+        }
+        catch (ObjectDisposedException e)
+        {
+            LoggerService.LogInformation(
+                message: "Exception: {exception}",
+                args: e.ToString());
+        }
         
         #endregion
     }
     
     async ValueTask IAsyncDisposable.DisposeAsync()
     {
+        # region set component disposed
+        
+        Disposed = true;
+        
+        #endregion
+        
         #region suppress object finalizer
 		
         GC.SuppressFinalize(obj: this);

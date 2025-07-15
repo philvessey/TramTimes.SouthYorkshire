@@ -11,6 +11,7 @@ public partial class LocalStorageConsent : ComponentBase
     private string? ConsentCookie { get; set; }
     private bool ShowOutline { get; set; }
     private bool ShowPolicy { get; set; }
+    private bool Disposed { get; set; }
     
     protected override async Task OnInitializedAsync()
     {
@@ -45,20 +46,36 @@ public partial class LocalStorageConsent : ComponentBase
     {
         await base.OnAfterRenderAsync(firstRender: firstRender);
         
+        # region check disposed
+        
+        if (Disposed)
+            return;
+        
+        #endregion
+        
         #region create manager
         
         if (firstRender)
         {
-            Manager = await JavascriptService.InvokeAsync<IJSObjectReference>(
-                identifier: "import",
-                args: "./Components/Shared/LocalStorageConsent.razor.js");
-            
-            var consent = await Manager.InvokeAsync<string>(
-                identifier: "getCookie",
-                args: ".AspNet.Consent");
-            
-            if (string.IsNullOrEmpty(value: consent))
-                ShowPrivacyOutline();
+            try
+            {
+                Manager = await JavascriptService.InvokeAsync<IJSObjectReference>(
+                    identifier: "import",
+                    args: "./Components/Shared/LocalStorageConsent.razor.js");
+                
+                var consent = await Manager.InvokeAsync<string>(
+                    identifier: "getCookie",
+                    args: ".AspNet.Consent");
+                
+                if (string.IsNullOrEmpty(value: consent))
+                    ShowPrivacyOutline();
+            }
+            catch (ObjectDisposedException e)
+            {
+                LoggerService.LogInformation(
+                    message: "Exception: {exception}",
+                    args: e.ToString());
+            }
         }
         
         #endregion
@@ -98,16 +115,34 @@ public partial class LocalStorageConsent : ComponentBase
     
     private async Task AcceptPrivacyPolicyAsync()
     {
+        # region check disposed
+        
+        if (Disposed)
+            return;
+        
+        #endregion
+        
         #region set cookie
         
-        ConsentCookie = ConsentCookie?.Replace("false", "true");
+        ConsentCookie = ConsentCookie?.Replace(
+            oldValue: "false",
+            newValue: "true");
         
-        if (Manager is not null)
-            await Manager.InvokeVoidAsync(
-                identifier: "setCookie",
-                args: [ConsentCookie, DateTime.UtcNow
-                    .AddDays(value: 365)
-                    .ToString(provider: CultureInfo.InvariantCulture)]);
+        try
+        {
+            if (Manager is not null)
+                await Manager.InvokeVoidAsync(
+                    identifier: "setCookie",
+                    args: [ConsentCookie, DateTime.UtcNow
+                        .AddDays(value: 365)
+                        .ToString(provider: CultureInfo.InvariantCulture)]);
+        }
+        catch (ObjectDisposedException e)
+        {
+            LoggerService.LogInformation(
+                message: "Exception: {exception}",
+                args: e.ToString());
+        }
         
         #endregion
         
@@ -123,16 +158,34 @@ public partial class LocalStorageConsent : ComponentBase
     
     private async Task RejectPrivacyPolicyAsync()
     {
+        # region check disposed
+        
+        if (Disposed)
+            return;
+        
+        #endregion
+        
         #region set cookie
         
-        ConsentCookie = ConsentCookie?.Replace("true", "false");
+        ConsentCookie = ConsentCookie?.Replace(
+            oldValue: "true",
+            newValue: "false");
         
-        if (Manager is not null)
-            await Manager.InvokeVoidAsync(
-                identifier: "setCookie",
-                args: [ConsentCookie, DateTime.UtcNow
-                    .AddDays(value: 365)
-                    .ToString(provider: CultureInfo.InvariantCulture)]);
+        try
+        {
+            if (Manager is not null)
+                await Manager.InvokeVoidAsync(
+                    identifier: "setCookie",
+                    args: [ConsentCookie, DateTime.UtcNow
+                        .AddDays(value: 365)
+                        .ToString(provider: CultureInfo.InvariantCulture)]);
+        }
+        catch (ObjectDisposedException e)
+        {
+            LoggerService.LogInformation(
+                message: "Exception: {exception}",
+                args: e.ToString());
+        }
         
         #endregion
         
@@ -148,6 +201,12 @@ public partial class LocalStorageConsent : ComponentBase
     
     async ValueTask IAsyncDisposable.DisposeAsync()
     {
+        # region set disposed
+        
+        Disposed = true;
+        
+        #endregion
+        
         #region suppress finalizer
 		
         GC.SuppressFinalize(obj: this);

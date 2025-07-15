@@ -1,7 +1,7 @@
 // noinspection JSUnusedGlobalSymbols
 
-export function getCookie(cookieName) {
-    const name = cookieName + "=";
+export function getCookie(value) {
+    const name = value + "=";
     
     const cookie = decodeURIComponent(document.cookie);
     const cookies = cookie.split(';');
@@ -17,6 +17,6 @@ export function getCookie(cookieName) {
     return null;
 }
 
-export function setCookie(cookieValue, expires) {
-    document.cookie = cookieValue + "; expires=" + expires + "; path=/";
+export function setCookie(value, expires) {
+    document.cookie = value + "; expires=" + expires + "; path=/";
 }

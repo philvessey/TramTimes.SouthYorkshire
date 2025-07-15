@@ -23,6 +23,7 @@ public partial class Home : ComponentBase
     private TelerikListView<TelerikStop>? ListManager { get; set; }
     private string? Query { get; set; }
     private string? Title { get; set; }
+    private bool? Disposed { get; set; }
     
     protected override async Task OnInitializedAsync()
     {
@@ -228,25 +229,41 @@ public partial class Home : ComponentBase
     {
         await base.OnAfterRenderAsync(firstRender: firstRender);
         
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
         #region create javascript manager
         
         if (firstRender)
         {
-            JavascriptManager = await JavascriptService.InvokeAsync<IJSObjectReference>(
-                identifier: "import",
-                args: "./Components/Pages/Home.razor.js");
-            
-            var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
-            var consent = "unknown";
-            
-            if (feature is not null)
-                consent = feature.CanTrack
-                    ? "accept"
-                    : "reject";
-            
-            await JavascriptManager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: $"home: consent {consent}");
+            try
+            {
+                JavascriptManager = await JavascriptService.InvokeAsync<IJSObjectReference>(
+                    identifier: "import",
+                    args: "./Components/Pages/Home.razor.js");
+                
+                var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
+                var consent = "unknown";
+                
+                if (feature is not null)
+                    consent = feature.CanTrack
+                        ? "accept"
+                        : "reject";
+                
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: $"home: consent {consent}");
+            }
+            catch (ObjectDisposedException e)
+            {
+                LoggerService.LogInformation(
+                    message: "Exception: {exception}",
+                    args: e.ToString());
+            }
         }
         
         #endregion
@@ -367,12 +384,28 @@ public partial class Home : ComponentBase
         
         #endregion
         
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
         #region output console message
         
-        if (JavascriptManager is not null)
-            await JavascriptManager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: $"home: list read {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+        try
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: $"home: list read {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+        }
+        catch (ObjectDisposedException e)
+        {
+            LoggerService.LogInformation(
+                message: "Exception: {exception}",
+                args: e.ToString());
+        }
         
         #endregion
     }
@@ -533,12 +566,28 @@ public partial class Home : ComponentBase
         
         #endregion
         
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
         #region output console message
         
-        if (JavascriptManager is not null)
-            await JavascriptManager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: $"home: map pan {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+        try
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: $"home: map pan {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+        }
+        catch (ObjectDisposedException e)
+        {
+            LoggerService.LogInformation(
+                message: "Exception: {exception}",
+                args: e.ToString());
+        }
         
         #endregion
     }
@@ -673,12 +722,28 @@ public partial class Home : ComponentBase
         
         #endregion
         
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
         #region output console message
         
-        if (JavascriptManager is not null)
-            await JavascriptManager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: $"home: map zoom {Zoom}");
+        try
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: $"home: map zoom {Zoom}");
+        }
+        catch (ObjectDisposedException e)
+        {
+            LoggerService.LogInformation(
+                message: "Exception: {exception}",
+                args: e.ToString());
+        }
         
         #endregion
     }
@@ -702,24 +767,56 @@ public partial class Home : ComponentBase
     
     private async Task OnSearchCloseAsync()
     {
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
         #region output console message
         
-        if (JavascriptManager is not null)
-            await JavascriptManager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: "home: search close");
+        try
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: "home: search close");
+        }
+        catch (ObjectDisposedException e)
+        {
+            LoggerService.LogInformation(
+                message: "Exception: {exception}",
+                args: e.ToString());
+        }
         
         #endregion
     }
     
     private async Task OnSearchOpenAsync()
     {
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
         #region output console message
         
-        if (JavascriptManager is not null)
-            await JavascriptManager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: "home: search open");
+        try
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: "home: search open");
+        }
+        catch (ObjectDisposedException e)
+        {
+            LoggerService.LogInformation(
+                message: "Exception: {exception}",
+                args: e.ToString());
+        }
         
         #endregion
     }
@@ -839,18 +936,40 @@ public partial class Home : ComponentBase
         
         #endregion
         
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
         #region output console message
         
-        if (JavascriptManager is not null)
-            await JavascriptManager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: $"home: search read {name}");
+        try
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: $"home: search read {name}");
+        }
+        catch (ObjectDisposedException e)
+        {
+            LoggerService.LogInformation(
+                message: "Exception: {exception}",
+                args: e.ToString());
+        }
         
         #endregion
     }
     
     async ValueTask IAsyncDisposable.DisposeAsync()
     {
+        # region set component disposed
+        
+        Disposed = true;
+        
+        #endregion
+        
         #region suppress object finalizer
 		
         GC.SuppressFinalize(obj: this);
