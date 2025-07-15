@@ -72,6 +72,7 @@
         <PackageVersion Include="IeuanWalker.GeoUK" Version="1.1.0" />
         <PackageVersion Include="JetBrains.Annotations" Version="2024.3.0" />
         <PackageVersion Include="Nager.Date" Version="2.9.0" />
+        <PackageVersion Include="Polly" Version="8.6.2" />
         <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.14.0" />
         <PackageVersion Include="Telerik.UI.for.Blazor" Version="9.1.0" />
     </ItemGroup>
