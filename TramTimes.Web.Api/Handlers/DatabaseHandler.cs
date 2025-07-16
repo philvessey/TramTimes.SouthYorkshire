@@ -23,7 +23,7 @@ public static class DatabaseHandler
         var request = await feed.GetServicesByStopAsync(
             id: id.ToUpperInvariant(),
             comparison: ComparisonType.Exact,
-            tolerance: TimeSpan.FromMinutes(value: 719));
+            tolerance: TimeSpan.FromMinutes(value: 119));
         
         if (request.IsNullOrEmpty())
             return Results.NotFound();

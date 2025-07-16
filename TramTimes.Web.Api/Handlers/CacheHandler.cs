@@ -17,7 +17,34 @@ public static class CacheHandler
         
         var request = await cacheService
             .GetDatabase()
-            .StringGetAsync(key: id.ToUpperInvariant());
+            .StringGetAsync(key: $"stop:{id.ToUpperInvariant()}");
+        
+        if (request.IsNullOrEmpty)
+            return Results.NotFound();
+        
+        #endregion
+        
+        #region build results
+        
+        var results = mapperService.Map<List<CacheStopPoint>>(
+            source: JsonSerializer.Deserialize<List<WorkerStopPoint>>(
+                json: request.ToString()));
+        
+        #endregion
+        
+        return Results.Json(data: mapperService.Map<List<WebStopPoint>>(source: results));
+    }
+    
+    public static async Task<IResult> GetServicesByTripAsync(
+        IConnectionMultiplexer cacheService,
+        IMapper mapperService,
+        string id) {
+        
+        #region build request
+        
+        var request = await cacheService
+            .GetDatabase()
+            .StringGetAsync(key: $"trip:{id.ToUpperInvariant()}");
         
         if (request.IsNullOrEmpty)
             return Results.NotFound();

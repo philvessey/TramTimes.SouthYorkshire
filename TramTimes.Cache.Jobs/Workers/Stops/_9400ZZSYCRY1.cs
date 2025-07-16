@@ -33,7 +33,7 @@ public class _9400ZZSYCRY1(
             
             var cacheFeed = await cacheService
                 .GetDatabase()
-                .StringGetAsync(key: "9400ZZSYCRY1");
+                .StringGetAsync(key: "stop:9400ZZSYCRY1");
             
             List<CacheStopPoint> mappedResults = [];
             
@@ -58,7 +58,7 @@ public class _9400ZZSYCRY1(
             var databaseResults = await databaseFeed.GetServicesByStopAsync(
                 id: "9400ZZSYCRY1",
                 comparison: ComparisonType.Exact,
-                tolerance: TimeSpan.FromMinutes(value: 719));
+                tolerance: TimeSpan.FromMinutes(value: 119));
             
             #endregion
             
@@ -67,9 +67,36 @@ public class _9400ZZSYCRY1(
             await cacheService
                 .GetDatabase()
                 .StringSetAsync(
-                    key: "9400ZZSYCRY1",
+                    key: "stop:9400ZZSYCRY1",
                     value: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults)),
-                    expiry: TimeSpan.FromMinutes(value: 719));
+                    expiry: TimeSpan.FromMinutes(value: 119));
+            
+            #endregion
+            
+            #region get trip feed
+            
+            var tripFeed = databaseResults
+                .Select(selector: s => s.TripId)
+                .ToList();
+            
+            #endregion
+            
+            #region set cache feed
+            
+            foreach (var item in tripFeed)
+            {
+                databaseResults = await databaseFeed.GetServicesByTripAsync(
+                    id: item,
+                    comparison: ComparisonType.Exact,
+                    tolerance: TimeSpan.FromMinutes(value: 119));
+                
+                await cacheService
+                    .GetDatabase()
+                    .StringSetAsync(
+                        key: $"trip:{item}",
+                        value: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults)),
+                        expiry: TimeSpan.FromMinutes(value: 119));
+            }
             
             #endregion
             

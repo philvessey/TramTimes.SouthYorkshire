@@ -166,7 +166,7 @@ public static class WebHandler
             dataSource: dataSource,
             cacheService: cacheService,
             mapperService: mapperService,
-            id: "9400ZZSYCRB1");
+            id: "9400ZZSYCRB2");
         
         #endregion
         
@@ -986,7 +986,7 @@ public static class WebHandler
             dataSource: dataSource,
             searchService: searchService,
             mapperService: mapperService,
-            id: "9400ZZSYCRB1");
+            id: "9400ZZSYCRB2");
         
         #endregion
         

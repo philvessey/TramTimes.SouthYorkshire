@@ -16,5 +16,16 @@ public static class CacheService
         builder.WithTags(tags: "cache");
         
         #endregion
+        
+        #region endpoint -> /cache/services/trip/
+        
+        builder = application.MapGet(
+            pattern: "/cache/services/trip/{id}",
+            handler: CacheHandler.GetServicesByTripAsync);
+        
+        builder.WithSummary(summary: "Get Services from Redis Cache.");
+        builder.WithTags(tags: "cache");
+        
+        #endregion
     }
 }

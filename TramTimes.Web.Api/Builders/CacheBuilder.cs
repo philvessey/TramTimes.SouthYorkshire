@@ -24,7 +24,7 @@ public static class CacheBuilder
         var databaseResults = await databaseFeed.GetServicesByStopAsync(
             id: id,
             comparison: ComparisonType.Exact,
-            tolerance: TimeSpan.FromMinutes(value: 719));
+            tolerance: TimeSpan.FromMinutes(value: 119));
         
         #endregion
         
@@ -33,9 +33,36 @@ public static class CacheBuilder
         await cacheService
             .GetDatabase()
             .StringSetAsync(
-                key: id,
+                key: $"stop:{id}",
                 value: JsonSerializer.Serialize(value: mapperService.Map<List<WorkerStopPoint>>(source: databaseResults)),
-                expiry: TimeSpan.FromMinutes(value: 719));
+                expiry: TimeSpan.FromMinutes(value: 119));
+        
+        #endregion
+        
+        #region get trip feed
+        
+        var tripFeed = databaseResults
+            .Select(selector: s => s.TripId)
+            .ToList();
+        
+        #endregion
+        
+        #region set cache feed
+        
+        foreach (var item in tripFeed)
+        {
+            databaseResults = await databaseFeed.GetServicesByTripAsync(
+                id: item,
+                comparison: ComparisonType.Exact,
+                tolerance: TimeSpan.FromMinutes(value: 119));
+            
+            await cacheService
+                .GetDatabase()
+                .StringSetAsync(
+                    key: $"trip:{item}",
+                    value: JsonSerializer.Serialize(value: mapperService.Map<List<WorkerStopPoint>>(source: databaseResults)),
+                    expiry: TimeSpan.FromMinutes(value: 119));
+        }
         
         #endregion
     }
