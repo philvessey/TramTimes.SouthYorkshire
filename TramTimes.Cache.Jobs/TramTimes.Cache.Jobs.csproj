@@ -9,6 +9,7 @@
         <PackageReference Include="Microsoft.Extensions.Hosting" />
         <PackageReference Include="NextDepartures.Standard" />
         <PackageReference Include="NextDepartures.Storage.Postgres.Aspire" />
+        <PackageReference Include="Polly" />
         <PackageReference Include="Quartz.Extensions.Hosting" />
     </ItemGroup>
     
