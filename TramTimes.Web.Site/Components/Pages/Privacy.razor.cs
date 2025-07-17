@@ -425,7 +425,8 @@ public partial class Privacy : ComponentBase
         if (ListData.Any(predicate: item => item.Id!.Equals(value: id)))
             stop = ListData.First(predicate: item => item.Id!.Equals(value: id));
         
-        Query = string.Empty;
+        if (NavigationService.Uri.Contains(value: $"/stop/{stop.Id}"))
+            return;
         
         if (stop.Id is not null && stop.Longitude is not null && stop.Latitude is not null)
             NavigationService.NavigateTo(uri: $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}");
@@ -437,7 +438,13 @@ public partial class Privacy : ComponentBase
     {
         #region navigate to stop
         
-        if (args.DataItem is TelerikStop stop)
+        if (args.DataItem is not TelerikStop stop)
+            return;
+        
+        if (NavigationService.Uri.Contains(value: $"/stop/{stop.Id}"))
+            return;
+        
+        if (stop.Id is not null && stop.Longitude is not null && stop.Latitude is not null)
             NavigationService.NavigateTo(uri: $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}");
         
         #endregion
@@ -766,6 +773,9 @@ public partial class Privacy : ComponentBase
             stop = SearchData.First(predicate: item => item.Id!.Equals(value: id as string));
         
         Query = string.Empty;
+        
+        if (NavigationService.Uri.Contains(value: $"/stop/{stop.Id}"))
+            return;
         
         if (stop.Id is not null && stop.Longitude is not null && stop.Latitude is not null)
             NavigationService.NavigateTo(uri: $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}");
