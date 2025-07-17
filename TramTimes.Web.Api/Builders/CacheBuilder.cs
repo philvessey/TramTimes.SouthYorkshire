@@ -54,14 +54,14 @@ public static class CacheBuilder
             databaseResults = await databaseFeed.GetServicesByTripAsync(
                 id: item,
                 comparison: ComparisonType.Exact,
-                tolerance: TimeSpan.FromMinutes(value: 119));
+                tolerance: TimeSpan.FromMinutes(value: 239));
             
             await cacheService
                 .GetDatabase()
                 .StringSetAsync(
                     key: $"trip:{item}",
                     value: JsonSerializer.Serialize(value: mapperService.Map<List<WorkerStopPoint>>(source: databaseResults)),
-                    expiry: TimeSpan.FromMinutes(value: 119));
+                    expiry: TimeSpan.FromMinutes(value: 239));
         }
         
         #endregion

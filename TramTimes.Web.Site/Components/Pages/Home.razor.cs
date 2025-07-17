@@ -121,17 +121,7 @@ public partial class Home : ComponentBase
         List<TelerikStop> cache = [];
         
         if (consent)
-        {
             cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
-            
-            foreach (var item in cache)
-                item.Points = item.Points?
-                    .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
-                    .ToList();
-            
-            if (cache.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
-                cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
-        }
         
         MapData = [];
         
@@ -145,6 +135,14 @@ public partial class Home : ComponentBase
                 destinationLatitude: Center.ElementAt(index: 0),
                 destinationLongitude: Center.ElementAt(index: 1),
                 distanceUnit: DistanceUnit.Meters);
+        
+        foreach (var item in MapData)
+            item.Points = item.Points?
+                .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                .ToList();
+        
+        if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
+            MapData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
         
         MapData = MapData
             .OrderBy(keySelector: stop => stop.Distance)
@@ -174,19 +172,16 @@ public partial class Home : ComponentBase
         
         #region build results data
         
+        List<WebStop> data = [];
+        
         if (response.IsSuccessStatusCode)
-        {
-            var data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
-            
-            foreach (var item in data)
-            {
-                if (MapData.FirstOrDefault(predicate: stop => stop.Id == item.Id) is not null)
-                    MapData.Remove(item: MapData.First(predicate: stop => stop.Id == item.Id));
-                
-                if (!item.Points.IsNullOrEmpty())
-                    MapData.Add(item: MapperService.Map<TelerikStop>(source: item));
-            }
-        }
+            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
+        
+        if (MapData.Any(predicate: stop => data.Any(predicate: item => stop.Id == item.Id)))
+            MapData.RemoveAll(match: stop => data.Any(predicate: item => stop.Id == item.Id));
+        
+        if (!data.IsNullOrEmpty())
+            MapData.AddRange(collection: MapperService.Map<List<TelerikStop>>(source: data));
         
         foreach (var item in MapData)
             item.Distance = GeoCalculator.GetDistance(
@@ -195,6 +190,14 @@ public partial class Home : ComponentBase
                 destinationLatitude: Center.ElementAt(index: 0),
                 destinationLongitude: Center.ElementAt(index: 1),
                 distanceUnit: DistanceUnit.Meters);
+        
+        foreach (var item in MapData)
+            item.Points = item.Points?
+                .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                .ToList();
+        
+        if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
+            MapData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
         
         MapData = MapData
             .OrderBy(keySelector: stop => stop.Distance)
@@ -283,17 +286,7 @@ public partial class Home : ComponentBase
         List<TelerikStop> cache = [];
         
         if (consent)
-        {
             cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
-            
-            foreach (var item in cache)
-                item.Points = item.Points?
-                    .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
-                    .ToList();
-            
-            if (cache.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
-                cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
-        }
         
         ListData = [];
         
@@ -307,6 +300,14 @@ public partial class Home : ComponentBase
                 destinationLatitude: Center.ElementAt(index: 0),
                 destinationLongitude: Center.ElementAt(index: 1),
                 distanceUnit: DistanceUnit.Meters);
+        
+        foreach (var item in ListData)
+            item.Points = item.Points?
+                .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                .ToList();
+        
+        if (ListData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
+            ListData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
         
         readEventArgs.Data = ListData
             .OrderBy(keySelector: stop => stop.Distance)
@@ -335,19 +336,16 @@ public partial class Home : ComponentBase
         
         #region build results data
         
+        List<WebStop> data = [];
+        
         if (response.IsSuccessStatusCode)
-        {
-            var data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
-            
-            foreach (var item in data)
-            {
-                if (ListData.FirstOrDefault(predicate: stop => stop.Id == item.Id) is not null)
-                    ListData.Remove(item: ListData.First(predicate: stop => stop.Id == item.Id));
-                
-                if (!item.Points.IsNullOrEmpty())
-                    ListData.Add(item: MapperService.Map<TelerikStop>(source: item));
-            }
-        }
+            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
+        
+        if (ListData.Any(predicate: stop => data.Any(predicate: item => stop.Id == item.Id)))
+            ListData.RemoveAll(match: stop => data.Any(predicate: item => stop.Id == item.Id));
+        
+        if (!data.IsNullOrEmpty())
+            ListData.AddRange(collection: MapperService.Map<List<TelerikStop>>(source: data));
         
         foreach (var item in ListData)
             item.Distance = GeoCalculator.GetDistance(
@@ -356,6 +354,14 @@ public partial class Home : ComponentBase
                 destinationLatitude: Center.ElementAt(index: 0),
                 destinationLongitude: Center.ElementAt(index: 1),
                 distanceUnit: DistanceUnit.Meters);
+        
+        foreach (var item in ListData)
+            item.Points = item.Points?
+                .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                .ToList();
+        
+        if (ListData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
+            ListData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
         
         readEventArgs.Data = ListData
             .OrderBy(keySelector: stop => stop.Distance)
@@ -463,17 +469,7 @@ public partial class Home : ComponentBase
         List<TelerikStop> cache = [];
         
         if (consent)
-        {
             cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
-            
-            foreach (var item in cache)
-                item.Points = item.Points?
-                    .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
-                    .ToList();
-            
-            if (cache.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
-                cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
-        }
         
         MapData = [];
         
@@ -487,6 +483,14 @@ public partial class Home : ComponentBase
                 destinationLatitude: Center.ElementAt(index: 0),
                 destinationLongitude: Center.ElementAt(index: 1),
                 distanceUnit: DistanceUnit.Meters);
+        
+        foreach (var item in MapData)
+            item.Points = item.Points?
+                .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                .ToList();
+        
+        if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
+            MapData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
         
         MapData = MapData
             .OrderBy(keySelector: stop => stop.Distance)
@@ -516,19 +520,16 @@ public partial class Home : ComponentBase
         
         #region build results data
         
+        List<WebStop> data = [];
+        
         if (response.IsSuccessStatusCode)
-        {
-            var data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
-            
-            foreach (var item in data)
-            {
-                if (MapData.FirstOrDefault(predicate: stop => stop.Id == item.Id) is not null)
-                    MapData.Remove(item: MapData.First(predicate: stop => stop.Id == item.Id));
-                
-                if (!item.Points.IsNullOrEmpty())
-                    MapData.Add(item: MapperService.Map<TelerikStop>(source: item));
-            }
-        }
+            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
+        
+        if (MapData.Any(predicate: stop => data.Any(predicate: item => stop.Id == item.Id)))
+            MapData.RemoveAll(match: stop => data.Any(predicate: item => stop.Id == item.Id));
+        
+        if (!data.IsNullOrEmpty())
+            MapData.AddRange(collection: MapperService.Map<List<TelerikStop>>(source: data));
         
         foreach (var item in MapData)
             item.Distance = GeoCalculator.GetDistance(
@@ -537,6 +538,14 @@ public partial class Home : ComponentBase
                 destinationLatitude: Center.ElementAt(index: 0),
                 destinationLongitude: Center.ElementAt(index: 1),
                 distanceUnit: DistanceUnit.Meters);
+        
+        foreach (var item in MapData)
+            item.Points = item.Points?
+                .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                .ToList();
+        
+        if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
+            MapData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
         
         MapData = MapData
             .OrderBy(keySelector: stop => stop.Distance)
@@ -619,17 +628,7 @@ public partial class Home : ComponentBase
         List<TelerikStop> cache = [];
         
         if (consent)
-        {
             cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
-            
-            foreach (var item in cache)
-                item.Points = item.Points?
-                    .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
-                    .ToList();
-            
-            if (cache.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
-                cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
-        }
         
         MapData = [];
         
@@ -643,6 +642,14 @@ public partial class Home : ComponentBase
                 destinationLatitude: Center.ElementAt(index: 0),
                 destinationLongitude: Center.ElementAt(index: 1),
                 distanceUnit: DistanceUnit.Meters);
+        
+        foreach (var item in MapData)
+            item.Points = item.Points?
+                .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                .ToList();
+        
+        if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
+            MapData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
         
         MapData = MapData
             .OrderBy(keySelector: stop => stop.Distance)
@@ -672,19 +679,16 @@ public partial class Home : ComponentBase
         
         #region build results data
         
+        List<WebStop> data = [];
+        
         if (response.IsSuccessStatusCode)
-        {
-            var data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
-            
-            foreach (var item in data)
-            {
-                if (MapData.FirstOrDefault(predicate: stop => stop.Id == item.Id) is not null)
-                    MapData.Remove(item: MapData.First(predicate: stop => stop.Id == item.Id));
-                
-                if (!item.Points.IsNullOrEmpty())
-                    MapData.Add(item: MapperService.Map<TelerikStop>(source: item));
-            }
-        }
+            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
+        
+        if (MapData.Any(predicate: stop => data.Any(predicate: item => stop.Id == item.Id)))
+            MapData.RemoveAll(match: stop => data.Any(predicate: item => stop.Id == item.Id));
+        
+        if (!data.IsNullOrEmpty())
+            MapData.AddRange(collection: MapperService.Map<List<TelerikStop>>(source: data));
         
         foreach (var item in MapData)
             item.Distance = GeoCalculator.GetDistance(
@@ -693,6 +697,14 @@ public partial class Home : ComponentBase
                 destinationLatitude: Center.ElementAt(index: 0),
                 destinationLongitude: Center.ElementAt(index: 1),
                 distanceUnit: DistanceUnit.Meters);
+        
+        foreach (var item in MapData)
+            item.Points = item.Points?
+                .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                .ToList();
+        
+        if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
+            MapData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
         
         MapData = MapData
             .OrderBy(keySelector: stop => stop.Distance)
@@ -846,22 +858,20 @@ public partial class Home : ComponentBase
         List<TelerikStop> cache = [];
         
         if (consent)
-        {
             cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
-            
-            foreach (var item in cache)
-                item.Points = item.Points?
-                    .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
-                    .ToList();
-            
-            if (cache.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
-                cache.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
-        }
         
         SearchData = [];
         
         if (!cache.IsNullOrEmpty())
             SearchData.AddRange(collection: cache);
+        
+        foreach (var item in SearchData)
+            item.Points = item.Points?
+                .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                .ToList();
+        
+        if (SearchData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
+            SearchData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
         
         readEventArgs.Data = SearchData
             .OrderByDescending(keySelector: stop => stop.Name.ContainsIgnoreCase(value: name))
@@ -894,19 +904,24 @@ public partial class Home : ComponentBase
         
         #region build results data
         
+        List<WebStop> data = [];
+        
         if (response.IsSuccessStatusCode)
-        {
-            var data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
-            
-            foreach (var item in data)
-            {
-                if (SearchData.FirstOrDefault(predicate: stop => stop.Id == item.Id) is not null)
-                    SearchData.Remove(item: SearchData.First(predicate: stop => stop.Id == item.Id));
-                
-                if (!item.Points.IsNullOrEmpty())
-                    SearchData.Add(item: MapperService.Map<TelerikStop>(source: item));
-            }
-        }
+            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
+        
+        if (SearchData.Any(predicate: stop => data.Any(predicate: item => stop.Id == item.Id)))
+            SearchData.RemoveAll(match: stop => data.Any(predicate: item => stop.Id == item.Id));
+        
+        if (!data.IsNullOrEmpty())
+            SearchData.AddRange(collection: MapperService.Map<List<TelerikStop>>(source: data));
+        
+        foreach (var item in SearchData)
+            item.Points = item.Points?
+                .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                .ToList();
+        
+        if (SearchData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
+            SearchData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
         
         readEventArgs.Data = SearchData
             .OrderByDescending(keySelector: stop => stop.Name.ContainsIgnoreCase(value: name))
