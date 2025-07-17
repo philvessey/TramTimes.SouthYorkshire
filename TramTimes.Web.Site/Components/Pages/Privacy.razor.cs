@@ -152,7 +152,6 @@ public partial class Privacy : ComponentBase
         
         MapData = MapData
             .OrderBy(keySelector: stop => stop.Distance)
-            .ThenBy(keySelector: stop => stop.Name)
             .ToList();
         
         #endregion
@@ -207,7 +206,6 @@ public partial class Privacy : ComponentBase
         
         MapData = MapData
             .OrderBy(keySelector: stop => stop.Distance)
-            .ThenBy(keySelector: stop => stop.Name)
             .ToList();
         
         #endregion
@@ -315,9 +313,7 @@ public partial class Privacy : ComponentBase
         if (ListData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
             ListData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
         
-        readEventArgs.Data = ListData
-            .OrderBy(keySelector: stop => stop.Distance)
-            .ThenBy(keySelector: stop => stop.Name);
+        readEventArgs.Data = ListData.OrderBy(keySelector: stop => stop.Distance);
         
         #endregion
         
@@ -369,9 +365,7 @@ public partial class Privacy : ComponentBase
         if (ListData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
             ListData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
         
-        readEventArgs.Data = ListData
-            .OrderBy(keySelector: stop => stop.Distance)
-            .ThenBy(keySelector: stop => stop.Name);
+        readEventArgs.Data = ListData.OrderBy(keySelector: stop => stop.Distance);
         
         #endregion
         
@@ -500,7 +494,6 @@ public partial class Privacy : ComponentBase
         
         MapData = MapData
             .OrderBy(keySelector: stop => stop.Distance)
-            .ThenBy(keySelector: stop => stop.Name)
             .ToList();
         
         #endregion
@@ -555,7 +548,6 @@ public partial class Privacy : ComponentBase
         
         MapData = MapData
             .OrderBy(keySelector: stop => stop.Distance)
-            .ThenBy(keySelector: stop => stop.Name)
             .ToList();
         
         #endregion
@@ -659,7 +651,6 @@ public partial class Privacy : ComponentBase
         
         MapData = MapData
             .OrderBy(keySelector: stop => stop.Distance)
-            .ThenBy(keySelector: stop => stop.Name)
             .ToList();
         
         #endregion
@@ -714,7 +705,6 @@ public partial class Privacy : ComponentBase
         
         MapData = MapData
             .OrderBy(keySelector: stop => stop.Distance)
-            .ThenBy(keySelector: stop => stop.Name)
             .ToList();
         
         #endregion
@@ -882,7 +872,8 @@ public partial class Privacy : ComponentBase
         readEventArgs.Data = SearchData
             .OrderByDescending(keySelector: stop => stop.Name.ContainsIgnoreCase(value: name))
             .ThenByDescending(keySelector: stop => stop.Direction.ContainsIgnoreCase(value: name))
-            .ThenBy(keySelector: stop => stop.Name);
+            .ThenBy(keySelector: stop => stop.Name)
+            .ThenBy(keySelector: stop => stop.Id);
         
         if (name.Length < TelerikAutoCompleteDefaults.MinQueryLength)
             return;
@@ -932,7 +923,8 @@ public partial class Privacy : ComponentBase
         readEventArgs.Data = SearchData
             .OrderByDescending(keySelector: stop => stop.Name.ContainsIgnoreCase(value: name))
             .ThenByDescending(keySelector: stop => stop.Direction.ContainsIgnoreCase(value: name))
-            .ThenBy(keySelector: stop => stop.Name);
+            .ThenBy(keySelector: stop => stop.Name)
+            .ThenBy(keySelector: stop => stop.Id);
         
         #endregion
         
