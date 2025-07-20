@@ -2,10 +2,13 @@ using Microsoft.AspNetCore.Components;
 
 namespace TramTimes.Web.Site.Components.Pages;
 
-public partial class Stop
+public partial class Trip
 {
     [Parameter]
-    public required string StopId { get; set; }
+    public required string TripId { get; set; }
+    
+    [Parameter]
+    public string? StopId { get; set; }
     
     [Parameter]
     public double? Longitude { get; set; }

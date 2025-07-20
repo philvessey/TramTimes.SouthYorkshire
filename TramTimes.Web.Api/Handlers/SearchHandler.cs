@@ -52,7 +52,7 @@ public static class SearchHandler
         {
             Query = new TermQuery(field: new Field(name: "code"))
             {
-                Value = code.ToUpperInvariant()
+                Value = code.ToLowerInvariant()
             },
             Size = 1000,
             Sort = SearchTools.SortByNameThenById()

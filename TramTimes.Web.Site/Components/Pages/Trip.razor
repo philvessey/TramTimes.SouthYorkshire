@@ -3,14 +3,15 @@
 @inject IHttpContextAccessor AccessorService
 @inject IJSRuntime JavascriptService
 @inject ILocalStorageService StorageService
-@inject ILogger<Privacy> LoggerService
+@inject ILogger<Stop> LoggerService
 @inject IMapper MapperService
 
 @implements IAsyncDisposable
 
-@page "/privacy"
-@page "/privacy/{Longitude:double}/{Latitude:double}"
-@page "/privacy/{Longitude:double}/{Latitude:double}/{Zoom:double}"
+@page "/trip/{TripId}"
+@page "/trip/{TripId}/{StopId}"
+@page "/trip/{TripId}/{StopId}/{Longitude:double}/{Latitude:double}"
+@page "/trip/{TripId}/{StopId}/{Longitude:double}/{Latitude:double}/{Zoom:double}"
 
 <PageTitle>@Title</PageTitle>
 
@@ -62,11 +63,11 @@
         (TelerikDevice.MouseExtraLarge ?? false) ||
         (TelerikDevice.MouseExtraExtraLarge ?? false)) {
         
-        <div id="privacy">
+        <div id="trip">
             
             <!-- #region telerik-map -->
             
-            <div id="privacy-telerik-map"
+            <div id="trip-telerik-map"
                  data-testid="telerik-map">
                 
                 <TelerikMap Center="@Center"
@@ -108,7 +109,7 @@
                                             var stop = context.DataItem as TelerikStop ?? new TelerikStop();
                                         }
                                         
-                                        <div id="privacy-telerik-map__tooltip"
+                                        <div id="trip-telerik-map__tooltip"
                                              data-testid="telerik-map__tooltip">
                                             
                                             <div class="name"
@@ -168,43 +169,31 @@
             
             <!-- #region telerik-list-view -->
             
-            <div id="privacy-telerik-list-view"
+            <div id="trip-telerik-list-view"
                  data-testid="telerik-list-view">
                 
                 <TelerikListView EnableLoaderContainer="false"
                                  Height="100%"
                                  OnRead="@OnListReadAsync"
                                  Width="100%"
-                                 TItem="@TelerikStop"
+                                 TItem="@TelerikStopPoint"
                                  @ref="@ListManager">
                     
                     <Template>
-                        <div id="privacy-telerik-list-view__result"
+                        <div id="trip-telerik-list-view__result"
                              data-testid="telerik-list-view__result"
-                             @onclick="@( _ => OnListChange(stopId: context.Id!) )">
+                             @onclick="@( _ => OnListChange(tripId: context.TripId!, stopId: context.StopId!) )">
                             
                             <div class="name"
                                  data-testid="name">
                                 
-                                @{
-                                    var name = context.Name?
-                                        .Split(separator: '-')
-                                        .FirstOrDefault()?
-                                        .Trim();
-                                    
-                                    name = name?
-                                        .Split(separator: '/')
-                                        .FirstOrDefault()?
-                                        .Trim();
-                                }
-                                
-                                @name
+                                @context.StopName
                             </div>
                             
                             <div class="direction"
                                  data-testid="direction">
                                 
-                                Direction: @context.Direction
+                                Direction: @context.StopDirection
                             </div>
                             
                             <div class="services"
@@ -212,35 +201,27 @@
                                 
                                 <ul>
                                     @{
-                                        var points = context.Points?
-                                            .Take(count: TelerikDevice.MouseExtraSmall == true ? 5 : 3)
-                                            .Select(selector: point => point)
-                                            .ToList() ?? [];
+                                        var departureTime = context.DepartureDateTime?.ToString(
+                                            format: "HH:mm",
+                                            provider: CultureInfo.InvariantCulture);
                                         
-                                        foreach (var item in points)
+                                        switch (context.RouteName)
                                         {
-                                            var departureTime = item.DepartureDateTime?.ToString(
-                                                format: "HH:mm",
-                                                provider: CultureInfo.InvariantCulture);
-                                            
-                                            switch (item.RouteName)
-                                            {
-                                                case "BLUE":
-                                                    <li class="blue" title="@item.DestinationName">@departureTime</li>
-                                                    break;
-                                                case "PURP":
-                                                    <li class="purp" title="@item.DestinationName">@departureTime</li>
-                                                    break;
-                                                case "TT":
-                                                    <li class="tt" title="@item.DestinationName">@departureTime</li>
-                                                    break;
-                                                case "YELL":
-                                                    <li class="yell" title="@item.DestinationName">@departureTime</li>
-                                                    break;
-                                                default:
-                                                    <li class="default" title="@item.DestinationName">@departureTime</li>
-                                                    break;
-                                            }
+                                            case "BLUE":
+                                                <li class="blue">@departureTime</li>
+                                                break;
+                                            case "PURP":
+                                                <li class="purp">@departureTime</li>
+                                                break;
+                                            case "TT":
+                                                <li class="tt">@departureTime</li>
+                                                break;
+                                            case "YELL":
+                                                <li class="yell">@departureTime</li>
+                                                break;
+                                            default:
+                                                <li class="default">@departureTime</li>
+                                                break;
                                         }
                                     }
                                 </ul>
@@ -254,7 +235,7 @@
             
             <!-- #region telerik-auto-complete -->
             
-            <div id="privacy-telerik-auto-complete"
+            <div id="trip-telerik-auto-complete"
                  data-testid="telerik-auto-complete">
                 
                 <TelerikAutoComplete @bind-value="@Query"
@@ -270,7 +251,7 @@
                                      TItem="@TelerikStop">
                     
                     <ItemTemplate>
-                        <div id="privacy-telerik-auto-complete__result"
+                        <div id="trip-telerik-auto-complete__result"
                              data-testid="telerik-auto-complete__result">
                             
                             <div class="name"
@@ -327,7 +308,7 @@
                     </ItemTemplate>
                     
                     <NoDataTemplate>
-                        <div id="privacy-telerik-auto-complete__unknown">
+                        <div id="trip-telerik-auto-complete__unknown">
                             <div class="error">No Stops Found</div>
                             <div class="message">Update Search Query and/or Filter</div>
                         </div>
@@ -349,11 +330,11 @@
     }
     else
     {
-        <div id="privacy">
+        <div id="trip">
             
             <!-- #region telerik-map -->
             
-            <div id="privacy-telerik-map"
+            <div id="trip-telerik-map"
                  data-testid="telerik-map">
                 
                 <TelerikMap Center="@Center"
@@ -397,43 +378,31 @@
             
             <!-- #region telerik-list-view -->
             
-            <div id="privacy-telerik-list-view"
+            <div id="trip-telerik-list-view"
                  data-testid="telerik-list-view">
                 
                 <TelerikListView EnableLoaderContainer="false"
                                  Height="100%"
                                  OnRead="@OnListReadAsync"
                                  Width="100%"
-                                 TItem="@TelerikStop"
+                                 TItem="@TelerikStopPoint"
                                  @ref="@ListManager">
                     
                     <Template>
-                        <div id="privacy-telerik-list-view__result"
+                        <div id="trip-telerik-list-view__result"
                              data-testid="telerik-list-view__result"
-                             @onclick="@( _ => OnListChange(stopId: context.Id!) )">
+                             @onclick="@( _ => OnListChange(tripId: context.TripId!, stopId: context.StopId!) )">
                             
                             <div class="name"
                                  data-testid="name">
                                 
-                                @{
-                                    var name = context.Name?
-                                        .Split(separator: '-')
-                                        .FirstOrDefault()?
-                                        .Trim();
-                                    
-                                    name = name?
-                                        .Split(separator: '/')
-                                        .FirstOrDefault()?
-                                        .Trim();
-                                }
-                                
-                                @name
+                                @context.StopName
                             </div>
                             
                             <div class="direction"
                                  data-testid="direction">
                                 
-                                Direction: @context.Direction
+                                Direction: @context.StopDirection
                             </div>
                             
                             <div class="services"
@@ -441,35 +410,27 @@
                                 
                                 <ul>
                                     @{
-                                        var points = context.Points?
-                                            .Take(count: TelerikDevice.TouchExtraSmall == true ? 5 : 3)
-                                            .Select(selector: point => point)
-                                            .ToList() ?? [];
+                                        var departureTime = context.DepartureDateTime?.ToString(
+                                            format: "HH:mm",
+                                            provider: CultureInfo.InvariantCulture);
                                         
-                                        foreach (var item in points)
+                                        switch (context.RouteName)
                                         {
-                                            var departureTime = item.DepartureDateTime?.ToString(
-                                                format: "HH:mm",
-                                                provider: CultureInfo.InvariantCulture);
-                                            
-                                            switch (item.RouteName)
-                                            {
-                                                case "BLUE":
-                                                    <li class="blue">@departureTime</li>
-                                                    break;
-                                                case "PURP":
-                                                    <li class="purp">@departureTime</li>
-                                                    break;
-                                                case "TT":
-                                                    <li class="tt">@departureTime</li>
-                                                    break;
-                                                case "YELL":
-                                                    <li class="yell">@departureTime</li>
-                                                    break;
-                                                default:
-                                                    <li class="default">@departureTime</li>
-                                                    break;
-                                            }
+                                            case "BLUE":
+                                                <li class="blue">@departureTime</li>
+                                                break;
+                                            case "PURP":
+                                                <li class="purp">@departureTime</li>
+                                                break;
+                                            case "TT":
+                                                <li class="tt">@departureTime</li>
+                                                break;
+                                            case "YELL":
+                                                <li class="yell">@departureTime</li>
+                                                break;
+                                            default:
+                                                <li class="default">@departureTime</li>
+                                                break;
                                         }
                                     }
                                 </ul>
@@ -483,7 +444,7 @@
             
             <!-- #region telerik-auto-complete -->
             
-            <div id="privacy-telerik-auto-complete"
+            <div id="trip-telerik-auto-complete"
                  data-testid="telerik-auto-complete">
                 
                 <TelerikAutoComplete @bind-value="@Query"
@@ -499,7 +460,7 @@
                                      TItem="@TelerikStop">
                     
                     <ItemTemplate>
-                        <div id="privacy-telerik-auto-complete__result"
+                        <div id="trip-telerik-auto-complete__result"
                              data-testid="telerik-auto-complete__result">
                             
                             <div class="name"
@@ -556,7 +517,7 @@
                     </ItemTemplate>
                     
                     <NoDataTemplate>
-                        <div id="privacy-telerik-auto-complete__unknown">
+                        <div id="trip-telerik-auto-complete__unknown">
                             <div class="error">No Stops Found</div>
                             <div class="message">Update Search Query and/or Filter</div>
                         </div>

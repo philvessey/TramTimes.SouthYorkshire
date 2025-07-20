@@ -410,20 +410,21 @@ public partial class Home : ComponentBase
         #endregion
     }
     
-    private void OnListChange(string id)
+    private void OnListChange(string stopId)
     {
         #region navigate to stop
         
         var stop = new TelerikStop();
         
-        if (ListData.Any(predicate: item => item.Id!.Equals(value: id)))
-            stop = ListData.First(predicate: item => item.Id!.Equals(value: id));
+        if (ListData.Any(predicate: item => item.Id!.Equals(value: stopId)))
+            stop = ListData.First(predicate: item => item.Id!.Equals(value: stopId));
         
         if (NavigationService.Uri.Contains(value: $"/stop/{stop.Id}"))
             return;
         
-        if (stop.Id is not null && stop.Longitude is not null && stop.Latitude is not null)
-            NavigationService.NavigateTo(uri: $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}");
+        NavigationService.NavigateTo(uri: stop.Id is not null && stop.Longitude is not null && stop.Latitude is not null
+            ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
+            : $"/stop/{stopId}");
         
         #endregion
     }
@@ -757,22 +758,23 @@ public partial class Home : ComponentBase
         #endregion
     }
     
-    private void OnSearchChange(object id)
+    private void OnSearchChange(object stopId)
     {
         #region navigate to stop
         
         var stop = new TelerikStop();
         
-        if (SearchData.Any(predicate: item => item.Id!.Equals(value: id as string)))
-            stop = SearchData.First(predicate: item => item.Id!.Equals(value: id as string));
+        if (SearchData.Any(predicate: item => item.Id!.Equals(value: stopId as string)))
+            stop = SearchData.First(predicate: item => item.Id!.Equals(value: stopId as string));
         
         Query = string.Empty;
         
         if (NavigationService.Uri.Contains(value: $"/stop/{stop.Id}"))
             return;
         
-        if (stop.Id is not null && stop.Longitude is not null && stop.Latitude is not null)
-            NavigationService.NavigateTo(uri: $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}");
+        NavigationService.NavigateTo(uri: stop.Id is not null && stop.Longitude is not null && stop.Latitude is not null
+            ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
+            : $"/stop/{stopId}");
         
         #endregion
     }

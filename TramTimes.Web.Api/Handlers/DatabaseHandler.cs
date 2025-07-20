@@ -51,7 +51,7 @@ public static class DatabaseHandler
         var feed = await Feed.LoadAsync(dataStorage: PostgresStorage.Load(dataSource: dataSource));
         
         var request = await feed.GetServicesByTripAsync(
-            id: id.ToUpperInvariant(),
+            id: id.ToLowerInvariant(),
             comparison: ComparisonType.Exact,
             tolerance: TimeSpan.FromMinutes(value: 119));
         
@@ -116,7 +116,7 @@ public static class DatabaseHandler
         var feed = await Feed.LoadAsync(dataStorage: PostgresStorage.Load(dataSource: dataSource));
         
         var request = await feed.GetStopsByCodeAsync(
-            code: code.ToUpperInvariant(),
+            code: code.ToLowerInvariant(),
             comparison: ComparisonType.Exact);
         
         if (request.IsNullOrEmpty())

@@ -13,7 +13,7 @@ using TramTimes.Web.Utilities.Models;
 
 namespace TramTimes.Web.Site.Components.Pages;
 
-public partial class Stop : ComponentBase
+public partial class Trip : ComponentBase
 { 
     private List<TelerikStopPoint> ListData { get; set; } = [];
     private List<TelerikStop> MapData { get; set; } = [];
@@ -117,7 +117,7 @@ public partial class Stop : ComponentBase
         
         var query = QueryBuilder.GetStopsFromSearch(
             type: QueryType.StopId,
-            value: StopId);
+            value: StopId ?? "unknown");
         
         var response = await HttpService.GetAsync(requestUri: query);
         
@@ -125,7 +125,7 @@ public partial class Stop : ComponentBase
         {
             query = QueryBuilder.GetStopsFromDatabase(
                 type: QueryType.StopId,
-                value: StopId);
+                value: StopId ?? "unknown");
             
             response = await HttpService.GetAsync(requestUri: query);
         }
@@ -150,13 +150,13 @@ public partial class Stop : ComponentBase
         {
             if (Math.Abs(value: StopData.Latitude.Value - Latitude.GetValueOrDefault()) > 1e-6)
                 NavigationService.NavigateTo(
-                    uri: $"/stop/{StopData.Id}/{StopData.Longitude}/{StopData.Latitude}/{Zoom}",
+                    uri: $"/trip/{TripId}/{StopData.Id}/{StopData.Longitude}/{StopData.Latitude}/{Zoom}",
                     forceLoad: true,
                     replace: true);
             
             if (Math.Abs(value: StopData.Longitude.Value - Longitude.GetValueOrDefault()) > 1e-6)
                 NavigationService.NavigateTo(
-                    uri: $"/stop/{StopData.Id}/{StopData.Longitude}/{StopData.Latitude}/{Zoom}",
+                    uri: $"/trip/{TripId}/{StopData.Id}/{StopData.Longitude}/{StopData.Latitude}/{Zoom}",
                     forceLoad: true,
                     replace: true);
         }
@@ -166,7 +166,7 @@ public partial class Stop : ComponentBase
         #region set page title
         
         if (StopData.Name is not null)
-            Title = $"TramTimes - South Yorkshire - Services from {StopData.Name}";
+            Title = $"TramTimes - South Yorkshire - Trip from {StopData.Name}";
         
         #endregion
         
@@ -299,7 +299,7 @@ public partial class Stop : ComponentBase
             {
                 JavascriptManager = await JavascriptService.InvokeAsync<IJSObjectReference>(
                     identifier: "import",
-                    args: "./Components/Pages/Stop.razor.js");
+                    args: "./Components/Pages/Trip.razor.js");
                 
                 var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
                 var consent = "unknown";
@@ -311,7 +311,7 @@ public partial class Stop : ComponentBase
                 
                 await JavascriptManager.InvokeVoidAsync(
                     identifier: "writeConsole",
-                    args: $"stop: consent {consent}");
+                    args: $"trip: consent {consent}");
             }
             catch (ObjectDisposedException e)
             {
@@ -329,16 +329,16 @@ public partial class Stop : ComponentBase
         #region build query data
         
         var query = QueryBuilder.GetServicesFromCache(
-            type: QueryType.StopId,
-            value: StopData.Id ?? StopId);
+            type: QueryType.TripId,
+            value: TripId);
         
         var response = await HttpService.GetAsync(requestUri: query);
         
         if (!response.IsSuccessStatusCode)
         {
             query = QueryBuilder.GetServicesFromDatabase(
-                type: QueryType.StopId,
-                value: StopData.Id ?? StopId);
+                type: QueryType.TripId,
+                value: TripId);
             
             response = await HttpService.GetAsync(requestUri: query);
         }
@@ -378,7 +378,7 @@ public partial class Stop : ComponentBase
             if (JavascriptManager is not null)
                 await JavascriptManager.InvokeVoidAsync(
                     identifier: "writeConsole",
-                    args: $"stop: list read {StopData.Id ?? StopId}");
+                    args: $"trip: list read {TripId}");
         }
         catch (ObjectDisposedException e)
         {
@@ -566,7 +566,7 @@ public partial class Stop : ComponentBase
             if (JavascriptManager is not null)
                 await JavascriptManager.InvokeVoidAsync(
                     identifier: "writeConsole",
-                    args: $"stop: map pan {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+                    args: $"trip: map pan {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
         }
         catch (ObjectDisposedException e)
         {
@@ -723,7 +723,7 @@ public partial class Stop : ComponentBase
             if (JavascriptManager is not null)
                 await JavascriptManager.InvokeVoidAsync(
                     identifier: "writeConsole",
-                    args: $"stop: map zoom {Zoom}");
+                    args: $"trip: map zoom {Zoom}");
         }
         catch (ObjectDisposedException e)
         {
@@ -772,7 +772,7 @@ public partial class Stop : ComponentBase
             if (JavascriptManager is not null)
                 await JavascriptManager.InvokeVoidAsync(
                     identifier: "writeConsole",
-                    args: "stop: search close");
+                    args: "trip: search close");
         }
         catch (ObjectDisposedException e)
         {
@@ -800,7 +800,7 @@ public partial class Stop : ComponentBase
             if (JavascriptManager is not null)
                 await JavascriptManager.InvokeVoidAsync(
                     identifier: "writeConsole",
-                    args: "stop: search open");
+                    args: "trip: search open");
         }
         catch (ObjectDisposedException e)
         {
@@ -946,7 +946,7 @@ public partial class Stop : ComponentBase
             if (JavascriptManager is not null)
                 await JavascriptManager.InvokeVoidAsync(
                     identifier: "writeConsole",
-                    args: $"stop: search read {name}");
+                    args: $"trip: search read {name}");
         }
         catch (ObjectDisposedException e)
         {

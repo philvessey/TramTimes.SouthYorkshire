@@ -8,9 +8,9 @@
 
 @implements IAsyncDisposable
 
-@page "/stop/{Id}"
-@page "/stop/{Id}/{Longitude:double}/{Latitude:double}"
-@page "/stop/{Id}/{Longitude:double}/{Latitude:double}/{Zoom:double}"
+@page "/stop/{StopId}"
+@page "/stop/{StopId}/{Longitude:double}/{Latitude:double}"
+@page "/stop/{StopId}/{Longitude:double}/{Latitude:double}/{Zoom:double}"
 
 <PageTitle>@Title</PageTitle>
 
@@ -181,7 +181,7 @@
                     <Template>
                         <div id="stop-telerik-list-view__result"
                              data-testid="telerik-list-view__result"
-                             @onclick="@( _ => OnListChange(id: context.TripId!) )">
+                             @onclick="@( _ => OnListChange(tripId: context.TripId!, stopId: context.StopId!) )">
                             
                             <div class="name"
                                  data-testid="name">
@@ -390,7 +390,7 @@
                     <Template>
                         <div id="stop-telerik-list-view__result"
                              data-testid="telerik-list-view__result"
-                             @onclick="@( _ => OnListChange(id: context.TripId!) )">
+                             @onclick="@( _ => OnListChange(tripId: context.TripId!, stopId: context.StopId!) )">
                             
                             <div class="name"
                                  data-testid="name">

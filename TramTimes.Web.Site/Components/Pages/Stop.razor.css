@@ -60,6 +60,7 @@
 
 #stop-telerik-auto-complete__result .services ul {
     align-items: center;
+    cursor: pointer;
     display: flex;
     height: 40px;
     justify-content: right;
@@ -404,6 +405,7 @@
 
 #stop-telerik-list-view__result .services ul {
     align-items: center;
+    cursor: pointer;
     display: flex;
     height: 40px;
     justify-content: right;

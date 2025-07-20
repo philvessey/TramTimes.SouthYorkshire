@@ -44,7 +44,7 @@ public static class CacheHandler
         
         var request = await cacheService
             .GetDatabase()
-            .StringGetAsync(key: $"trip:{id.ToUpperInvariant()}");
+            .StringGetAsync(key: $"trip:{id.ToLowerInvariant()}");
         
         if (request.IsNullOrEmpty)
             return Results.NotFound();
