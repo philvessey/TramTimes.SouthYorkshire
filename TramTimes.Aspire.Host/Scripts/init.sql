@@ -147,6 +147,8 @@ declare
     
     a real;
     b real;
+    x real;
+    y real;
     
 begin
     deltaLatitude := radians(destinationLatitude - originLatitude);
@@ -159,7 +161,10 @@ begin
          sin(deltaLongitude / 2) *
          sin(deltaLongitude / 2);
     
-    angle := 2 * atan2(sqrt(a + b), sqrt(1 - (a + b)));
+    y := sqrt(a + b);
+    x := sqrt(1 - (a + b));
+    
+    angle := 2 * atan2(y, x);
     distance := angle * 6371;
     
     return distance;

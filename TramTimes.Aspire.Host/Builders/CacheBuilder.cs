@@ -38,11 +38,13 @@ public static class CacheBuilder
             result.Redis
                 .WithRedisCommander(configureContainer: resource =>
                 {
+                    resource.WaitFor(result.Redis);
                     resource.WithLifetime(lifetime: ContainerLifetime.Session);
                     resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
                 })
                 .WithRedisInsight(configureContainer: resource =>
                 {
+                    resource.WaitFor(result.Redis);
                     resource.WithLifetime(lifetime: ContainerLifetime.Session);
                     resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
                 });

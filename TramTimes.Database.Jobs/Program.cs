@@ -18,6 +18,12 @@ builder.AddNpgsqlDataSource(connectionName: "database");
 
 #endregion
 
+#region configure services
+
+builder.Services.AddHostedService<StartupService>();
+
+#endregion
+
 #region build application
 
 var application = builder.Build();

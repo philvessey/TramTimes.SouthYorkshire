@@ -16,6 +16,12 @@ builder.AddAzureBlobContainerClient(connectionName: "web-storage");
 
 #endregion
 
+#region configure services
+
+builder.Services.AddHostedService<StartupService>();
+
+#endregion
+
 #region build application
 
 var application = builder.Build();

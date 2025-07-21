@@ -46,11 +46,13 @@ public static class DatabaseBuilder
             result.Postgres
                 .WithPgAdmin(configureContainer: resource =>
                 {
+                    resource.WaitFor(result.Postgres);
                     resource.WithLifetime(lifetime: ContainerLifetime.Session);
                     resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
                 })
                 .WithPgWeb(configureContainer: resource =>
                 {
+                    resource.WaitFor(result.Postgres);
                     resource.WithLifetime(lifetime: ContainerLifetime.Session);
                     resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
                 });
