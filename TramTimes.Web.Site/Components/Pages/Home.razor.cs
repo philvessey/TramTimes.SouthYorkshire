@@ -410,7 +410,7 @@ public partial class Home : ComponentBase
         #endregion
     }
     
-    private void OnListChange(string stopId)
+    private void OnListChange(string? stopId)
     {
         #region navigate to stop
         
@@ -419,10 +419,13 @@ public partial class Home : ComponentBase
         if (ListData.Any(predicate: item => item.Id!.Equals(value: stopId)))
             stop = ListData.First(predicate: item => item.Id!.Equals(value: stopId));
         
+        if (stop.Id is null)
+            return;
+        
         if (NavigationService.Uri.Contains(value: $"/stop/{stop.Id}"))
             return;
         
-        NavigationService.NavigateTo(uri: stop.Id is not null && stop.Longitude is not null && stop.Latitude is not null
+        NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
             ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
             : $"/stop/{stopId}");
         
@@ -436,11 +439,15 @@ public partial class Home : ComponentBase
         if (args.DataItem is not TelerikStop stop)
             return;
         
+        if (stop.Id is null)
+            return;
+        
         if (NavigationService.Uri.Contains(value: $"/stop/{stop.Id}"))
             return;
         
-        if (stop.Id is not null && stop.Longitude is not null && stop.Latitude is not null)
-            NavigationService.NavigateTo(uri: $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}");
+        NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
+            ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
+            : $"/stop/{stop.Id}");
         
         #endregion
     }
@@ -758,7 +765,7 @@ public partial class Home : ComponentBase
         #endregion
     }
     
-    private void OnSearchChange(object stopId)
+    private void OnSearchChange(object? stopId)
     {
         #region navigate to stop
         
@@ -769,10 +776,13 @@ public partial class Home : ComponentBase
         
         Query = string.Empty;
         
+        if (stop.Id is null)
+            return;
+        
         if (NavigationService.Uri.Contains(value: $"/stop/{stop.Id}"))
             return;
         
-        NavigationService.NavigateTo(uri: stop.Id is not null && stop.Longitude is not null && stop.Latitude is not null
+        NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
             ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
             : $"/stop/{stopId}");
         

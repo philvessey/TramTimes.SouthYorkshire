@@ -181,7 +181,7 @@
                     <Template>
                         <div id="stop-telerik-list-view__result"
                              data-testid="telerik-list-view__result"
-                             @onclick="@( _ => OnListChange(tripId: context.TripId!, stopId: context.StopId!) )">
+                             @onclick="@( _ => OnListChange(tripId: context.TripId, stopId: context.StopId) )">
                             
                             <div class="name"
                                  data-testid="name">
@@ -390,7 +390,7 @@
                     <Template>
                         <div id="stop-telerik-list-view__result"
                              data-testid="telerik-list-view__result"
-                             @onclick="@( _ => OnListChange(tripId: context.TripId!, stopId: context.StopId!) )">
+                             @onclick="@( _ => OnListChange(tripId: context.TripId, stopId: context.StopId) )">
                             
                             <div class="name"
                                  data-testid="name">

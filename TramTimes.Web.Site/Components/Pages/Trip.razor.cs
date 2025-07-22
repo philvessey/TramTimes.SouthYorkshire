@@ -391,10 +391,13 @@ public partial class Trip : ComponentBase
     }
     
     private void OnListChange(
-        string tripId,
-        string stopId) {
+        string? tripId,
+        string? stopId) {
         
         #region navigate to trip
+        
+        if (tripId is null || stopId is null)
+            return;
         
         if (NavigationService.Uri.Contains(value: $"/trip/{tripId}/{stopId}"))
             return;
@@ -413,11 +416,15 @@ public partial class Trip : ComponentBase
         if (args.DataItem is not TelerikStop stop)
             return;
         
+        if (stop.Id is null)
+            return;
+        
         if (NavigationService.Uri.Contains(value: $"/stop/{stop.Id}"))
             return;
         
-        if (stop.Id is not null && stop.Longitude is not null && stop.Latitude is not null)
-            NavigationService.NavigateTo(uri: $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}");
+        NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
+            ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
+            : $"/stop/{stop.Id}");
         
         #endregion
     }
@@ -735,7 +742,7 @@ public partial class Trip : ComponentBase
         #endregion
     }
     
-    private void OnSearchChange(object stopId)
+    private void OnSearchChange(object? stopId)
     {
         #region navigate to stop
         
@@ -746,10 +753,13 @@ public partial class Trip : ComponentBase
         
         Query = string.Empty;
         
+        if (stop.Id is null)
+            return;
+        
         if (NavigationService.Uri.Contains(value: $"/stop/{stop.Id}"))
             return;
         
-        NavigationService.NavigateTo(uri: stop.Id is not null && stop.Longitude is not null && stop.Latitude is not null
+        NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
             ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
             : $"/stop/{stopId}");
         
