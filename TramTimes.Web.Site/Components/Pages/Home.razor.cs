@@ -21,6 +21,7 @@ public partial class Home : ComponentBase
     private double[] Center { get; set; } = [];
     private IJSObjectReference? JavascriptManager { get; set; }
     private TelerikListView<TelerikStop>? ListManager { get; set; }
+    private TelerikMap? MapManager { get; set; }
     private string? Query { get; set; }
     private string? Title { get; set; }
     private bool? Disposed { get; set; }
@@ -246,6 +247,10 @@ public partial class Home : ComponentBase
                 JavascriptManager = await JavascriptService.InvokeAsync<IJSObjectReference>(
                     identifier: "import",
                     args: "./Components/Pages/Home.razor.js");
+                
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "registerResize",
+                    args: DotNetObjectReference.Create(value: this));
                 
                 var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
                 var consent = "unknown";
@@ -761,6 +766,16 @@ public partial class Home : ComponentBase
                 message: "Exception: {exception}",
                 args: e.ToString());
         }
+        
+        #endregion
+    }
+    
+    [JSInvokable]
+    public void OnScreenResized()
+    {
+        #region refresh map view
+        
+        MapManager?.Refresh();
         
         #endregion
     }
