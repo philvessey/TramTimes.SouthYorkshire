@@ -9,11 +9,10 @@
 /*#region telerik-auto-complete */
 
 #home-telerik-auto-complete {
-    left: 15px;
-    padding: 0;
-    position: fixed;
-    top: 15px;
-    width: min(calc(100vw - 30px), 420px);
+    grid-area: 1 / 1 / 2 / 2;
+    margin-left: 15px;
+    margin-top: 15px;
+    width: min(calc(100% - 30px), 420px);
 }
 
 #home-telerik-auto-complete__result {

@@ -10,7 +10,6 @@
     border: none;
     border-radius: 8px;
     bottom: 15px;
-    box-shadow: 0 .625em 1.875em rgba(2,2,3,.1);
     color: #0078c8;
     cursor: pointer;
     display: flex;
@@ -43,7 +42,6 @@
     background-color: white;
     border-radius: 8px;
     bottom: 15px;
-    box-shadow: 0 .625em 1.875em rgba(2,2,3,.2);
     color: black;
     left: 15px;
     padding: 20px 25px;
@@ -78,7 +76,7 @@
     border-radius: 8px;
     cursor: pointer;
     font-size: 15px;
-    font-weight: bolder;
+    font-weight: bold;
     padding: 13px 15px;
     transition: filter 0.15s;
     width: 48%;
@@ -100,7 +98,7 @@
 }
 
 #local-storage-consent__outline .submit button.reject {
-    background-color: #E8E8E8;
+    background-color: #e8e8e8;
     color: #636363;
 }
 
@@ -108,7 +106,6 @@
     background-color: white;
     border-radius: 8px;
     bottom: 15px;
-    box-shadow: 0 .625em 1.875em rgba(2,2,3,.2);
     color: black;
     left: 15px;
     padding: 20px 25px;
@@ -148,7 +145,7 @@
     border-radius: 8px;
     cursor: pointer;
     font-size: 15px;
-    font-weight: bolder;
+    font-weight: bold;
     padding: 13px 15px;
     transition: filter 0.15s;
     width: 48%;
@@ -170,6 +167,6 @@
 }
 
 #local-storage-consent__policy .submit button.reject {
-    background-color: #E8E8E8;
+    background-color: #e8e8e8;
     color: #636363;
 }
