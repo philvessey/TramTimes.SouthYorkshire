@@ -6,6 +6,13 @@
     width: 100vw;
 }
 
+@media (max-width: 576px) {
+    #stop {
+        grid-template-columns: 100%;
+        grid-template-rows: 1fr 296px;
+    }
+}
+
 /*#region telerik-auto-complete */
 
 #stop-telerik-auto-complete {
@@ -352,6 +359,12 @@
     grid-area: 1 / 2 / 2 / 3;
     height: 100%;
     width: 100%;
+}
+
+@media (max-width: 576px) {
+    #stop-telerik-list-view {
+        grid-area: 2 / 1 / 3 / 2;
+    }
 }
 
 #stop-telerik-list-view__result {

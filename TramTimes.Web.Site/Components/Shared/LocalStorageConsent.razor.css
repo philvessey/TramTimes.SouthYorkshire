@@ -7,7 +7,7 @@
 #local-storage-consent button {
     align-items: center;
     background-color: white;
-    border: none;
+    border: 1px solid #636363;
     border-radius: 8px;
     bottom: 15px;
     color: #0078c8;
@@ -40,6 +40,7 @@
 
 #local-storage-consent__outline {
     background-color: white;
+    border: 1px solid #636363;
     border-radius: 8px;
     bottom: 15px;
     color: black;
@@ -104,6 +105,7 @@
 
 #local-storage-consent__policy {
     background-color: white;
+    border: 1px solid #636363;
     border-radius: 8px;
     bottom: 15px;
     color: black;
