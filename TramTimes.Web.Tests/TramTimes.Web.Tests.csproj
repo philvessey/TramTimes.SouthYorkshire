@@ -24,6 +24,7 @@
     
     <ItemGroup>
         <ProjectReference Include="..\TramTimes.Aspire.Host\TramTimes.Aspire.Host.csproj" />
+        <ProjectReference Include="..\TramTimes.Web.Utilities\TramTimes.Web.Utilities.csproj" />
     </ItemGroup>
     
 </Project>

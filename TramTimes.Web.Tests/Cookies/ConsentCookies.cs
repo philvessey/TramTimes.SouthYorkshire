@@ -23,4 +23,14 @@ public static class ConsentCookies
         Secure = true,
         Value = "false"
     };
+    
+    public static Cookie Unknown => new()
+    {
+        Domain = "localhost",
+        Name = ".AspNet.Consent",
+        Path = "/",
+        SameSite = SameSiteAttribute.Strict,
+        Secure = true,
+        Value = string.Empty
+    };
 }

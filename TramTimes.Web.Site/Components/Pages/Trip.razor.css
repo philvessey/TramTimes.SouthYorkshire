@@ -38,11 +38,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 #trip-telerik-auto-complete__result .direction {
@@ -53,11 +48,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 #trip-telerik-auto-complete__result .services {
@@ -86,11 +76,6 @@
     margin-right: 2px;
     padding-left: 2px;
     padding-right: 2px;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 #trip-telerik-auto-complete__result .services ul li.blue {
@@ -104,11 +89,6 @@
     margin-right: 2px;
     padding-left: 2px;
     padding-right: 2px;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 #trip-telerik-auto-complete__result .services ul li.purp {
@@ -122,11 +102,6 @@
     margin-right: 2px;
     padding-left: 2px;
     padding-right: 2px;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 #trip-telerik-auto-complete__result .services ul li.tt {
@@ -140,11 +115,6 @@
     margin-right: 2px;
     padding-left: 2px;
     padding-right: 2px;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 #trip-telerik-auto-complete__result .services ul li.yell {
@@ -158,11 +128,6 @@
     margin-right: 2px;
     padding-left: 2px;
     padding-right: 2px;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 #trip-telerik-auto-complete__unknown {
@@ -180,11 +145,6 @@
     text-align: center;
     text-overflow: ellipsis;
     white-space: nowrap;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 #trip-telerik-auto-complete__unknown .message {
@@ -195,11 +155,6 @@
     text-align: center;
     text-overflow: ellipsis;
     white-space: nowrap;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 /*#endregion */
@@ -228,11 +183,6 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 #trip-telerik-map__tooltip .services {
@@ -260,11 +210,6 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 #trip-telerik-map__tooltip .services ul li.blue {
@@ -281,11 +226,6 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 #trip-telerik-map__tooltip .services ul li.purp {
@@ -302,11 +242,6 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 #trip-telerik-map__tooltip .services ul li.tt {
@@ -323,11 +258,6 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 #trip-telerik-map__tooltip .services ul li.yell {
@@ -344,11 +274,6 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     width: 100%;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 /*#endregion */
@@ -389,11 +314,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 #trip-telerik-list-view__result .direction {
@@ -404,11 +324,6 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 #trip-telerik-list-view__result .services {
@@ -437,11 +352,6 @@
     margin-right: 2px;
     padding-left: 2px;
     padding-right: 2px;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 #trip-telerik-list-view__result .services ul li.blue {
@@ -455,11 +365,6 @@
     margin-right: 2px;
     padding-left: 2px;
     padding-right: 2px;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 #trip-telerik-list-view__result .services ul li.purp {
@@ -473,11 +378,6 @@
     margin-right: 2px;
     padding-left: 2px;
     padding-right: 2px;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 #trip-telerik-list-view__result .services ul li.tt {
@@ -491,11 +391,6 @@
     margin-right: 2px;
     padding-left: 2px;
     padding-right: 2px;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 #trip-telerik-list-view__result .services ul li.yell {
@@ -509,11 +404,6 @@
     margin-right: 2px;
     padding-left: 2px;
     padding-right: 2px;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 /*#endregion */

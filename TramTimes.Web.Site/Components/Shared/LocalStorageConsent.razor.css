@@ -19,7 +19,7 @@
     position: fixed;
     transition: filter 0.15s;
     width: 40px;
-    z-index: 999;
+    z-index: 9999;
 }
 
 #local-storage-consent button:focus {
@@ -48,7 +48,7 @@
     padding: 20px 25px;
     position: fixed;
     width: min(calc(100vw - 80px), 368px);
-    z-index: 999;
+    z-index: 9999;
 }
 
 #local-storage-consent__outline h3 {
@@ -113,7 +113,7 @@
     padding: 20px 25px;
     position: fixed;
     width: min(calc(100vw - 80px), 368px);
-    z-index: 999;
+    z-index: 9999;
 }
 
 #local-storage-consent__policy h3 {

@@ -1,8 +1,11 @@
+using System.Net.Http.Json;
 using Aspire.Hosting.Testing;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.Playwright;
 using TramTimes.Web.Tests.Managers;
+using TramTimes.Web.Utilities.Extensions;
+using TramTimes.Web.Utilities.Models;
 using Xunit;
 
 namespace TramTimes.Web.Tests;
@@ -21,26 +24,128 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
 		#endregion
 	}
 	
+	private async Task HealthTestAsync(
+		string resource,
+		int timeout = 15) {
+		
+		#region check health
+		
+		if (AspireManager.Application is null)
+			return;
+		
+		var tokenSource = new CancellationTokenSource(delay: TimeSpan.FromSeconds(seconds: timeout));
+		
+		await AspireManager.Application.ResourceNotifications
+			.WaitForResourceHealthyAsync(
+				resourceName: resource,
+				cancellationToken: tokenSource.Token)
+			.WaitAsync(
+				timeout: TimeSpan.FromSeconds(seconds: timeout),
+				cancellationToken: tokenSource.Token);
+		
+		#endregion
+	}
+	
+	protected async Task<string> QueryTestAsync(string id)
+	{
+		#region check health
+		
+		if (AspireManager.Application is null)
+			return string.Empty;
+		
+		await HealthTestAsync(resource: "web-api");
+        
+		#endregion
+		
+		#region get endpoint
+		
+		var endpoint = AspireManager.Application
+			.GetEndpoint(
+				resourceName: "web-api",
+				endpointName: "https")
+			.ToString();
+		
+		if (string.IsNullOrEmpty(value: endpoint))
+			endpoint = AspireManager.Application
+				.GetEndpoint(
+					resourceName: "web-api",
+					endpointName: "http")
+				.ToString();
+		
+		endpoint = endpoint[..^1];
+		
+		#endregion
+		
+		#region build service
+		
+		var service = new HttpClient();
+		
+		#endregion
+		
+		#region get response
+		
+		var response = await service.GetAsync(requestUri: $"{endpoint}/database/services/stop/{id}");
+		
+		#endregion
+		
+		#region check response
+		
+		if (!response.IsSuccessStatusCode)
+			return string.Empty;
+		
+		#endregion
+		
+		#region get data
+		
+		var data = await response.Content.ReadFromJsonAsync<List<WebStopPoint>>() ?? [];
+		
+		#endregion
+		
+		#region check data
+		
+		if (data.IsNullOrEmpty())
+			return string.Empty;
+		
+		#endregion
+		
+		#region return result
+		
+		return data.FirstOrDefault()?.TripId ?? string.Empty;
+		
+		#endregion
+	}
+	
 	protected async Task RunTestAsync(
 		Cookie cookie,
 		ColorScheme scheme,
 		Func<IPage, Task> test) {
 		
 		#region check health
-        
+		
 		if (AspireManager.Application is null)
 			return;
 		
-		var tokenSource = new CancellationTokenSource(delay: TimeSpan.FromSeconds(seconds: 15));
-		
-		await AspireManager.Application.ResourceNotifications
-			.WaitForResourceHealthyAsync(
-				resourceName: "web-site",
-				cancellationToken: tokenSource.Token)
-			.WaitAsync(
-				timeout: TimeSpan.FromSeconds(seconds: 15),
-				cancellationToken: tokenSource.Token);
+		await HealthTestAsync(resource: "web-site");
         
+		#endregion
+		
+		#region get endpoint
+		
+		var endpoint = AspireManager.Application
+			.GetEndpoint(
+				resourceName: "web-site",
+				endpointName: "https")
+			.ToString();
+		
+		if (string.IsNullOrEmpty(value: endpoint))
+			endpoint = AspireManager.Application
+				.GetEndpoint(
+					resourceName: "web-site",
+					endpointName: "http")
+				.ToString();
+		
+		endpoint = endpoint[..^1];
+		
 		#endregion
         
 		#region build context
@@ -50,10 +155,7 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
 		
 		var context = await PlaywrightManager.Browser.NewContextAsync(options: new BrowserNewContextOptions
 		{
-			BaseURL = AspireManager.Application
-				.GetEndpoint(resourceName: "web-site")
-				.ToString(),
-			
+			BaseURL = endpoint,
 			ColorScheme = scheme,
 			IgnoreHTTPSErrors = true
 		});
@@ -62,7 +164,8 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
 		
 		#region add cookies
 		
-		await context.AddCookiesAsync(cookies: [cookie]);
+		if (!string.IsNullOrEmpty(value: cookie.Value))
+			await context.AddCookiesAsync(cookies: [cookie]);
 		
 		#endregion
 		

@@ -73,11 +73,6 @@ a:visited {
     justify-content: center;
     padding: 4px;
     width: 40px;
-    
-    .prevent-select {
-        user-select: none;
-        -webkit-user-select: none;
-    }
 }
 
 .k-nodata {
