@@ -748,11 +748,36 @@ public partial class Trip : ComponentBase
     }
     
     [JSInvokable]
-    public void OnScreenResized()
+    public async Task OnScreenResized()
     {
         #region refresh map view
         
         MapManager?.Refresh();
+        
+        #endregion
+        
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
+        #region output console message
+        
+        try
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: $"trip: screen resized {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+        }
+        catch (ObjectDisposedException e)
+        {
+            LoggerService.LogInformation(
+                message: "Exception: {exception}",
+                args: e.ToString());
+        }
         
         #endregion
     }

@@ -55,40 +55,40 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
             
             try
             {
-                var locator = page.GetByTestId(testId: "local-storage-consent__outline");
+                var parent = page.GetByTestId(testId: "local-storage-consent__outline");
                 
                 await Assertions
-                    .Expect(locator: locator)
-                    .ToBeVisibleAsync();
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
                 
-                locator = locator.GetByTestId(testId: "accept");
+                var child = parent.GetByTestId(testId: "accept");
                 
                 await Assertions
-                    .Expect(locator: locator)
-                    .ToBeVisibleAsync();
+                    .Expect(locator: child)
+                    .ToBeInViewportAsync();
                 
-                await locator.ClickAsync();
-                
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
+                await child.ClickAsync();
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
                     Predicate = message => message.Text.Equals(value: "trip: consent accept")
                 });
                 
-                locator = page.GetByTestId(testId: "telerik-map");
+                parent = page.GetByTestId(testId: "telerik-map");
                 
                 await Assertions
-                    .Expect(locator: locator)
-                    .ToBeVisibleAsync();
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
                 
-                locator = locator.GetByTestId(testId: "marker").First;
+                child = parent.GetByTestId(testId: "marker").First;
                 
                 await Assertions
-                    .Expect(locator: locator)
-                    .ToBeVisibleAsync();
+                    .Expect(locator: child)
+                    .ToBeInViewportAsync();
+                
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
             }
             catch (Exception e)
             {
@@ -161,40 +161,40 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
             
             try
             {
-                var locator = page.GetByTestId(testId: "local-storage-consent__outline");
+                var parent = page.GetByTestId(testId: "local-storage-consent__outline");
                 
                 await Assertions
-                    .Expect(locator: locator)
-                    .ToBeVisibleAsync();
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
                 
-                locator = locator.GetByTestId(testId: "accept");
+                var child = parent.GetByTestId(testId: "accept");
                 
                 await Assertions
-                    .Expect(locator: locator)
-                    .ToBeVisibleAsync();
+                    .Expect(locator: child)
+                    .ToBeInViewportAsync();
                 
-                await locator.ClickAsync();
-                
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
+                await child.ClickAsync();
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
                     Predicate = message => message.Text.Equals(value: "trip: consent accept")
                 });
                 
-                locator = page.GetByTestId(testId: "telerik-map");
+                parent = page.GetByTestId(testId: "telerik-map");
                 
                 await Assertions
-                    .Expect(locator: locator)
-                    .ToBeVisibleAsync();
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
                 
-                locator = locator.GetByTestId(testId: "marker").First;
+                child = parent.GetByTestId(testId: "marker").First;
                 
                 await Assertions
-                    .Expect(locator: locator)
-                    .ToBeVisibleAsync();
+                    .Expect(locator: child)
+                    .ToBeInViewportAsync();
+                
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
             }
             catch (Exception e)
             {

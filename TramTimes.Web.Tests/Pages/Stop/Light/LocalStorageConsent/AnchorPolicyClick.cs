@@ -53,29 +53,29 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
             
             try
             {
-                var locator = page.GetByTestId(testId: "local-storage-consent__outline");
+                var parent = page.GetByTestId(testId: "local-storage-consent__outline");
                 
                 await Assertions
-                    .Expect(locator: locator)
-                    .ToBeVisibleAsync();
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
                 
-                locator = locator.GetByTestId(testId: "policy");
+                var child = parent.GetByTestId(testId: "policy");
                 
                 await Assertions
-                    .Expect(locator: locator)
-                    .ToBeVisibleAsync();
+                    .Expect(locator: child)
+                    .ToBeInViewportAsync();
                 
-                await locator.ClickAsync();
+                await child.ClickAsync();
+                
+                parent = page.GetByTestId(testId: "local-storage-consent__policy");
+                
+                await Assertions
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
                 
                 await page.Mouse.MoveAsync(
                     x: 0,
                     y: 0);
-                
-                locator = page.GetByTestId(testId: "local-storage-consent__policy");
-                
-                await Assertions
-                    .Expect(locator: locator)
-                    .ToBeVisibleAsync();
             }
             catch (Exception e)
             {
@@ -146,29 +146,29 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
             
             try
             {
-                var locator = page.GetByTestId(testId: "local-storage-consent__outline");
+                var parent = page.GetByTestId(testId: "local-storage-consent__outline");
                 
                 await Assertions
-                    .Expect(locator: locator)
-                    .ToBeVisibleAsync();
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
                 
-                locator = locator.GetByTestId(testId: "policy");
+                var child = parent.GetByTestId(testId: "policy");
                 
                 await Assertions
-                    .Expect(locator: locator)
-                    .ToBeVisibleAsync();
+                    .Expect(locator: child)
+                    .ToBeInViewportAsync();
                 
-                await locator.ClickAsync();
+                await child.ClickAsync();
+                
+                parent = page.GetByTestId(testId: "local-storage-consent__policy");
+                
+                await Assertions
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
                 
                 await page.Mouse.MoveAsync(
                     x: 0,
                     y: 0);
-                
-                locator = page.GetByTestId(testId: "local-storage-consent__policy");
-                
-                await Assertions
-                    .Expect(locator: locator)
-                    .ToBeVisibleAsync();
             }
             catch (Exception e)
             {

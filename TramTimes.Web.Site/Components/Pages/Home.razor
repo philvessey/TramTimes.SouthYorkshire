@@ -243,7 +243,7 @@
             
             <ItemTemplate>
                 <div id="home-telerik-auto-complete__result"
-                     data-testid="telerik-auto-complete__result">
+                     data-testid="result">
                     
                     <div class="name"
                          data-testid="name">
@@ -263,9 +263,7 @@
                         @name
                     </div>
                     
-                    <div class="direction"
-                         data-testid="direction">
-                        
+                    <div class="direction">
                         @{
                             var direction = context.Direction?
                                 .Split(separator: '-')
@@ -281,9 +279,7 @@
                         Direction: @direction
                     </div>
                     
-                    <div class="services"
-                         data-testid="services">
-                        
+                    <div class="services">
                         <ul>
                             @{
                                 var points = context.Points?
