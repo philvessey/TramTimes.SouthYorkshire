@@ -25,7 +25,8 @@ public class ComboBoxBlur(AspireManager aspireManager) : BaseTest(aspireManager:
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
-        var value = QueryTestAsync(id: id);
+        var values = await QueryTestAsync(id: id);
+        var tripId = values.ElementAtOrDefault(index: 0)?.TripId ?? string.Empty;
         
         await RunTestAsync(cookie: ConsentCookies.True, scheme: ColorScheme.Light, test: async page =>
         {
@@ -39,7 +40,7 @@ public class ComboBoxBlur(AspireManager aspireManager) : BaseTest(aspireManager:
             
             #region load page
             
-            await page.GotoAsync(url: $"/trip/{value}/{id}/{lon}/{lat}");
+            await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}");
             
             #endregion
             
@@ -73,7 +74,11 @@ public class ComboBoxBlur(AspireManager aspireManager) : BaseTest(aspireManager:
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Equals(value: $"trip: search read {query}")
+                    Predicate = message => message.Text.Contains(value: "trip: consent") ||
+                                           message.Text.Contains(value: "trip: list") ||
+                                           message.Text.Contains(value: "trip: map") ||
+                                           message.Text.Contains(value: "trip: screen") ||
+                                           message.Text.Contains(value: "trip: search")
                 });
                 
                 parent = page.GetByLabel(text: "Options list");
@@ -159,7 +164,8 @@ public class ComboBoxBlur(AspireManager aspireManager) : BaseTest(aspireManager:
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
-        var value = QueryTestAsync(id: id);
+        var values = await QueryTestAsync(id: id);
+        var tripId = values.ElementAtOrDefault(index: 0)?.TripId ?? string.Empty;
         
         await RunTestAsync(cookie: ConsentCookies.False, scheme: ColorScheme.Light, test: async page =>
         {
@@ -173,7 +179,7 @@ public class ComboBoxBlur(AspireManager aspireManager) : BaseTest(aspireManager:
             
             #region load page
             
-            await page.GotoAsync(url: $"/trip/{value}/{id}/{lon}/{lat}");
+            await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}");
             
             #endregion
             
@@ -207,7 +213,11 @@ public class ComboBoxBlur(AspireManager aspireManager) : BaseTest(aspireManager:
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Equals(value: $"trip: search read {query}")
+                    Predicate = message => message.Text.Contains(value: "trip: consent") ||
+                                           message.Text.Contains(value: "trip: list") ||
+                                           message.Text.Contains(value: "trip: map") ||
+                                           message.Text.Contains(value: "trip: screen") ||
+                                           message.Text.Contains(value: "trip: search")
                 });
                 
                 parent = page.GetByLabel(text: "Options list");

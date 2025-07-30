@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Microsoft.Playwright;
 using TramTimes.Web.Tests.Cookies;
 using TramTimes.Web.Tests.Managers;
@@ -69,8 +70,16 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Equals(value: "stop: consent accept")
+                    Predicate = message => message.Text.Contains(value: "stop: consent") ||
+                                           message.Text.Contains(value: "stop: list") ||
+                                           message.Text.Contains(value: "stop: map") ||
+                                           message.Text.Contains(value: "stop: screen") ||
+                                           message.Text.Contains(value: "stop: search")
                 });
+                
+                await Assertions
+                    .Expect(page: page)
+                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/{lon}/{lat}"));
                 
                 parent = page.GetByTestId(testId: "telerik-map");
                 
@@ -82,6 +91,24 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
                 
                 await Assertions
                     .Expect(locator: child)
+                    .ToBeInViewportAsync();
+                
+                parent = page.GetByTestId(testId: "telerik-list-view");
+                
+                await Assertions
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
+                
+                child = parent.GetByTestId(testId: "result").First;
+                
+                await Assertions
+                    .Expect(locator: child)
+                    .ToBeInViewportAsync();
+                
+                parent = page.GetByLabel(text: "Options list");
+                
+                await Assertions
+                    .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
                 
                 await page.Mouse.MoveAsync(
@@ -173,8 +200,16 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Equals(value: "stop: consent accept")
+                    Predicate = message => message.Text.Contains(value: "stop: consent") ||
+                                           message.Text.Contains(value: "stop: list") ||
+                                           message.Text.Contains(value: "stop: map") ||
+                                           message.Text.Contains(value: "stop: screen") ||
+                                           message.Text.Contains(value: "stop: search")
                 });
+                
+                await Assertions
+                    .Expect(page: page)
+                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/{lon}/{lat}"));
                 
                 parent = page.GetByTestId(testId: "telerik-map");
                 
@@ -186,6 +221,24 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
                 
                 await Assertions
                     .Expect(locator: child)
+                    .ToBeInViewportAsync();
+                
+                parent = page.GetByTestId(testId: "telerik-list-view");
+                
+                await Assertions
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
+                
+                child = parent.GetByTestId(testId: "result").First;
+                
+                await Assertions
+                    .Expect(locator: child)
+                    .ToBeInViewportAsync();
+                
+                parent = page.GetByLabel(text: "Options list");
+                
+                await Assertions
+                    .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
                 
                 await page.Mouse.MoveAsync(

@@ -140,7 +140,7 @@
             
             <Template>
                 <div id="privacy-telerik-list-view__result"
-                     data-testid="telerik-list-view__result"
+                     data-testid="result"
                      @onclick="@( _ => OnListChange(stopId: context.Id) )">
                     
                     <div class="name"
@@ -161,9 +161,7 @@
                         @name
                     </div>
                     
-                    <div class="direction"
-                         data-testid="direction">
-                        
+                    <div class="direction">
                         @{
                             var direction = context.Direction?
                                 .Split(separator: '-')
@@ -179,9 +177,7 @@
                         Direction: @direction
                     </div>
                     
-                    <div class="services"
-                         data-testid="services">
-                        
+                    <div class="services">
                         <ul>
                             @{
                                 var points = context.Points?

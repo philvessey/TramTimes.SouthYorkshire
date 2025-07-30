@@ -4,9 +4,9 @@ using TramTimes.Web.Tests.Cookies;
 using TramTimes.Web.Tests.Managers;
 using Xunit;
 
-namespace TramTimes.Web.Tests.Pages.Trip.Light.LocalStorageConsent;
+namespace TramTimes.Web.Tests.Pages.Trip.Dark.TelerikListView;
 
-public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireManager: aspireManager)
+public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManager: aspireManager)
 {
     private AspireManager AspireManager { get; } = aspireManager ?? throw new ArgumentNullException(paramName: nameof(aspireManager));
     private byte[]? Screenshot { get; set; }
@@ -27,7 +27,7 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
         var values = await QueryTestAsync(id: id);
         var tripId = values.ElementAtOrDefault(index: 0)?.TripId ?? string.Empty;
         
-        await RunTestAsync(cookie: ConsentCookies.Unknown, scheme: ColorScheme.Light, test: async page =>
+        await RunTestAsync(cookie: ConsentCookies.True, scheme: ColorScheme.Dark, test: async page =>
         {
             #region configure page
             
@@ -57,19 +57,25 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
             
             try
             {
-                var parent = page.GetByTestId(testId: "local-storage-consent__outline");
+                var parent = page.GetByTestId(testId: "telerik-list-view");
                 
                 await Assertions
                     .Expect(locator: parent)
                     .ToBeInViewportAsync();
                 
-                var child = parent.GetByTestId(testId: "accept");
+                var child = parent.GetByTestId(testId: "result").Nth(index: 2);
                 
                 await Assertions
                     .Expect(locator: child)
                     .ToBeInViewportAsync();
                 
-                await child.ClickAsync();
+                var item = child.GetByTestId(testId: "name");
+                
+                await Assertions
+                    .Expect(locator: item)
+                    .ToBeInViewportAsync();
+                
+                await item.ClickAsync();
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
@@ -80,9 +86,12 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
                                            message.Text.Contains(value: "trip: search")
                 });
                 
+                values = await QueryTestAsync(id: tripId, type: "trip");
+                var stopId = values.ElementAtOrDefault(index: 2)?.StopId ?? string.Empty;
+                
                 await Assertions
                     .Expect(page: page)
-                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/{lon}/{lat}"));
+                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/{tripId}/{stopId}"));
                 
                 parent = page.GetByTestId(testId: "telerik-map");
                 
@@ -134,7 +143,7 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"trip|light|local-storage-consent|button-accept-click|run{run}|desktop.png"),
+                    path2: $"trip|dark|telerik-list-view|list-item-select|run{run}|desktop.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();
@@ -160,7 +169,7 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
         var values = await QueryTestAsync(id: id);
         var tripId = values.ElementAtOrDefault(index: 0)?.TripId ?? string.Empty;
         
-        await RunTestAsync(cookie: ConsentCookies.Unknown, scheme: ColorScheme.Light, test: async page =>
+        await RunTestAsync(cookie: ConsentCookies.False, scheme: ColorScheme.Dark, test: async page =>
         {
             #region configure page
             
@@ -190,19 +199,25 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
             
             try
             {
-                var parent = page.GetByTestId(testId: "local-storage-consent__outline");
+                var parent = page.GetByTestId(testId: "telerik-list-view");
                 
                 await Assertions
                     .Expect(locator: parent)
                     .ToBeInViewportAsync();
                 
-                var child = parent.GetByTestId(testId: "accept");
+                var child = parent.GetByTestId(testId: "result").Nth(index: 2);
                 
                 await Assertions
                     .Expect(locator: child)
                     .ToBeInViewportAsync();
                 
-                await child.ClickAsync();
+                var item = child.GetByTestId(testId: "name");
+                
+                await Assertions
+                    .Expect(locator: item)
+                    .ToBeInViewportAsync();
+                
+                await item.ClickAsync();
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
@@ -213,9 +228,12 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
                                            message.Text.Contains(value: "trip: search")
                 });
                 
+                values = await QueryTestAsync(id: tripId, type: "trip");
+                var stopId = values.ElementAtOrDefault(index: 2)?.StopId ?? string.Empty;
+                
                 await Assertions
                     .Expect(page: page)
-                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/{lon}/{lat}"));
+                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/{tripId}/{stopId}"));
                 
                 parent = page.GetByTestId(testId: "telerik-map");
                 
@@ -267,7 +285,7 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"trip|light|local-storage-consent|button-accept-click|run{run}|mobile.png"),
+                    path2: $"trip|dark|telerik-list-view|list-item-select|run{run}|mobile.png"),
                 bytes: Screenshot ?? []);
             
             await UploadTestAsync();

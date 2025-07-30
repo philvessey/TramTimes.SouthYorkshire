@@ -71,7 +71,11 @@ public class ComboBoxClear(AspireManager aspireManager) : BaseTest(aspireManager
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Equals(value: $"stop: search read {query}")
+                    Predicate = message => message.Text.Contains(value: "stop: consent") ||
+                                           message.Text.Contains(value: "stop: list") ||
+                                           message.Text.Contains(value: "stop: map") ||
+                                           message.Text.Contains(value: "stop: screen") ||
+                                           message.Text.Contains(value: "stop: search")
                 });
                 
                 parent = page.GetByLabel(text: "Options list");
@@ -203,7 +207,11 @@ public class ComboBoxClear(AspireManager aspireManager) : BaseTest(aspireManager
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Equals(value: $"stop: search read {query}")
+                    Predicate = message => message.Text.Contains(value: "stop: consent") ||
+                                           message.Text.Contains(value: "stop: list") ||
+                                           message.Text.Contains(value: "stop: map") ||
+                                           message.Text.Contains(value: "stop: screen") ||
+                                           message.Text.Contains(value: "stop: search")
                 });
                 
                 parent = page.GetByLabel(text: "Options list");

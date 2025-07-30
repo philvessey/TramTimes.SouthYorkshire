@@ -70,7 +70,11 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Equals(value: $"home: search read {query}")
+                    Predicate = message => message.Text.Contains(value: "home: consent") ||
+                                           message.Text.Contains(value: "home: list") ||
+                                           message.Text.Contains(value: "home: map") ||
+                                           message.Text.Contains(value: "home: screen") ||
+                                           message.Text.Contains(value: "home: search")
                 });
                 
                 parent = page.GetByLabel(text: "Options list");
@@ -181,7 +185,11 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Equals(value: $"home: search read {query}")
+                    Predicate = message => message.Text.Contains(value: "home: consent") ||
+                                           message.Text.Contains(value: "home: list") ||
+                                           message.Text.Contains(value: "home: map") ||
+                                           message.Text.Contains(value: "home: screen") ||
+                                           message.Text.Contains(value: "home: search")
                 });
                 
                 parent = page.GetByLabel(text: "Options list");

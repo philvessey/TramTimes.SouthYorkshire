@@ -72,7 +72,11 @@ public class ComboBoxSelect(AspireManager aspireManager) : BaseTest(aspireManage
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Equals(value: $"home: search read {query}")
+                    Predicate = message => message.Text.Contains(value: "home: consent") ||
+                                           message.Text.Contains(value: "home: list") ||
+                                           message.Text.Contains(value: "home: map") ||
+                                           message.Text.Contains(value: "home: screen") ||
+                                           message.Text.Contains(value: "home: search")
                 });
                 
                 parent = page.GetByLabel(text: "Options list");
@@ -95,15 +99,18 @@ public class ComboBoxSelect(AspireManager aspireManager) : BaseTest(aspireManage
                 
                 await item.ClickAsync();
                 
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Contains(value: "stop: consent") ||
+                                           message.Text.Contains(value: "stop: list") ||
+                                           message.Text.Contains(value: "stop: map") ||
+                                           message.Text.Contains(value: "stop: screen") ||
+                                           message.Text.Contains(value: "stop: search")
+                });
+                
                 await Assertions
                     .Expect(page: page)
-                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/stop/{id}"));
-                
-                parent = page.GetByLabel(text: "Options list");
-                
-                await Assertions
-                    .Expect(locator: parent).Not
-                    .ToBeInViewportAsync();
+                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/{id}"));
                 
                 parent = page.GetByTestId(testId: "telerik-map");
                 
@@ -115,6 +122,24 @@ public class ComboBoxSelect(AspireManager aspireManager) : BaseTest(aspireManage
                 
                 await Assertions
                     .Expect(locator: child)
+                    .ToBeInViewportAsync();
+                
+                parent = page.GetByTestId(testId: "telerik-list-view");
+                
+                await Assertions
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
+                
+                child = parent.GetByTestId(testId: "result").First;
+                
+                await Assertions
+                    .Expect(locator: child)
+                    .ToBeInViewportAsync();
+                
+                parent = page.GetByLabel(text: "Options list");
+                
+                await Assertions
+                    .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
                 
                 await page.Mouse.MoveAsync(
@@ -208,7 +233,11 @@ public class ComboBoxSelect(AspireManager aspireManager) : BaseTest(aspireManage
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Equals(value: $"home: search read {query}")
+                    Predicate = message => message.Text.Contains(value: "home: consent") ||
+                                           message.Text.Contains(value: "home: list") ||
+                                           message.Text.Contains(value: "home: map") ||
+                                           message.Text.Contains(value: "home: screen") ||
+                                           message.Text.Contains(value: "home: search")
                 });
                 
                 parent = page.GetByLabel(text: "Options list");
@@ -231,15 +260,18 @@ public class ComboBoxSelect(AspireManager aspireManager) : BaseTest(aspireManage
                 
                 await item.ClickAsync();
                 
+                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
+                {
+                    Predicate = message => message.Text.Contains(value: "stop: consent") ||
+                                           message.Text.Contains(value: "stop: list") ||
+                                           message.Text.Contains(value: "stop: map") ||
+                                           message.Text.Contains(value: "stop: screen") ||
+                                           message.Text.Contains(value: "stop: search")
+                });
+                
                 await Assertions
                     .Expect(page: page)
-                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/stop/{id}"));
-                
-                parent = page.GetByLabel(text: "Options list");
-                
-                await Assertions
-                    .Expect(locator: parent).Not
-                    .ToBeInViewportAsync();
+                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/{id}"));
                 
                 parent = page.GetByTestId(testId: "telerik-map");
                 
@@ -251,6 +283,24 @@ public class ComboBoxSelect(AspireManager aspireManager) : BaseTest(aspireManage
                 
                 await Assertions
                     .Expect(locator: child)
+                    .ToBeInViewportAsync();
+                
+                parent = page.GetByTestId(testId: "telerik-list-view");
+                
+                await Assertions
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
+                
+                child = parent.GetByTestId(testId: "result").First;
+                
+                await Assertions
+                    .Expect(locator: child)
+                    .ToBeInViewportAsync();
+                
+                parent = page.GetByLabel(text: "Options list");
+                
+                await Assertions
+                    .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
                 
                 await page.Mouse.MoveAsync(

@@ -4,7 +4,6 @@ using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.Playwright;
 using TramTimes.Web.Tests.Managers;
-using TramTimes.Web.Utilities.Extensions;
 using TramTimes.Web.Utilities.Models;
 using Xunit;
 
@@ -46,12 +45,14 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
 		#endregion
 	}
 	
-	protected async Task<string> QueryTestAsync(string id)
-	{
+	protected async Task<List<WebStopPoint>> QueryTestAsync(
+		string id,
+		string type = "stop") {
+		
 		#region check health
 		
 		if (AspireManager.Application is null)
-			return string.Empty;
+			return [];
 		
 		await HealthTestAsync(resource: "web-api");
         
@@ -84,33 +85,26 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
 		
 		#region get response
 		
-		var response = await service.GetAsync(requestUri: $"{endpoint}/database/services/stop/{id}");
+		var response = await service.GetAsync(requestUri: $"{endpoint}/database/services/{type}/{id}");
 		
 		#endregion
 		
 		#region check response
 		
 		if (!response.IsSuccessStatusCode)
-			return string.Empty;
+			return [];
 		
 		#endregion
 		
-		#region get data
+		#region get results
 		
-		var data = await response.Content.ReadFromJsonAsync<List<WebStopPoint>>() ?? [];
-		
-		#endregion
-		
-		#region check data
-		
-		if (data.IsNullOrEmpty())
-			return string.Empty;
+		var results = await response.Content.ReadFromJsonAsync<List<WebStopPoint>>() ?? [];
 		
 		#endregion
 		
-		#region return result
+		#region return results
 		
-		return data.FirstOrDefault()?.TripId ?? string.Empty;
+		return results;
 		
 		#endregion
 	}

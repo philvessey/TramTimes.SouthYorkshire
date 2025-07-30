@@ -140,7 +140,7 @@
             
             <Template>
                 <div id="stop-telerik-list-view__result"
-                     data-testid="telerik-list-view__result"
+                     data-testid="result"
                      @onclick="@( _ => OnListChange(tripId: context.TripId, stopId: context.StopId) )">
                     
                     <div class="name"
@@ -161,9 +161,7 @@
                         @name
                     </div>
                     
-                    <div class="direction"
-                         data-testid="direction">
-                        
+                    <div class="direction">
                         @{
                             var direction = context.StopDirection?
                                 .Split(separator: '-')
@@ -179,9 +177,7 @@
                         Direction: @direction
                     </div>
                     
-                    <div class="services"
-                         data-testid="services">
-                        
+                    <div class="services">
                         <ul>
                             @{
                                 var departureTime = context.DepartureDateTime?.ToString(

@@ -23,7 +23,8 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
-        var value = await QueryTestAsync(id: id);
+        var values = await QueryTestAsync(id: id);
+        var tripId = values.ElementAtOrDefault(index: 0)?.TripId ?? string.Empty;
         
         await RunTestAsync(cookie: ConsentCookies.Unknown, scheme: ColorScheme.Dark, test: async page =>
         {
@@ -37,7 +38,7 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
             
             #region load page
             
-            await page.GotoAsync(url: $"/trip/{value}/{id}/{lon}/{lat}");
+            await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}");
             
             #endregion
             
@@ -118,7 +119,8 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
-        var value = await QueryTestAsync(id: id);
+        var values = await QueryTestAsync(id: id);
+        var tripId = values.ElementAtOrDefault(index: 0)?.TripId ?? string.Empty;
         
         await RunTestAsync(cookie: ConsentCookies.Unknown, scheme: ColorScheme.Dark, test: async page =>
         {
@@ -132,7 +134,7 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
             
             #region load page
             
-            await page.GotoAsync(url: $"/trip/{value}/{id}/{lon}/{lat}");
+            await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}");
             
             #endregion
             

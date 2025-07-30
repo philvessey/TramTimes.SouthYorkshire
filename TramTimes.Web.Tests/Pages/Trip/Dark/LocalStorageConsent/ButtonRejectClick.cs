@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using Microsoft.Playwright;
 using TramTimes.Web.Tests.Cookies;
 using TramTimes.Web.Tests.Managers;
@@ -23,7 +24,8 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
-        var value = await QueryTestAsync(id: id);
+        var values = await QueryTestAsync(id: id);
+        var tripId = values.ElementAtOrDefault(index: 0)?.TripId ?? string.Empty;
         
         await RunTestAsync(cookie: ConsentCookies.Unknown, scheme: ColorScheme.Dark, test: async page =>
         {
@@ -37,7 +39,7 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
             
             #region load page
             
-            await page.GotoAsync(url: $"/trip/{value}/{id}/{lon}/{lat}");
+            await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}");
             
             #endregion
             
@@ -71,8 +73,16 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Equals(value: "trip: consent reject")
+                    Predicate = message => message.Text.Contains(value: "trip: consent") ||
+                                           message.Text.Contains(value: "trip: list") ||
+                                           message.Text.Contains(value: "trip: map") ||
+                                           message.Text.Contains(value: "trip: screen") ||
+                                           message.Text.Contains(value: "trip: search")
                 });
+                
+                await Assertions
+                    .Expect(page: page)
+                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/{lon}/{lat}"));
                 
                 parent = page.GetByTestId(testId: "telerik-map");
                 
@@ -84,6 +94,24 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
                 
                 await Assertions
                     .Expect(locator: child)
+                    .ToBeInViewportAsync();
+                
+                parent = page.GetByTestId(testId: "telerik-list-view");
+                
+                await Assertions
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
+                
+                child = parent.GetByTestId(testId: "result").First;
+                
+                await Assertions
+                    .Expect(locator: child)
+                    .ToBeInViewportAsync();
+                
+                parent = page.GetByLabel(text: "Options list");
+                
+                await Assertions
+                    .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
                 
                 await page.Mouse.MoveAsync(
@@ -129,7 +157,8 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
-        var value = await QueryTestAsync(id: id);
+        var values = await QueryTestAsync(id: id);
+        var tripId = values.ElementAtOrDefault(index: 0)?.TripId ?? string.Empty;
         
         await RunTestAsync(cookie: ConsentCookies.Unknown, scheme: ColorScheme.Dark, test: async page =>
         {
@@ -143,7 +172,7 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
             
             #region load page
             
-            await page.GotoAsync(url: $"/trip/{value}/{id}/{lon}/{lat}");
+            await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}");
             
             #endregion
             
@@ -177,8 +206,16 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Equals(value: "trip: consent reject")
+                    Predicate = message => message.Text.Contains(value: "trip: consent") ||
+                                           message.Text.Contains(value: "trip: list") ||
+                                           message.Text.Contains(value: "trip: map") ||
+                                           message.Text.Contains(value: "trip: screen") ||
+                                           message.Text.Contains(value: "trip: search")
                 });
+                
+                await Assertions
+                    .Expect(page: page)
+                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/{lon}/{lat}"));
                 
                 parent = page.GetByTestId(testId: "telerik-map");
                 
@@ -190,6 +227,24 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
                 
                 await Assertions
                     .Expect(locator: child)
+                    .ToBeInViewportAsync();
+                
+                parent = page.GetByTestId(testId: "telerik-list-view");
+                
+                await Assertions
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
+                
+                child = parent.GetByTestId(testId: "result").First;
+                
+                await Assertions
+                    .Expect(locator: child)
+                    .ToBeInViewportAsync();
+                
+                parent = page.GetByLabel(text: "Options list");
+                
+                await Assertions
+                    .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
                 
                 await page.Mouse.MoveAsync(

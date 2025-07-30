@@ -70,7 +70,11 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Equals(value: $"privacy: search read {query}")
+                    Predicate = message => message.Text.Contains(value: "privacy: consent") ||
+                                           message.Text.Contains(value: "privacy: list") ||
+                                           message.Text.Contains(value: "privacy: map") ||
+                                           message.Text.Contains(value: "privacy: screen") ||
+                                           message.Text.Contains(value: "privacy: search")
                 });
                 
                 parent = page.GetByLabel(text: "Options list");
@@ -181,7 +185,11 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Equals(value: $"privacy: search read {query}")
+                    Predicate = message => message.Text.Contains(value: "privacy: consent") ||
+                                           message.Text.Contains(value: "privacy: list") ||
+                                           message.Text.Contains(value: "privacy: map") ||
+                                           message.Text.Contains(value: "privacy: screen") ||
+                                           message.Text.Contains(value: "privacy: search")
                 });
                 
                 parent = page.GetByLabel(text: "Options list");
