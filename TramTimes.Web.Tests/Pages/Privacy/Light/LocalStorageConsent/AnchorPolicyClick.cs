@@ -71,10 +71,6 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
                 await Assertions
                     .Expect(locator: parent)
                     .ToBeInViewportAsync();
-                
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {
@@ -163,10 +159,6 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
                 await Assertions
                     .Expect(locator: parent)
                     .ToBeInViewportAsync();
-                
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {

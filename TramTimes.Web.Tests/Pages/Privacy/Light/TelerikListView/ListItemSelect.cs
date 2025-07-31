@@ -117,10 +117,6 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
                 await Assertions
                     .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
-                
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {
@@ -254,10 +250,6 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
                 await Assertions
                     .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
-                
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {

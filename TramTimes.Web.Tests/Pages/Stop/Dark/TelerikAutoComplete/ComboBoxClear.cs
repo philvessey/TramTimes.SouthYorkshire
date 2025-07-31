@@ -115,10 +115,6 @@ public class ComboBoxClear(AspireManager aspireManager) : BaseTest(aspireManager
                 await Assertions
                     .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
-                
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {
@@ -251,10 +247,6 @@ public class ComboBoxClear(AspireManager aspireManager) : BaseTest(aspireManager
                 await Assertions
                     .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
-                
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {

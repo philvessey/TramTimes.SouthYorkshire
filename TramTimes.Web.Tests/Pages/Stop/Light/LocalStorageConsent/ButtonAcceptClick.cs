@@ -110,10 +110,6 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
                 await Assertions
                     .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
-                
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {
@@ -240,10 +236,6 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
                 await Assertions
                     .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
-                
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {

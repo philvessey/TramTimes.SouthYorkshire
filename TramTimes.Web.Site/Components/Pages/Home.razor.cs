@@ -415,9 +415,9 @@ public partial class Home : ComponentBase
         #endregion
     }
     
-    private void OnListChange(string? stopId)
+    private async Task OnListChange(string? stopId)
     {
-        #region navigate to stop
+        #region get stop data
         
         var stop = new TelerikStop();
         
@@ -426,6 +426,35 @@ public partial class Home : ComponentBase
         
         if (stop.Id is null)
             return;
+        
+        #endregion
+        
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
+        #region output console message
+        
+        try
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: $"home: list change {stop.Id}");
+        }
+        catch (ObjectDisposedException e)
+        {
+            LoggerService.LogInformation(
+                message: "Exception: {exception}",
+                args: e.ToString());
+        }
+        
+        #endregion
+        
+        #region navigate to stop
         
         if (NavigationService.Uri.Contains(value: $"/stop/{stop.Id}"))
             return;
@@ -437,15 +466,44 @@ public partial class Home : ComponentBase
         #endregion
     }
     
-    private void OnMapMarkerClick(MapMarkerClickEventArgs args)
+    private async Task OnMapMarkerClick(MapMarkerClickEventArgs args)
     {
-        #region navigate to stop
+        #region get stop data
         
         if (args.DataItem is not TelerikStop stop)
             return;
         
         if (stop.Id is null)
             return;
+        
+        #endregion
+        
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
+        #region output console message
+        
+        try
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: $"home: map click {stop.Id}");
+        }
+        catch (ObjectDisposedException e)
+        {
+            LoggerService.LogInformation(
+                message: "Exception: {exception}",
+                args: e.ToString());
+        }
+        
+        #endregion
+        
+        #region navigate to stop
         
         if (NavigationService.Uri.Contains(value: $"/stop/{stop.Id}"))
             return;
@@ -805,9 +863,9 @@ public partial class Home : ComponentBase
         #endregion
     }
     
-    private void OnSearchChange(object? stopId)
+    private async Task OnSearchChange(object? stopId)
     {
-        #region navigate to stop
+        #region get stop data
         
         var stop = new TelerikStop();
         
@@ -818,6 +876,35 @@ public partial class Home : ComponentBase
         
         if (stop.Id is null)
             return;
+        
+        #endregion
+        
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
+        #region output console message
+        
+        try
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: $"home: search change {stop.Id}");
+        }
+        catch (ObjectDisposedException e)
+        {
+            LoggerService.LogInformation(
+                message: "Exception: {exception}",
+                args: e.ToString());
+        }
+        
+        #endregion
+        
+        #region navigate to stop
         
         if (NavigationService.Uri.Contains(value: $"/stop/{stop.Id}"))
             return;

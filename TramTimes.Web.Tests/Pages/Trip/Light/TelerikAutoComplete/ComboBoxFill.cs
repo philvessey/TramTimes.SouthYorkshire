@@ -98,10 +98,6 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
                 await Assertions
                     .Expect(locator: item)
                     .ToContainTextAsync(expected: name);
-                
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {
@@ -217,10 +213,6 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
                 await Assertions
                     .Expect(locator: item)
                     .ToContainTextAsync(expected: name);
-                
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {
