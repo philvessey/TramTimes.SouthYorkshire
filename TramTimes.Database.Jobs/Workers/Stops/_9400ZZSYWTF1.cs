@@ -30,7 +30,7 @@ public class _9400ZZSYWTF1(
         {
             #region get active blobs
             
-            var activeBlobs = blobService.GetBlobsAsync(prefix: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd") + "/gtfs/");
+            var activeBlobs = blobService.GetBlobsAsync(prefix: $"database/{context.FireTimeUtc.Date:yyyyMMdd}/gtfs");
             
             await foreach (var item in activeBlobs)
                 await blobService
@@ -510,9 +510,10 @@ public class _9400ZZSYWTF1(
                 contents: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults)));
             
             var remotePath = Path.Combine(
-                path1: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path2: "record",
-                path3: "9400ZZSYWTF1.json");
+                path1: "database",
+                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
+                path3: "record",
+                path4: "9400ZZSYWTF1.json");
             
             await blobService
                 .GetBlobClient(blobName: remotePath)
@@ -539,9 +540,10 @@ public class _9400ZZSYWTF1(
                 contents: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: storageResults)));
             
             remotePath = Path.Combine(
-                path1: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path2: "service",
-                path3: "9400ZZSYWTF1.json");
+                path1: "database",
+                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
+                path3: "service",
+                path4: "9400ZZSYWTF1.json");
             
             await blobService
                 .GetBlobClient(blobName: remotePath)
@@ -568,9 +570,10 @@ public class _9400ZZSYWTF1(
                 contents: JsonSerializer.Serialize(value: testResults));
             
             remotePath = Path.Combine(
-                path1: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path2: "test",
-                path3: "9400ZZSYWTF1.json");
+                path1: "database",
+                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
+                path3: "test",
+                path4: "9400ZZSYWTF1.json");
             
             await blobService
                 .GetBlobClient(blobName: remotePath)

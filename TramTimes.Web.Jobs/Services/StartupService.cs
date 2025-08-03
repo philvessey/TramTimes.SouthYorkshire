@@ -40,19 +40,19 @@ public class StartupService : IHostedService
         
         await _result.ExecuteAsync(action: async () =>
         {
-            var pingResponse = await _service.ExistsAsync(cancellationToken: cancellationToken);
+            var response = await _service.ExistsAsync(cancellationToken: cancellationToken);
             
-            if (!pingResponse)
+            if (!response)
                 _logger.LogError(
-                    message: "Service ping status: {status}",
-                    args: pingResponse);
+                    message: "Service health status: {status}",
+                    args: "Red");
             
-            if (!pingResponse)
-                throw new Exception(message: $"Service ping status: {pingResponse}");
+            if (!response)
+                throw new Exception(message: "Service health status: Red");
             
             _logger.LogInformation(
-                message: "Service ping status: {status}",
-                args: pingResponse);
+                message: "Service health status: {status}",
+                args: "Green");
         });
         
         #endregion

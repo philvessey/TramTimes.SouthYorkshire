@@ -1,3 +1,4 @@
+
 using TramTimes.Database.Jobs.Services;
 
 var builder = Host.CreateApplicationBuilder(args: args);
@@ -13,7 +14,7 @@ builder
 
 #region inject services
 
-builder.AddAzureBlobContainerClient(connectionName: "database-storage");
+builder.AddAzureBlobContainerClient(connectionName: "southyorkshire");
 builder.AddNpgsqlDataSource(connectionName: "database");
 
 #endregion

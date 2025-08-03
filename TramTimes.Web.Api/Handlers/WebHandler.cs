@@ -1685,9 +1685,9 @@ public static class WebHandler
         
         #region upload file
         
-        var blobClient = blobService.GetBlobClient(blobName: customName);
+        var blobClient = blobService.GetBlobClient(blobName: $"web/{customName}");
         
-        var response = await blobClient.UploadAsync(
+        await blobClient.UploadAsync(
             content: request.Body,
             options: new BlobUploadOptions
             {
@@ -1696,9 +1696,6 @@ public static class WebHandler
                     ContentType = "image/png"
                 }
             });
-        
-        if (response.GetRawResponse().IsError)
-            return Results.NotFound();
         
         #endregion
         

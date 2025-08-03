@@ -1,4 +1,4 @@
-// noinspection JSUnusedGlobalSymbols
+// noinspection all
 
 let resizeTimeout;
 

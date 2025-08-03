@@ -1,9 +1,9 @@
 <Project>
     
     <PropertyGroup>
-        <AspireVersion>9.3.1</AspireVersion>
+        <AspireVersion>9.4.0</AspireVersion>
         <ElasticAspireVersion>9.3.0</ElasticAspireVersion>
-        <NextDeparturesVersion>3.7.7</NextDeparturesVersion>
+        <NextDeparturesVersion>3.8.0</NextDeparturesVersion>
     </PropertyGroup>
     
     <PropertyGroup>
@@ -32,10 +32,10 @@
         <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="9.0.7" />
         <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.7" />
         <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="9.7.0" />
-        <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="9.3.1" />
+        <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="9.4.0" />
         <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
-        <PackageVersion Include="Microsoft.Playwright" Version="1.53.0" />
-        <PackageVersion Include="Microsoft.Playwright.Xunit" Version="1.53.0" />
+        <PackageVersion Include="Microsoft.Playwright" Version="1.54.0" />
+        <PackageVersion Include="Microsoft.Playwright.Xunit" Version="1.54.0" />
     </ItemGroup>
     
     <ItemGroup>
@@ -69,8 +69,8 @@
         <PackageVersion Include="FluentFTP" Version="53.0.1" />
         <PackageVersion Include="Flurl.Http" Version="4.0.2" />
         <PackageVersion Include="Geolocation" Version="1.2.1" />
-        <PackageVersion Include="IeuanWalker.GeoUK" Version="1.1.0" />
-        <PackageVersion Include="JetBrains.Annotations" Version="2024.3.0" />
+        <PackageVersion Include="IeuanWalker.GeoUK" Version="1.3.0" />
+        <PackageVersion Include="JetBrains.Annotations" Version="2025.2.0" />
         <PackageVersion Include="Nager.Date" Version="2.9.0" />
         <PackageVersion Include="Polly" Version="8.6.2" />
         <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.14.0" />

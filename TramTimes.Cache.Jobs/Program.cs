@@ -13,7 +13,7 @@ builder
 
 #region inject services
 
-builder.AddAzureBlobContainerClient(connectionName: "cache-storage");
+builder.AddAzureBlobContainerClient(connectionName: "southyorkshire");
 builder.AddNpgsqlDataSource(connectionName: "database");
 builder.AddRedisClient(connectionName: "cache");
 

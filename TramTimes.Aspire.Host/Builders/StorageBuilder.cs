@@ -14,7 +14,7 @@ public static class StorageBuilder
         
         #region add azure storage
         
-        result.Azure = builder
+        result.AzureStorage = builder
             .AddAzureStorage(name: "storage")
             .RunAsEmulator(configureContainer: resource =>
             {
@@ -24,29 +24,9 @@ public static class StorageBuilder
         
         #endregion
         
-        #region add azure blob storage
+        #region add blob container
         
-        var blobs = result.Azure.AddBlobs(name: "blobs");
-        
-        #endregion
-        
-        #region add azure blob storage containers
-        
-        result.Cache = blobs.AddBlobContainer(
-            name: "cache-storage",
-            blobContainerName: "cache");
-        
-        result.Database = blobs.AddBlobContainer(
-            name: "database-storage",
-            blobContainerName: "database");
-        
-        result.Search = blobs.AddBlobContainer(
-            name: "search-storage",
-            blobContainerName: "search");
-        
-        result.Web = blobs.AddBlobContainer(
-            name: "web-storage",
-            blobContainerName: "web");
+        result.AzureBlobStorageContainer = result.AzureStorage.AddBlobContainer(name: "southyorkshire");
         
         #endregion
         

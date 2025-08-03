@@ -111,9 +111,10 @@ public class _9400ZZSYMID1(
                 contents: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: mappedResults)));
             
             var remotePath = Path.Combine(
-                path1: context.FireTimeUtc.DateTime.ToString(format: "yyyyMMddHHmm"),
-                path2: "get",
-                path3: "9400ZZSYMID1.json");
+                path1: "cache",
+                path2: context.FireTimeUtc.DateTime.ToString(format: "yyyyMMddHHmm"),
+                path3: "get",
+                path4: "9400ZZSYMID1.json");
             
             await blobService
                 .GetBlobClient(blobName: remotePath)
@@ -140,9 +141,10 @@ public class _9400ZZSYMID1(
                 contents: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults)));
             
             remotePath = Path.Combine(
-                path1: context.FireTimeUtc.DateTime.ToString(format: "yyyyMMddHHmm"),
-                path2: "set",
-                path3: "9400ZZSYMID1.json");
+                path1: "cache",
+                path2: context.FireTimeUtc.DateTime.ToString(format: "yyyyMMddHHmm"),
+                path3: "set",
+                path4: "9400ZZSYMID1.json");
             
             await blobService
                 .GetBlobClient(blobName: remotePath)
@@ -155,18 +157,6 @@ public class _9400ZZSYMID1(
                             ContentType = "application/json"
                         }
                     });
-            
-            #endregion
-            
-            #region delete expired blobs
-            
-            var expiredBlobs = blobService.GetBlobsAsync(prefix: "9400ZZSYMID1");
-            
-            await foreach (var item in expiredBlobs)
-                if (item.Properties.LastModified < context.FireTimeUtc.DateTime.AddDays(value: -7))
-                    await blobService
-                        .GetBlobClient(blobName: item.Name)
-                        .DeleteAsync();
             
             #endregion
         }

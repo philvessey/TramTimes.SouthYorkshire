@@ -31,24 +31,13 @@ public class Build(
         
         try
         {
-            #region delete expired blobs
-            
-            var expiredBlobs = blobService.GetBlobsAsync();
-            
-            await foreach (var item in expiredBlobs)
-                if (item.Properties.LastModified < context.FireTimeUtc.Date.AddDays(value: -28))
-                    await blobService
-                        .GetBlobClient(blobName: item.Name)
-                        .DeleteAsync();
-            
-            #endregion
-            
             #region get naptan localities
             
             var remotePath = Path.Combine(
-                path1: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path2: "raw",
-                path3: "localities.csv");
+                path1: "database",
+                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
+                path3: "raw",
+                path4: "localities.csv");
             
             var remoteExists = await blobService
                 .GetBlobClient(blobName: remotePath)
@@ -83,9 +72,10 @@ public class Build(
             #region get naptan stops
             
             remotePath = Path.Combine(
-                path1: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path2: "raw",
-                path3: "stops.csv");
+                path1: "database",
+                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
+                path3: "raw",
+                path4: "stops.csv");
             
             remoteExists = await blobService
                 .GetBlobClient(blobName: remotePath)
@@ -120,9 +110,10 @@ public class Build(
             #region get traveline data
             
             remotePath = Path.Combine(
-                path1: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path2: "raw",
-                path3: "traveline.zip");
+                path1: "database",
+                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
+                path3: "raw",
+                path4: "traveline.zip");
             
             remoteExists = await blobService
                 .GetBlobClient(blobName: remotePath)
@@ -362,9 +353,10 @@ public class Build(
             #region build storage data
             
             remotePath = Path.Combine(
-                path1: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path2: "gtfs",
-                path3: "agency.txt");
+                path1: "database",
+                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
+                path3: "gtfs",
+                path4: "agency.txt");
             
             localPath = await GtfsAgencyBuilder.BuildAsync(
                 schedules: results,
@@ -383,9 +375,10 @@ public class Build(
                     });
             
             remotePath = Path.Combine(
-                path1: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path2: "gtfs",
-                path3: "calendar.txt");
+                path1: "database",
+                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
+                path3: "gtfs",
+                path4: "calendar.txt");
             
             localPath = await GtfsCalendarBuilder.BuildAsync(
                 schedules: results,
@@ -404,9 +397,10 @@ public class Build(
                     });
             
             remotePath = Path.Combine(
-                path1: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path2: "gtfs",
-                path3: "calendar_dates.txt");
+                path1: "database",
+                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
+                path3: "gtfs",
+                path4: "calendar_dates.txt");
             
             localPath = await GtfsCalendarDateBuilder.BuildAsync(
                 schedules: results,
@@ -425,9 +419,10 @@ public class Build(
                     });
             
             remotePath = Path.Combine(
-                path1: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path2: "gtfs",
-                path3: "routes.txt");
+                path1: "database",
+                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
+                path3: "gtfs",
+                path4: "routes.txt");
             
             localPath = await GtfsRouteBuilder.BuildAsync(
                 schedules: results,
@@ -446,9 +441,10 @@ public class Build(
                     });
             
             remotePath = Path.Combine(
-                path1: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path2: "gtfs",
-                path3: "stops.txt");
+                path1: "database",
+                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
+                path3: "gtfs",
+                path4: "stops.txt");
             
             localPath = await GtfsStopBuilder.BuildAsync(
                 schedules: results,
@@ -467,9 +463,10 @@ public class Build(
                     });
             
             remotePath = Path.Combine(
-                path1: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path2: "gtfs",
-                path3: "stop_times.txt");
+                path1: "database",
+                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
+                path3: "gtfs",
+                path4: "stop_times.txt");
             
             localPath = await GtfsStopTimeBuilder.BuildAsync(
                 schedules: results,
@@ -488,9 +485,10 @@ public class Build(
                     });
             
             remotePath = Path.Combine(
-                path1: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path2: "gtfs",
-                path3: "trips.txt");
+                path1: "database",
+                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
+                path3: "gtfs",
+                path4: "trips.txt");
             
             localPath = await GtfsTripBuilder.BuildAsync(
                 schedules: results,

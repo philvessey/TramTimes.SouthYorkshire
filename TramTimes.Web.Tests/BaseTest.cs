@@ -268,7 +268,7 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
 		if (Directory.Exists(path: productionPath))
 		{
 			var blobRoot = new BlobServiceClient(serviceUri: endpoint);
-			var blobService = blobRoot.GetBlobContainerClient(blobContainerName: "web");
+			var blobService = blobRoot.GetBlobContainerClient(blobContainerName: "southyorkshire");
 			
 			foreach (var item in new DirectoryInfo(path: productionPath).GetFiles())
 			{
@@ -287,7 +287,7 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
 					name: "Custom-Name",
 					value: $"{AspireManager.Storage.CreationTimeUtc:yyyyMMdd}/{name}");
 				
-				var blobClient = blobService.GetBlobClient(blobName: $"{AspireManager.Storage.CreationTimeUtc:yyyyMMdd}/{name}");
+				var blobClient = blobService.GetBlobClient(blobName: $"web/{AspireManager.Storage.CreationTimeUtc:yyyyMMdd}/{name}");
 				
 				var response = await blobClient.UploadAsync(
 					content: await content.ReadAsStreamAsync(),

@@ -1,4 +1,4 @@
-// noinspection JSUnusedGlobalSymbols
+// noinspection all
 
 export function getCookie(value) {
     const name = value + "=";
