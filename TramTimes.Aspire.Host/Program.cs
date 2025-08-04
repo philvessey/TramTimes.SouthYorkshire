@@ -43,7 +43,7 @@ builder.BuildWeb(
     container: storageResources.AzureBlobStorageContainer ?? throw new InvalidOperationException("Azure blob storage container not initialized."),
     server: databaseResources.PostgresServer ?? throw new InvalidOperationException("Postgres server not initialized."),
     database: databaseResources.PostgresDatabase ?? throw new InvalidOperationException("Postgres database not initialized."),
-    cache: cacheResources.Redis ?? throw new InvalidOperationException("Redis cache not initialized."),
+    cache: cacheResources.Redis ?? throw new InvalidOperationException("Redis not initialized."),
     search: searchResources.Elastic ?? throw new InvalidOperationException("Elastic search not initialized."));
 
 #endregion

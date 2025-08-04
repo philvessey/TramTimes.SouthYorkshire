@@ -33,7 +33,7 @@ public static class CacheBuilder
         await cacheService
             .GetDatabase()
             .StringSetAsync(
-                key: $"stop:{id}",
+                key: $"southyorkshire:stop:{id}",
                 value: JsonSerializer.Serialize(value: mapperService.Map<List<WorkerStopPoint>>(source: databaseResults)),
                 expiry: TimeSpan.FromMinutes(value: 119));
         
@@ -59,7 +59,7 @@ public static class CacheBuilder
             await cacheService
                 .GetDatabase()
                 .StringSetAsync(
-                    key: $"trip:{item}",
+                    key: $"southyorkshire:trip:{item}",
                     value: JsonSerializer.Serialize(value: mapperService.Map<List<WorkerStopPoint>>(source: databaseResults)),
                     expiry: TimeSpan.FromMinutes(value: 239));
         }

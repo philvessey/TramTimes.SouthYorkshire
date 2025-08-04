@@ -17,11 +17,22 @@ public class Clean(
         
         try
         {
-            #region flush database keys
+            #region get matched keys
+            
+            var keys = cacheService
+                .GetServer(endpoint: cacheService
+                    .GetEndPoints()
+                    .First())
+                .Keys(pattern: "southyorkshire:*")
+                .ToArray();
+            
+            #endregion
+            
+            #region delete matched keys
             
             await cacheService
                 .GetDatabase()
-                .ExecuteAsync(command: "flushdb");
+                .KeyDeleteAsync(keys: keys);
             
             #endregion
         }

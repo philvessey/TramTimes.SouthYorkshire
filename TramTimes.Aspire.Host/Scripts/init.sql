@@ -1,12 +1,12 @@
 create database southyorkshire;
 \connect southyorkshire;
 
-create or replace function get_from_point(
+create function get_from_point(
     originLongitude real,
     originLatitude real,
     destinationLongitude real,
     destinationLatitude real
-) returns real AS $$
+) returns real as $$
 
 declare
     angle real;

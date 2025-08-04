@@ -36,18 +36,28 @@ public static class CacheBuilder
         
         if (string.IsNullOrEmpty(value: Testing))
             result.Redis
-                .WithRedisCommander(configureContainer: resource =>
-                {
-                    resource.WaitFor(result.Redis);
-                    resource.WithLifetime(lifetime: ContainerLifetime.Session);
-                    resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
-                })
-                .WithRedisInsight(configureContainer: resource =>
-                {
-                    resource.WaitFor(result.Redis);
-                    resource.WithLifetime(lifetime: ContainerLifetime.Session);
-                    resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
-                });
+                .WithRedisCommander(
+                    containerName: "cache-commander",
+                    configureContainer: resource =>
+                    {
+                        resource.WaitFor(result.Redis);
+                        resource.WithLifetime(lifetime: ContainerLifetime.Session);
+                        resource.WithParentRelationship(parent: result.Redis);
+                        resource.WithUrlForEndpoint(
+                            callback: annotation => annotation.DisplayText = "Administration",
+                            endpointName: "http");
+                    })
+                .WithRedisInsight(
+                    containerName: "cache-insight",
+                    configureContainer: resource =>
+                    {
+                        resource.WaitFor(result.Redis);
+                        resource.WithLifetime(lifetime: ContainerLifetime.Session);
+                        resource.WithParentRelationship(parent: result.Redis);
+                        resource.WithUrlForEndpoint(
+                            callback: annotation => annotation.DisplayText = "Administration",
+                            endpointName: "http");
+                    });
         
         #endregion
         

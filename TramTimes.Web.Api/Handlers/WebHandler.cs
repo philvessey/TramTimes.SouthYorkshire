@@ -18,11 +18,22 @@ public static class WebHandler
         IConnectionMultiplexer cacheService,
         IMapper mapperService) {
         
-        #region flush keys
+        #region get matched keys
+        
+        var keys = cacheService
+            .GetServer(endpoint: cacheService
+                .GetEndPoints()
+                .First())
+            .Keys(pattern: "southyorkshire:*")
+            .ToArray();
+        
+        #endregion
+        
+        #region delete matched keys
         
         await cacheService
             .GetDatabase()
-            .ExecuteAsync(command: "flushdb");
+            .KeyDeleteAsync(keys: keys);
         
         #endregion
         
@@ -804,11 +815,22 @@ public static class WebHandler
         IConnectionMultiplexer cacheService,
         IMapper mapperService) {
         
-        #region flush keys
+        #region get matched keys
+        
+        var keys = cacheService
+            .GetServer(endpoint: cacheService
+                .GetEndPoints()
+                .First())
+            .Keys(pattern: "southyorkshire:*")
+            .ToArray();
+        
+        #endregion
+        
+        #region delete matched keys
         
         await cacheService
             .GetDatabase()
-            .ExecuteAsync(command: "flushdb");
+            .KeyDeleteAsync(keys: keys);
         
         #endregion
         

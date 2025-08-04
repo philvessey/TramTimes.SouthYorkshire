@@ -17,7 +17,7 @@ public static class CacheHandler
         
         var request = await cacheService
             .GetDatabase()
-            .StringGetAsync(key: $"stop:{id.ToUpperInvariant()}");
+            .StringGetAsync(key: $"southyorkshire:stop:{id.ToUpperInvariant()}");
         
         if (request.IsNullOrEmpty)
             return Results.NotFound();
@@ -44,7 +44,7 @@ public static class CacheHandler
         
         var request = await cacheService
             .GetDatabase()
-            .StringGetAsync(key: $"trip:{id.ToLowerInvariant()}");
+            .StringGetAsync(key: $"southyorkshire:trip:{id.ToLowerInvariant()}");
         
         if (request.IsNullOrEmpty)
             return Results.NotFound();

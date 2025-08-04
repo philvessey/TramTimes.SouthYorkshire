@@ -40,53 +40,21 @@ public class StartupService : IHostedService
         
         await _result.ExecuteAsync(action: async () =>
         {
-            var pingResponse = await _service
-                .GetDatabase()
-                .PingAsync();
-            
-            if (pingResponse == TimeSpan.Zero)
-                _logger.LogError(
-                    message: "Service ping status: {status}",
-                    args: "False");
-            
-            if (pingResponse == TimeSpan.Zero)
-                throw new Exception(message: "Service ping status: False");
-            
-            _logger.LogInformation(
-                message: "Service ping status: {status}",
-                args: "True");
-            
-            var healthResponse = await _service
+            var response = await _service
                 .GetDatabase()
                 .ExecuteAsync(command: "info");
             
-            if (healthResponse.IsNull)
+            if (response.IsNull)
                 _logger.LogError(
-                    message: "Service database status: {status}",
-                    args: "Yellow");
+                    message: "Service health status: {status}",
+                    args: "Red");
             
-            if (healthResponse.IsNull)
-                throw new Exception(message: "Service database status: Yellow");
+            if (response.IsNull)
+                throw new Exception(message: "Service health status: Red");
             
             _logger.LogInformation(
-                message: "Service database status: {status}",
+                message: "Service health status: {status}",
                 args: "Green");
-            
-            var deleteResponse = await _service
-                .GetDatabase()
-                .ExecuteAsync(command: "flushdb");
-            
-            if (deleteResponse.IsNull)
-                _logger.LogError(
-                    message: "Service cache status: {status}",
-                    args: "False");
-            
-            if (deleteResponse.IsNull)
-                throw new Exception(message: "Service cache status: False");
-            
-            _logger.LogInformation(
-                message: "Service cache status: {status}",
-                args: "True");
         });
         
         #endregion

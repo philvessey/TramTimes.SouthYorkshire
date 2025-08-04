@@ -33,7 +33,7 @@ public class _9400ZZSYHYP2(
             
             var cacheFeed = await cacheService
                 .GetDatabase()
-                .StringGetAsync(key: "stop:9400ZZSYHYP2");
+                .StringGetAsync(key: "southyorkshire:stop:9400ZZSYHYP2");
             
             List<CacheStopPoint> mappedResults = [];
             
@@ -67,7 +67,7 @@ public class _9400ZZSYHYP2(
             await cacheService
                 .GetDatabase()
                 .StringSetAsync(
-                    key: "stop:9400ZZSYHYP2",
+                    key: "southyorkshire:stop:9400ZZSYHYP2",
                     value: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults)),
                     expiry: TimeSpan.FromMinutes(value: 119));
             
@@ -93,7 +93,7 @@ public class _9400ZZSYHYP2(
                 await cacheService
                     .GetDatabase()
                     .StringSetAsync(
-                        key: $"trip:{item}",
+                        key: $"southyorkshire:trip:{item}",
                         value: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults)),
                         expiry: TimeSpan.FromMinutes(value: 239));
             }
