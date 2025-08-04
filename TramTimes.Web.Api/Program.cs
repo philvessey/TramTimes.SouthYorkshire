@@ -34,7 +34,8 @@ builder.Services
 
 builder.Services
     .AddOpenApi()
-    .AddProblemDetails();
+    .AddProblemDetails()
+    .AddSwaggerGen();
 
 #endregion
 
@@ -42,6 +43,13 @@ builder.Services
 
 var application = builder.Build();
 application.UseExceptionHandler();
+
+if (application.Environment.IsDevelopment())
+{
+    application.UseSwagger();
+    application.UseSwaggerUI();
+}
+
 application.MapHealthChecks(pattern: "/healthz");
 
 if (application.Environment.IsDevelopment())

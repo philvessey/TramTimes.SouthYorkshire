@@ -74,6 +74,7 @@
         <PackageVersion Include="Nager.Date" Version="2.9.0" />
         <PackageVersion Include="Polly" Version="8.6.2" />
         <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.14.0" />
+        <PackageVersion Include="Swashbuckle.AspNetCore" Version="9.0.3" />
         <PackageVersion Include="Telerik.UI.for.Blazor" Version="9.1.0" />
     </ItemGroup>
     

@@ -12,7 +12,7 @@ public static class DatabaseService
             pattern: "/database/services/stop/{id}",
             handler: DatabaseHandler.GetServicesByStopAsync);
         
-        builder.WithSummary(summary: "Get Services from Postgres Database.");
+        builder.WithSummary(summary: "Get Services from Postgres Database by Stop ID.");
         builder.WithTags(tags: "database");
         
         #endregion
@@ -23,7 +23,7 @@ public static class DatabaseService
             pattern: "/database/services/trip/{id}",
             handler: DatabaseHandler.GetServicesByTripAsync);
         
-        builder.WithSummary(summary: "Get Services from Postgres Database.");
+        builder.WithSummary(summary: "Get Services from Postgres Database by Trip ID.");
         builder.WithTags(tags: "database");
         
         #endregion
@@ -34,7 +34,7 @@ public static class DatabaseService
             pattern: "/database/stops/id/{id}",
             handler: DatabaseHandler.GetStopsByIdAsync);
         
-        builder.WithSummary(summary: "Get Stops from Postgres Database.");
+        builder.WithSummary(summary: "Get Stops from Postgres Database by Stop ID.");
         builder.WithTags(tags: "database");
         
         #endregion
@@ -45,7 +45,7 @@ public static class DatabaseService
             pattern: "/database/stops/code/{code}",
             handler: DatabaseHandler.GetStopsByCodeAsync);
         
-        builder.WithSummary(summary: "Get Stops from Postgres Database.");
+        builder.WithSummary(summary: "Get Stops from Postgres Database by Stop Code.");
         builder.WithTags(tags: "database");
         
         #endregion
@@ -56,7 +56,7 @@ public static class DatabaseService
             pattern: "/database/stops/name/{name}",
             handler: DatabaseHandler.GetStopsByNameAsync);
         
-        builder.WithSummary(summary: "Get Stops from Postgres Database.");
+        builder.WithSummary(summary: "Get Stops from Postgres Database by Stop Name.");
         builder.WithTags(tags: "database");
         
         #endregion
@@ -67,7 +67,7 @@ public static class DatabaseService
             pattern: "/database/stops/location/{minLon:double}/{minLat:double}/{maxLon:double}/{maxLat:double}",
             handler: DatabaseHandler.GetStopsByLocationAsync);
         
-        builder.WithSummary(summary: "Get Stops from Postgres Database.");
+        builder.WithSummary(summary: "Get Stops from Postgres Database by Stop Location.");
         builder.WithTags(tags: "database");
         
         #endregion
@@ -78,7 +78,7 @@ public static class DatabaseService
             pattern: "/database/stops/point/{lon:double}/{lat:double}",
             handler: DatabaseHandler.GetStopsByPointAsync);
         
-        builder.WithSummary(summary: "Get Stops from Postgres Database.");
+        builder.WithSummary(summary: "Get Stops from Postgres Database By Stop Point.");
         builder.WithTags(tags: "database");
         
         #endregion

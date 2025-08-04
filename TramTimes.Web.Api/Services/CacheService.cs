@@ -12,7 +12,7 @@ public static class CacheService
             pattern: "/cache/services/stop/{id}",
             handler: CacheHandler.GetServicesByStopAsync);
         
-        builder.WithSummary(summary: "Get Services from Redis Cache.");
+        builder.WithSummary(summary: "Get Services from Redis Cache by Stop ID.");
         builder.WithTags(tags: "cache");
         
         #endregion
@@ -23,7 +23,7 @@ public static class CacheService
             pattern: "/cache/services/trip/{id}",
             handler: CacheHandler.GetServicesByTripAsync);
         
-        builder.WithSummary(summary: "Get Services from Redis Cache.");
+        builder.WithSummary(summary: "Get Services from Redis Cache by Trip ID.");
         builder.WithTags(tags: "cache");
         
         #endregion
