@@ -49,7 +49,7 @@ public static class IndexBuilder
         
         await searchService.IndexAsync(
             document: databaseResults,
-            index: "search");
+            index: "southyorkshire");
         
         #endregion
     }

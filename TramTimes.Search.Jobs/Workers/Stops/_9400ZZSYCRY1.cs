@@ -33,7 +33,7 @@ public class _9400ZZSYCRY1(
             
             var searchFeed = await searchService.GetAsync<SearchStop>(
                 id: "9400ZZSYCRY1",
-                index: "search");
+                index: "southyorkshire");
             
             List<SearchStopPoint> mappedResults = [];
             
@@ -82,7 +82,7 @@ public class _9400ZZSYCRY1(
             
             await searchService.IndexAsync(
                 document: databaseResults,
-                index: "search");
+                index: "southyorkshire");
             
             #endregion
             

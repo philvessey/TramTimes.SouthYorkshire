@@ -21,14 +21,14 @@ public class Clean(
         {
             #region delete search index
             
-            await searchService.Indices.DeleteAsync(indices: "search");
+            await searchService.Indices.DeleteAsync(indices: "southyorkshire");
             
             #endregion
             
             #region create search index
             
             await searchService.Indices.CreateAsync<SearchStop>(
-                index: "search",
+                index: "southyorkshire",
                 configureRequest: request => request
                     .Mappings(configure: map => map
                         .Properties(properties: new Properties<SearchStop>

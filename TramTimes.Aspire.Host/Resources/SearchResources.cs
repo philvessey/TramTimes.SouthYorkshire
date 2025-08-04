@@ -5,5 +5,5 @@ namespace TramTimes.Aspire.Host.Resources;
 public class SearchResources
 {
     [UsedImplicitly]
-    public IResourceBuilder<ElasticsearchResource>? Elastic { get; set; }
+    public IResourceBuilder<ElasticsearchResource>? Elasticsearch { get; set; }
 }

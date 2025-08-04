@@ -42,40 +42,30 @@ public class StartupService : IHostedService
         
         await _result.ExecuteAsync(action: async () =>
         {
-            var pingResponse = await _service.PingAsync(cancellationToken: cancellationToken);
+            var response = await _service.Cluster.HealthAsync(cancellationToken: cancellationToken);
             
-            if (!pingResponse.IsValidResponse)
+            if (!response.IsValidResponse)
                 _logger.LogError(
-                    message: "Service ping status: {status}",
-                    args: pingResponse.IsSuccess());
+                    message: "Service health status: {status}",
+                    args: "Unknown");
             
-            if (!pingResponse.IsValidResponse)
-                throw new Exception(message: $"Service ping status: {pingResponse.IsSuccess()}");
+            if (!response.IsValidResponse)
+                throw new Exception(message: "Service health status: Unknown");
+            
+            if (response.Status is not HealthStatus.Green)
+                _logger.LogError(
+                    message: "Service health status: {status}",
+                    args: response.Status);
+            
+            if (response.Status is not HealthStatus.Green)
+                throw new Exception(message: $"Service health status: {response.Status}");
             
             _logger.LogInformation(
-                message: "Service ping status: {status}",
-                args: pingResponse.IsSuccess());
+                message: "Service health status: {status}",
+                args: response.Status);
             
-            var healthResponse = await _service.Cluster.HealthAsync(cancellationToken: cancellationToken);
-            
-            if (!healthResponse.IsValidResponse)
-                _logger.LogError(
-                    message: "Service cluster status: {status}",
-                    args: healthResponse.Status);
-            
-            if (!healthResponse.IsValidResponse)
-                throw new Exception(message: $"Service cluster status: {healthResponse.Status}");
-            
-            _logger.LogInformation(
-                message: "Service cluster status: {status}",
-                args: healthResponse.Status);
-            
-            await _service.Indices.DeleteAsync(
-                indices: "search",
-                cancellationToken: cancellationToken);
-            
-            var createResponse = await _service.Indices.CreateAsync<SearchStop>(
-                index: "search",
+            await _service.Indices.CreateAsync<SearchStop>(
+                index: "southyorkshire",
                 configureRequest: request => request
                     .Mappings(configure: map => map
                         .Properties(properties: new Properties<SearchStop>
@@ -90,18 +80,6 @@ public class StartupService : IHostedService
                             { "points", new ObjectProperty() }
                         })),
                 cancellationToken: cancellationToken);
-            
-            if (!createResponse.IsValidResponse)
-                _logger.LogError(
-                    message: "Service index status: {status}",
-                    args: createResponse.IsSuccess());
-            
-            if (!createResponse.IsValidResponse)
-                throw new Exception(message: $"Service index status: {createResponse.IsSuccess()}");
-            
-            _logger.LogInformation(
-                message: "Service index status: {status}",
-                args: createResponse.IsSuccess());
         });
         
         #endregion

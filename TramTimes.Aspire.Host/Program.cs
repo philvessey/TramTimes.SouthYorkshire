@@ -44,7 +44,7 @@ builder.BuildWeb(
     server: databaseResources.PostgresServer ?? throw new InvalidOperationException("Postgres server not initialized."),
     database: databaseResources.PostgresDatabase ?? throw new InvalidOperationException("Postgres database not initialized."),
     cache: cacheResources.Redis ?? throw new InvalidOperationException("Redis not initialized."),
-    search: searchResources.Elastic ?? throw new InvalidOperationException("Elastic search not initialized."));
+    search: searchResources.Elasticsearch ?? throw new InvalidOperationException("Elasticsearch not initialized."));
 
 #endregion
 

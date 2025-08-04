@@ -20,14 +20,16 @@ public static class SearchBuilder
         
         #region add elasticsearch
         
-        result.Elastic = builder
+        result.Elasticsearch = builder
             .AddElasticsearch(name: "search")
             .WaitFor(dependency: storage)
             .WaitFor(dependency: server)
             .WaitFor(dependency: database)
             .WithDataVolume()
             .WithLifetime(lifetime: ContainerLifetime.Persistent)
-            .WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
+            .WithUrlForEndpoint(
+                callback: annotation => annotation.DisplayText = "Administration",
+                endpointName: "http");
         
         #endregion
         
@@ -35,11 +37,11 @@ public static class SearchBuilder
         
         builder
             .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder")
-            .WaitFor(dependency: result.Elastic)
-            .WithParentRelationship(parent: result.Elastic)
+            .WaitFor(dependency: result.Elasticsearch)
+            .WithParentRelationship(parent: result.Elasticsearch)
             .WithReference(source: container)
             .WithReference(source: database)
-            .WithReference(source: result.Elastic);
+            .WithReference(source: result.Elasticsearch);
         
         #endregion
         

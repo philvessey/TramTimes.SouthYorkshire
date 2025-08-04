@@ -17,7 +17,7 @@ public static class SearchHandler
         
         #region build request
         
-        var request = new SearchRequest(indices: "search")
+        var request = new SearchRequest(indices: "southyorkshire")
         {
             Query = new TermQuery(field: new Field(name: "id"))
             {
@@ -48,7 +48,7 @@ public static class SearchHandler
         
         #region build request
         
-        var request = new SearchRequest(indices: "search")
+        var request = new SearchRequest(indices: "southyorkshire")
         {
             Query = new TermQuery(field: new Field(name: "code"))
             {
@@ -79,7 +79,7 @@ public static class SearchHandler
         
         #region build request
         
-        var request = new SearchRequest(indices: "search")
+        var request = new SearchRequest(indices: "southyorkshire")
         {
             Query = new WildcardQuery(field: new Field(name: "name"))
             {
@@ -114,7 +114,7 @@ public static class SearchHandler
         
         #region build request
         
-        var request = new SearchRequest(indices: "search")
+        var request = new SearchRequest(indices: "southyorkshire")
         {
             Query = new GeoBoundingBoxQuery
             {
@@ -163,7 +163,7 @@ public static class SearchHandler
         
         #region build request
         
-        var request = new SearchRequest(indices: "search")
+        var request = new SearchRequest(indices: "southyorkshire")
         {
             Query = new GeoDistanceQuery
             {
