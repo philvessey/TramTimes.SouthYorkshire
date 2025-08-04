@@ -14,8 +14,8 @@ builder
 
 #region inject services
 
-builder.AddAzureBlobContainerClient(connectionName: "southyorkshire");
-builder.AddNpgsqlDataSource(connectionName: "database");
+builder.AddAzureBlobContainerClient(connectionName: "storage-blobs-southyorkshire");
+builder.AddNpgsqlDataSource(connectionName: "southyorkshire");
 
 #endregion
 

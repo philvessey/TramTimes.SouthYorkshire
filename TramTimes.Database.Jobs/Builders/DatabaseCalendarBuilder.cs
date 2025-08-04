@@ -9,7 +9,7 @@ public static class DatabaseCalendarBuilder
 {
     public static async Task<ulong> BuildAsync(
         Dictionary<string, TravelineSchedule> schedules,
-        NpgsqlDataSource dataSource) {
+        NpgsqlConnection connection) {
         
         #region build calendars
         
@@ -17,29 +17,54 @@ public static class DatabaseCalendarBuilder
         
         #endregion
         
-        #region build results
-        
-        const string sql = "copy gtfs_calendar (" +
-                           "service_id, " +
-                           "monday, " +
-                           "tuesday, " +
-                           "wednesday, " +
-                           "thursday, " +
-                           "friday, " +
-                           "saturday, " +
-                           "sunday, " +
-                           "start_date, " +
-                           "end_date)";
-        
-        await using var connection = await dataSource.OpenConnectionAsync();
+        #region create table
         
         var command = new NpgsqlCommand(
+            cmdText: "create table if not exists gtfs_calendar (" +
+                     "service_id character varying(255) primary key, " +
+                     "monday smallint not null, " +
+                     "tuesday smallint not null, " +
+                     "wednesday smallint not null, " +
+                     "thursday smallint not null, " +
+                     "friday smallint not null, " +
+                     "saturday smallint not null, " +
+                     "sunday smallint not null, " +
+                     "start_date date not null, " +
+                     "end_date date not null)",
+            connection: connection);
+        
+        await command.ExecuteNonQueryAsync();
+        
+        #endregion
+        
+        #region truncate table
+        
+        command = new NpgsqlCommand(
             cmdText: "truncate table gtfs_calendar",
             connection: connection);
         
         await command.ExecuteNonQueryAsync();
         
-        var importer = await connection.BeginBinaryImportAsync(copyFromCommand: $"{sql} from stdin (format binary)");
+        #endregion
+        
+        #region create importer
+        
+        var importer = await connection.BeginBinaryImportAsync(copyFromCommand: "copy gtfs_calendar (" +
+                                                                                "service_id, " +
+                                                                                "monday, " +
+                                                                                "tuesday, " +
+                                                                                "wednesday, " +
+                                                                                "thursday, " +
+                                                                                "friday, " +
+                                                                                "saturday, " +
+                                                                                "sunday, " +
+                                                                                "start_date, " +
+                                                                                "end_date) " +
+                                                                                "from stdin (format binary)");
+        
+        #endregion
+        
+        #region build results
         
         foreach (var item in calendars.Values)
         {
@@ -87,9 +112,7 @@ public static class DatabaseCalendarBuilder
         }
         
         var results = await importer.CompleteAsync();
-        
         await importer.CloseAsync();
-        await connection.CloseAsync();
         
         #endregion
         

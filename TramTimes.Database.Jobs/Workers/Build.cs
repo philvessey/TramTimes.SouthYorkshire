@@ -293,18 +293,6 @@ public class Build(
             
             #region build database data
             
-            const string sql = "create index gtfs_stop_times_idx on gtfs_stop_times (" +
-                               "trip_id, " +
-                               "stop_id, " +
-                               "pickup_type, " +
-                               "arrival_time, " +
-                               "departure_time, " +
-                               "stop_sequence, " +
-                               "stop_headsign, " +
-                               "drop_off_type, " +
-                               "shape_dist_travelled, " +
-                               "timepoint)";
-            
             await using var connection = await dataSource.OpenConnectionAsync();
             
             var command = new NpgsqlCommand(
@@ -315,34 +303,44 @@ public class Build(
             
             var records = await DatabaseAgencyBuilder.BuildAsync(
                 schedules: results,
-                dataSource: dataSource);
+                connection: connection);
             
             records += await DatabaseCalendarBuilder.BuildAsync(
                 schedules: results,
-                dataSource: dataSource);
+                connection: connection);
             
             records += await DatabaseCalendarDateBuilder.BuildAsync(
                 schedules: results,
-                dataSource: dataSource);
+                connection: connection);
             
             records += await DatabaseRouteBuilder.BuildAsync(
                 schedules: results,
-                dataSource: dataSource);
+                connection: connection);
             
             records += await DatabaseStopBuilder.BuildAsync(
                 schedules: results,
-                dataSource: dataSource);
+                connection: connection);
             
             records += await DatabaseStopTimeBuilder.BuildAsync(
                 schedules: results,
-                dataSource: dataSource);
+                connection: connection);
             
             records += await DatabaseTripBuilder.BuildAsync(
                 schedules: results,
-                dataSource: dataSource);
+                connection: connection);
             
             command = new NpgsqlCommand(
-                cmdText: sql,
+                cmdText: "create index gtfs_stop_times_idx on gtfs_stop_times (" +
+                         "trip_id, " +
+                         "stop_id, " +
+                         "pickup_type, " +
+                         "arrival_time, " +
+                         "departure_time, " +
+                         "stop_sequence, " +
+                         "stop_headsign, " +
+                         "drop_off_type, " +
+                         "shape_dist_travelled, " +
+                         "timepoint)",
                 connection: connection);
             
             await command.ExecuteNonQueryAsync();

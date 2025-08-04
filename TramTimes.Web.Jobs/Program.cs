@@ -12,7 +12,7 @@ builder
 
 #region inject services
 
-builder.AddAzureBlobContainerClient(connectionName: "southyorkshire");
+builder.AddAzureBlobContainerClient(connectionName: "storage-blobs-southyorkshire");
 
 #endregion
 

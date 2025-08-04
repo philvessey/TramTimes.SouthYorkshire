@@ -46,22 +46,22 @@ public class StartupService : IHostedService
                 cmdText: "select 1 from pg_tables limit 1",
                 connection: connection);
             
-            var pingResponse = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
+            var response = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
             
             await command.DisposeAsync();
             await connection.CloseAsync();
             
-            if (pingResponse is null)
+            if (response is null)
                 _logger.LogError(
-                    message: "Service ping status: {status}",
-                    args: "False");
+                    message: "Service health status: {status}",
+                    args: "Red");
             
-            if (pingResponse is null)
-                throw new Exception(message: "Service ping status: False");
+            if (response is null)
+                throw new Exception(message: "Service health status: Red");
             
             _logger.LogInformation(
-                message: "Service ping status: {status}",
-                args: "True");
+                message: "Service health status: {status}",
+                args: "Green");
         });
         
         #endregion

@@ -56,8 +56,12 @@ public static class WebBuilder
             .WithReference(source: database)
             .WithReference(source: cache)
             .WithReference(source: search)
-            .WithUrlForEndpoint("https", annotation => annotation.DisplayText = "Primary")
-            .WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Secondary");
+            .WithUrlForEndpoint(
+                callback: annotation => annotation.DisplayText = "Primary",
+                endpointName: "https")
+            .WithUrlForEndpoint(
+                callback: annotation => annotation.DisplayText = "Secondary",
+                endpointName: "http");
         
         #endregion
         
@@ -81,8 +85,12 @@ public static class WebBuilder
                     ? api.GetEndpoint(name: "https")
                     : api.GetEndpoint(name: "http"))
             .WithExternalHttpEndpoints()
-            .WithUrlForEndpoint("https", annotation => annotation.DisplayText = "Primary")
-            .WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Secondary");
+            .WithUrlForEndpoint(
+                callback: annotation => annotation.DisplayText = "Primary",
+                endpointName: "https")
+            .WithUrlForEndpoint(
+                callback: annotation => annotation.DisplayText = "Secondary",
+                endpointName: "http");
         
         #endregion
     }

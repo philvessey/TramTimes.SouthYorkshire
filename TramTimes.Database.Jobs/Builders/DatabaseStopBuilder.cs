@@ -9,7 +9,7 @@ public static class DatabaseStopBuilder
 {
     public static async Task<ulong> BuildAsync(
         Dictionary<string, TravelineSchedule> schedules,
-        NpgsqlDataSource dataSource) {
+        NpgsqlConnection connection) {
         
         #region build stops
         
@@ -17,33 +17,62 @@ public static class DatabaseStopBuilder
         
         #endregion
         
-        #region build results
-        
-        const string sql = "copy gtfs_stops (" +
-                           "stop_id, " +
-                           "stop_code, " +
-                           "stop_name, " +
-                           "stop_desc, " +
-                           "stop_lat, " +
-                           "stop_lon, " +
-                           "zone_id, " +
-                           "stop_url, " +
-                           "location_type, " +
-                           "parent_station, " +
-                           "stop_timezone, " +
-                           "wheelchair_boarding, " +
-                           "level_id, " +
-                           "platform_code)";
-        
-        await using var connection = await dataSource.OpenConnectionAsync();
+        #region create table
         
         var command = new NpgsqlCommand(
+            cmdText: "create table if not exists gtfs_stops (" +
+                     "stop_id character varying(255) primary key, " +
+                     "stop_code character varying(255), " +
+                     "stop_name character varying(255), " +
+                     "stop_desc character varying(255), " +
+                     "stop_lat real, " +
+                     "stop_lon real, " +
+                     "zone_id character varying(255), " +
+                     "stop_url character varying(255), " +
+                     "location_type character varying(255), " +
+                     "parent_station character varying(255), " +
+                     "stop_timezone character varying(255), " +
+                     "wheelchair_boarding character varying(255), " +
+                     "level_id character varying(255), " +
+                     "platform_code character varying(255))",
+            connection: connection);
+        
+        await command.ExecuteNonQueryAsync();
+        
+        #endregion
+        
+        #region truncate table
+        
+        command = new NpgsqlCommand(
             cmdText: "truncate table gtfs_stops",
             connection: connection);
         
         await command.ExecuteNonQueryAsync();
         
-        var importer = await connection.BeginBinaryImportAsync(copyFromCommand: $"{sql} from stdin (format binary)");
+        #endregion
+        
+        #region create importer
+        
+        var importer = await connection.BeginBinaryImportAsync(copyFromCommand: "copy gtfs_stops (" +
+                                                                                "stop_id, " +
+                                                                                "stop_code, " +
+                                                                                "stop_name, " +
+                                                                                "stop_desc, " +
+                                                                                "stop_lat, " +
+                                                                                "stop_lon, " +
+                                                                                "zone_id, " +
+                                                                                "stop_url, " +
+                                                                                "location_type, " +
+                                                                                "parent_station, " +
+                                                                                "stop_timezone, " +
+                                                                                "wheelchair_boarding, " +
+                                                                                "level_id, " +
+                                                                                "platform_code) " +
+                                                                                "from stdin (format binary)");
+        
+        #endregion
+        
+        #region build results
         
         foreach (var item in stops.Values)
         {
@@ -107,9 +136,7 @@ public static class DatabaseStopBuilder
         }
         
         var results = await importer.CompleteAsync();
-        
         await importer.CloseAsync();
-        await connection.CloseAsync();
         
         #endregion
         

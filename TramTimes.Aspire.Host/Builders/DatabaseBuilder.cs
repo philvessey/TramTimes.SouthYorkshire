@@ -18,76 +18,105 @@ public static class DatabaseBuilder
         
         #endregion
         
-        #region add postgres
+        #region add server
         
-        result.Postgres = builder
+        result.PostgresServer = builder
             .AddPostgres(name: "server")
             .WaitFor(dependency: storage)
-            .WithBindMount(
-                source: "Scripts",
-                target: "/docker-entrypoint-initdb.d")
             .WithDataVolume()
-            .WithEnvironment(
-                name: "POSTGRES_DB",
-                value: "database")
+            .WithInitFiles(source: "./Scripts")
             .WithLifetime(lifetime: ContainerLifetime.Persistent);
         
         #endregion
         
         #region add database
         
-        result.Database = result.Postgres.AddDatabase(name: "database");
+        result.PostgresDatabase = result.PostgresServer.AddDatabase(name: "southyorkshire");
         
         #endregion
         
         #region add tools
         
         if (string.IsNullOrEmpty(value: Testing))
-            result.Postgres
-                .WithPgAdmin(configureContainer: resource =>
-                {
-                    resource.WaitFor(result.Postgres);
-                    resource.WithLifetime(lifetime: ContainerLifetime.Session);
-                    resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
-                })
-                .WithPgWeb(configureContainer: resource =>
-                {
-                    resource.WaitFor(result.Postgres);
-                    resource.WithLifetime(lifetime: ContainerLifetime.Session);
-                    resource.WithUrlForEndpoint("http", annotation => annotation.DisplayText = "Administration");
-                });
+            result.PostgresServer
+                .WithPgAdmin(
+                    containerName: "server-admin",
+                    configureContainer: resource =>
+                    {
+                        resource.WaitFor(result.PostgresServer);
+                        resource.WithLifetime(lifetime: ContainerLifetime.Session);
+                        resource.WithParentRelationship(parent: result.PostgresServer);
+                        resource.WithUrlForEndpoint(
+                            callback: annotation => annotation.DisplayText = "Administration",
+                            endpointName: "http");
+                    })
+                .WithPgWeb(
+                    containerName: "server-web",
+                    configureContainer: resource =>
+                    {
+                        resource.WaitFor(result.PostgresServer);
+                        resource.WithLifetime(lifetime: ContainerLifetime.Session);
+                        resource.WithParentRelationship(parent: result.PostgresServer);
+                        resource.WithUrlForEndpoint(
+                            callback: annotation => annotation.DisplayText = "Administration",
+                            endpointName: "http");
+                    });
+        
+        #endregion
+        
+        #region add parameters
+        
+        result.TravelineHostname = builder
+            .AddParameter(
+                name: "transxchange-hostname",
+                secret: false)
+            .WithParentRelationship(parent: result.PostgresDatabase);
+        
+        result.NagerKey = builder
+            .AddParameter(
+                name: "transxchange-userkey",
+                secret: true)
+            .WithParentRelationship(parent: result.PostgresDatabase);
+        
+        result.TravelineUsername = builder
+            .AddParameter(
+                name: "transxchange-username",
+                secret: false)
+            .WithParentRelationship(parent: result.PostgresDatabase);
+        
+        result.TravelinePassword = builder
+            .AddParameter(
+                name: "transxchange-userpass",
+                secret: true)
+            .WithParentRelationship(parent: result.PostgresDatabase);
         
         #endregion
         
         #region add project
         
         builder
-            .AddProject<Projects.TramTimes_Database_Jobs>(name: "database-builder")
-            .WaitFor(dependency: result.Postgres)
-            .WaitFor(dependency: result.Database)
+            .AddProject<Projects.TramTimes_Database_Jobs>(name: "transxchange-builder")
+            .WaitFor(dependency: result.PostgresServer)
+            .WaitFor(dependency: result.PostgresDatabase)
+            .WaitFor(dependency: result.TravelineHostname)
+            .WaitFor(dependency: result.TravelineUsername)
+            .WaitFor(dependency: result.TravelinePassword)
+            .WaitFor(dependency: result.NagerKey)
             .WithEnvironment(
                 name: "FTP_HOSTNAME",
-                parameter: builder.AddParameter(
-                    name: "traveline-hostname",
-                    secret: true))
+                parameter: result.TravelineHostname)
             .WithEnvironment(
                 name: "FTP_USERNAME",
-                parameter: builder.AddParameter(
-                    name: "traveline-username",
-                    secret: true))
+                parameter: result.TravelineUsername)
             .WithEnvironment(
                 name: "FTP_PASSWORD",
-                parameter: builder.AddParameter(
-                    name: "traveline-password",
-                    secret: true))
+                parameter: result.TravelinePassword)
             .WithEnvironment(
                 name: "LICENSE_KEY",
-                parameter: builder.AddParameter(
-                    name: "nager-key",
-                    secret: true))
-            .WithParentRelationship(parent: result.Database)
+                parameter: result.NagerKey)
+            .WithParentRelationship(parent: result.PostgresDatabase)
             .WithReference(source: container)
-            .WithReference(source: result.Database);
+            .WithReference(source: result.PostgresDatabase);
         
         #endregion
         

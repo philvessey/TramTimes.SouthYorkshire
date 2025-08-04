@@ -9,7 +9,7 @@ public static class DatabaseTripBuilder
 {
     public static async Task<ulong> BuildAsync(
         Dictionary<string, TravelineSchedule> schedules,
-        NpgsqlDataSource dataSource) {
+        NpgsqlConnection connection) {
         
         #region build trips
         
@@ -17,29 +17,54 @@ public static class DatabaseTripBuilder
         
         #endregion
         
-        #region build results
-        
-        const string sql = "copy gtfs_trips (" +
-                           "route_id, " +
-                           "service_id, " +
-                           "trip_id, " +
-                           "trip_headsign, " +
-                           "trip_short_name, " +
-                           "direction_id, " +
-                           "block_id, " +
-                           "shape_id, " +
-                           "wheelchair_accessible, " +
-                           "bikes_allowed)";
-        
-        await using var connection = await dataSource.OpenConnectionAsync();
+        #region create table
         
         var command = new NpgsqlCommand(
+            cmdText: "create table if not exists gtfs_trips (" +
+                     "route_id character varying(255) not null, " +
+                     "service_id character varying(255) not null, " +
+                     "trip_id character varying(255) primary key, " +
+                     "trip_headsign character varying(255), " +
+                     "trip_short_name character varying(255), " +
+                     "direction_id smallint, " +
+                     "block_id character varying(255), " +
+                     "shape_id character varying(255), " +
+                     "wheelchair_accessible character varying(255), " +
+                     "bikes_allowed character varying(255))",
+            connection: connection);
+        
+        await command.ExecuteNonQueryAsync();
+        
+        #endregion
+        
+        #region truncate table
+        
+        command = new NpgsqlCommand(
             cmdText: "truncate table gtfs_trips",
             connection: connection);
         
         await command.ExecuteNonQueryAsync();
         
-        var importer = await connection.BeginBinaryImportAsync(copyFromCommand: $"{sql} from stdin (format binary)");
+        #endregion
+        
+        #region create importer
+        
+        var importer = await connection.BeginBinaryImportAsync(copyFromCommand: "copy gtfs_trips (" +
+                                                                                "route_id, " +
+                                                                                "service_id, " +
+                                                                                "trip_id, " +
+                                                                                "trip_headsign, " +
+                                                                                "trip_short_name, " +
+                                                                                "direction_id, " +
+                                                                                "block_id, " +
+                                                                                "shape_id, " +
+                                                                                "wheelchair_accessible, " +
+                                                                                "bikes_allowed) " +
+                                                                                "from stdin (format binary)");
+        
+        #endregion
+        
+        #region build results
         
         foreach (var item in trips.Values)
         {
@@ -87,9 +112,7 @@ public static class DatabaseTripBuilder
         }
         
         var results = await importer.CompleteAsync();
-        
         await importer.CloseAsync();
-        await connection.CloseAsync();
         
         #endregion
         
