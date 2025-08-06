@@ -8,7 +8,7 @@ public class DatabaseCalendarDate
     public string? ServiceId { get; set; }
     
     [UsedImplicitly]
-    public DateTime? ExceptionDate { get; set; }
+    public DateOnly? ExceptionDate { get; set; }
     
     [UsedImplicitly]
     public short? ExceptionType { get; set; }

@@ -31,7 +31,9 @@ public static class DatabaseBuilder
         
         #region add database
         
-        result.PostgresDatabase = result.PostgresServer.AddDatabase(name: "southyorkshire");
+        result.PostgresDatabase = result.PostgresServer
+            .AddDatabase(name: "southyorkshire")
+            .WithCreationScript(script: "select current_database();"); 
         
         #endregion
         
@@ -70,24 +72,21 @@ public static class DatabaseBuilder
             .AddParameter(
                 name: "transxchange-hostname",
                 secret: false)
-            .WithParentRelationship(parent: result.PostgresDatabase);
-        
-        result.NagerKey = builder
-            .AddParameter(
-                name: "transxchange-userkey",
-                secret: true)
+            .WithDescription(description: "Hostname for the Traveline FTP server.")
             .WithParentRelationship(parent: result.PostgresDatabase);
         
         result.TravelineUsername = builder
             .AddParameter(
                 name: "transxchange-username",
                 secret: false)
+            .WithDescription(description: "Username for the Traveline FTP server.")
             .WithParentRelationship(parent: result.PostgresDatabase);
         
         result.TravelinePassword = builder
             .AddParameter(
                 name: "transxchange-userpass",
                 secret: true)
+            .WithDescription(description: "Password for the Traveline FTP server.")
             .WithParentRelationship(parent: result.PostgresDatabase);
         
         #endregion
@@ -101,7 +100,6 @@ public static class DatabaseBuilder
             .WaitFor(dependency: result.TravelineHostname)
             .WaitFor(dependency: result.TravelineUsername)
             .WaitFor(dependency: result.TravelinePassword)
-            .WaitFor(dependency: result.NagerKey)
             .WithEnvironment(
                 name: "FTP_HOSTNAME",
                 parameter: result.TravelineHostname)
@@ -111,9 +109,6 @@ public static class DatabaseBuilder
             .WithEnvironment(
                 name: "FTP_PASSWORD",
                 parameter: result.TravelinePassword)
-            .WithEnvironment(
-                name: "LICENSE_KEY",
-                parameter: result.NagerKey)
             .WithParentRelationship(parent: result.PostgresDatabase)
             .WithReference(source: container)
             .WithReference(source: result.PostgresDatabase);

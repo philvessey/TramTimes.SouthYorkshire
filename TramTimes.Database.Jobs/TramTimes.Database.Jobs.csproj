@@ -10,7 +10,6 @@
         <PackageReference Include="IeuanWalker.GeoUK" />
         <PackageReference Include="JetBrains.Annotations" />
         <PackageReference Include="Microsoft.Extensions.Hosting" />
-        <PackageReference Include="Nager.Date" />
         <PackageReference Include="NextDepartures.Standard" />
         <PackageReference Include="NextDepartures.Storage.GTFS" />
         <PackageReference Include="NextDepartures.Storage.Postgres.Aspire" />

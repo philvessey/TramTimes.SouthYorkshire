@@ -3,6 +3,9 @@
 [Oo]bj/
 [Pp]ackages/
 
+# aspire
+**/.aspire
+
 # nuget
 **/nuget.config
 

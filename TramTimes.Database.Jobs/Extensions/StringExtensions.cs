@@ -2,18 +2,18 @@ namespace TramTimes.Database.Jobs.Extensions;
 
 public static class StringExtensions
 {
-    public static DateTime ToDate(this string? baseString)
+    public static DateOnly ToDate(this string? baseString)
     {
         #region check valid input
         
         if (baseString is null)
-            return DateTime.MinValue;
+            return DateOnly.MinValue;
         
         #endregion
         
         #region build result
         
-        var result = new DateTime(
+        var result = new DateOnly(
             year: int.Parse(s: baseString[..4]),
             month: int.Parse(s: baseString.Substring(
                 startIndex: 5,

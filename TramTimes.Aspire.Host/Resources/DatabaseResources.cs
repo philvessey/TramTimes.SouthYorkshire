@@ -18,7 +18,4 @@ public class DatabaseResources
     
     [UsedImplicitly]
     public IResourceBuilder<ParameterResource>? TravelinePassword { get; set; }
-    
-    [UsedImplicitly]
-    public IResourceBuilder<ParameterResource>? NagerKey { get; set; }
 }

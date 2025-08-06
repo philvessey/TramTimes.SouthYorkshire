@@ -4,9 +4,9 @@ namespace TramTimes.Database.Jobs.Tools;
 
 public static class TravelineCalendarRunningDateTools
 {
-    public static List<DateTime> GetAllDates(
-        DateTime? startDate,
-        DateTime? endDate,
+    public static List<DateOnly> GetAllDates(
+        DateOnly? startDate,
+        DateOnly? endDate,
         bool? monday,
         bool? tuesday,
         bool? wednesday,
@@ -24,7 +24,7 @@ public static class TravelineCalendarRunningDateTools
         
         #region build results
         
-        var results = new List<DateTime>();
+        var results = new List<DateOnly>();
         
         while (startDate <= endDate)
         {
@@ -102,7 +102,7 @@ public static class TravelineCalendarRunningDateTools
     public static bool GetDuplicateDates(
         Dictionary<string, TravelineSchedule> schedules,
         List<TravelineStopPoint>? stopPoints,
-        List<DateTime>? dates,
+        List<DateOnly>? dates,
         string? direction,
         string? line) {
         

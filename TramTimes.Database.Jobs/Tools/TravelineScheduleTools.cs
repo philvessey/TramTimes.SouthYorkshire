@@ -7,9 +7,9 @@ public static class TravelineScheduleTools
     public static bool GetDuplicateMatch(
         Dictionary<string, TravelineSchedule> schedules,
         List<TravelineStopPoint>? stopPoints,
-        List<DateTime>? runningDates,
-        List<DateTime>? supplementRunningDates,
-        List<DateTime>? supplementNonRunningDates,
+        List<DateOnly>? runningDates,
+        List<DateOnly>? supplementRunningDates,
+        List<DateOnly>? supplementNonRunningDates,
         string? direction,
         string? line) {
         

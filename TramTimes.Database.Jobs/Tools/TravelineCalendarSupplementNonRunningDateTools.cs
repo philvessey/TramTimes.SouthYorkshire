@@ -5,11 +5,12 @@ namespace TramTimes.Database.Jobs.Tools;
 
 public static class TravelineCalendarSupplementNonRunningDateTools
 {
-    public static List<DateTime> GetAllDates(
-        DateTime scheduleDate,
+    public static List<DateOnly> GetAllDates(
+        DateOnly scheduleDate,
+        List<Holiday> holidays,
         TransXChangeOperatingProfile? operatingProfile,
-        DateTime? startDate,
-        DateTime? endDate,
+        DateOnly? startDate,
+        DateOnly? endDate,
         bool? monday,
         bool? tuesday,
         bool? wednesday,
@@ -17,7 +18,7 @@ public static class TravelineCalendarSupplementNonRunningDateTools
         bool? friday,
         bool? saturday,
         bool? sunday,
-        List<DateTime>? dates) {
+        List<DateOnly>? dates) {
         
         #region check valid input
         
@@ -30,15 +31,16 @@ public static class TravelineCalendarSupplementNonRunningDateTools
         
         var daysOfNonOperation = operatingProfile?.SpecialDaysOperation?.DaysOfNonOperation;
         
-        startDate = DateTimeTools.GetProfileStartDate(
+        startDate = DateOnlyTools.GetProfileStartDate(
             scheduleDate: scheduleDate,
             startDate: daysOfNonOperation?.DateRange?.StartDate.ToDate());
         
-        endDate = DateTimeTools.GetProfileEndDate(
+        endDate = DateOnlyTools.GetProfileEndDate(
             scheduleDate: scheduleDate,
             endDate: daysOfNonOperation?.DateRange?.EndDate.ToDate());
         
         var results = TransXChangeDaysOfNonOperationTools.GetAllHolidays(
+            holidays: holidays,
             daysOfNonOperation: daysOfNonOperation,
             startDate: startDate,
             endDate: endDate);
@@ -119,7 +121,7 @@ public static class TravelineCalendarSupplementNonRunningDateTools
     public static bool GetDuplicateDates(
         Dictionary<string, TravelineSchedule> schedules,
         List<TravelineStopPoint>? stopPoints,
-        List<DateTime>? dates,
+        List<DateOnly>? dates,
         string? direction,
         string? line) {
         

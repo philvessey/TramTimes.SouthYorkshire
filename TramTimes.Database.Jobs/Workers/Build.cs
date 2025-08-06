@@ -18,6 +18,7 @@ public class Build(
     NpgsqlDataSource dataSource,
     ILogger<Build> logger) : IJob {
     
+    private const string Holidays = "https://date.nager.at/api/v3/NextPublicHolidays/gb";
     private const string Localities = "https://naptan.api.dft.gov.uk/v1/nptg/localities";
     private const string Stops = "https://naptan.api.dft.gov.uk/v1/access-nodes?dataFormat=csv&atcoAreaCodes=370%2C940";
     
@@ -31,6 +32,12 @@ public class Build(
         
         try
         {
+            #region get nager holidays
+            
+            var holidays = await Holidays.GetJsonAsync<List<Holiday>>() ?? [];
+            
+            #endregion
+            
             #region get naptan localities
             
             var remotePath = Path.Combine(
@@ -195,12 +202,12 @@ public class Build(
                 if (xml.VehicleJourneys?.VehicleJourney is null)
                     continue;
                 
-                var startDate = DateTimeTools.GetPeriodStartDate(
-                    scheduleDate: context.FireTimeUtc.Date,
+                var startDate = DateOnlyTools.GetPeriodStartDate(
+                    scheduleDate: DateOnly.FromDateTime(dateTime: context.FireTimeUtc.Date),
                     startDate: xml.Services?.Service?.OperatingPeriod?.StartDate.ToDate());
                 
-                var endDate = DateTimeTools.GetPeriodEndDate(
-                    scheduleDate: context.FireTimeUtc.Date,
+                var endDate = DateOnlyTools.GetPeriodEndDate(
+                    scheduleDate: DateOnly.FromDateTime(dateTime: context.FireTimeUtc.Date),
                     endDate: xml.Services?.Service?.OperatingPeriod?.EndDate.ToDate());
                 
                 if (startDate > endDate)
@@ -209,7 +216,8 @@ public class Build(
                 foreach (var item in xml.VehicleJourneys.VehicleJourney)
                 {
                     var calendar = TravelineCalendarBuilder.Build(
-                        scheduleDate: context.FireTimeUtc.Date,
+                        scheduleDate: DateOnly.FromDateTime(dateTime: context.FireTimeUtc.Date),
+                        holidays: holidays,
                         services: xml.Services,
                         vehicleJourney: item,
                         startDate: startDate,

@@ -5,11 +5,12 @@ namespace TramTimes.Database.Jobs.Tools;
 
 public static class TravelineCalendarSupplementRunningDateTools
 {
-    public static List<DateTime> GetAllDates(
-        DateTime scheduleDate,
+    public static List<DateOnly> GetAllDates(
+        DateOnly scheduleDate,
+        List<Holiday> holidays,
         TransXChangeOperatingProfile? operatingProfile,
-        DateTime? startDate,
-        DateTime? endDate,
+        DateOnly? startDate,
+        DateOnly? endDate,
         bool? monday,
         bool? tuesday,
         bool? wednesday,
@@ -17,7 +18,7 @@ public static class TravelineCalendarSupplementRunningDateTools
         bool? friday,
         bool? saturday,
         bool? sunday,
-        List<DateTime>? dates) {
+        List<DateOnly>? dates) {
         
         #region check valid input
         
@@ -30,15 +31,16 @@ public static class TravelineCalendarSupplementRunningDateTools
         
         var daysOfOperation = operatingProfile?.SpecialDaysOperation?.DaysOfOperation;
         
-        startDate = DateTimeTools.GetProfileStartDate(
+        startDate = DateOnlyTools.GetProfileStartDate(
             scheduleDate: scheduleDate,
             startDate: daysOfOperation?.DateRange?.StartDate.ToDate());
         
-        endDate = DateTimeTools.GetProfileEndDate(
+        endDate = DateOnlyTools.GetProfileEndDate(
             scheduleDate: scheduleDate,
             endDate: daysOfOperation?.DateRange?.EndDate.ToDate());
         
         var results = TransXChangeDaysOfOperationTools.GetAllHolidays(
+            holidays: holidays,
             daysOfOperation: daysOfOperation,
             startDate: startDate,
             endDate: endDate);
@@ -119,7 +121,7 @@ public static class TravelineCalendarSupplementRunningDateTools
     public static bool GetDuplicateDates(
         Dictionary<string, TravelineSchedule> schedules,
         List<TravelineStopPoint>? stopPoints,
-        List<DateTime>? dates,
+        List<DateOnly>? dates,
         string? direction,
         string? line) {
         

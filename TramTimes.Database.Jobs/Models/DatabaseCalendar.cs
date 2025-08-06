@@ -29,8 +29,8 @@ public class DatabaseCalendar
     public short? Sunday { get; set; }
     
     [UsedImplicitly]
-    public DateTime? StartDate { get; set; }
+    public DateOnly? StartDate { get; set; }
     
     [UsedImplicitly]
-    public DateTime? EndDate { get; set; }
+    public DateOnly? EndDate { get; set; }
 }

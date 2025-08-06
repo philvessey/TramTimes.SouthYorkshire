@@ -6,11 +6,12 @@ namespace TramTimes.Database.Jobs.Builders;
 public static class TravelineCalendarBuilder
 {
     public static TravelineCalendar Build(
-        DateTime scheduleDate,
+        DateOnly scheduleDate,
+        List<Holiday> holidays,
         TransXChangeServices? services,
         TransXChangeVehicleJourney? vehicleJourney,
-        DateTime? startDate,
-        DateTime? endDate) {
+        DateOnly? startDate,
+        DateOnly? endDate) {
         
         #region build unknown
         
@@ -227,6 +228,7 @@ public static class TravelineCalendarBuilder
         
         result.SupplementRunningDates = TravelineCalendarSupplementRunningDateTools.GetAllDates(
             scheduleDate: scheduleDate,
+            holidays: holidays,
             operatingProfile: operatingProfile,
             startDate: result.StartDate,
             endDate: result.EndDate,
@@ -241,6 +243,7 @@ public static class TravelineCalendarBuilder
         
         result.SupplementNonRunningDates = TravelineCalendarSupplementNonRunningDateTools.GetAllDates(
             scheduleDate: scheduleDate,
+            holidays: holidays,
             operatingProfile: operatingProfile,
             startDate: result.StartDate,
             endDate: result.EndDate,

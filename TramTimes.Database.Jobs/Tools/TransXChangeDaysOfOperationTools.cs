@@ -1,26 +1,16 @@
-using Nager.Date;
-using Nager.Date.Models;
 using TramTimes.Database.Jobs.Models;
 
 namespace TramTimes.Database.Jobs.Tools;
 
 public static class TransXChangeDaysOfOperationTools
 {
-    private static readonly string HolidaySystemKey = Environment.GetEnvironmentVariable(variable: "LICENSE_KEY") ?? string.Empty;
-    
-    public static List<DateTime> GetAllHolidays(
+    public static List<DateOnly> GetAllHolidays(
+        List<Holiday> holidays,
         TransXChangeDaysOfOperation? daysOfOperation,
-        DateTime? startDate,
-        DateTime? endDate) {
+        DateOnly? startDate,
+        DateOnly? endDate) {
         
         List<Holiday> results = [];
-        
-        #region check license key
-        
-        if (string.IsNullOrEmpty(value: HolidaySystem.LicenseKey))
-            HolidaySystem.LicenseKey = HolidaySystemKey;
-        
-        #endregion
         
         #region check valid input
         
@@ -38,26 +28,32 @@ public static class TransXChangeDaysOfOperationTools
                 endDate: endDate));
             
             results.Add(item: HolidayTools.GetNewYearsDayHoliday(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
             
             results.Add(item: HolidayTools.GetGoodFriday(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
             
             results.Add(item: HolidayTools.GetEasterMonday(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
             
             results.Add(item: HolidayTools.GetMayDay(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
             
             results.Add(item: HolidayTools.GetSpringBank(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
             
             results.Add(item: HolidayTools.GetLateSummerBankHolidayNotScotland(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
             
@@ -66,6 +62,7 @@ public static class TransXChangeDaysOfOperationTools
                 endDate: endDate));
             
             results.Add(item: HolidayTools.GetChristmasDayHoliday(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
             
@@ -74,6 +71,7 @@ public static class TransXChangeDaysOfOperationTools
                 endDate: endDate));
             
             results.Add(item: HolidayTools.GetBoxingDayHoliday(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
         }
@@ -89,22 +87,27 @@ public static class TransXChangeDaysOfOperationTools
                 endDate: endDate));
             
             results.Add(item: HolidayTools.GetGoodFriday(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
             
             results.Add(item: HolidayTools.GetEasterMonday(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
             
             results.Add(item: HolidayTools.GetMayDay(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
             
             results.Add(item: HolidayTools.GetSpringBank(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
             
             results.Add(item: HolidayTools.GetLateSummerBankHolidayNotScotland(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
         }
@@ -131,14 +134,17 @@ public static class TransXChangeDaysOfOperationTools
         if (daysOfOperation?.DisplacementHolidays is not null)
         {
             results.Add(item: HolidayTools.GetNewYearsDayHoliday(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
             
             results.Add(item: HolidayTools.GetChristmasDayHoliday(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
             
             results.Add(item: HolidayTools.GetBoxingDayHoliday(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
         }
@@ -165,18 +171,22 @@ public static class TransXChangeDaysOfOperationTools
         if (daysOfOperation?.HolidayMondays is not null)
         {
             results.Add(item: HolidayTools.GetEasterMonday(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
             
             results.Add(item: HolidayTools.GetMayDay(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
             
             results.Add(item: HolidayTools.GetSpringBank(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
             
             results.Add(item: HolidayTools.GetLateSummerBankHolidayNotScotland(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
         }
@@ -192,6 +202,7 @@ public static class TransXChangeDaysOfOperationTools
                 endDate: endDate));
             
             results.Add(item: HolidayTools.GetGoodFriday(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
         }
@@ -211,6 +222,7 @@ public static class TransXChangeDaysOfOperationTools
         
         if (daysOfOperation?.NewYearsDayHoliday is not null)
             results.Add(item: HolidayTools.GetNewYearsDayHoliday(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
         
@@ -220,6 +232,7 @@ public static class TransXChangeDaysOfOperationTools
         
         if (daysOfOperation?.GoodFriday is not null)
             results.Add(item: HolidayTools.GetGoodFriday(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
         
@@ -229,6 +242,7 @@ public static class TransXChangeDaysOfOperationTools
         
         if (daysOfOperation?.EasterMonday is not null)
             results.Add(item: HolidayTools.GetEasterMonday(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
         
@@ -238,6 +252,7 @@ public static class TransXChangeDaysOfOperationTools
         
         if (daysOfOperation?.MayDay is not null)
             results.Add(item: HolidayTools.GetMayDay(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
         
@@ -247,6 +262,7 @@ public static class TransXChangeDaysOfOperationTools
         
         if (daysOfOperation?.SpringBank is not null)
             results.Add(item: HolidayTools.GetSpringBank(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
         
@@ -256,6 +272,7 @@ public static class TransXChangeDaysOfOperationTools
         
         if (daysOfOperation?.LateSummerBankHolidayNotScotland is not null)
             results.Add(item: HolidayTools.GetLateSummerBankHolidayNotScotland(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
         
@@ -283,6 +300,7 @@ public static class TransXChangeDaysOfOperationTools
         
         if (daysOfOperation?.ChristmasDayHoliday is not null)
             results.Add(item: HolidayTools.GetChristmasDayHoliday(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
         
@@ -301,6 +319,7 @@ public static class TransXChangeDaysOfOperationTools
         
         if (daysOfOperation?.BoxingDayHoliday is not null)
             results.Add(item: HolidayTools.GetBoxingDayHoliday(
+                holidays: holidays,
                 startDate: startDate,
                 endDate: endDate));
         
@@ -316,10 +335,12 @@ public static class TransXChangeDaysOfOperationTools
         #endregion
         
         return results
-            .Where(predicate: holiday => holiday.Date >= startDate && holiday.Date <= endDate)
-            .Select(selector: holiday => holiday.Date)
+            .Where(holiday => holiday.Date >= startDate && holiday.Date <= endDate)
+            .Select(holiday => holiday.Date)
+            .Where(date => date.HasValue)
+            .Select(date => date!.Value)
             .Distinct()
-            .OrderBy(keySelector: date => date)
+            .OrderBy(date => date)
             .ToList();
     }
 }

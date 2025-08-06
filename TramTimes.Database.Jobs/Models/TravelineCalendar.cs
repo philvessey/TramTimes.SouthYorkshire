@@ -26,17 +26,17 @@ public class TravelineCalendar
     public bool? Sunday { get; set; }
     
     [UsedImplicitly]
-    public DateTime? StartDate { get; set; }
+    public DateOnly? StartDate { get; set; }
     
     [UsedImplicitly]
-    public DateTime? EndDate { get; set; }
+    public DateOnly? EndDate { get; set; }
     
     [UsedImplicitly]
-    public List<DateTime>? RunningDates { get; set; }
+    public List<DateOnly>? RunningDates { get; set; }
     
     [UsedImplicitly]
-    public List<DateTime>? SupplementRunningDates { get; set; }
+    public List<DateOnly>? SupplementRunningDates { get; set; }
     
     [UsedImplicitly]
-    public List<DateTime>? SupplementNonRunningDates { get; set; }
+    public List<DateOnly>? SupplementNonRunningDates { get; set; }
 }
