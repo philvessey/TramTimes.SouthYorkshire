@@ -1,7 +1,5 @@
 using System.Net.Http.Json;
 using Aspire.Hosting.Testing;
-using Azure.Storage.Blobs;
-using Azure.Storage.Blobs.Models;
 using Microsoft.Playwright;
 using TramTimes.Web.Tests.Managers;
 using TramTimes.Web.Utilities.Models;
@@ -218,132 +216,37 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
 		
 		#endregion
 		
-		#region get environment
-		
-		var endpoint = AspireManager.Application.GetEndpoint(
-			resourceName: "storage",
-			endpointName: "blob");
-		
-		if (endpoint.Scheme is not "tcp")
-		{
-			AspireManager.Storage!.CreateSubdirectory(path: "production");
-			
-			foreach (var item in AspireManager.Storage!.GetFiles())
-			{
-				item.CopyTo(
-					destFileName: Path.Combine(
-						path1: AspireManager.Storage.FullName,
-						path2: "production",
-						path3: item.Name),
-					overwrite: true);
-				
-				item.Delete();
-			}
-		}
-		else
-		{
-			AspireManager.Storage!.CreateSubdirectory(path: "development");
-			
-			foreach (var item in AspireManager.Storage!.GetFiles())
-			{
-				item.CopyTo(
-					destFileName: Path.Combine(
-						path1: AspireManager.Storage.FullName,
-						path2: "development",
-						path3: item.Name),
-					overwrite: true);
-				
-				item.Delete();
-			}
-		}
-		
-		#endregion
-		
 		#region upload files
 		
-		var productionPath = Path.Combine(
-			path1: AspireManager.Storage!.FullName,
-			path2: "production");
+		using var httpClient = new HttpClient();
 		
-		if (Directory.Exists(path: productionPath))
+		foreach (var item in AspireManager.Storage!.GetFiles())
 		{
-			var blobRoot = new BlobServiceClient(serviceUri: endpoint);
-			var blobService = blobRoot.GetBlobContainerClient(blobContainerName: "southyorkshire");
+			await using var fileStream = item.OpenRead();
+			var content = new StreamContent(content: fileStream);
 			
-			foreach (var item in new DirectoryInfo(path: productionPath).GetFiles())
-			{
-				await using var fileStream = item.OpenRead();
-				var content = new StreamContent(content: fileStream);
-				
-				var name = item.Name.Replace(
-					oldValue: "|",
-					newValue: "/");
-				
-				content.Headers.Add(
-					name: "Content-Type",
-					value: "image/png");
-				
-				content.Headers.Add(
-					name: "Custom-Name",
-					value: $"{AspireManager.Storage.CreationTimeUtc:yyyyMMdd}/{name}");
-				
-				var blobClient = blobService.GetBlobClient(blobName: $"web/{AspireManager.Storage.CreationTimeUtc:yyyyMMdd}/{name}");
-				
-				var response = await blobClient.UploadAsync(
-					content: await content.ReadAsStreamAsync(),
-					options: new BlobUploadOptions
-					{
-						HttpHeaders = new BlobHttpHeaders
-						{
-							ContentType = "image/png"
-						}
-					});
-				
-				if (!response.GetRawResponse().IsError)
-					item.Delete();
-			}
-		}
-		
-		#endregion
-		
-		#region upload files
-		
-		var developmentPath = Path.Combine(
-			path1: AspireManager.Storage!.FullName,
-			path2: "development");
-		
-		if (Directory.Exists(path: developmentPath))
-		{
-			using var httpClient = new HttpClient();
+			var name = item.Name.Replace(
+				oldValue: "|",
+				newValue: "/");
 			
-			foreach (var item in new DirectoryInfo(path: developmentPath).GetFiles())
-			{
-				await using var fileStream = item.OpenRead();
-				var content = new StreamContent(content: fileStream);
-				
-				var name = item.Name.Replace(
-					oldValue: "|",
-					newValue: "/");
-				
-				content.Headers.Add(
-					name: "Content-Type",
-					value: "image/png");
-				
-				content.Headers.Add(
-					name: "Custom-Name",
-					value: $"{AspireManager.Storage.CreationTimeUtc:yyyyMMdd}/{name}");
-				
-				var response = await httpClient.PostAsync(
-					requestUri: new Uri(
-						baseUri: AspireManager.Application.GetEndpoint(
-							resourceName: "web-api",
-							endpointName: "http"),
-						relativeUri: "web/screenshot/file"),
-					content: content);
-				
-				if (response.IsSuccessStatusCode)
-					item.Delete();
-			}
+			content.Headers.Add(
+				name: "Content-Type",
+				value: "image/png");
+			
+			content.Headers.Add(
+				name: "Custom-Name",
+				value: $"{AspireManager.Storage.CreationTimeUtc:yyyyMMdd}/{name}");
+			
+			var response = await httpClient.PostAsync(
+				requestUri: new Uri(
+					baseUri: AspireManager.Application.GetEndpoint(
+						resourceName: "web-api",
+						endpointName: "http"),
+					relativeUri: "web/screenshot/file"),
+				content: content);
+			
+			if (response.IsSuccessStatusCode)
+				item.Delete();
 		}
 		
 		#endregion
