@@ -1,8 +1,8 @@
 using TramTimes.Web.Api.Handlers;
 
-namespace TramTimes.Web.Api.Services;
+namespace TramTimes.Web.Api.Endpoints;
 
-public static class CacheService
+public static class CacheEndpoint
 {
     public static void MapCacheEndpoints(this IEndpointRouteBuilder application)
     {

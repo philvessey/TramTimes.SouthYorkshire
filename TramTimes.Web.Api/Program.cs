@@ -1,4 +1,5 @@
 using TramTimes.Web.Api.Checks;
+using TramTimes.Web.Api.Endpoints;
 using TramTimes.Web.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args: args);

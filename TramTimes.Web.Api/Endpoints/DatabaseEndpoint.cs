@@ -1,8 +1,8 @@
 using TramTimes.Web.Api.Handlers;
 
-namespace TramTimes.Web.Api.Services;
+namespace TramTimes.Web.Api.Endpoints;
 
-public static class DatabaseService
+public static class DatabaseEndpoint
 {
     public static void MapDatabaseEndpoints(this IEndpointRouteBuilder application)
     {
