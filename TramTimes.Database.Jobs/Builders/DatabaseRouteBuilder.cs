@@ -19,7 +19,7 @@ public static class DatabaseRouteBuilder
         
         #region create table
         
-        var command = new NpgsqlCommand(
+        await using var createCommand = new NpgsqlCommand(
             cmdText: "create table if not exists gtfs_routes (" +
                      "route_id character varying(255) primary key, " +
                      "agency_id character varying(255), " +
@@ -33,34 +33,34 @@ public static class DatabaseRouteBuilder
                      "route_sort_order smallint)",
             connection: connection);
         
-        await command.ExecuteNonQueryAsync();
+        await createCommand.ExecuteNonQueryAsync();
         
         #endregion
         
         #region truncate table
         
-        command = new NpgsqlCommand(
+        await using var truncateCommand = new NpgsqlCommand(
             cmdText: "truncate table gtfs_routes",
             connection: connection);
         
-        await command.ExecuteNonQueryAsync();
+        await truncateCommand.ExecuteNonQueryAsync();
         
         #endregion
         
         #region create importer
         
-        var importer = await connection.BeginBinaryImportAsync(copyFromCommand: "copy gtfs_routes (" +
-                                                                                "route_id, " +
-                                                                                "agency_id, " +
-                                                                                "route_short_name, " +
-                                                                                "route_long_name, " +
-                                                                                "route_desc, " +
-                                                                                "route_type, " +
-                                                                                "route_url, " +
-                                                                                "route_color, " +
-                                                                                "route_text_color, " +
-                                                                                "route_sort_order) " +
-                                                                                "from stdin (format binary)");
+        await using var importer = await connection.BeginBinaryImportAsync(copyFromCommand: "copy gtfs_routes (" +
+                                                                                            "route_id, " +
+                                                                                            "agency_id, " +
+                                                                                            "route_short_name, " +
+                                                                                            "route_long_name, " +
+                                                                                            "route_desc, " +
+                                                                                            "route_type, " +
+                                                                                            "route_url, " +
+                                                                                            "route_color, " +
+                                                                                            "route_text_color, " +
+                                                                                            "route_sort_order) " +
+                                                                                            "from stdin (format binary)");
         
         #endregion
         
@@ -112,7 +112,6 @@ public static class DatabaseRouteBuilder
         }
         
         var results = await importer.CompleteAsync();
-        await importer.CloseAsync();
         
         #endregion
         

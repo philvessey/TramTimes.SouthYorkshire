@@ -2,7 +2,7 @@ using Npgsql;
 using Polly;
 using Polly.Retry;
 
-namespace TramTimes.Database.Jobs.Services;
+namespace TramTimes.Search.Jobs.Services;
 
 public class DatabaseService : IHostedService
 {

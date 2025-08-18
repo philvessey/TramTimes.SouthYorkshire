@@ -25,14 +25,11 @@ public class DatabaseCheck(IConfiguration configuration) : IHealthCheck
             await using var connection = new NpgsqlConnection(connectionString: connectionString);
             await connection.OpenAsync(cancellationToken: cancellationToken);
             
-            var command = new NpgsqlCommand(
+            await using var command = new NpgsqlCommand(
                 cmdText: "select 1 from pg_indexes where indexname = 'gtfs_stop_times_idx' limit 1",
                 connection: connection);
             
             var result = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
-            
-            await command.DisposeAsync();
-            await connection.CloseAsync();
             
             return result is not null
                 ? HealthCheckResult.Healthy()

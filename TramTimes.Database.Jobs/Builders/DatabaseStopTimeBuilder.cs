@@ -19,7 +19,7 @@ public static class DatabaseStopTimeBuilder
         
         #region create table
         
-        var command = new NpgsqlCommand(
+        await using var createCommand = new NpgsqlCommand(
             cmdText: "create table if not exists gtfs_stop_times (" +
                      "trip_id character varying(255) not null, " +
                      "arrival_time character varying(255), " +
@@ -33,34 +33,34 @@ public static class DatabaseStopTimeBuilder
                      "timepoint smallint)",
             connection: connection);
         
-        await command.ExecuteNonQueryAsync();
+        await createCommand.ExecuteNonQueryAsync();
         
         #endregion
         
         #region truncate table
         
-        command = new NpgsqlCommand(
+        await using var truncateCommand = new NpgsqlCommand(
             cmdText: "truncate table gtfs_stop_times",
             connection: connection);
         
-        await command.ExecuteNonQueryAsync();
+        await truncateCommand.ExecuteNonQueryAsync();
         
         #endregion
         
         #region create importer
         
-        var importer = await connection.BeginBinaryImportAsync(copyFromCommand: "copy gtfs_stop_times (" +
-                                                                                "trip_id, " +
-                                                                                "arrival_time, " +
-                                                                                "departure_time, " +
-                                                                                "stop_id, " +
-                                                                                "stop_sequence, " +
-                                                                                "stop_headsign, " +
-                                                                                "pickup_type, " +
-                                                                                "drop_off_type, " +
-                                                                                "shape_dist_travelled, " +
-                                                                                "timepoint) " +
-                                                                                "from stdin (format binary)");
+        await using var importer = await connection.BeginBinaryImportAsync(copyFromCommand: "copy gtfs_stop_times (" +
+                                                                                            "trip_id, " +
+                                                                                            "arrival_time, " +
+                                                                                            "departure_time, " +
+                                                                                            "stop_id, " +
+                                                                                            "stop_sequence, " +
+                                                                                            "stop_headsign, " +
+                                                                                            "pickup_type, " +
+                                                                                            "drop_off_type, " +
+                                                                                            "shape_dist_travelled, " +
+                                                                                            "timepoint) " +
+                                                                                            "from stdin (format binary)");
         
         #endregion
         
@@ -112,7 +112,6 @@ public static class DatabaseStopTimeBuilder
         }
         
         var results = await importer.CompleteAsync();
-        await importer.CloseAsync();
         
         #endregion
         

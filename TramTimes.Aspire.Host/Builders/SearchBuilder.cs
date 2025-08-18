@@ -7,8 +7,7 @@ public static class SearchBuilder
     public static SearchResources BuildSearch(
         this IDistributedApplicationBuilder builder,
         StorageResources storage,
-        IResourceBuilder<PostgresServerResource> server,
-        IResourceBuilder<PostgresDatabaseResource> database) {
+        DatabaseResources database) {
         
         #region build result
         
@@ -21,8 +20,7 @@ public static class SearchBuilder
         result.Elasticsearch = builder
             .AddElasticsearch(name: "search")
             .WaitFor(dependency: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
-            .WaitFor(dependency: server)
-            .WaitFor(dependency: database)
+            .WaitFor(dependency: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
             .WithDataVolume()
             .WithLifetime(lifetime: ContainerLifetime.Persistent)
             .WithUrlForEndpoint(
@@ -38,7 +36,7 @@ public static class SearchBuilder
             .WaitFor(dependency: result.Elasticsearch)
             .WithParentRelationship(parent: result.Elasticsearch)
             .WithReference(source: storage.Resource)
-            .WithReference(source: database)
+            .WithReference(source: database.Resource)
             .WithReference(source: result.Elasticsearch);
         
         #endregion

@@ -5,17 +5,11 @@ namespace TramTimes.Aspire.Host.Resources;
 public class DatabaseResources
 {
     [UsedImplicitly]
-    public IResourceBuilder<PostgresServerResource>? PostgresServer { get; set; }
+    public IResourceBuilder<PostgresServerResource>? Service { get; set; }
     
     [UsedImplicitly]
-    public IResourceBuilder<PostgresDatabaseResource>? PostgresDatabase { get; set; }
+    public IResourceBuilder<PostgresDatabaseResource>? Resource { get; set; }
     
     [UsedImplicitly]
-    public IResourceBuilder<ParameterResource>? TravelineHostname { get; set; }
-    
-    [UsedImplicitly]
-    public IResourceBuilder<ParameterResource>? TravelineUsername { get; set; }
-    
-    [UsedImplicitly]
-    public IResourceBuilder<ParameterResource>? TravelinePassword { get; set; }
+    public IResourceBuilder<IResourceWithConnectionString>? Connection { get; set; }
 }

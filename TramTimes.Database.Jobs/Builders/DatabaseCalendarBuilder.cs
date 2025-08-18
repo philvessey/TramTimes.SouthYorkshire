@@ -19,7 +19,7 @@ public static class DatabaseCalendarBuilder
         
         #region create table
         
-        var command = new NpgsqlCommand(
+        await using var createCommand = new NpgsqlCommand(
             cmdText: "create table if not exists gtfs_calendar (" +
                      "service_id character varying(255) primary key, " +
                      "monday smallint not null, " +
@@ -33,34 +33,34 @@ public static class DatabaseCalendarBuilder
                      "end_date date not null)",
             connection: connection);
         
-        await command.ExecuteNonQueryAsync();
+        await createCommand.ExecuteNonQueryAsync();
         
         #endregion
         
         #region truncate table
         
-        command = new NpgsqlCommand(
+        await using var truncateCommand = new NpgsqlCommand(
             cmdText: "truncate table gtfs_calendar",
             connection: connection);
         
-        await command.ExecuteNonQueryAsync();
+        await truncateCommand.ExecuteNonQueryAsync();
         
         #endregion
         
         #region create importer
         
-        var importer = await connection.BeginBinaryImportAsync(copyFromCommand: "copy gtfs_calendar (" +
-                                                                                "service_id, " +
-                                                                                "monday, " +
-                                                                                "tuesday, " +
-                                                                                "wednesday, " +
-                                                                                "thursday, " +
-                                                                                "friday, " +
-                                                                                "saturday, " +
-                                                                                "sunday, " +
-                                                                                "start_date, " +
-                                                                                "end_date) " +
-                                                                                "from stdin (format binary)");
+        await using var importer = await connection.BeginBinaryImportAsync(copyFromCommand: "copy gtfs_calendar (" +
+                                                                                            "service_id, " +
+                                                                                            "monday, " +
+                                                                                            "tuesday, " +
+                                                                                            "wednesday, " +
+                                                                                            "thursday, " +
+                                                                                            "friday, " +
+                                                                                            "saturday, " +
+                                                                                            "sunday, " +
+                                                                                            "start_date, " +
+                                                                                            "end_date) " +
+                                                                                            "from stdin (format binary)");
         
         #endregion
         
@@ -112,7 +112,6 @@ public static class DatabaseCalendarBuilder
         }
         
         var results = await importer.CompleteAsync();
-        await importer.CloseAsync();
         
         #endregion
         

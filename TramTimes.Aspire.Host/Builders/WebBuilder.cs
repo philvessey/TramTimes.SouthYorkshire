@@ -7,8 +7,7 @@ public static class WebBuilder
     public static void BuildWeb(
         this IDistributedApplicationBuilder builder,
         StorageResources storage,
-        IResourceBuilder<PostgresServerResource> server,
-        IResourceBuilder<PostgresDatabaseResource> database,
+        DatabaseResources database,
         IResourceBuilder<RedisResource> cache,
         IResourceBuilder<ElasticsearchResource> search) {
         
@@ -17,8 +16,7 @@ public static class WebBuilder
         var api = builder
             .AddProject<Projects.TramTimes_Web_Api>(name: "web-api")
             .WaitFor(dependency: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
-            .WaitFor(dependency: server)
-            .WaitFor(dependency: database)
+            .WaitFor(dependency: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
             .WaitFor(dependency: cache)
             .WaitFor(dependency: search)
             .WithExternalHttpEndpoints()
@@ -52,7 +50,7 @@ public static class WebBuilder
                 })
             .WithHttpHealthCheck(path: "/healthz")
             .WithReference(source: storage.Resource)
-            .WithReference(source: database)
+            .WithReference(source: database.Resource)
             .WithReference(source: cache)
             .WithReference(source: search)
             .WithUrlForEndpoint(

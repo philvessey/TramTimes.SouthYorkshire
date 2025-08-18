@@ -303,11 +303,11 @@ public class Build(
             
             await using var connection = await dataSource.OpenConnectionAsync();
             
-            var command = new NpgsqlCommand(
+            await using var dropCommand = new NpgsqlCommand(
                 cmdText: "drop index if exists gtfs_stop_times_idx",
                 connection: connection);
             
-            await command.ExecuteNonQueryAsync();
+            await dropCommand.ExecuteNonQueryAsync();
             
             var records = await DatabaseAgencyBuilder.BuildAsync(
                 schedules: results,
@@ -337,7 +337,7 @@ public class Build(
                 schedules: results,
                 connection: connection);
             
-            command = new NpgsqlCommand(
+            await using var createCommand = new NpgsqlCommand(
                 cmdText: "create index gtfs_stop_times_idx on gtfs_stop_times (" +
                          "trip_id, " +
                          "stop_id, " +
@@ -351,8 +351,7 @@ public class Build(
                          "timepoint)",
                 connection: connection);
             
-            await command.ExecuteNonQueryAsync();
-            await connection.CloseAsync();
+            await createCommand.ExecuteNonQueryAsync();
             
             #endregion
             

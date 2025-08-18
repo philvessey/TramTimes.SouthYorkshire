@@ -19,7 +19,7 @@ public static class DatabaseTripBuilder
         
         #region create table
         
-        var command = new NpgsqlCommand(
+        await using var createCommand = new NpgsqlCommand(
             cmdText: "create table if not exists gtfs_trips (" +
                      "route_id character varying(255) not null, " +
                      "service_id character varying(255) not null, " +
@@ -33,34 +33,34 @@ public static class DatabaseTripBuilder
                      "bikes_allowed character varying(255))",
             connection: connection);
         
-        await command.ExecuteNonQueryAsync();
+        await createCommand.ExecuteNonQueryAsync();
         
         #endregion
         
         #region truncate table
         
-        command = new NpgsqlCommand(
+        await using var truncateCommand = new NpgsqlCommand(
             cmdText: "truncate table gtfs_trips",
             connection: connection);
         
-        await command.ExecuteNonQueryAsync();
+        await truncateCommand.ExecuteNonQueryAsync();
         
         #endregion
         
         #region create importer
         
-        var importer = await connection.BeginBinaryImportAsync(copyFromCommand: "copy gtfs_trips (" +
-                                                                                "route_id, " +
-                                                                                "service_id, " +
-                                                                                "trip_id, " +
-                                                                                "trip_headsign, " +
-                                                                                "trip_short_name, " +
-                                                                                "direction_id, " +
-                                                                                "block_id, " +
-                                                                                "shape_id, " +
-                                                                                "wheelchair_accessible, " +
-                                                                                "bikes_allowed) " +
-                                                                                "from stdin (format binary)");
+        await using var importer = await connection.BeginBinaryImportAsync(copyFromCommand: "copy gtfs_trips (" +
+                                                                                            "route_id, " +
+                                                                                            "service_id, " +
+                                                                                            "trip_id, " +
+                                                                                            "trip_headsign, " +
+                                                                                            "trip_short_name, " +
+                                                                                            "direction_id, " +
+                                                                                            "block_id, " +
+                                                                                            "shape_id, " +
+                                                                                            "wheelchair_accessible, " +
+                                                                                            "bikes_allowed) " +
+                                                                                            "from stdin (format binary)");
         
         #endregion
         
@@ -112,7 +112,6 @@ public static class DatabaseTripBuilder
         }
         
         var results = await importer.CompleteAsync();
-        await importer.CloseAsync();
         
         #endregion
         

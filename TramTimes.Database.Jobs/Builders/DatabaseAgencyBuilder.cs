@@ -19,7 +19,7 @@ public static class DatabaseAgencyBuilder
         
         #region create table
         
-        var command = new NpgsqlCommand(
+        await using var createCommand = new NpgsqlCommand(
             cmdText: "create table if not exists gtfs_agency (" +
                      "agency_id character varying(255), " +
                      "agency_name character varying(255) not null, " +
@@ -31,32 +31,32 @@ public static class DatabaseAgencyBuilder
                      "agency_email character varying(255))",
             connection: connection);
         
-        await command.ExecuteNonQueryAsync();
+        await createCommand.ExecuteNonQueryAsync();
         
         #endregion
         
         #region truncate table
         
-        command = new NpgsqlCommand(
+        await using var truncateCommand = new NpgsqlCommand(
             cmdText: "truncate table gtfs_agency",
             connection: connection);
         
-        await command.ExecuteNonQueryAsync();
+        await truncateCommand.ExecuteNonQueryAsync();
         
         #endregion
         
         #region create importer
         
-        var importer = await connection.BeginBinaryImportAsync(copyFromCommand: "copy gtfs_agency (" +
-                                                                                "agency_id, " +
-                                                                                "agency_name, " +
-                                                                                "agency_url, " +
-                                                                                "agency_timezone, " +
-                                                                                "agency_lang, " +
-                                                                                "agency_phone, " +
-                                                                                "agency_fare_url, " +
-                                                                                "agency_email) " +
-                                                                                "from stdin (format binary)");
+        await using var importer = await connection.BeginBinaryImportAsync(copyFromCommand: "copy gtfs_agency (" +
+                                                                                            "agency_id, " +
+                                                                                            "agency_name, " +
+                                                                                            "agency_url, " +
+                                                                                            "agency_timezone, " +
+                                                                                            "agency_lang, " +
+                                                                                            "agency_phone, " +
+                                                                                            "agency_fare_url, " +
+                                                                                            "agency_email) " +
+                                                                                            "from stdin (format binary)");
         
         #endregion
         
@@ -100,7 +100,6 @@ public static class DatabaseAgencyBuilder
         }
         
         var results = await importer.CompleteAsync();
-        await importer.CloseAsync();
         
         #endregion
         

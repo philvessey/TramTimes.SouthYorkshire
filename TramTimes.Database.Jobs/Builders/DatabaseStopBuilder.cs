@@ -19,7 +19,7 @@ public static class DatabaseStopBuilder
         
         #region create table
         
-        var command = new NpgsqlCommand(
+        await using var createCommand = new NpgsqlCommand(
             cmdText: "create table if not exists gtfs_stops (" +
                      "stop_id character varying(255) primary key, " +
                      "stop_code character varying(255), " +
@@ -37,38 +37,38 @@ public static class DatabaseStopBuilder
                      "platform_code character varying(255))",
             connection: connection);
         
-        await command.ExecuteNonQueryAsync();
+        await createCommand.ExecuteNonQueryAsync();
         
         #endregion
         
         #region truncate table
         
-        command = new NpgsqlCommand(
+        await using var truncateCommand = new NpgsqlCommand(
             cmdText: "truncate table gtfs_stops",
             connection: connection);
         
-        await command.ExecuteNonQueryAsync();
+        await truncateCommand.ExecuteNonQueryAsync();
         
         #endregion
         
         #region create importer
         
-        var importer = await connection.BeginBinaryImportAsync(copyFromCommand: "copy gtfs_stops (" +
-                                                                                "stop_id, " +
-                                                                                "stop_code, " +
-                                                                                "stop_name, " +
-                                                                                "stop_desc, " +
-                                                                                "stop_lat, " +
-                                                                                "stop_lon, " +
-                                                                                "zone_id, " +
-                                                                                "stop_url, " +
-                                                                                "location_type, " +
-                                                                                "parent_station, " +
-                                                                                "stop_timezone, " +
-                                                                                "wheelchair_boarding, " +
-                                                                                "level_id, " +
-                                                                                "platform_code) " +
-                                                                                "from stdin (format binary)");
+        await using var importer = await connection.BeginBinaryImportAsync(copyFromCommand: "copy gtfs_stops (" +
+                                                                                            "stop_id, " +
+                                                                                            "stop_code, " +
+                                                                                            "stop_name, " +
+                                                                                            "stop_desc, " +
+                                                                                            "stop_lat, " +
+                                                                                            "stop_lon, " +
+                                                                                            "zone_id, " +
+                                                                                            "stop_url, " +
+                                                                                            "location_type, " +
+                                                                                            "parent_station, " +
+                                                                                            "stop_timezone, " +
+                                                                                            "wheelchair_boarding, " +
+                                                                                            "level_id, " +
+                                                                                            "platform_code) " +
+                                                                                            "from stdin (format binary)");
         
         #endregion
         
@@ -136,7 +136,6 @@ public static class DatabaseStopBuilder
         }
         
         var results = await importer.CompleteAsync();
-        await importer.CloseAsync();
         
         #endregion
         

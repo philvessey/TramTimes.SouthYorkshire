@@ -10,7 +10,7 @@ var storage = builder.BuildStorage();
 
 #region build database
 
-var databaseResources = builder.BuildDatabase(storage: storage);
+var database = builder.BuildDatabase(storage: storage);
 
 #endregion
 
@@ -18,8 +18,7 @@ var databaseResources = builder.BuildDatabase(storage: storage);
 
 var cacheResources = builder.BuildCache(
     storage: storage,
-    server: databaseResources.PostgresServer ?? throw new InvalidOperationException("Postgres server not initialized."),
-    database: databaseResources.PostgresDatabase ?? throw new InvalidOperationException("Postgres database not initialized."));
+    database: database);
 
 #endregion
 
@@ -27,8 +26,7 @@ var cacheResources = builder.BuildCache(
 
 var searchResources = builder.BuildSearch(
     storage: storage,
-    server: databaseResources.PostgresServer ?? throw new InvalidOperationException("Postgres server not initialized."),
-    database: databaseResources.PostgresDatabase ?? throw new InvalidOperationException("Postgres database not initialized."));
+    database: database);
 
 #endregion
 
@@ -36,8 +34,7 @@ var searchResources = builder.BuildSearch(
 
 builder.BuildWeb(
     storage: storage,
-    server: databaseResources.PostgresServer ?? throw new InvalidOperationException("Postgres server not initialized."),
-    database: databaseResources.PostgresDatabase ?? throw new InvalidOperationException("Postgres database not initialized."),
+    database: database,
     cache: cacheResources.Redis ?? throw new InvalidOperationException("Redis not initialized."),
     search: searchResources.Elasticsearch ?? throw new InvalidOperationException("Elasticsearch not initialized."));
 

@@ -27,6 +27,7 @@ builder.Services.AddSingleton(implementationFactory: provider => provider
     .GetBlobContainerClient(blobContainerName: "southyorkshire"));
 
 builder.Services.AddHostedService<StorageService>();
+builder.Services.AddHostedService<DatabaseService>();
 builder.Services.AddHostedService<SearchService>();
 
 #endregion

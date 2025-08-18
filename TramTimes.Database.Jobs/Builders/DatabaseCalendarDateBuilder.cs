@@ -19,34 +19,34 @@ public static class DatabaseCalendarDateBuilder
         
         #region create table
         
-        var command = new NpgsqlCommand(
+        await using var createCommand = new NpgsqlCommand(
             cmdText: "create table if not exists gtfs_calendar_dates (" +
                      "service_id character varying(255) not null, " +
                      "exception_date date not null, " +
                      "exception_type smallint not null)",
             connection: connection);
         
-        await command.ExecuteNonQueryAsync();
+        await createCommand.ExecuteNonQueryAsync();
         
         #endregion
         
         #region truncate table
         
-        command = new NpgsqlCommand(
+        await using var truncateCommand = new NpgsqlCommand(
             cmdText: "truncate table gtfs_calendar_dates",
             connection: connection);
         
-        await command.ExecuteNonQueryAsync();
+        await truncateCommand.ExecuteNonQueryAsync();
         
         #endregion
         
         #region create importer
         
-        var importer = await connection.BeginBinaryImportAsync(copyFromCommand: "copy gtfs_calendar_dates (" +
-                                                                                "service_id, " +
-                                                                                "exception_date, " +
-                                                                                "exception_type) " +
-                                                                                "from stdin (format binary)");
+        await using var importer = await connection.BeginBinaryImportAsync(copyFromCommand: "copy gtfs_calendar_dates (" +
+                                                                                            "service_id, " +
+                                                                                            "exception_date, " +
+                                                                                            "exception_type) " +
+                                                                                            "from stdin (format binary)");
         
         #endregion
         
@@ -70,7 +70,6 @@ public static class DatabaseCalendarDateBuilder
         }
         
         var results = await importer.CompleteAsync();
-        await importer.CloseAsync();
         
         #endregion
         

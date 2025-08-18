@@ -9,8 +9,7 @@ public static class CacheBuilder
     public static CacheResources BuildCache(
         this IDistributedApplicationBuilder builder,
         StorageResources storage,
-        IResourceBuilder<PostgresServerResource> server,
-        IResourceBuilder<PostgresDatabaseResource> database) {
+        DatabaseResources database) {
         
         #region build result
         
@@ -23,8 +22,7 @@ public static class CacheBuilder
         result.Redis = builder
             .AddRedis(name: "cache")
             .WaitFor(dependency: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
-            .WaitFor(dependency: server)
-            .WaitFor(dependency: database)
+            .WaitFor(dependency: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
             .WithDataVolume()
             .WithLifetime(lifetime: ContainerLifetime.Persistent);
         
@@ -66,7 +64,7 @@ public static class CacheBuilder
             .WaitFor(dependency: result.Redis)
             .WithParentRelationship(parent: result.Redis)
             .WithReference(source: storage.Resource)
-            .WithReference(source: database)
+            .WithReference(source: database.Resource)
             .WithReference(source: result.Redis);
         
         #endregion
