@@ -1,4 +1,3 @@
-using Aspire.Hosting.Azure;
 using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
@@ -9,8 +8,7 @@ public static class CacheBuilder
     
     public static CacheResources BuildCache(
         this IDistributedApplicationBuilder builder,
-        IResourceBuilder<AzureStorageResource> storage,
-        IResourceBuilder<AzureBlobStorageContainerResource> container,
+        StorageResources storage,
         IResourceBuilder<PostgresServerResource> server,
         IResourceBuilder<PostgresDatabaseResource> database) {
         
@@ -24,7 +22,7 @@ public static class CacheBuilder
         
         result.Redis = builder
             .AddRedis(name: "cache")
-            .WaitFor(dependency: storage)
+            .WaitFor(dependency: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
             .WaitFor(dependency: server)
             .WaitFor(dependency: database)
             .WithDataVolume()
@@ -40,7 +38,7 @@ public static class CacheBuilder
                     containerName: "cache-commander",
                     configureContainer: resource =>
                     {
-                        resource.WaitFor(result.Redis);
+                        resource.WaitFor(dependency: result.Redis);
                         resource.WithLifetime(lifetime: ContainerLifetime.Session);
                         resource.WithParentRelationship(parent: result.Redis);
                         resource.WithUrlForEndpoint(
@@ -51,7 +49,7 @@ public static class CacheBuilder
                     containerName: "cache-insight",
                     configureContainer: resource =>
                     {
-                        resource.WaitFor(result.Redis);
+                        resource.WaitFor(dependency: result.Redis);
                         resource.WithLifetime(lifetime: ContainerLifetime.Session);
                         resource.WithParentRelationship(parent: result.Redis);
                         resource.WithUrlForEndpoint(
@@ -67,7 +65,7 @@ public static class CacheBuilder
             .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder")
             .WaitFor(dependency: result.Redis)
             .WithParentRelationship(parent: result.Redis)
-            .WithReference(source: container)
+            .WithReference(source: storage.Resource)
             .WithReference(source: database)
             .WithReference(source: result.Redis);
         

@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using TramTimes.Web.Jobs.Services;
 
 var builder = Host.CreateApplicationBuilder(args: args);
@@ -12,13 +13,17 @@ builder
 
 #region inject services
 
-builder.AddAzureBlobContainerClient(connectionName: "storage-blobs-southyorkshire");
+builder.AddAzureBlobServiceClient(connectionName: "storage-blobs");
 
 #endregion
 
 #region configure services
 
-builder.Services.AddHostedService<StartupService>();
+builder.Services.AddSingleton(implementationFactory: provider => provider
+    .GetRequiredService<BlobServiceClient>()
+    .GetBlobContainerClient(blobContainerName: "southyorkshire"));
+
+builder.Services.AddHostedService<StorageService>();
 
 #endregion
 

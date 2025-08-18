@@ -6,41 +6,44 @@ public static class StorageBuilder
 {
     public static StorageResources BuildStorage(this IDistributedApplicationBuilder builder)
     {
-        #region build result
+        #region build resources
         
-        var result = new StorageResources();
+        var resources = new StorageResources();
         
         #endregion
         
         #region add azure storage
         
-        result.AzureStorage = builder
-            .AddAzureStorage(name: "storage")
-            .RunAsEmulator(configureContainer: resource =>
-            {
-                resource.WithDataVolume();
-                resource.WithLifetime(lifetime: ContainerLifetime.Persistent);
-            })
-            .WithUrlForEndpoint(
-                callback: annotation => annotation.DisplayText = "Administration (Blob)",
-                endpointName: "blob")
-            .WithUrlForEndpoint(
-                callback: annotation => annotation.DisplayText = "Administration (Queue)",
-                endpointName: "queue")
-            .WithUrlForEndpoint(
-                callback: annotation => annotation.DisplayText = "Administration (Table)",
-                endpointName: "table");
+        if (builder.ExecutionContext.IsRunMode)
+            resources.Service = builder
+                .AddAzureStorage(name: "storage")
+                .RunAsEmulator(configureContainer: resource =>
+                {
+                    resource.WithDataVolume();
+                    resource.WithLifetime(lifetime: ContainerLifetime.Persistent);
+                })
+                .WithUrlForEndpoint(
+                    callback: annotation => annotation.DisplayText = "Administration (Blob)",
+                    endpointName: "blob")
+                .WithUrlForEndpoint(
+                    callback: annotation => annotation.DisplayText = "Administration (Queue)",
+                    endpointName: "queue")
+                .WithUrlForEndpoint(
+                    callback: annotation => annotation.DisplayText = "Administration (Table)",
+                    endpointName: "table");
         
         #endregion
         
-        #region add blob container
+        #region add blob service
         
-        result.AzureBlobStorageContainer = result.AzureStorage.AddBlobContainer(
-            name: "storage-blobs-southyorkshire",
-            blobContainerName: "southyorkshire");
+        if (builder.ExecutionContext.IsRunMode)
+            resources.Resource = resources.Service?.AddBlobs(name: "storage-blobs");
+        
+        if (builder.ExecutionContext.IsPublishMode)
+            resources.Connection = builder.AddConnectionString(name: "storage-blobs");
         
         #endregion
         
-        return result;
+        return resources;
     }
 }

@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using TramTimes.Web.Api.Checks;
 using TramTimes.Web.Api.Endpoints;
 using TramTimes.Web.Api.Services;
@@ -14,10 +15,20 @@ builder
 
 #region inject services
 
-builder.AddAzureBlobContainerClient(connectionName: "storage-blobs-southyorkshire");
+builder.AddAzureBlobServiceClient(connectionName: "storage-blobs");
 builder.AddNpgsqlDataSource(connectionName: "southyorkshire");
 builder.AddRedisClient(connectionName: "cache");
 builder.AddElasticsearchClient(connectionName: "search");
+
+#endregion
+
+#region configure services
+
+builder.Services.AddSingleton(implementationFactory: provider => provider
+    .GetRequiredService<BlobServiceClient>()
+    .GetBlobContainerClient(blobContainerName: "southyorkshire"));
+
+builder.Services.AddHostedService<StorageService>();
 
 #endregion
 

@@ -1,4 +1,3 @@
-using Aspire.Hosting.Azure;
 using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
@@ -7,8 +6,7 @@ public static class SearchBuilder
 {
     public static SearchResources BuildSearch(
         this IDistributedApplicationBuilder builder,
-        IResourceBuilder<AzureStorageResource> storage,
-        IResourceBuilder<AzureBlobStorageContainerResource> container,
+        StorageResources storage,
         IResourceBuilder<PostgresServerResource> server,
         IResourceBuilder<PostgresDatabaseResource> database) {
         
@@ -22,7 +20,7 @@ public static class SearchBuilder
         
         result.Elasticsearch = builder
             .AddElasticsearch(name: "search")
-            .WaitFor(dependency: storage)
+            .WaitFor(dependency: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
             .WaitFor(dependency: server)
             .WaitFor(dependency: database)
             .WithDataVolume()
@@ -39,7 +37,7 @@ public static class SearchBuilder
             .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder")
             .WaitFor(dependency: result.Elasticsearch)
             .WithParentRelationship(parent: result.Elasticsearch)
-            .WithReference(source: container)
+            .WithReference(source: storage.Resource)
             .WithReference(source: database)
             .WithReference(source: result.Elasticsearch);
         

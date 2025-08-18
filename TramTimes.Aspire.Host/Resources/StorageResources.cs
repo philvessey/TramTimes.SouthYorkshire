@@ -6,8 +6,11 @@ namespace TramTimes.Aspire.Host.Resources;
 public class StorageResources
 {
     [UsedImplicitly]
-    public IResourceBuilder<AzureStorageResource>? AzureStorage { get; set; }
+    public IResourceBuilder<AzureStorageResource>? Service { get; set; }
     
     [UsedImplicitly]
-    public IResourceBuilder<AzureBlobStorageContainerResource>? AzureBlobStorageContainer { get; set; }
+    public IResourceBuilder<AzureBlobStorageResource>? Resource { get; set; }
+    
+    [UsedImplicitly]
+    public IResourceBuilder<IResourceWithConnectionString>? Connection { get; set; }
 }

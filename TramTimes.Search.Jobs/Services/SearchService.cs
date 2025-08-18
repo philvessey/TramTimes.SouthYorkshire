@@ -6,15 +6,15 @@ using TramTimes.Search.Jobs.Models;
 
 namespace TramTimes.Search.Jobs.Services;
 
-public class StartupService : IHostedService
+public class SearchService : IHostedService
 {
     private readonly ElasticsearchClient _service;
-    private readonly ILogger<StartupService> _logger;
+    private readonly ILogger<SearchService> _logger;
     private readonly AsyncRetryPolicy _result;
     
-    public StartupService(
+    public SearchService(
         ElasticsearchClient service,
-        ILogger<StartupService> logger) {
+        ILogger<SearchService> logger) {
         
         #region inject servics
         
@@ -46,22 +46,22 @@ public class StartupService : IHostedService
             
             if (!response.IsValidResponse)
                 _logger.LogError(
-                    message: "Service health status: {status}",
+                    message: "Search service health status: {status}",
                     args: "Unknown");
             
             if (!response.IsValidResponse)
-                throw new Exception(message: "Service health status: Unknown");
+                throw new Exception(message: "Search service health status: Unknown");
             
             if (response.Status is not HealthStatus.Green)
                 _logger.LogError(
-                    message: "Service health status: {status}",
+                    message: "Search service health status: {status}",
                     args: response.Status);
             
             if (response.Status is not HealthStatus.Green)
-                throw new Exception(message: $"Service health status: {response.Status}");
+                throw new Exception(message: $"Search service health status: {response.Status}");
             
             _logger.LogInformation(
-                message: "Service health status: {status}",
+                message: "Search service health status: {status}",
                 args: response.Status);
             
             await _service.Indices.CreateAsync<SearchStop>(

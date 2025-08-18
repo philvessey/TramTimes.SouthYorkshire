@@ -1,4 +1,3 @@
-using Aspire.Hosting.Azure;
 using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
@@ -9,8 +8,7 @@ public static class DatabaseBuilder
     
     public static DatabaseResources BuildDatabase(
         this IDistributedApplicationBuilder builder,
-        IResourceBuilder<AzureStorageResource> storage,
-        IResourceBuilder<AzureBlobStorageContainerResource> container) {
+        StorageResources storage) {
         
         #region build result
         
@@ -22,7 +20,7 @@ public static class DatabaseBuilder
         
         result.PostgresServer = builder
             .AddPostgres(name: "server")
-            .WaitFor(dependency: storage)
+            .WaitFor(dependency: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
             .WithDataVolume()
             .WithInitFiles(source: "./Scripts")
             .WithLifetime(lifetime: ContainerLifetime.Persistent);
@@ -45,7 +43,7 @@ public static class DatabaseBuilder
                     containerName: "server-admin",
                     configureContainer: resource =>
                     {
-                        resource.WaitFor(result.PostgresServer);
+                        resource.WaitFor(dependency: result.PostgresServer);
                         resource.WithLifetime(lifetime: ContainerLifetime.Session);
                         resource.WithParentRelationship(parent: result.PostgresServer);
                         resource.WithUrlForEndpoint(
@@ -56,7 +54,7 @@ public static class DatabaseBuilder
                     containerName: "server-web",
                     configureContainer: resource =>
                     {
-                        resource.WaitFor(result.PostgresServer);
+                        resource.WaitFor(dependency: result.PostgresServer);
                         resource.WithLifetime(lifetime: ContainerLifetime.Session);
                         resource.WithParentRelationship(parent: result.PostgresServer);
                         resource.WithUrlForEndpoint(
@@ -110,7 +108,7 @@ public static class DatabaseBuilder
                 name: "FTP_PASSWORD",
                 parameter: result.TravelinePassword)
             .WithParentRelationship(parent: result.PostgresDatabase)
-            .WithReference(source: container)
+            .WithReference(source: storage.Resource)
             .WithReference(source: result.PostgresDatabase);
         
         #endregion

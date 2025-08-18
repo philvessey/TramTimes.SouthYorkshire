@@ -1,3 +1,4 @@
+using Azure.Storage.Blobs;
 using TramTimes.Search.Jobs.Services;
 
 var builder = Host.CreateApplicationBuilder(args: args);
@@ -13,7 +14,7 @@ builder
 
 #region inject services
 
-builder.AddAzureBlobContainerClient(connectionName: "storage-blobs-southyorkshire");
+builder.AddAzureBlobServiceClient(connectionName: "storage-blobs");
 builder.AddNpgsqlDataSource(connectionName: "southyorkshire");
 builder.AddElasticsearchClient(connectionName: "search");
 
@@ -21,7 +22,12 @@ builder.AddElasticsearchClient(connectionName: "search");
 
 #region configure services
 
-builder.Services.AddHostedService<StartupService>();
+builder.Services.AddSingleton(implementationFactory: provider => provider
+    .GetRequiredService<BlobServiceClient>()
+    .GetBlobContainerClient(blobContainerName: "southyorkshire"));
+
+builder.Services.AddHostedService<StorageService>();
+builder.Services.AddHostedService<SearchService>();
 
 #endregion
 

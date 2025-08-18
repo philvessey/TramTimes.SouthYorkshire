@@ -1,18 +1,18 @@
-using Npgsql;
 using Polly;
 using Polly.Retry;
+using StackExchange.Redis;
 
-namespace TramTimes.Database.Jobs.Services;
+namespace TramTimes.Cache.Jobs.Services;
 
-public class StartupService : IHostedService
+public class CacheService : IHostedService
 {
-    private readonly NpgsqlDataSource _service;
-    private readonly ILogger<StartupService> _logger;
+    private readonly IConnectionMultiplexer _service;
+    private readonly ILogger<CacheService> _logger;
     private readonly AsyncRetryPolicy _result;
     
-    public StartupService(
-        NpgsqlDataSource service,
-        ILogger<StartupService> logger) {
+    public CacheService(
+        IConnectionMultiplexer service,
+        ILogger<CacheService> logger) {
         
         #region inject servics
         
@@ -40,27 +40,20 @@ public class StartupService : IHostedService
         
         await _result.ExecuteAsync(action: async () =>
         {
-            await using var connection = await _service.OpenConnectionAsync(cancellationToken: cancellationToken);
+            var response = await _service
+                .GetDatabase()
+                .ExecuteAsync(command: "info");
             
-            var command = new NpgsqlCommand(
-                cmdText: "select 1 from pg_tables limit 1",
-                connection: connection);
-            
-            var response = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
-            
-            await command.DisposeAsync();
-            await connection.CloseAsync();
-            
-            if (response is null)
+            if (response.IsNull)
                 _logger.LogError(
-                    message: "Service health status: {status}",
+                    message: "Cache service health status: {status}",
                     args: "Red");
             
-            if (response is null)
-                throw new Exception(message: "Service health status: Red");
+            if (response.IsNull)
+                throw new Exception(message: "Cache service health status: Red");
             
             _logger.LogInformation(
-                message: "Service health status: {status}",
+                message: "Cache service health status: {status}",
                 args: "Green");
         });
         

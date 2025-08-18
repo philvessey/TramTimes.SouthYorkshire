@@ -4,23 +4,20 @@ var builder = DistributedApplication.CreateBuilder(args: args);
 
 #region build storage
 
-var storageResources = builder.BuildStorage();
+var storage = builder.BuildStorage();
 
 #endregion
 
 #region build database
 
-var databaseResources = builder.BuildDatabase(
-    storage: storageResources.AzureStorage ?? throw new InvalidOperationException("Azure storage not initialized."),
-    container: storageResources.AzureBlobStorageContainer ?? throw new InvalidOperationException("Azure blob storage container not initialized."));
+var databaseResources = builder.BuildDatabase(storage: storage);
 
 #endregion
 
 #region build cache
 
 var cacheResources = builder.BuildCache(
-    storage: storageResources.AzureStorage ?? throw new InvalidOperationException("Azure storage not initialized."),
-    container: storageResources.AzureBlobStorageContainer ?? throw new InvalidOperationException("Azure blob storage container not initialized."),
+    storage: storage,
     server: databaseResources.PostgresServer ?? throw new InvalidOperationException("Postgres server not initialized."),
     database: databaseResources.PostgresDatabase ?? throw new InvalidOperationException("Postgres database not initialized."));
 
@@ -29,8 +26,7 @@ var cacheResources = builder.BuildCache(
 #region build search
 
 var searchResources = builder.BuildSearch(
-    storage: storageResources.AzureStorage ?? throw new InvalidOperationException("Azure storage not initialized."),
-    container: storageResources.AzureBlobStorageContainer ?? throw new InvalidOperationException("Azure blob storage container not initialized."),
+    storage: storage,
     server: databaseResources.PostgresServer ?? throw new InvalidOperationException("Postgres server not initialized."),
     database: databaseResources.PostgresDatabase ?? throw new InvalidOperationException("Postgres database not initialized."));
 
@@ -39,8 +35,7 @@ var searchResources = builder.BuildSearch(
 #region build web
 
 builder.BuildWeb(
-    storage: storageResources.AzureStorage ?? throw new InvalidOperationException("Azure storage not initialized."),
-    container: storageResources.AzureBlobStorageContainer ?? throw new InvalidOperationException("Azure blob storage container not initialized."),
+    storage: storage,
     server: databaseResources.PostgresServer ?? throw new InvalidOperationException("Postgres server not initialized."),
     database: databaseResources.PostgresDatabase ?? throw new InvalidOperationException("Postgres database not initialized."),
     cache: cacheResources.Redis ?? throw new InvalidOperationException("Redis not initialized."),

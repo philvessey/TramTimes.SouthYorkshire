@@ -1,18 +1,18 @@
+using Npgsql;
 using Polly;
 using Polly.Retry;
-using StackExchange.Redis;
 
-namespace TramTimes.Cache.Jobs.Services;
+namespace TramTimes.Database.Jobs.Services;
 
-public class StartupService : IHostedService
+public class DatabaseService : IHostedService
 {
-    private readonly IConnectionMultiplexer _service;
-    private readonly ILogger<StartupService> _logger;
+    private readonly NpgsqlDataSource _service;
+    private readonly ILogger<DatabaseService> _logger;
     private readonly AsyncRetryPolicy _result;
     
-    public StartupService(
-        IConnectionMultiplexer service,
-        ILogger<StartupService> logger) {
+    public DatabaseService(
+        NpgsqlDataSource service,
+        ILogger<DatabaseService> logger) {
         
         #region inject servics
         
@@ -40,20 +40,27 @@ public class StartupService : IHostedService
         
         await _result.ExecuteAsync(action: async () =>
         {
-            var response = await _service
-                .GetDatabase()
-                .ExecuteAsync(command: "info");
+            await using var connection = await _service.OpenConnectionAsync(cancellationToken: cancellationToken);
             
-            if (response.IsNull)
+            var command = new NpgsqlCommand(
+                cmdText: "select 1 from pg_tables limit 1",
+                connection: connection);
+            
+            var response = await command.ExecuteScalarAsync(cancellationToken: cancellationToken);
+            
+            await command.DisposeAsync();
+            await connection.CloseAsync();
+            
+            if (response is null)
                 _logger.LogError(
-                    message: "Service health status: {status}",
+                    message: "Database service health status: {status}",
                     args: "Red");
             
-            if (response.IsNull)
-                throw new Exception(message: "Service health status: Red");
+            if (response is null)
+                throw new Exception(message: "Database service health status: Red");
             
             _logger.LogInformation(
-                message: "Service health status: {status}",
+                message: "Database service health status: {status}",
                 args: "Green");
         });
         

@@ -1,4 +1,4 @@
-using Aspire.Hosting.Azure;
+using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
 
@@ -6,8 +6,7 @@ public static class WebBuilder
 {
     public static void BuildWeb(
         this IDistributedApplicationBuilder builder,
-        IResourceBuilder<AzureStorageResource> storage,
-        IResourceBuilder<AzureBlobStorageContainerResource> container,
+        StorageResources storage,
         IResourceBuilder<PostgresServerResource> server,
         IResourceBuilder<PostgresDatabaseResource> database,
         IResourceBuilder<RedisResource> cache,
@@ -17,7 +16,7 @@ public static class WebBuilder
         
         var api = builder
             .AddProject<Projects.TramTimes_Web_Api>(name: "web-api")
-            .WaitFor(dependency: storage)
+            .WaitFor(dependency: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
             .WaitFor(dependency: server)
             .WaitFor(dependency: database)
             .WaitFor(dependency: cache)
@@ -52,7 +51,7 @@ public static class WebBuilder
                     IconName = "Delete"
                 })
             .WithHttpHealthCheck(path: "/healthz")
-            .WithReference(source: container)
+            .WithReference(source: storage.Resource)
             .WithReference(source: database)
             .WithReference(source: cache)
             .WithReference(source: search)
@@ -70,7 +69,7 @@ public static class WebBuilder
         builder
             .AddProject<Projects.TramTimes_Web_Jobs>(name: "web-builder")
             .WaitFor(dependency: api)
-            .WithReference(source: container);
+            .WithReference(source: storage.Resource);
         
         #endregion
         
