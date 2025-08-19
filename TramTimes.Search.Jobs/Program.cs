@@ -16,7 +16,18 @@ builder
 
 builder.AddAzureBlobServiceClient(connectionName: "storage-blobs");
 builder.AddNpgsqlDataSource(connectionName: "southyorkshire");
-builder.AddElasticsearchClient(connectionName: "search");
+
+if (builder.Environment.IsDevelopment())
+    builder.AddElasticsearchClient(connectionName: "search");
+
+if (builder.Environment.IsProduction())
+    builder.AddElasticsearchClient(
+        connectionName: "search",
+        configureSettings: settings =>
+        {
+            settings.ApiKey = Environment.GetEnvironmentVariable(variable: "ELASTIC_KEY") ?? string.Empty;
+            settings.Endpoint = new Uri(uriString: Environment.GetEnvironmentVariable(variable: "ELASTIC_ENDPOINT") ?? string.Empty);
+        });
 
 #endregion
 

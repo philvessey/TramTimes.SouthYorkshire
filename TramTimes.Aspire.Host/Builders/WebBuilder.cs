@@ -9,7 +9,7 @@ public static class WebBuilder
         StorageResources storage,
         DatabaseResources database,
         CacheResources cache,
-        IResourceBuilder<ElasticsearchResource> search) {
+        SearchResources search) {
         
         #region add api
         
@@ -18,7 +18,7 @@ public static class WebBuilder
             .WaitFor(dependency: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
             .WaitFor(dependency: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
             .WaitFor(dependency: cache.Service ?? throw new InvalidOperationException(message: "Cache service is not available."))
-            .WaitFor(dependency: search)
+            .WaitFor(dependency: search.Service ?? throw new InvalidOperationException(message: "Search service is not available."))
             .WithExternalHttpEndpoints()
             .WithHttpCommand(
                 displayName: "Build cache",
@@ -52,7 +52,7 @@ public static class WebBuilder
             .WithReference(source: storage.Resource)
             .WithReference(source: database.Resource)
             .WithReference(source: cache.Service)
-            .WithReference(source: search)
+            .WithReference(source: search.Service)
             .WithUrlForEndpoint(
                 callback: annotation => annotation.DisplayText = "Primary",
                 endpointName: "https")

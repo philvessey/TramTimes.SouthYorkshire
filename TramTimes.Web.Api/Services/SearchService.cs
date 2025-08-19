@@ -2,9 +2,9 @@ using Elastic.Clients.Elasticsearch;
 using Elastic.Clients.Elasticsearch.Mapping;
 using Polly;
 using Polly.Retry;
-using TramTimes.Search.Jobs.Models;
+using TramTimes.Web.Api.Models;
 
-namespace TramTimes.Search.Jobs.Services;
+namespace TramTimes.Web.Api.Services;
 
 public class SearchService : IHostedService
 {

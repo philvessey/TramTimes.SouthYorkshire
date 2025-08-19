@@ -56,9 +56,7 @@ application.UseHttpsRedirection();
 application.UseStaticFiles();
 
 if (!application.Environment.IsDevelopment())
-{
     application.UseHsts();
-}
 
 application.MapStaticAssets();
 

@@ -24,7 +24,7 @@ var cache = builder.BuildCache(
 
 #region build search
 
-var searchResources = builder.BuildSearch(
+var search = builder.BuildSearch(
     storage: storage,
     database: database);
 
@@ -36,7 +36,7 @@ builder.BuildWeb(
     storage: storage,
     database: database,
     cache: cache,
-    search: searchResources.Elasticsearch ?? throw new InvalidOperationException("Elasticsearch not initialized."));
+    search: search);
 
 #endregion
 
