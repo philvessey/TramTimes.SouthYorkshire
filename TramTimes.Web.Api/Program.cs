@@ -37,9 +37,7 @@ builder.Services.AddHostedService<DatabaseService>();
 
 builder.Services
     .AddHealthChecks()
-    .AddCheck<DatabaseCheck>(name: "database-check")
-    .AddCheck<CacheCheck>(name: "cache-check")
-    .AddCheck<SearchCheck>(name: "search-check");
+    .AddCheck<DatabaseCheck>(name: "database-check");
 
 #endregion
 
