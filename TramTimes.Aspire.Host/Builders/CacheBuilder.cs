@@ -11,34 +11,38 @@ public static class CacheBuilder
         StorageResources storage,
         DatabaseResources database) {
         
-        #region build result
+        #region build resources
         
-        var result = new CacheResources();
+        var cache = new CacheResources();
         
         #endregion
         
         #region add redis
         
-        result.Redis = builder
-            .AddRedis(name: "cache")
-            .WaitFor(dependency: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
-            .WaitFor(dependency: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
-            .WithDataVolume()
-            .WithLifetime(lifetime: ContainerLifetime.Persistent);
+        if (builder.ExecutionContext.IsRunMode)
+            cache.Service = builder
+                .AddRedis(name: "cache")
+                .WaitFor(dependency: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
+                .WaitFor(dependency: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
+                .WithDataVolume()
+                .WithLifetime(lifetime: ContainerLifetime.Persistent);
+        
+        if (builder.ExecutionContext.IsPublishMode)
+            cache.Connection = builder.AddConnectionString(name: "cache");
         
         #endregion
         
         #region add tools
         
-        if (string.IsNullOrEmpty(value: Testing))
-            result.Redis
+        if (builder.ExecutionContext.IsRunMode && string.IsNullOrEmpty(value: Testing))
+            cache.Service?
                 .WithRedisCommander(
                     containerName: "cache-commander",
                     configureContainer: resource =>
                     {
-                        resource.WaitFor(dependency: result.Redis);
+                        resource.WaitFor(dependency: cache.Service);
                         resource.WithLifetime(lifetime: ContainerLifetime.Session);
-                        resource.WithParentRelationship(parent: result.Redis);
+                        resource.WithParentRelationship(parent: cache.Service);
                         resource.WithUrlForEndpoint(
                             callback: annotation => annotation.DisplayText = "Administration",
                             endpointName: "http");
@@ -47,9 +51,9 @@ public static class CacheBuilder
                     containerName: "cache-insight",
                     configureContainer: resource =>
                     {
-                        resource.WaitFor(dependency: result.Redis);
+                        resource.WaitFor(dependency: cache.Service);
                         resource.WithLifetime(lifetime: ContainerLifetime.Session);
-                        resource.WithParentRelationship(parent: result.Redis);
+                        resource.WithParentRelationship(parent: cache.Service);
                         resource.WithUrlForEndpoint(
                             callback: annotation => annotation.DisplayText = "Administration",
                             endpointName: "http");
@@ -59,16 +63,25 @@ public static class CacheBuilder
         
         #region add project
         
-        builder
-            .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder")
-            .WaitFor(dependency: result.Redis)
-            .WithParentRelationship(parent: result.Redis)
-            .WithReference(source: storage.Resource)
-            .WithReference(source: database.Resource)
-            .WithReference(source: result.Redis);
+        if (builder.ExecutionContext.IsRunMode)
+            builder
+                .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder")
+                .WaitFor(dependency: cache.Service ?? throw new InvalidOperationException(message: "Cache service is not available."))
+                .WithParentRelationship(parent: cache.Service)
+                .WithReference(source: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
+                .WithReference(source: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
+                .WithReference(source: cache.Service);
+        
+        if (builder.ExecutionContext.IsPublishMode)
+            builder
+                .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder")
+                .WaitFor(dependency: cache.Connection ?? throw new InvalidOperationException(message: "Cache connection is not available."))
+                .WithReference(source: storage.Connection ?? throw new InvalidOperationException(message: "Storage connection is not available."))
+                .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
+                .WithReference(source: cache.Connection);
         
         #endregion
         
-        return result;
+        return cache;
     }
 }

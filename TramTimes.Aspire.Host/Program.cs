@@ -16,7 +16,7 @@ var database = builder.BuildDatabase(storage: storage);
 
 #region build cache
 
-var cacheResources = builder.BuildCache(
+var cache = builder.BuildCache(
     storage: storage,
     database: database);
 
@@ -35,7 +35,7 @@ var searchResources = builder.BuildSearch(
 builder.BuildWeb(
     storage: storage,
     database: database,
-    cache: cacheResources.Redis ?? throw new InvalidOperationException("Redis not initialized."),
+    cache: cache,
     search: searchResources.Elasticsearch ?? throw new InvalidOperationException("Elasticsearch not initialized."));
 
 #endregion

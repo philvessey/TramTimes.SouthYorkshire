@@ -2,7 +2,7 @@ using Polly;
 using Polly.Retry;
 using StackExchange.Redis;
 
-namespace TramTimes.Cache.Jobs.Services;
+namespace TramTimes.Web.Api.Services;
 
 public class CacheService : IHostedService
 {

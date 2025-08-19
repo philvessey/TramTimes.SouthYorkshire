@@ -8,14 +8,14 @@ public static class StorageBuilder
     {
         #region build resources
         
-        var resources = new StorageResources();
+        var storage = new StorageResources();
         
         #endregion
         
         #region add azure storage
         
         if (builder.ExecutionContext.IsRunMode)
-            resources.Service = builder
+            storage.Service = builder
                 .AddAzureStorage(name: "storage")
                 .RunAsEmulator(configureContainer: resource =>
                 {
@@ -37,13 +37,13 @@ public static class StorageBuilder
         #region add blob service
         
         if (builder.ExecutionContext.IsRunMode)
-            resources.Resource = resources.Service?.AddBlobs(name: "storage-blobs");
+            storage.Resource = storage.Service?.AddBlobs(name: "storage-blobs");
         
         if (builder.ExecutionContext.IsPublishMode)
-            resources.Connection = builder.AddConnectionString(name: "storage-blobs");
+            storage.Connection = builder.AddConnectionString(name: "storage-blobs");
         
         #endregion
         
-        return resources;
+        return storage;
     }
 }

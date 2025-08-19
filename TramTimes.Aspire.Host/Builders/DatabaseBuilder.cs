@@ -12,14 +12,14 @@ public static class DatabaseBuilder
         
         #region build resources
         
-        var resources = new DatabaseResources();
+        var database = new DatabaseResources();
         
         #endregion
         
         #region add server
         
         if (builder.ExecutionContext.IsRunMode)
-            resources.Service = builder
+            database.Service = builder
                 .AddPostgres(name: "server")
                 .WaitFor(dependency: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
                 .WithDataVolume()
@@ -30,24 +30,24 @@ public static class DatabaseBuilder
         #region add database
         
         if (builder.ExecutionContext.IsRunMode)
-            resources.Resource = resources.Service?.AddDatabase(name: "southyorkshire"); 
+            database.Resource = database.Service?.AddDatabase(name: "southyorkshire"); 
         
         if (builder.ExecutionContext.IsPublishMode)
-            resources.Connection = builder.AddConnectionString(name: "southyorkshire");
+            database.Connection = builder.AddConnectionString(name: "southyorkshire");
         
         #endregion
         
         #region add tools
         
         if (builder.ExecutionContext.IsRunMode && string.IsNullOrEmpty(value: Testing))
-            resources.Service?
+            database.Service?
                 .WithPgAdmin(
                     containerName: "server-admin",
                     configureContainer: resource =>
                     {
-                        resource.WaitFor(dependency: resources.Service);
+                        resource.WaitFor(dependency: database.Service);
                         resource.WithLifetime(lifetime: ContainerLifetime.Session);
-                        resource.WithParentRelationship(parent: resources.Service);
+                        resource.WithParentRelationship(parent: database.Service);
                         resource.WithUrlForEndpoint(
                             callback: annotation => annotation.DisplayText = "Administration",
                             endpointName: "http");
@@ -56,9 +56,9 @@ public static class DatabaseBuilder
                     containerName: "server-web",
                     configureContainer: resource =>
                     {
-                        resource.WaitFor(dependency: resources.Service);
+                        resource.WaitFor(dependency: database.Service);
                         resource.WithLifetime(lifetime: ContainerLifetime.Session);
-                        resource.WithParentRelationship(parent: resources.Service);
+                        resource.WithParentRelationship(parent: database.Service);
                         resource.WithUrlForEndpoint(
                             callback: annotation => annotation.DisplayText = "Administration",
                             endpointName: "http");
@@ -76,7 +76,7 @@ public static class DatabaseBuilder
                     name: "transxchange-hostname",
                     secret: false)
                 .WithDescription(description: "Hostname for the Traveline FTP server.")
-                .WithParentRelationship(parent: resources.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
+                .WithParentRelationship(parent: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
         
         if (builder.ExecutionContext.IsPublishMode)
             hostname = builder.AddParameter(
@@ -91,7 +91,7 @@ public static class DatabaseBuilder
                     name: "transxchange-username",
                     secret: false)
                 .WithDescription(description: "Username for the Traveline FTP server.")
-                .WithParentRelationship(parent: resources.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
+                .WithParentRelationship(parent: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
         
         if (builder.ExecutionContext.IsPublishMode)
             username = builder.AddParameter(
@@ -106,7 +106,7 @@ public static class DatabaseBuilder
                     name: "transxchange-userpass",
                     secret: true)
                 .WithDescription(description: "Password for the Traveline FTP server.")
-                .WithParentRelationship(parent: resources.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
+                .WithParentRelationship(parent: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
         
         if (builder.ExecutionContext.IsPublishMode)
             userpass = builder.AddParameter(
@@ -120,7 +120,7 @@ public static class DatabaseBuilder
         if (builder.ExecutionContext.IsRunMode)
             builder
                 .AddProject<Projects.TramTimes_Database_Jobs>(name: "transxchange-builder")
-                .WaitFor(dependency: resources.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
+                .WaitFor(dependency: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
                 .WaitFor(dependency: hostname ?? throw new InvalidOperationException(message: "Hostname parameter is not available."))
                 .WaitFor(dependency: username ?? throw new InvalidOperationException(message: "Username parameter is not available."))
                 .WaitFor(dependency: userpass ?? throw new InvalidOperationException(message: "Password parameter is not available."))
@@ -133,14 +133,14 @@ public static class DatabaseBuilder
                 .WithEnvironment(
                     name: "FTP_PASSWORD",
                     parameter: userpass)
-                .WithParentRelationship(parent: resources.Resource)
+                .WithParentRelationship(parent: database.Resource)
                 .WithReference(source: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
-                .WithReference(source: resources.Resource);
+                .WithReference(source: database.Resource);
         
         if (builder.ExecutionContext.IsPublishMode)
             builder
                 .AddProject<Projects.TramTimes_Database_Jobs>(name: "transxchange-builder")
-                .WaitFor(dependency: resources.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
+                .WaitFor(dependency: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WaitFor(dependency: hostname ?? throw new InvalidOperationException(message: "Hostname parameter is not available."))
                 .WaitFor(dependency: username ?? throw new InvalidOperationException(message: "Username parameter is not available."))
                 .WaitFor(dependency: userpass ?? throw new InvalidOperationException(message: "Password parameter is not available."))
@@ -154,10 +154,10 @@ public static class DatabaseBuilder
                     name: "FTP_PASSWORD",
                     parameter: userpass)
                 .WithReference(source: storage.Connection ?? throw new InvalidOperationException(message: "Storage connection is not available."))
-                .WithReference(source: resources.Connection);
+                .WithReference(source: database.Connection);
         
         #endregion
         
-        return resources;
+        return database;
     }
 }

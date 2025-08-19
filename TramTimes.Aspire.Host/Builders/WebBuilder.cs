@@ -8,7 +8,7 @@ public static class WebBuilder
         this IDistributedApplicationBuilder builder,
         StorageResources storage,
         DatabaseResources database,
-        IResourceBuilder<RedisResource> cache,
+        CacheResources cache,
         IResourceBuilder<ElasticsearchResource> search) {
         
         #region add api
@@ -17,7 +17,7 @@ public static class WebBuilder
             .AddProject<Projects.TramTimes_Web_Api>(name: "web-api")
             .WaitFor(dependency: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
             .WaitFor(dependency: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
-            .WaitFor(dependency: cache)
+            .WaitFor(dependency: cache.Service ?? throw new InvalidOperationException(message: "Cache service is not available."))
             .WaitFor(dependency: search)
             .WithExternalHttpEndpoints()
             .WithHttpCommand(
@@ -51,7 +51,7 @@ public static class WebBuilder
             .WithHttpHealthCheck(path: "/healthz")
             .WithReference(source: storage.Resource)
             .WithReference(source: database.Resource)
-            .WithReference(source: cache)
+            .WithReference(source: cache.Service)
             .WithReference(source: search)
             .WithUrlForEndpoint(
                 callback: annotation => annotation.DisplayText = "Primary",
