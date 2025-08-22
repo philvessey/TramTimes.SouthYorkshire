@@ -1,3 +1,4 @@
+using TramTimes.Aspire.Host.Parameters;
 using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
@@ -35,17 +36,15 @@ public static class SearchBuilder
         
         #region add parameters
         
-        IResourceBuilder<ParameterResource>? endpoint = null;
+        search.Parameters = new SearchParameters();
         
         if (builder.ExecutionContext.IsPublishMode)
-            endpoint = builder.AddParameter(
+            search.Parameters.Endpoint = builder.AddParameter(
                 name: "search-endpoint",
                 secret: false);
         
-        IResourceBuilder<ParameterResource>? key = null;
-        
         if (builder.ExecutionContext.IsPublishMode)
-            key = builder.AddParameter(
+            search.Parameters.Key = builder.AddParameter(
                 name: "search-key",
                 secret: true);
         
@@ -66,14 +65,14 @@ public static class SearchBuilder
             builder
                 .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder")
                 .WaitFor(dependency: search.Connection ?? throw new InvalidOperationException(message: "Search connection is not available."))
-                .WaitFor(dependency: endpoint ?? throw new InvalidOperationException(message: "Endpoint parameter is not available."))
-                .WaitFor(dependency: key ?? throw new InvalidOperationException(message: "Key parameter is not available."))
+                .WaitFor(dependency: search.Parameters.Endpoint ?? throw new InvalidOperationException(message: "Endpoint parameter is not available."))
+                .WaitFor(dependency: search.Parameters.Key ?? throw new InvalidOperationException(message: "Key parameter is not available."))
                 .WithEnvironment(
                     name: "ELASTIC_ENDPOINT",
-                    parameter: endpoint)
+                    parameter: search.Parameters.Endpoint)
                 .WithEnvironment(
                     name: "ELASTIC_KEY",
-                    parameter: key)
+                    parameter: search.Parameters.Key)
                 .WithReference(source: storage.Connection ?? throw new InvalidOperationException(message: "Storage connection is not available."))
                 .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WithReference(source: search.Connection);

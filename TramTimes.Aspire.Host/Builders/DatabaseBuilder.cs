@@ -1,3 +1,4 @@
+using TramTimes.Aspire.Host.Parameters;
 using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
@@ -68,10 +69,10 @@ public static class DatabaseBuilder
         
         #region add parameters
         
-        IResourceBuilder<ParameterResource>? hostname = null;
+        database.Parameters = new DatabaseParameters();
         
         if (builder.ExecutionContext.IsRunMode)
-            hostname = builder
+            database.Parameters.Hostname = builder
                 .AddParameter(
                     name: "transxchange-hostname",
                     secret: false)
@@ -79,14 +80,12 @@ public static class DatabaseBuilder
                 .WithParentRelationship(parent: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
         
         if (builder.ExecutionContext.IsPublishMode)
-            hostname = builder.AddParameter(
+            database.Parameters.Hostname = builder.AddParameter(
                 name: "transxchange-hostname",
                 secret: false);
         
-        IResourceBuilder<ParameterResource>? username = null;
-        
         if (builder.ExecutionContext.IsRunMode)
-            username = builder
+            database.Parameters.Username = builder
                 .AddParameter(
                     name: "transxchange-username",
                     secret: false)
@@ -94,14 +93,12 @@ public static class DatabaseBuilder
                 .WithParentRelationship(parent: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
         
         if (builder.ExecutionContext.IsPublishMode)
-            username = builder.AddParameter(
+            database.Parameters.Username = builder.AddParameter(
                 name: "transxchange-username",
                 secret: false);
         
-        IResourceBuilder<ParameterResource>? userpass = null;
-        
         if (builder.ExecutionContext.IsRunMode)
-            userpass = builder
+            database.Parameters.Userpass = builder
                 .AddParameter(
                     name: "transxchange-userpass",
                     secret: true)
@@ -109,7 +106,7 @@ public static class DatabaseBuilder
                 .WithParentRelationship(parent: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
         
         if (builder.ExecutionContext.IsPublishMode)
-            userpass = builder.AddParameter(
+            database.Parameters.Userpass = builder.AddParameter(
                 name: "transxchange-userpass",
                 secret: true);
         
@@ -121,18 +118,18 @@ public static class DatabaseBuilder
             builder
                 .AddProject<Projects.TramTimes_Database_Jobs>(name: "transxchange-builder")
                 .WaitFor(dependency: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
-                .WaitFor(dependency: hostname ?? throw new InvalidOperationException(message: "Hostname parameter is not available."))
-                .WaitFor(dependency: username ?? throw new InvalidOperationException(message: "Username parameter is not available."))
-                .WaitFor(dependency: userpass ?? throw new InvalidOperationException(message: "Password parameter is not available."))
+                .WaitFor(dependency: database.Parameters.Hostname ?? throw new InvalidOperationException(message: "Hostname parameter is not available."))
+                .WaitFor(dependency: database.Parameters.Username ?? throw new InvalidOperationException(message: "Username parameter is not available."))
+                .WaitFor(dependency: database.Parameters.Userpass ?? throw new InvalidOperationException(message: "Password parameter is not available."))
                 .WithEnvironment(
                     name: "FTP_HOSTNAME",
-                    parameter: hostname)
+                    parameter: database.Parameters.Hostname)
                 .WithEnvironment(
                     name: "FTP_USERNAME",
-                    parameter: username)
+                    parameter: database.Parameters.Username)
                 .WithEnvironment(
                     name: "FTP_PASSWORD",
-                    parameter: userpass)
+                    parameter: database.Parameters.Userpass)
                 .WithParentRelationship(parent: database.Resource)
                 .WithReference(source: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
                 .WithReference(source: database.Resource);
@@ -141,18 +138,18 @@ public static class DatabaseBuilder
             builder
                 .AddProject<Projects.TramTimes_Database_Jobs>(name: "transxchange-builder")
                 .WaitFor(dependency: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
-                .WaitFor(dependency: hostname ?? throw new InvalidOperationException(message: "Hostname parameter is not available."))
-                .WaitFor(dependency: username ?? throw new InvalidOperationException(message: "Username parameter is not available."))
-                .WaitFor(dependency: userpass ?? throw new InvalidOperationException(message: "Password parameter is not available."))
+                .WaitFor(dependency: database.Parameters.Hostname ?? throw new InvalidOperationException(message: "Hostname parameter is not available."))
+                .WaitFor(dependency: database.Parameters.Username ?? throw new InvalidOperationException(message: "Username parameter is not available."))
+                .WaitFor(dependency: database.Parameters.Userpass ?? throw new InvalidOperationException(message: "Password parameter is not available."))
                 .WithEnvironment(
                     name: "FTP_HOSTNAME",
-                    parameter: hostname)
+                    parameter: database.Parameters.Hostname)
                 .WithEnvironment(
                     name: "FTP_USERNAME",
-                    parameter: username)
+                    parameter: database.Parameters.Username)
                 .WithEnvironment(
                     name: "FTP_PASSWORD",
-                    parameter: userpass)
+                    parameter: database.Parameters.Userpass)
                 .WithReference(source: storage.Connection ?? throw new InvalidOperationException(message: "Storage connection is not available."))
                 .WithReference(source: database.Connection);
         
