@@ -40,9 +40,16 @@ public class CacheService : IHostedService
         
         await _result.ExecuteAsync(action: async () =>
         {
+            var keys = _service
+                .GetServer(endpoint: _service
+                    .GetEndPoints()
+                    .First())
+                .Keys(pattern: "southyorkshire:*")
+                .ToArray();
+            
             await _service
                 .GetDatabase()
-                .ExecuteAsync(command: "info");
+                .KeyDeleteAsync(keys: keys);
             
             _logger.LogInformation(
                 message: "Cache service health status: {status}",

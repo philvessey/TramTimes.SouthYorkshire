@@ -42,27 +42,26 @@ public class SearchService : IHostedService
         
         await _result.ExecuteAsync(action: async () =>
         {
-            var response = await _service.Indices.ExistsAsync(
+            await _service.Indices.DeleteAsync(
                 indices: "southyorkshire",
                 cancellationToken: cancellationToken);
             
-            if (response is { IsValidResponse: true, Exists: false })
-                await _service.Indices.CreateAsync<SearchStop>(
-                    index: "southyorkshire",
-                    configureRequest: request => request
-                        .Mappings(configure: map => map
-                            .Properties(properties: new Properties<SearchStop>
-                            {
-                                { "code", new KeywordProperty() },
-                                { "id", new KeywordProperty() },
-                                { "latitude", new DoubleNumberProperty() },
-                                { "location", new GeoPointProperty() },
-                                { "longitude", new DoubleNumberProperty() },
-                                { "name", new KeywordProperty() },
-                                { "platform", new TextProperty() },
-                                { "points", new ObjectProperty() }
-                            })),
-                    cancellationToken: cancellationToken);
+            await _service.Indices.CreateAsync<SearchStop>(
+                index: "southyorkshire",
+                configureRequest: request => request
+                    .Mappings(configure: map => map
+                        .Properties(properties: new Properties<SearchStop>
+                        {
+                            { "code", new KeywordProperty() },
+                            { "id", new KeywordProperty() },
+                            { "latitude", new DoubleNumberProperty() },
+                            { "location", new GeoPointProperty() },
+                            { "longitude", new DoubleNumberProperty() },
+                            { "name", new KeywordProperty() },
+                            { "platform", new TextProperty() },
+                            { "points", new ObjectProperty() }
+                        })),
+                cancellationToken: cancellationToken);
             
             _logger.LogInformation(
                 message: "Search service health status: {status}",

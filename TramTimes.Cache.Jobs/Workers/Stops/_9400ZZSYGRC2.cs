@@ -46,8 +46,17 @@ public class _9400ZZSYGRC2(
             
             #region check cache feed
             
-            if (mappedResults.ElementAtOrDefault(index: 0)?.DepartureDateTime > DateTime.Now)
+            if (mappedResults.FirstOrDefault()?.DepartureDateTime > DateTime.Now)
                 return;
+            
+            #endregion
+            
+            #region delete cache feed
+            
+            if (mappedResults.LastOrDefault()?.DepartureDateTime < DateTime.Now)
+                await cacheService
+                    .GetDatabase()
+                    .KeyDeleteAsync(key: "southyorkshire:stop:9400ZZSYGRC2");
             
             #endregion
             

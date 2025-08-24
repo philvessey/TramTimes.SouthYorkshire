@@ -44,8 +44,17 @@ public class _9400ZZSYCRB2(
             
             #region check search feed
             
-            if (mappedResults.ElementAtOrDefault(index: 0)?.DepartureDateTime > DateTime.Now)
+            if (mappedResults.FirstOrDefault()?.DepartureDateTime > DateTime.Now)
                 return;
+            
+            #endregion
+            
+            #region delete search feed
+            
+            if (mappedResults.LastOrDefault()?.DepartureDateTime < DateTime.Now)
+                await searchService.DeleteAsync(
+                    id: "9400ZZSYCRB2",
+                    index: "southyorkshire");
             
             #endregion
             
