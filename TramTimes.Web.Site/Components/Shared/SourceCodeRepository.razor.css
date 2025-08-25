@@ -1,0 +1,31 @@
+#source-code-repository {
+    bottom: 15px;
+    left: 70px;
+    position: fixed;
+}
+
+#source-code-repository button {
+    align-items: center;
+    background-color: white;
+    border: 1px solid #636363;
+    border-radius: 8px;
+    color: #0078c8;
+    cursor: pointer;
+    display: flex;
+    height: 40px;
+    justify-content: center;
+    padding: 4px;
+    transition: filter 0.15s;
+    width: 40px;
+    z-index: 9999;
+}
+
+#source-code-repository button:hover {
+    filter: contrast(85%);
+}
+
+#source-code-repository button .icon {
+    height: 32px;
+    margin: 0;
+    width: 32px;
+}

@@ -3,8 +3,6 @@
 @inject IJSRuntime JavascriptService
 @inject ILogger<LocalStorageConsent> LoggerService
 
-@implements IAsyncDisposable
-
 @if (!ShowOutline && !ShowPolicy)
 {
     <div id="local-storage-consent">

@@ -6,8 +6,6 @@
 @inject ILogger<Home> LoggerService
 @inject IMapper MapperService
 
-@implements IAsyncDisposable
-
 @page "/"
 @page "/{Longitude:double}/{Latitude:double}"
 @page "/{Longitude:double}/{Latitude:double}/{Zoom:double}"
@@ -328,6 +326,12 @@
     <LocalStorageConsent Longitude="Center.ElementAt(index: 1)"
                          Latitude="Center.ElementAt(index: 0)"
                          Zoom="Zoom" />
+    
+    <!-- #endregion -->
+    
+    <!-- #region source-code-repository -->
+    
+    <SourceCodeRepository Url="https://github.com/philvessey/TramTimes.SouthYorkshire" />
     
     <!-- #endregion -->
     

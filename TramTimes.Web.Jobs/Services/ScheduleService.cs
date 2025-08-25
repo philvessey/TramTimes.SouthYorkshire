@@ -18,7 +18,7 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: clean);
-                    trigger.StartNow();
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
                     trigger.WithCronSchedule(cronExpression: "0 30 3 * * ?");
                 });
             

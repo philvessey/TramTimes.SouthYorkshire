@@ -5,7 +5,7 @@ using Microsoft.JSInterop;
 
 namespace TramTimes.Web.Site.Components.Shared;
 
-public partial class LocalStorageConsent : ComponentBase
+public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
 {
     private IJSObjectReference? Manager { get; set; }
     private string? ConsentCookie { get; set; }

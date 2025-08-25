@@ -9,23 +9,15 @@
     background-color: white;
     border: 1px solid #636363;
     border-radius: 8px;
-    bottom: 15px;
     color: #0078c8;
     cursor: pointer;
     display: flex;
     height: 40px;
     justify-content: center;
     padding: 8px;
-    position: fixed;
     transition: filter 0.15s;
     width: 40px;
     z-index: 9999;
-}
-
-#local-storage-consent button:focus {
-    filter: contrast(75%);
-    outline: none;
-    transform: scale(0.95);
 }
 
 #local-storage-consent button:hover {

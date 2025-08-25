@@ -13,7 +13,7 @@ using TramTimes.Web.Utilities.Models;
 
 namespace TramTimes.Web.Site.Components.Pages;
 
-public partial class Stop : ComponentBase
+public partial class Stop : ComponentBase, IAsyncDisposable
 { 
     private List<TelerikStopPoint> ListData { get; set; } = [];
     private List<TelerikStop> MapData { get; set; } = [];
