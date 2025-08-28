@@ -1,5 +1,6 @@
 param(
-    [string]$filter
+    [string]$filter,
+    [int]$run
 )
 
 Write-Host ""
@@ -9,7 +10,11 @@ Write-Host ""
 $command = "dotnet test --settings test.runsettings"
 
 if ($filter) {
-    $command += " --filter `"$filter`""
+    if ($run -gt 0) {
+        $command += " --filter `"DisplayName~$filter&DisplayName~run: $run`""
+    } else {
+        $command += " --filter `"DisplayName~$filter`""
+    }
 }
 
 $output = Invoke-Expression "$command 2>&1" | Out-String

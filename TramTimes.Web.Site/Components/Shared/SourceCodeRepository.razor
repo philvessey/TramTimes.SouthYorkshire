@@ -1,9 +1,12 @@
 @inject IJSRuntime JavascriptService
 @inject ILogger<LocalStorageConsent> LoggerService
 
-<div id="source-code-repository">
+<div id="source-code-repository"
+     data-testid="source-code-repository">
+    
     <button @onclick="NavigateToAsync">
         <svg class="icon"
+             data-testid="icon"
              fill="currentColor"
              viewBox="0 0 24 24"
              xmlns="http://www.w3.org/2000/svg">
