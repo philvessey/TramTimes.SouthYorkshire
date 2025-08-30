@@ -31,9 +31,11 @@ public class _9400ZZSYABR1(
         {
             #region get search feed
             
-            var searchFeed = await searchService.GetAsync<SearchStop>(
-                id: "9400ZZSYABR1",
-                index: "southyorkshire");
+            var searchFeed = await searchService.GetAsync<SearchStop>(request: new GetRequest
+            {
+                Id = "9400ZZSYABR1",
+                Index = "southyorkshire"
+            });
             
             List<SearchStopPoint> mappedResults = [];
             
@@ -52,9 +54,11 @@ public class _9400ZZSYABR1(
             #region delete search feed
             
             if (mappedResults.LastOrDefault()?.DepartureDateTime < DateTime.Now)
-                await searchService.DeleteAsync(
-                    id: "9400ZZSYABR1",
-                    index: "southyorkshire");
+                await searchService.DeleteAsync(request: new DeleteRequest
+                {
+                    Id = "9400ZZSYABR1",
+                    Index = "southyorkshire"
+                });
             
             #endregion
             
@@ -88,10 +92,13 @@ public class _9400ZZSYABR1(
             #endregion
             
             #region set search feed
-
-            await searchService.IndexAsync(
-                document: databaseResults,
-                index: "southyorkshire");
+            
+            await searchService.IndexAsync(request: new IndexRequest<SearchStop>
+            {
+                Document = databaseResults,
+                Id = databaseResults.Id ?? "9400ZZSYABR1",
+                Index = "southyorkshire"
+            });
             
             #endregion
             

@@ -10,16 +10,19 @@ public static class SearchTools
         
         var results = new List<SortOptions>
         {
-            SortOptions.GeoDistance(geoDistanceSort: new GeoDistanceSort
+            new()
             {
-                Field = new Field(name: "location"),
-                Order = SortOrder.Asc,
-                Unit = DistanceUnit.Meters,
-                Location = new List<GeoLocation>
+                GeoDistance = new GeoDistanceSort
                 {
-                    GeoLocation.LatitudeLongitude(latitudeLongitude: location)
+                    Field = "location",
+                    Location = new List<GeoLocation>
+                    {
+                        GeoLocation.LatitudeLongitude(latitudeLongitude: location)
+                    },
+                    Order = SortOrder.Asc,
+                    Unit = DistanceUnit.Meters
                 }
-            })
+            }
         };
         
         #endregion
@@ -33,8 +36,22 @@ public static class SearchTools
         
         var results = new List<SortOptions>
         {
-            SortOptions.Field(field: new Field(name: "name")),
-            SortOptions.Field(field: new Field(name: "id"))
+            new()
+            {
+                Field = new FieldSort
+                {
+                    Field = "name",
+                    Order = SortOrder.Asc
+                }
+            },
+            new()
+            {
+                Field = new FieldSort
+                {
+                    Field = "id",
+                    Order = SortOrder.Asc
+                }
+            }
         };
         
         #endregion

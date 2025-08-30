@@ -2,11 +2,11 @@ using AutoMapper;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.IndexManagement;
 using Elastic.Clients.Elasticsearch.Mapping;
 using Npgsql;
 using StackExchange.Redis;
 using TramTimes.Web.Api.Builders;
-using TramTimes.Web.Api.Models;
 using TramTimes.Web.Utilities.Extensions;
 
 namespace TramTimes.Web.Api.Handlers;
@@ -844,27 +844,33 @@ public static class WebHandler
         
         #region delete index
         
-        await searchService.Indices.DeleteAsync(indices: "southyorkshire");
+        await searchService.Indices.DeleteAsync(request: new DeleteIndexRequest
+        {
+            Indices = "southyorkshire"
+        });
         
         #endregion
         
         #region create index
         
-        await searchService.Indices.CreateAsync<SearchStop>(
-            index: "southyorkshire",
-            configureRequest: request => request
-                .Mappings(configure: map => map
-                    .Properties(properties: new Properties<SearchStop>
-                    {
-                        { "code", new KeywordProperty() },
-                        { "id", new KeywordProperty() },
-                        { "latitude", new DoubleNumberProperty() },
-                        { "location", new GeoPointProperty() },
-                        { "longitude", new DoubleNumberProperty() },
-                        { "name", new KeywordProperty() },
-                        { "platform", new TextProperty() },
-                        { "points", new ObjectProperty() }
-                    })));
+        await searchService.Indices.CreateAsync(request: new CreateIndexRequest
+        {
+            Index = "southyorkshire",
+            Mappings = new TypeMapping
+            {
+                Properties = new Properties
+                {
+                    { "code", new KeywordProperty() },
+                    { "id", new KeywordProperty() },
+                    { "latitude", new DoubleNumberProperty() },
+                    { "location", new GeoPointProperty() },
+                    { "longitude", new DoubleNumberProperty() },
+                    { "name", new KeywordProperty() },
+                    { "platform", new TextProperty() },
+                    { "points", new ObjectProperty() }
+                }
+            }
+        });
         
         #endregion
         
@@ -1648,27 +1654,33 @@ public static class WebHandler
         
         #region delete index
         
-        await searchService.Indices.DeleteAsync(indices: "southyorkshire");
+        await searchService.Indices.DeleteAsync(request: new DeleteIndexRequest
+        {
+            Indices = "southyorkshire"
+        });
         
         #endregion
         
         #region create index
         
-        await searchService.Indices.CreateAsync<SearchStop>(
-            index: "southyorkshire",
-            configureRequest: request => request
-                .Mappings(configure: map => map
-                    .Properties(properties: new Properties<SearchStop>
-                    {
-                        { "code", new KeywordProperty() },
-                        { "id", new KeywordProperty() },
-                        { "latitude", new DoubleNumberProperty() },
-                        { "location", new GeoPointProperty() },
-                        { "longitude", new DoubleNumberProperty() },
-                        { "name", new KeywordProperty() },
-                        { "platform", new TextProperty() },
-                        { "points", new ObjectProperty() }
-                    })));
+        await searchService.Indices.CreateAsync(request: new CreateIndexRequest
+        {
+            Index = "southyorkshire",
+            Mappings = new TypeMapping
+            {
+                Properties = new Properties
+                {
+                    { "code", new KeywordProperty() },
+                    { "id", new KeywordProperty() },
+                    { "latitude", new DoubleNumberProperty() },
+                    { "location", new GeoPointProperty() },
+                    { "longitude", new DoubleNumberProperty() },
+                    { "name", new KeywordProperty() },
+                    { "platform", new TextProperty() },
+                    { "points", new ObjectProperty() }
+                }
+            }
+        });
         
         #endregion
         

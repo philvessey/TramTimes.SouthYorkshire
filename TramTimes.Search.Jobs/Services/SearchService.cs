@@ -1,8 +1,8 @@
 using Elastic.Clients.Elasticsearch;
+using Elastic.Clients.Elasticsearch.IndexManagement;
 using Elastic.Clients.Elasticsearch.Mapping;
 using Polly;
 using Polly.Retry;
-using TramTimes.Search.Jobs.Models;
 
 namespace TramTimes.Search.Jobs.Services;
 
@@ -43,14 +43,19 @@ public class SearchService : IHostedService
         await _result.ExecuteAsync(action: async () =>
         {
             await _service.Indices.DeleteAsync(
-                indices: "southyorkshire",
+                request: new DeleteIndexRequest
+                {
+                    Indices = "southyorkshire"
+                },
                 cancellationToken: cancellationToken);
             
-            await _service.Indices.CreateAsync<SearchStop>(
-                index: "southyorkshire",
-                configureRequest: request => request
-                    .Mappings(configure: map => map
-                        .Properties(properties: new Properties<SearchStop>
+            await _service.Indices.CreateAsync(
+                request: new CreateIndexRequest
+                {
+                    Index = "southyorkshire",
+                    Mappings = new TypeMapping
+                    {
+                        Properties = new Properties
                         {
                             { "code", new KeywordProperty() },
                             { "id", new KeywordProperty() },
@@ -60,7 +65,9 @@ public class SearchService : IHostedService
                             { "name", new KeywordProperty() },
                             { "platform", new TextProperty() },
                             { "points", new ObjectProperty() }
-                        })),
+                        }
+                    }
+                },
                 cancellationToken: cancellationToken);
             
             _logger.LogInformation(

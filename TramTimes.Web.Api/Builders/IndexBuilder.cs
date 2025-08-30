@@ -47,9 +47,12 @@ public static class IndexBuilder
         
         #region set search feed
         
-        await searchService.IndexAsync(
-            document: databaseResults,
-            index: "southyorkshire");
+        await searchService.IndexAsync(request: new IndexRequest<SearchStop>
+        {
+            Document = databaseResults,
+            Id = databaseResults.Id ?? id,
+            Index = "southyorkshire"
+        });
         
         #endregion
     }

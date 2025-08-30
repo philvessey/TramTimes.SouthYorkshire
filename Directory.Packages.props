@@ -2,7 +2,7 @@
     
     <PropertyGroup>
         <AspireVersion>9.4.1</AspireVersion>
-        <ElasticAspireVersion>9.3.0</ElasticAspireVersion>
+        <AspireElasticVersion>9.4.1</AspireElasticVersion>
         <NextDeparturesVersion>3.8.1</NextDeparturesVersion>
     </PropertyGroup>
     
@@ -14,17 +14,17 @@
     <ItemGroup>
         <PackageVersion Include="Aspire.Hosting.AppHost" Version="$(AspireVersion)" />
         <PackageVersion Include="Aspire.Hosting.Azure.Storage" Version="$(AspireVersion)" />
+        <PackageVersion Include="Aspire.Hosting.Elasticsearch" Version="$(AspireElasticVersion)" />
         <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="$(AspireVersion)" />
         <PackageVersion Include="Aspire.Hosting.Redis" Version="$(AspireVersion)" />
         <PackageVersion Include="Aspire.Hosting.Testing" Version="$(AspireVersion)" />
-        <PackageVersion Include="Elastic.Aspire.Hosting.Elasticsearch" Version="$(ElasticAspireVersion)" />
     </ItemGroup>
     
     <ItemGroup>
         <PackageVersion Include="Aspire.Azure.Storage.Blobs" Version="$(AspireVersion)" />
+        <PackageVersion Include="Aspire.Elastic.Clients.Elasticsearch" Version="$(AspireElasticVersion)" />
         <PackageVersion Include="Aspire.Npgsql" Version="$(AspireVersion)" />
         <PackageVersion Include="Aspire.StackExchange.Redis" Version="$(AspireVersion)" />
-        <PackageVersion Include="Elastic.Clients.Elasticsearch.Aspire" Version="$(ElasticAspireVersion)" />
     </ItemGroup>
     
     <ItemGroup>
@@ -59,7 +59,7 @@
         <PackageVersion Include="xunit.extensibility.core" Version="2.9.3" />
         <PackageVersion Include="xunit.extensibility.execution" Version="2.9.3" />
         <PackageVersion Include="xunit.runner.console" Version="2.9.3" />
-        <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.3" />
+        <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.4" />
     </ItemGroup>
     
     <ItemGroup>
@@ -70,10 +70,10 @@
         <PackageVersion Include="Flurl.Http" Version="4.0.2" />
         <PackageVersion Include="Geolocation" Version="1.2.1" />
         <PackageVersion Include="IeuanWalker.GeoUK" Version="1.3.0" />
-        <PackageVersion Include="JetBrains.Annotations" Version="2025.2.0" />
-        <PackageVersion Include="Polly" Version="8.6.2" />
+        <PackageVersion Include="JetBrains.Annotations" Version="2025.2.1" />
+        <PackageVersion Include="Polly" Version="8.6.3" />
         <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.15.0" />
-        <PackageVersion Include="Swashbuckle.AspNetCore" Version="9.0.3" />
+        <PackageVersion Include="Swashbuckle.AspNetCore" Version="9.0.4" />
         <PackageVersion Include="Telerik.UI.for.Blazor" Version="9.1.0" />
     </ItemGroup>
     

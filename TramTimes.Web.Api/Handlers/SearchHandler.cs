@@ -17,10 +17,12 @@ public static class SearchHandler
         
         #region build request
         
-        var request = new SearchRequest(indices: "southyorkshire")
+        var request = new SearchRequest
         {
-            Query = new TermQuery(field: new Field(name: "id"))
+            Indices = "southyorkshire",
+            Query = new TermQuery
             {
+                Field = "id",
                 Value = id.ToUpperInvariant()
             },
             Size = 1000,
@@ -48,10 +50,12 @@ public static class SearchHandler
         
         #region build request
         
-        var request = new SearchRequest(indices: "southyorkshire")
+        var request = new SearchRequest
         {
-            Query = new TermQuery(field: new Field(name: "code"))
+            Indices = "southyorkshire",
+            Query = new TermQuery
             {
+                Field = "code",
                 Value = code.ToLowerInvariant()
             },
             Size = 1000,
@@ -79,10 +83,12 @@ public static class SearchHandler
         
         #region build request
         
-        var request = new SearchRequest(indices: "southyorkshire")
+        var request = new SearchRequest
         {
-            Query = new WildcardQuery(field: new Field(name: "name"))
+            Indices = "southyorkshire",
+            Query = new WildcardQuery
             {
+                Field = "name",
                 CaseInsensitive = true,
                 Value = $"*{name.ToLowerInvariant()}*"
             },
@@ -114,11 +120,12 @@ public static class SearchHandler
         
         #region build request
         
-        var request = new SearchRequest(indices: "southyorkshire")
+        var request = new SearchRequest
         {
+            Indices = "southyorkshire",
             Query = new GeoBoundingBoxQuery
             {
-                Field = new Field(name: "location"),
+                Field = "location",
                 BoundingBox = GeoBounds.TopRightBottomLeft(topRightBottomLeft: new TopRightBottomLeftGeoBounds
                 {
                     BottomLeft = GeoLocation.LatitudeLongitude(latitudeLongitude: new LatLonGeoLocation
@@ -163,11 +170,12 @@ public static class SearchHandler
         
         #region build request
         
-        var request = new SearchRequest(indices: "southyorkshire")
+        var request = new SearchRequest
         {
+            Indices = "southyorkshire",
             Query = new GeoDistanceQuery
             {
-                Field = new Field(name: "location"),
+                Field = "location",
                 Distance = "1km",
                 Location = GeoLocation.LatitudeLongitude(latitudeLongitude: new LatLonGeoLocation
                 {
