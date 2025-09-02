@@ -8,7 +8,7 @@
     </ItemGroup>
     
     <ItemGroup>
-        <ProjectReference Include="..\TramTimes.Service.Defaults\TramTimes.Service.Defaults.csproj" />
+        <ProjectReference Include="..\TramTimes.Aspire.Services\TramTimes.Aspire.Services.csproj" />
         <ProjectReference Include="..\TramTimes.Web.Utilities\TramTimes.Web.Utilities.csproj" />
     </ItemGroup>
     
