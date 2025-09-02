@@ -4,6 +4,12 @@
     position: fixed;
 }
 
+@media (max-width: 576px) {
+    #source-code-repository {
+        bottom: calc(296px + 15px);
+    }
+}
+
 #source-code-repository button {
     align-items: center;
     background-color: white;
