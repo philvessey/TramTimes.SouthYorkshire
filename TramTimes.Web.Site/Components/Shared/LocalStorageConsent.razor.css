@@ -121,7 +121,7 @@
 }
 
 #local-storage-consent__policy .content {
-    max-height: 240px;
+    max-height: 224px;
     overflow-y: auto;
 }
 
