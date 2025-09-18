@@ -19,6 +19,8 @@ public class _9400ZZSYDVS2(
     ILogger<_9400ZZSYDVS2> logger,
     IMapper mapper) : IJob {
     
+    private static readonly JsonSerializerOptions Options = new() { WriteIndented = true };
+    
     public async Task Execute(IJobExecutionContext context)
     {
         var guid = Guid.NewGuid();
@@ -110,7 +112,9 @@ public class _9400ZZSYDVS2(
             
             await File.WriteAllTextAsync(
                 path: localPath,
-                contents: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: mappedResults)));
+                contents: JsonSerializer.Serialize(
+                    value: mapper.Map<List<WorkerStopPoint>>(source: mappedResults),
+                    options: Options));
             
             var remotePath = Path.Combine(
                 path1: "search",
@@ -140,7 +144,9 @@ public class _9400ZZSYDVS2(
             
             await File.WriteAllTextAsync(
                 path: localPath,
-                contents: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: serviceResults)));
+                contents: JsonSerializer.Serialize(
+                    value: mapper.Map<List<WorkerStopPoint>>(source: serviceResults),
+                    options: Options));
             
             remotePath = Path.Combine(
                 path1: "search",
