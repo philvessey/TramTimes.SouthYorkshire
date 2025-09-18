@@ -18,6 +18,8 @@ public class _9400ZZSYMRT2(
     ILogger<_9400ZZSYMRT2> logger,
     IMapper mapper) : IJob {
     
+    private static readonly JsonSerializerOptions Options = new() { WriteIndented = true };
+    
     public async Task Execute(IJobExecutionContext context)
     {
         var guid = Guid.NewGuid();
@@ -507,7 +509,9 @@ public class _9400ZZSYMRT2(
             
             await File.WriteAllTextAsync(
                 path: localPath,
-                contents: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults)));
+                contents: JsonSerializer.Serialize(
+                    value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults),
+                    options: Options));
             
             var remotePath = Path.Combine(
                 path1: "database",
@@ -537,7 +541,9 @@ public class _9400ZZSYMRT2(
             
             await File.WriteAllTextAsync(
                 path: localPath,
-                contents: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: storageResults)));
+                contents: JsonSerializer.Serialize(
+                    value: mapper.Map<List<WorkerStopPoint>>(source: storageResults),
+                    options: Options));
             
             remotePath = Path.Combine(
                 path1: "database",
@@ -567,7 +573,9 @@ public class _9400ZZSYMRT2(
             
             await File.WriteAllTextAsync(
                 path: localPath,
-                contents: JsonSerializer.Serialize(value: testResults));
+                contents: JsonSerializer.Serialize(
+                    value: testResults,
+                    options: Options));
             
             remotePath = Path.Combine(
                 path1: "database",
