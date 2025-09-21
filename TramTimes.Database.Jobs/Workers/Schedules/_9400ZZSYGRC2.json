@@ -2,178 +2,219 @@
   "monday": [
     {
       "departure_time": "12:03:00",
+      "destination_name": "Sheffield Centre",
       "route_name": "PURP"
     },
     {
       "departure_time": "12:10:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:22:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:34:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:46:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:58:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     }
   ],
   "tuesday": [
     {
       "departure_time": "12:03:00",
+      "destination_name": "Sheffield Centre",
       "route_name": "PURP"
     },
     {
       "departure_time": "12:10:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:22:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:34:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:46:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:58:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     }
   ],
   "wednesday": [
     {
       "departure_time": "12:03:00",
+      "destination_name": "Sheffield Centre",
       "route_name": "PURP"
     },
     {
       "departure_time": "12:10:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:22:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:34:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:46:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:58:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     }
   ],
   "thursday": [
     {
       "departure_time": "12:03:00",
+      "destination_name": "Sheffield Centre",
       "route_name": "PURP"
     },
     {
       "departure_time": "12:10:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:22:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:34:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:46:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:58:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     }
   ],
   "friday": [
     {
       "departure_time": "12:03:00",
+      "destination_name": "Sheffield Centre",
       "route_name": "PURP"
     },
     {
       "departure_time": "12:10:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:22:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:34:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:46:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:58:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     }
   ],
   "saturday": [
     {
       "departure_time": "12:03:00",
+      "destination_name": "Sheffield Centre",
       "route_name": "PURP"
     },
     {
       "departure_time": "12:11:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:23:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:35:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:47:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:59:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     }
   ],
   "sunday": [
     {
       "departure_time": "12:08:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:14:00",
+      "destination_name": "Sheffield Centre",
       "route_name": "PURP"
     },
     {
       "departure_time": "12:28:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:44:00",
+      "destination_name": "Sheffield Centre",
       "route_name": "PURP"
     },
     {
       "departure_time": "12:48:00",
+      "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     }
   ]

@@ -2,70 +2,84 @@
   "monday": [
     {
       "departure_time": "12:24:00",
+      "destination_name": "Parkgate",
       "route_name": "TT"
     },
     {
       "departure_time": "12:51:00",
+      "destination_name": "Parkgate",
       "route_name": "TT"
     }
   ],
   "tuesday": [
     {
       "departure_time": "12:24:00",
+      "destination_name": "Parkgate",
       "route_name": "TT"
     },
     {
       "departure_time": "12:51:00",
+      "destination_name": "Parkgate",
       "route_name": "TT"
     }
   ],
   "wednesday": [
     {
       "departure_time": "12:24:00",
+      "destination_name": "Parkgate",
       "route_name": "TT"
     },
     {
       "departure_time": "12:51:00",
+      "destination_name": "Parkgate",
       "route_name": "TT"
     }
   ],
   "thursday": [
     {
       "departure_time": "12:24:00",
+      "destination_name": "Parkgate",
       "route_name": "TT"
     },
     {
       "departure_time": "12:51:00",
+      "destination_name": "Parkgate",
       "route_name": "TT"
     }
   ],
   "friday": [
     {
       "departure_time": "12:24:00",
+      "destination_name": "Parkgate",
       "route_name": "TT"
     },
     {
       "departure_time": "12:51:00",
+      "destination_name": "Parkgate",
       "route_name": "TT"
     }
   ],
   "saturday": [
     {
       "departure_time": "12:24:00",
+      "destination_name": "Parkgate",
       "route_name": "TT"
     },
     {
       "departure_time": "12:51:00",
+      "destination_name": "Parkgate",
       "route_name": "TT"
     }
   ],
   "sunday": [
     {
       "departure_time": "12:25:00",
+      "destination_name": "Parkgate",
       "route_name": "TT"
     },
     {
       "departure_time": "12:55:00",
+      "destination_name": "Parkgate",
       "route_name": "TT"
     }
   ]

@@ -2,46 +2,54 @@
   "monday": [
     {
       "departure_time": "12:46:00",
+      "destination_name": "Sheffield Centre",
       "route_name": "PURP"
     }
   ],
   "tuesday": [
     {
       "departure_time": "12:46:00",
+      "destination_name": "Sheffield Centre",
       "route_name": "PURP"
     }
   ],
   "wednesday": [
     {
       "departure_time": "12:46:00",
+      "destination_name": "Sheffield Centre",
       "route_name": "PURP"
     }
   ],
   "thursday": [
     {
       "departure_time": "12:46:00",
+      "destination_name": "Sheffield Centre",
       "route_name": "PURP"
     }
   ],
   "friday": [
     {
       "departure_time": "12:46:00",
+      "destination_name": "Sheffield Centre",
       "route_name": "PURP"
     }
   ],
   "saturday": [
     {
       "departure_time": "12:46:00",
+      "destination_name": "Sheffield Centre",
       "route_name": "PURP"
     }
   ],
   "sunday": [
     {
       "departure_time": "12:27:00",
+      "destination_name": "Sheffield Centre",
       "route_name": "PURP"
     },
     {
       "departure_time": "12:57:00",
+      "destination_name": "Sheffield Centre",
       "route_name": "PURP"
     }
   ]

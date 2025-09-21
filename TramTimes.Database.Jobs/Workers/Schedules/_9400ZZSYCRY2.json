@@ -2,146 +2,179 @@
   "monday": [
     {
       "departure_time": "12:04:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:16:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:28:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:40:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:52:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     }
   ],
   "tuesday": [
     {
       "departure_time": "12:04:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:16:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:28:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:40:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:52:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     }
   ],
   "wednesday": [
     {
       "departure_time": "12:04:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:16:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:28:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:40:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:52:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     }
   ],
   "thursday": [
     {
       "departure_time": "12:04:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:16:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:28:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:40:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:52:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     }
   ],
   "friday": [
     {
       "departure_time": "12:04:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:16:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:28:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:40:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:52:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     }
   ],
   "saturday": [
     {
       "departure_time": "12:05:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:17:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:29:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:41:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:53:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     }
   ],
   "sunday": [
     {
       "departure_time": "12:05:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:25:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
       "departure_time": "12:45:00",
+      "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     }
   ]

@@ -2,146 +2,179 @@
   "monday": [
     {
       "departure_time": "12:10:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:22:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:34:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:46:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:58:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     }
   ],
   "tuesday": [
     {
       "departure_time": "12:10:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:22:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:34:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:46:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:58:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     }
   ],
   "wednesday": [
     {
       "departure_time": "12:10:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:22:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:34:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:46:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:58:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     }
   ],
   "thursday": [
     {
       "departure_time": "12:10:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:22:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:34:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:46:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:58:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     }
   ],
   "friday": [
     {
       "departure_time": "12:10:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:22:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:34:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:46:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:58:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     }
   ],
   "saturday": [
     {
       "departure_time": "12:10:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:22:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:34:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:46:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:58:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     }
   ],
   "sunday": [
     {
       "departure_time": "12:09:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:29:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
       "departure_time": "12:49:00",
+      "destination_name": "Meadowhall",
       "route_name": "YELL"
     }
   ]
