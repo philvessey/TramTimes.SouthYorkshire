@@ -11,7 +11,6 @@
     <Project Path="TramTimes.Database.Jobs\TramTimes.Database.Jobs.csproj" />
     <Project Path="TramTimes.Search.Jobs\TramTimes.Search.Jobs.csproj" />
     <Project Path="TramTimes.Web.Api\TramTimes.Web.Api.csproj" />
-    <Project Path="TramTimes.Web.Jobs\TramTimes.Web.Jobs.csproj" />
     <Project Path="TramTimes.Web.Site\TramTimes.Web.Site.csproj" />
     <Project Path="TramTimes.Web.Tests\TramTimes.Web.Tests.csproj" />
     <Project Path="TramTimes.Web.Utilities\TramTimes.Web.Utilities.csproj" />

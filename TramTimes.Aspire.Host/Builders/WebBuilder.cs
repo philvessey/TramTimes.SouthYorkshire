@@ -89,22 +89,6 @@ public static class WebBuilder
         
         #endregion
         
-        #region add jobs
-        
-        if (builder.ExecutionContext.IsRunMode)
-            builder
-                .AddProject<Projects.TramTimes_Web_Jobs>(name: "web-builder")
-                .WaitFor(dependency: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
-                .WithReference(source: storage.Resource);
-        
-        if (builder.ExecutionContext.IsPublishMode)
-            builder
-                .AddProject<Projects.TramTimes_Web_Jobs>(name: "web-builder")
-                .WaitFor(dependency: storage.Connection ?? throw new InvalidOperationException(message: "Storage connection is not available."))
-                .WithReference(source: storage.Connection);
-        
-        #endregion
-        
         #region add site
         
         if (builder.ExecutionContext.IsRunMode)

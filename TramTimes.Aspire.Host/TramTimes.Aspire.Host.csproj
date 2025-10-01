@@ -21,7 +21,6 @@
         <ProjectReference Include="..\TramTimes.Database.Jobs\TramTimes.Database.Jobs.csproj" />
         <ProjectReference Include="..\TramTimes.Search.Jobs\TramTimes.Search.Jobs.csproj" />
         <ProjectReference Include="..\TramTimes.Web.Api\TramTimes.Web.Api.csproj" />
-        <ProjectReference Include="..\TramTimes.Web.Jobs\TramTimes.Web.Jobs.csproj" />
         <ProjectReference Include="..\TramTimes.Web.Site\TramTimes.Web.Site.csproj" />
     </ItemGroup>
     
