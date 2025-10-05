@@ -1,0 +1,131 @@
+networks:
+  search-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+services:
+  search1:
+    container_name: search1
+    entrypoint: >
+      sh -c "
+      echo "{{PASSWORD}}" | bin/elasticsearch-keystore add xpack.security.http.ssl.keystore.secure_password --stdin --force &&
+      echo "{{PASSWORD}}" | bin/elasticsearch-keystore add xpack.security.http.ssl.truststore.secure_password --stdin --force &&
+      echo "{{PASSWORD}}" | bin/elasticsearch-keystore add xpack.security.transport.ssl.keystore.secure_password --stdin --force &&
+      echo "{{PASSWORD}}" | bin/elasticsearch-keystore add xpack.security.transport.ssl.truststore.secure_password --stdin --force &&
+      exec /usr/local/bin/docker-entrypoint.sh"
+    environment:
+      - bootstrap.memory_lock=true
+      - cluster.initial_master_nodes=search1,search2,search3
+      - cluster.name=search-cluster
+      - discovery.seed_hosts=search2,search3
+      - ELASTIC_PASSWORD={{PASSWORD}}
+      - node.name=search1
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.keystore.path=search1.p12
+      - xpack.security.http.ssl.truststore.path=search1.p12
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.keystore.path=search1.p12
+      - xpack.security.transport.ssl.truststore.path=search1.p12
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.3
+    networks:
+      search-network:
+        ipv4_address: 172.28.0.2
+    ports:
+      - 9200:9200
+    restart: unless-stopped
+    ulimits:
+      memlock:
+        hard: -1
+        soft: -1
+    volumes:
+      - search1-data:/var/lib/elasticsearch/data
+      - /home/admin/search1.p12:/usr/share/elasticsearch/config/search1.p12
+
+  search2:
+    container_name: search2
+    entrypoint: >
+      sh -c "
+      echo "{{PASSWORD}}" | bin/elasticsearch-keystore add xpack.security.http.ssl.keystore.secure_password --stdin --force &&
+      echo "{{PASSWORD}}" | bin/elasticsearch-keystore add xpack.security.http.ssl.truststore.secure_password --stdin --force &&
+      echo "{{PASSWORD}}" | bin/elasticsearch-keystore add xpack.security.transport.ssl.keystore.secure_password --stdin --force &&
+      echo "{{PASSWORD}}" | bin/elasticsearch-keystore add xpack.security.transport.ssl.truststore.secure_password --stdin --force &&
+      exec /usr/local/bin/docker-entrypoint.sh"
+    environment:
+      - bootstrap.memory_lock=true
+      - cluster.initial_master_nodes=search1,search2,search3
+      - cluster.name=search-cluster
+      - discovery.seed_hosts=search1,search3
+      - ELASTIC_PASSWORD={{PASSWORD}}
+      - node.name=search2
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.keystore.path=search2.p12
+      - xpack.security.http.ssl.truststore.path=search2.p12
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.keystore.path=search2.p12
+      - xpack.security.transport.ssl.truststore.path=search2.p12
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.3
+    networks:
+      search-network:
+        ipv4_address: 172.28.0.3
+    restart: unless-stopped
+    ulimits:
+      memlock:
+        hard: -1
+        soft: -1
+    volumes:
+      - search2-data:/var/lib/elasticsearch/data
+      - /home/admin/search2.p12:/usr/share/elasticsearch/config/search2.p12
+
+  search3:
+    container_name: search3
+    entrypoint: >
+      sh -c "
+      echo "{{PASSWORD}}" | bin/elasticsearch-keystore add xpack.security.http.ssl.keystore.secure_password --stdin --force &&
+      echo "{{PASSWORD}}" | bin/elasticsearch-keystore add xpack.security.http.ssl.truststore.secure_password --stdin --force &&
+      echo "{{PASSWORD}}" | bin/elasticsearch-keystore add xpack.security.transport.ssl.keystore.secure_password --stdin --force &&
+      echo "{{PASSWORD}}" | bin/elasticsearch-keystore add xpack.security.transport.ssl.truststore.secure_password --stdin --force &&
+      exec /usr/local/bin/docker-entrypoint.sh"
+    environment:
+      - bootstrap.memory_lock=true
+      - cluster.initial_master_nodes=search1,search2,search3
+      - cluster.name=search-cluster
+      - discovery.seed_hosts=search1,search2
+      - ELASTIC_PASSWORD={{PASSWORD}}
+      - node.name=search3
+      - xpack.security.enabled=true
+      - xpack.security.http.ssl.enabled=true
+      - xpack.security.http.ssl.keystore.path=search3.p12
+      - xpack.security.http.ssl.truststore.path=search3.p12
+      - xpack.security.transport.ssl.enabled=true
+      - xpack.security.transport.ssl.keystore.path=search3.p12
+      - xpack.security.transport.ssl.truststore.path=search3.p12
+      - xpack.security.transport.ssl.verification_mode=certificate
+      - "ES_JAVA_OPTS=-Xms4g -Xmx4g"
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.3
+    networks:
+      search-network:
+        ipv4_address: 172.28.0.4
+    restart: unless-stopped
+    ulimits:
+      memlock:
+        hard: -1
+        soft: -1
+    volumes:
+      - search3-data:/var/lib/elasticsearch/data
+      - /home/admin/search3.p12:/usr/share/elasticsearch/config/search3.p12
+
+volumes:
+  search1-data:
+    driver: local
+  search2-data:
+    driver: local
+  search3-data:
+    driver: local

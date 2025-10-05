@@ -1,0 +1,15 @@
+services:
+  server:
+    container_name: server
+    environment:
+      - POSTGRES_PASSWORD={{PASSWORD}}
+    image: postgres:17.6
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    volumes:
+      - server-data:/var/lib/postgresql/data
+
+volumes:
+  server-data:
+    driver: local

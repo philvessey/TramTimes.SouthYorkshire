@@ -1,0 +1,14 @@
+services:
+  cache:
+    command: ["redis-server", "--requirepass", "{{PASSWORD}}"]
+    container_name: cache
+    image: redis:8.2
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    volumes:
+      - cache-data:/data
+
+volumes:
+  cache-data:
+    driver: local
