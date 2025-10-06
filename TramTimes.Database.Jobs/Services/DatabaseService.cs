@@ -42,17 +42,47 @@ public class DatabaseService : IHostedService
         {
             await using var connection = await _service.OpenConnectionAsync(cancellationToken: cancellationToken);
             
-            await using var command = new NpgsqlCommand(
-                cmdText: await File.ReadAllTextAsync(
-                    path: "Scripts/init.sql",
-                    cancellationToken: cancellationToken),
-                connection: connection);
+            try
+            {
+                await using var command = new NpgsqlCommand(
+                    cmdText: await File.ReadAllTextAsync(
+                        path: "Scripts/database.sql",
+                        cancellationToken: cancellationToken),
+                    connection: connection);
+                
+                await command.ExecuteNonQueryAsync(cancellationToken: cancellationToken);
+                
+                _logger.LogInformation(
+                    message: "Database service health status: {status}",
+                    args: "Green");
+            }
+            catch (PostgresException e) when (e.SqlState is "42P04")
+            {
+                _logger.LogInformation(
+                    message: "Database service health status: {status}",
+                    args: "Green");
+            }
             
-            await command.ExecuteNonQueryAsync(cancellationToken: cancellationToken);
-            
-            _logger.LogInformation(
-                message: "Database service health status: {status}",
-                args: "Green");
+            try
+            {
+                await using var command = new NpgsqlCommand(
+                    cmdText: await File.ReadAllTextAsync(
+                        path: "Scripts/function.sql",
+                        cancellationToken: cancellationToken),
+                    connection: connection);
+                
+                await command.ExecuteNonQueryAsync(cancellationToken: cancellationToken);
+                
+                _logger.LogInformation(
+                    message: "Database service health status: {status}",
+                    args: "Green");
+            }
+            catch (PostgresException e) when (e.SqlState is "42723")
+            {
+                _logger.LogInformation(
+                    message: "Database service health status: {status}",
+                    args: "Green");
+            }
         });
         
         #endregion

@@ -74,12 +74,6 @@ public static class WebBuilder
                 .WaitFor(dependency: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WaitFor(dependency: cache.Connection ?? throw new InvalidOperationException(message: "Cache connection is not available."))
                 .WaitFor(dependency: search.Connection ?? throw new InvalidOperationException(message: "Search connection is not available."))
-                .WithEnvironment(
-                    name: "ELASTIC_ENDPOINT",
-                    parameter: search.Parameters?.Endpoint ?? throw new InvalidOperationException(message: "Endpoint parameter is not available."))
-                .WithEnvironment(
-                    name: "ELASTIC_KEY",
-                    parameter: search.Parameters?.Key ?? throw new InvalidOperationException(message: "Key parameter is not available."))
                 .WithExternalHttpEndpoints()
                 .WithHttpHealthCheck(path: "/healthz")
                 .WithReference(source: storage.Connection)

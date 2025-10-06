@@ -18,18 +18,7 @@ builder
 builder.AddAzureBlobServiceClient(connectionName: "storage-blobs");
 builder.AddNpgsqlDataSource(connectionName: "southyorkshire");
 builder.AddRedisClient(connectionName: "cache");
-
-if (builder.Environment.IsDevelopment())
-    builder.AddElasticsearchClient(connectionName: "search");
-
-if (builder.Environment.IsProduction())
-    builder.AddElasticsearchClient(
-        connectionName: "search",
-        configureSettings: settings =>
-        {
-            settings.ApiKey = Environment.GetEnvironmentVariable(variable: "ELASTIC_KEY") ?? string.Empty;
-            settings.Endpoint = new Uri(uriString: Environment.GetEnvironmentVariable(variable: "ELASTIC_ENDPOINT") ?? string.Empty);
-        });
+builder.AddElasticsearchClient(connectionName: "search");
 
 #endregion
 
@@ -38,11 +27,6 @@ if (builder.Environment.IsProduction())
 builder.Services.AddSingleton(implementationFactory: provider => provider
     .GetRequiredService<BlobServiceClient>()
     .GetBlobContainerClient(blobContainerName: "southyorkshire"));
-
-builder.Services.AddHostedService<StorageService>();
-builder.Services.AddHostedService<DatabaseService>();
-builder.Services.AddHostedService<CacheService>();
-builder.Services.AddHostedService<SearchService>();
 
 #endregion
 

@@ -12,7 +12,7 @@ public static class QueryBuilder
         
         #region build result
         
-        var result = type == QueryType.TripId
+        var result = type is QueryType.TripId
             ? $"{Endpoint}/cache/services/trip/{value}"
             : $"{Endpoint}/cache/services/stop/{value}";
         
@@ -27,7 +27,7 @@ public static class QueryBuilder
         
         #region build result
         
-        var result = type == QueryType.TripId
+        var result = type is QueryType.TripId
             ? $"{Endpoint}/database/services/trip/{value}"
             : $"{Endpoint}/database/services/stop/{value}";
         
@@ -42,7 +42,7 @@ public static class QueryBuilder
         
         #region build result
         
-        var result = type == QueryType.StopName
+        var result = type is QueryType.StopName
             ? $"{Endpoint}/database/stops/name/{value}"
             : $"{Endpoint}/database/stops/id/{value}";
         
@@ -57,7 +57,7 @@ public static class QueryBuilder
         
         #region build result
         
-        var result = type == QueryType.StopLocation
+        var result = type is QueryType.StopLocation
             ? $"{Endpoint}/database/stops/location/{string.Join(
                 separator: "/",
                 values:
@@ -86,7 +86,7 @@ public static class QueryBuilder
         
         #region build result
         
-        var result = type == QueryType.StopName
+        var result = type is QueryType.StopName
             ? $"{Endpoint}/search/stops/name/{value}"
             : $"{Endpoint}/search/stops/id/{value}";
         
@@ -101,7 +101,7 @@ public static class QueryBuilder
         
         #region build result
         
-        var result = type == QueryType.StopLocation
+        var result = type is QueryType.StopLocation
             ? $"{Endpoint}/search/stops/location/{string.Join(
                 separator: "/",
                 values:

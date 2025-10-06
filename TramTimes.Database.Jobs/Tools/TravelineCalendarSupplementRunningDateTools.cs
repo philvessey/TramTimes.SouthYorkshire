@@ -51,49 +51,49 @@ public static class TravelineCalendarSupplementRunningDateTools
             {
                 case DayOfWeek.Monday:
                 {
-                    if (monday.HasValue && monday.Value && dates?.Contains(value: startDate.Value) == false)
+                    if (monday.HasValue && monday.Value && dates?.Contains(value: startDate.Value) is false)
                         results.Add(item: startDate.Value);
                     
                     break;
                 }
                 case DayOfWeek.Tuesday:
                 {
-                    if (tuesday.HasValue && tuesday.Value && dates?.Contains(value: startDate.Value) == false)
+                    if (tuesday.HasValue && tuesday.Value && dates?.Contains(value: startDate.Value) is false)
                         results.Add(item: startDate.Value);
                     
                     break;
                 }
                 case DayOfWeek.Wednesday:
                 {
-                    if (wednesday.HasValue && wednesday.Value && dates?.Contains(value: startDate.Value) == false)
+                    if (wednesday.HasValue && wednesday.Value && dates?.Contains(value: startDate.Value) is false)
                         results.Add(item: startDate.Value);
                     
                     break;
                 }
                 case DayOfWeek.Thursday:
                 {
-                    if (thursday.HasValue && thursday.Value && dates?.Contains(value: startDate.Value) == false)
+                    if (thursday.HasValue && thursday.Value && dates?.Contains(value: startDate.Value) is false)
                         results.Add(item: startDate.Value);
                     
                     break;
                 }
                 case DayOfWeek.Friday:
                 {
-                    if (friday.HasValue && friday.Value && dates?.Contains(value: startDate.Value) == false)
+                    if (friday.HasValue && friday.Value && dates?.Contains(value: startDate.Value) is false)
                         results.Add(item: startDate.Value);
                     
                     break;
                 }
                 case DayOfWeek.Saturday:
                 {
-                    if (saturday.HasValue && saturday.Value && dates?.Contains(value: startDate.Value) == false)
+                    if (saturday.HasValue && saturday.Value && dates?.Contains(value: startDate.Value) is false)
                         results.Add(item: startDate.Value);
                     
                     break;
                 }
                 case DayOfWeek.Sunday:
                 {
-                    if (sunday.HasValue && sunday.Value && dates?.Contains(value: startDate.Value) == false)
+                    if (sunday.HasValue && sunday.Value && dates?.Contains(value: startDate.Value) is false)
                         results.Add(item: startDate.Value);
                     
                     break;

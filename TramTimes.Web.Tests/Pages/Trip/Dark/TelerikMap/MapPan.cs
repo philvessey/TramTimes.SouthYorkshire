@@ -46,7 +46,7 @@ public class MapPan(AspireManager aspireManager) : BaseTest(aspireManager: aspir
             
             await page.WaitForResponseAsync(urlOrPredicate: response =>
                 response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
-                response.Status == 200);
+                response.Status is 200);
             
             #endregion
             
@@ -183,7 +183,7 @@ public class MapPan(AspireManager aspireManager) : BaseTest(aspireManager: aspir
             
             await page.WaitForResponseAsync(urlOrPredicate: response =>
                 response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
-                response.Status == 200);
+                response.Status is 200);
             
             #endregion
             
