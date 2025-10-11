@@ -1,14 +1,28 @@
+networks:
+  server-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
 services:
   server:
+    command: postgres -c config_file=/etc/postgresql/postgresql.conf
     container_name: server
     environment:
       - POSTGRES_PASSWORD={{PASSWORD}}
     image: postgres:17.6
+    networks:
+      server-network:
+        ipv4_address: 172.28.0.2
     ports:
       - "5432:5432"
     restart: unless-stopped
     volumes:
       - server-data:/var/lib/postgresql/data
+      - /etc/letsencrypt/live/server.tramtimes.net/fullchain.pem:/certs/fullchain.pem:ro
+      - /etc/letsencrypt/live/server.tramtimes.net/privkey.pem:/certs/privkey.pem:ro
+      - /etc/postgresql/postgresql.conf:/etc/postgresql/postgresql.conf:ro
 
 volumes:
   server-data:

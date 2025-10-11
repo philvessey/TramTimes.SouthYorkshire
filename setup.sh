@@ -19,7 +19,9 @@ chown -R admin:admin /home/admin/.ssh
 
 # Update packages
 apt update && apt upgrade -y
+apt install certbot -y
 apt install docker-compose -y
+apt install nginx libnginx-mod-stream python3-certbot-nginx -y
 apt install unzip -y
 
 # Harden SSH
@@ -37,4 +39,6 @@ AllowUsers admin
 EOF
 
 # Prompt reboot
+echo ""
 echo "✅ Setup complete. Use command: sudo reboot"
+echo ""

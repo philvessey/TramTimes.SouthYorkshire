@@ -5,6 +5,18 @@
         <File Path="Directory.Packages.props" />
     </Folder>
     
+    <Folder Name="/Solution Items/Docker/">
+        <File Path=".docker/cache.yml" />
+        <File Path=".docker/search.yml" />
+        <File Path=".docker/server.yml" />
+    </Folder>
+    
+    <Folder Name="/Solution Items/Scripts/">
+        <File Path=".scripts/cache.sh" />
+        <File Path=".scripts/search.sh" />
+        <File Path=".scripts/server.sh" />
+    </Folder>
+    
     <Project Path="TramTimes.Aspire.Host\TramTimes.Aspire.Host.csproj" />
     <Project Path="TramTimes.Aspire.Services\TramTimes.Aspire.Services.csproj" />
     <Project Path="TramTimes.Cache.Jobs\TramTimes.Cache.Jobs.csproj" />
