@@ -1,3 +1,5 @@
+// ReSharper disable all
+
 using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
@@ -48,9 +50,14 @@ public static class SearchBuilder
             builder
                 .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder")
                 .WaitFor(dependency: search.Connection ?? throw new InvalidOperationException(message: "Search connection is not available."))
-                .WithReference(source: storage.Connection ?? throw new InvalidOperationException(message: "Storage connection is not available."))
+                .WithReference(source: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
                 .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
-                .WithReference(source: search.Connection);
+                .WithReference(source: search.Connection)
+                .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
+                {
+                    app.Template.Scale.MinReplicas = 1;
+                    app.Template.Scale.MaxReplicas = 1;
+                });
         
         #endregion
         

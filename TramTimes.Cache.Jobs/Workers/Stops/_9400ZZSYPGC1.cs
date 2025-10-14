@@ -69,7 +69,7 @@ public class _9400ZZSYPGC1(
             var databaseResults = await databaseFeed.GetServicesByStopAsync(
                 id: "9400ZZSYPGC1",
                 comparison: ComparisonType.Exact,
-                tolerance: TimeSpan.FromMinutes(value: 119));
+                tolerance: TimeSpan.FromMinutes(value: 179));
             
             #endregion
             
@@ -78,9 +78,9 @@ public class _9400ZZSYPGC1(
             await cacheService
                 .GetDatabase()
                 .StringSetAsync(
-                key: "southyorkshire:stop:9400ZZSYPGC1",
-                value: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults)),
-                expiry: TimeSpan.FromMinutes(value: 119));
+                    key: "southyorkshire:stop:9400ZZSYPGC1",
+                    value: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults)),
+                    expiry: TimeSpan.FromMinutes(value: 179));
             
             #endregion
             
@@ -99,14 +99,14 @@ public class _9400ZZSYPGC1(
                 databaseResults = await databaseFeed.GetServicesByTripAsync(
                     id: item,
                     comparison: ComparisonType.Exact,
-                    tolerance: TimeSpan.FromMinutes(value: 239));
+                    tolerance: TimeSpan.FromMinutes(value: 359));
                 
                 await cacheService
                     .GetDatabase()
                     .StringSetAsync(
                         key: $"southyorkshire:trip:{item}",
                         value: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults)),
-                        expiry: TimeSpan.FromMinutes(value: 239));
+                        expiry: TimeSpan.FromMinutes(value: 359));
             }
             
             #endregion

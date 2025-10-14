@@ -193,7 +193,8 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         foreach (var item in MapData)
             item.Points = item.Points?
-                .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
+                                           point.DepartureDateTime <= DateTime.Now.AddHours(value: 2))
                 .ToList();
         
         if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
@@ -247,7 +248,8 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         foreach (var item in MapData)
             item.Points = item.Points?
-                .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
+                                           point.DepartureDateTime <= DateTime.Now.AddHours(value: 2))
                 .ToList();
         
         if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
@@ -364,6 +366,9 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         if (ListData.Any(predicate: point => point.DepartureDateTime < DateTime.Now))
             ListData.RemoveAll(match: point => point.DepartureDateTime < DateTime.Now);
+        
+        if (ListData.Any(predicate: point => point.DepartureDateTime > DateTime.Now.AddHours(value: 2)))
+            ListData.RemoveAll(match: point => point.DepartureDateTime > DateTime.Now.AddHours(value: 2));
         
         readEventArgs.Data = ListData;
         
@@ -535,7 +540,8 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         foreach (var item in MapData)
             item.Points = item.Points?
-                .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
+                                           point.DepartureDateTime <= DateTime.Now.AddHours(value: 2))
                 .ToList();
         
         if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
@@ -589,7 +595,8 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         foreach (var item in MapData)
             item.Points = item.Points?
-                .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
+                                           point.DepartureDateTime <= DateTime.Now.AddHours(value: 2))
                 .ToList();
         
         if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
@@ -692,7 +699,8 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         foreach (var item in MapData)
             item.Points = item.Points?
-                .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
+                                           point.DepartureDateTime <= DateTime.Now.AddHours(value: 2))
                 .ToList();
         
         if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
@@ -746,7 +754,8 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         foreach (var item in MapData)
             item.Points = item.Points?
-                .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
+                                           point.DepartureDateTime <= DateTime.Now.AddHours(value: 2))
                 .ToList();
         
         if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
@@ -983,7 +992,8 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         foreach (var item in SearchData)
             item.Points = item.Points?
-                .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
+                                           point.DepartureDateTime <= DateTime.Now.AddHours(value: 2))
                 .ToList();
         
         if (SearchData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
@@ -1034,7 +1044,8 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         foreach (var item in SearchData)
             item.Points = item.Points?
-                .Where(predicate: point => point.DepartureDateTime > DateTime.Now)
+                .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
+                                           point.DepartureDateTime <= DateTime.Now.AddHours(value: 2))
                 .ToList();
         
         if (SearchData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))

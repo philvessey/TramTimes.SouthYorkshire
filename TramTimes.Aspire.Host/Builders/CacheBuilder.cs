@@ -1,3 +1,5 @@
+// ReSharper disable all
+
 using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
@@ -76,9 +78,14 @@ public static class CacheBuilder
             builder
                 .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder")
                 .WaitFor(dependency: cache.Connection ?? throw new InvalidOperationException(message: "Cache connection is not available."))
-                .WithReference(source: storage.Connection ?? throw new InvalidOperationException(message: "Storage connection is not available."))
+                .WithReference(source: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
                 .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
-                .WithReference(source: cache.Connection);
+                .WithReference(source: cache.Connection)
+                .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
+                {
+                    app.Template.Scale.MinReplicas = 1;
+                    app.Template.Scale.MaxReplicas = 1;
+                });
         
         #endregion
         

@@ -11,8 +11,8 @@ public static class ScheduleService
         {
             #region initialize database
             
-            var init = new JobKey(name: "Init");
-            var cron = new JobKey(name: "Cron");
+            var init = new JobKey(name: "init");
+            var cron = new JobKey(name: "cron");
             
             quartz
                 .AddJob<Build>(jobKey: init)
@@ -29,7 +29,7 @@ public static class ScheduleService
                 {
                     trigger.ForJob(jobKey: cron);
                     trigger.StartNow();
-                    trigger.WithCronSchedule(cronExpression: "0 30 3 * * ?");
+                    trigger.WithCronSchedule(cronExpression: "0 15 3 ? * *");
                 });
             
             #endregion

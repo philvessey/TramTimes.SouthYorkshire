@@ -1,3 +1,5 @@
+// ReSharper disable all
+
 using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
@@ -70,16 +72,21 @@ public static class WebBuilder
         if (builder.ExecutionContext.IsPublishMode)
             web.Backend = builder
                 .AddProject<Projects.TramTimes_Web_Api>(name: "web-api")
-                .WaitFor(dependency: storage.Connection ?? throw new InvalidOperationException(message: "Storage connection is not available."))
+                .WaitFor(dependency: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
                 .WaitFor(dependency: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WaitFor(dependency: cache.Connection ?? throw new InvalidOperationException(message: "Cache connection is not available."))
                 .WaitFor(dependency: search.Connection ?? throw new InvalidOperationException(message: "Search connection is not available."))
                 .WithExternalHttpEndpoints()
                 .WithHttpHealthCheck(path: "/healthz")
-                .WithReference(source: storage.Connection)
+                .WithReference(source: storage.Resource)
                 .WithReference(source: database.Connection)
                 .WithReference(source: cache.Connection)
-                .WithReference(source: search.Connection);
+                .WithReference(source: search.Connection)
+                .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
+                {
+                    app.Template.Scale.MinReplicas = 1;
+                    app.Template.Scale.MaxReplicas = 5;
+                });
         
         #endregion
         
@@ -111,7 +118,12 @@ public static class WebBuilder
                     endpointReference: web.Backend.GetEndpoint(name: "https").Exists
                         ? web.Backend.GetEndpoint(name: "https")
                         : web.Backend.GetEndpoint(name: "http"))
-                .WithExternalHttpEndpoints();
+                .WithExternalHttpEndpoints()
+                .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
+                {
+                    app.Template.Scale.MinReplicas = 1;
+                    app.Template.Scale.MaxReplicas = 5;
+                });
         
         #endregion
     }

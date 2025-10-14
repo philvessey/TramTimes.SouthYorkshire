@@ -1,3 +1,6 @@
+// ReSharper disable all
+
+using TramTimes.Aspire.Host.Parameters;
 using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
@@ -12,16 +15,27 @@ public static class StorageBuilder
         
         #endregion
         
+        #region add parameters
+        
+        storage.Parameters = new StorageParameters();
+        
+        if (builder.ExecutionContext.IsPublishMode)
+            storage.Parameters.Group = builder.AddParameter(
+                name: "storage-group",
+                secret: false);
+        
+        if (builder.ExecutionContext.IsPublishMode)
+            storage.Parameters.Name = builder.AddParameter(
+                name: "storage-name",
+                secret: false);
+        
+        #endregion
+        
         #region add azure storage
         
         if (builder.ExecutionContext.IsRunMode)
             storage.Service = builder
                 .AddAzureStorage(name: "storage")
-                .RunAsEmulator(configureContainer: resource =>
-                {
-                    resource.WithDataVolume();
-                    resource.WithLifetime(lifetime: ContainerLifetime.Persistent);
-                })
                 .WithUrlForEndpoint(
                     callback: annotation => annotation.DisplayText = "Administration (Blob)",
                     endpointName: "blob")
@@ -30,17 +44,25 @@ public static class StorageBuilder
                     endpointName: "queue")
                 .WithUrlForEndpoint(
                     callback: annotation => annotation.DisplayText = "Administration (Table)",
-                    endpointName: "table");
+                    endpointName: "table")
+                .RunAsEmulator(configureContainer: resource =>
+                {
+                    resource.WithDataVolume();
+                    resource.WithLifetime(lifetime: ContainerLifetime.Persistent);
+                });
+        
+        if (builder.ExecutionContext.IsPublishMode)
+            storage.Service = builder
+                .AddAzureStorage(name: "storage")
+                .PublishAsExisting(
+                    nameParameter: storage.Parameters.Name ?? throw new InvalidOperationException(message: "Name parameter is not available."),
+                    resourceGroupParameter: storage.Parameters.Group ?? throw new InvalidOperationException(message: "Group parameter is not available."));
         
         #endregion
         
         #region add blob service
         
-        if (builder.ExecutionContext.IsRunMode)
-            storage.Resource = storage.Service?.AddBlobs(name: "storage-blobs");
-        
-        if (builder.ExecutionContext.IsPublishMode)
-            storage.Connection = builder.AddConnectionString(name: "storage-blobs");
+        storage.Resource = storage.Service?.AddBlobs(name: "storage-blobs");
         
         #endregion
         

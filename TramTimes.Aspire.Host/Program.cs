@@ -2,6 +2,12 @@ using TramTimes.Aspire.Host.Builders;
 
 var builder = DistributedApplication.CreateBuilder(args: args);
 
+#region build container
+
+builder.BuildContainer();
+
+#endregion
+
 #region build storage
 
 var storage = builder.BuildStorage();

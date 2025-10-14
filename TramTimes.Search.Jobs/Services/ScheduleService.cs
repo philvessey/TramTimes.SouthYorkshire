@@ -12,15 +12,15 @@ public static class ScheduleService
         {
             #region clean index
             
-            var clean = new JobKey(name: "Clean");
+            var clean = new JobKey(name: "clean");
             
             quartz
                 .AddJob<Clean>(jobKey: clean)
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: clean);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 30 3 * * ?");
+                    trigger.StartNow();
+                    trigger.WithCronSchedule(cronExpression: "0 15 3 ? * *");
                 });
             
             #endregion
@@ -35,8 +35,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYABR1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYABR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYABR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYABR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -44,8 +62,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYABR2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYABR2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYABR2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYABR2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -60,8 +96,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYATT1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYATT1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYATT1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYATT1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -69,8 +123,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYATT2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYATT2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYATT2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYATT2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -85,8 +157,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYBAM1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYBAM1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYBAM1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYBAM1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -94,8 +184,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYBAM2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYBAM2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYBAM2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYBAM2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -110,8 +218,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYBMR1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYBMR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYBMR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYBMR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -119,8 +245,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYBMR2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYBMR2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYBMR2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYBMR2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -135,8 +279,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYBRL1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYBRL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYBRL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYBRL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -144,8 +306,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYBRL2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYBRL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYBRL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYBRL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -160,8 +340,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYCAS1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCAS1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCAS1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCAS1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -169,8 +367,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYCAS2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCAS2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCAS2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCAS2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -185,8 +401,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYCAT1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCAT1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCAT1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCAT1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -194,8 +428,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYCAT2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCAT2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCAT2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCAT2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -210,8 +462,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYCIR1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCIR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCIR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCIR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -219,8 +489,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYCIR2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCIR2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCIR2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCIR2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -235,8 +523,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYCRB1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCRB1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCRB1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCRB1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -244,8 +550,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYCRB2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCRB2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCRB2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCRB2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -260,8 +584,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYCRY1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCRY1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCRY1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCRY1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -269,8 +611,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYCRY2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCRY2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCRY2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCRY2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -285,8 +645,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYCYH1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCYH1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCYH1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCYH1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -294,8 +672,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYCYH2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCYH2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCYH2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYCYH2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -310,8 +706,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYDHL1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYDHL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYDHL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYDHL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -319,8 +733,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYDHL2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYDHL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYDHL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYDHL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -335,8 +767,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYDON1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYDON1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYDON1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYDON1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -344,8 +794,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYDON2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYDON2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYDON2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYDON2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -360,8 +828,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYDVS1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYDVS1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYDVS1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYDVS1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -369,8 +855,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYDVS2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYDVS2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYDVS2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYDVS2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -385,8 +889,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYFIZ1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYFIZ1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYFIZ1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYFIZ1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -394,8 +916,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYFIZ2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYFIZ2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYFIZ2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYFIZ2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -410,8 +950,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYGLE1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYGLE1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYGLE1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYGLE1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -419,8 +977,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYGLE2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYGLE2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYGLE2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYGLE2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -435,8 +1011,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYGRC1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYGRC1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYGRC1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYGRC1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -444,8 +1038,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYGRC2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYGRC2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYGRC2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYGRC2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -460,8 +1072,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYHAK1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHAK1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHAK1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHAK1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -469,8 +1099,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYHAK2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHAK2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHAK2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHAK2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -484,8 +1132,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYHDP1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHDP1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHDP1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHDP1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -499,8 +1165,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYHFW1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHFW1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHFW1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHFW1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -515,8 +1199,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYHIL1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHIL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHIL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHIL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -524,8 +1226,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYHIL2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHIL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHIL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHIL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -540,8 +1260,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYHLP1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHLP1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHLP1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHLP1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -549,8 +1287,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYHLP2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHLP2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHLP2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHLP2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -565,8 +1321,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYHLR1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHLR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHLR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHLR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -574,8 +1348,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYHLR2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHLR2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHLR2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHLR2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -590,8 +1382,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYHOL1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHOL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHOL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHOL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -599,8 +1409,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYHOL2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHOL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHOL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHOL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -615,8 +1443,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYHYP1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHYP1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHYP1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHYP1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -624,8 +1470,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYHYP2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHYP2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHYP2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYHYP2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -640,8 +1504,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYINF1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYINF1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYINF1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYINF1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -649,8 +1531,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYINF2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYINF2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYINF2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYINF2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -665,8 +1565,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYLEP1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYLEP1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYLEP1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYLEP1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -674,8 +1592,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYLEP2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYLEP2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYLEP2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYLEP2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -690,8 +1626,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYLPH1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYLPH1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYLPH1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYLPH1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -699,8 +1653,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYLPH2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYLPH2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYLPH2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYLPH2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -714,8 +1686,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYMAL1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMAL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMAL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMAL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -730,8 +1720,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYMHI1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMHI1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMHI1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMHI1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -739,8 +1747,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYMHI2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMHI2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMHI2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMHI2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -755,8 +1781,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYMHS1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMHS1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMHS1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMHS1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -764,8 +1808,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYMHS2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMHS2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMHS2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMHS2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -779,8 +1841,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYMID1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMID1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMID1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMID1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -795,8 +1875,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYMRT1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMRT1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMRT1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMRT1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -804,8 +1902,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYMRT2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMRT2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMRT2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMRT2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -820,8 +1936,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYMWY1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMWY1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMWY1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMWY1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -829,8 +1963,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYMWY2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMWY2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMWY2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYMWY2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -845,8 +1997,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYNET1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYNET1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYNET1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYNET1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -854,8 +2024,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYNET2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYNET2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYNET2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYNET2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -870,8 +2058,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYNUN1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYNUN1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYNUN1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYNUN1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -879,8 +2085,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYNUN2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYNUN2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYNUN2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYNUN2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -894,8 +2118,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYPAR1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYPAR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYPAR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYPAR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -910,8 +2152,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYPGC1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYPGC1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYPGC1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYPGC1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -919,8 +2179,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYPGC2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYPGC2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYPGC2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYPGC2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -935,8 +2213,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYPGR1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYPGR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYPGR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYPGR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -944,8 +2240,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYPGR2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYPGR2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYPGR2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYPGR2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -960,8 +2274,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYRTH1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYRTH1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYRTH1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYRTH1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -969,8 +2301,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYRTH2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYRTH2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYRTH2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYRTH2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -985,8 +2335,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYSHL1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYSHL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYSHL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYSHL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -994,8 +2362,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYSHL2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYSHL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYSHL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYSHL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -1010,8 +2396,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYSHU1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYSHU1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYSHU1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYSHU1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -1019,8 +2423,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYSHU2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYSHU2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYSHU2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYSHU2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -1035,8 +2457,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYSPL1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYSPL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYSPL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYSPL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -1044,8 +2484,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYSPL2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYSPL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYSPL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYSPL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -1060,8 +2518,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYUNI1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYUNI1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYUNI1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYUNI1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -1069,8 +2545,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYUNI2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYUNI2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYUNI2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYUNI2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -1085,8 +2579,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYVEN1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYVEN1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYVEN1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYVEN1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -1094,8 +2606,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYVEN2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYVEN2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYVEN2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYVEN2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -1110,8 +2640,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYWBN1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWBN1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWBN1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWBN1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -1119,8 +2667,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYWBN2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWBN2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWBN2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWBN2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -1135,8 +2701,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYWTF1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTF1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTF1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTF1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -1144,8 +2728,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYWTF2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTF2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTF2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTF2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -1160,8 +2762,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYWTL1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTL1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -1169,8 +2789,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYWTL2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTL2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -1185,8 +2823,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYWTR1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTR1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -1194,8 +2850,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYWTR2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTR2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTR2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTR2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion
@@ -1210,8 +2884,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYWTS1);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "0 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTS1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTS1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTS1);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             quartz
@@ -1219,8 +2911,26 @@ public static class ScheduleService
                 .AddTrigger(configure: trigger =>
                 {
                     trigger.ForJob(jobKey: _9400ZZSYWTS2);
-                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 60));
-                    trigger.WithCronSchedule(cronExpression: "30 * 0-2,5-23 * * ?");
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 2));
+                    trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTS2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
+                    trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTS2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 10));
+                    trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                })
+                .AddTrigger(configure: trigger =>
+                {
+                    trigger.ForJob(jobKey: _9400ZZSYWTS2);
+                    trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 15));
+                    trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
                 });
             
             #endregion

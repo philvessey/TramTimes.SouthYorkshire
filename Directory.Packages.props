@@ -7,12 +7,18 @@
     </PropertyGroup>
     
     <PropertyGroup>
+        <AspirePreviewVersion>9.5.1-preview.1.25502.11</AspirePreviewVersion>
+    </PropertyGroup>
+    
+    <PropertyGroup>
         <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
         <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
     </PropertyGroup>
     
     <ItemGroup>
         <PackageVersion Include="Aspire.Hosting.AppHost" Version="$(AspireVersion)" />
+        <PackageVersion Include="Aspire.Hosting.Azure.AppContainers" Version="$(AspireVersion)" />
+        <PackageVersion Include="Aspire.Hosting.Azure.ContainerRegistry" Version="$(AspirePreviewVersion)" />
         <PackageVersion Include="Aspire.Hosting.Azure.Storage" Version="$(AspireVersion)" />
         <PackageVersion Include="Aspire.Hosting.Elasticsearch" Version="$(AspireElasticVersion)" />
         <PackageVersion Include="Aspire.Hosting.PostgreSQL" Version="$(AspireVersion)" />

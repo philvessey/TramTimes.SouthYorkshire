@@ -1,3 +1,5 @@
+// ReSharper disable all
+
 using TramTimes.Aspire.Host.Parameters;
 using TramTimes.Aspire.Host.Resources;
 
@@ -14,6 +16,27 @@ public static class DatabaseBuilder
         #region build resources
         
         var database = new DatabaseResources();
+        
+        #endregion
+        
+        #region add parameters
+        
+        database.Parameters = new DatabaseParameters();
+        
+        if (builder.ExecutionContext.IsPublishMode)
+            database.Parameters.Hostname = builder.AddParameter(
+                name: "transxchange-hostname",
+                secret: false);
+        
+        if (builder.ExecutionContext.IsPublishMode)
+            database.Parameters.Username = builder.AddParameter(
+                name: "transxchange-username",
+                secret: false);
+        
+        if (builder.ExecutionContext.IsPublishMode)
+            database.Parameters.Userpass = builder.AddParameter(
+                name: "transxchange-userpass",
+                secret: true);
         
         #endregion
         
@@ -69,8 +92,6 @@ public static class DatabaseBuilder
         
         #region add parameters
         
-        database.Parameters = new DatabaseParameters();
-        
         if (builder.ExecutionContext.IsRunMode)
             database.Parameters.Hostname = builder
                 .AddParameter(
@@ -78,11 +99,6 @@ public static class DatabaseBuilder
                     secret: false)
                 .WithDescription(description: "Hostname for the Traveline FTP server.")
                 .WithParentRelationship(parent: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
-        
-        if (builder.ExecutionContext.IsPublishMode)
-            database.Parameters.Hostname = builder.AddParameter(
-                name: "transxchange-hostname",
-                secret: false);
         
         if (builder.ExecutionContext.IsRunMode)
             database.Parameters.Username = builder
@@ -92,11 +108,6 @@ public static class DatabaseBuilder
                 .WithDescription(description: "Username for the Traveline FTP server.")
                 .WithParentRelationship(parent: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
         
-        if (builder.ExecutionContext.IsPublishMode)
-            database.Parameters.Username = builder.AddParameter(
-                name: "transxchange-username",
-                secret: false);
-        
         if (builder.ExecutionContext.IsRunMode)
             database.Parameters.Userpass = builder
                 .AddParameter(
@@ -104,11 +115,6 @@ public static class DatabaseBuilder
                     secret: true)
                 .WithDescription(description: "Password for the Traveline FTP server.")
                 .WithParentRelationship(parent: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
-        
-        if (builder.ExecutionContext.IsPublishMode)
-            database.Parameters.Userpass = builder.AddParameter(
-                name: "transxchange-userpass",
-                secret: true);
         
         #endregion
         
@@ -150,8 +156,13 @@ public static class DatabaseBuilder
                 .WithEnvironment(
                     name: "FTP_PASSWORD",
                     parameter: database.Parameters.Userpass)
-                .WithReference(source: storage.Connection ?? throw new InvalidOperationException(message: "Storage connection is not available."))
-                .WithReference(source: database.Connection);
+                .WithReference(source: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
+                .WithReference(source: database.Connection)
+                .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
+                {
+                    app.Template.Scale.MinReplicas = 1;
+                    app.Template.Scale.MaxReplicas = 1;
+                });
         
         #endregion
         
