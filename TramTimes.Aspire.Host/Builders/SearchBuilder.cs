@@ -22,7 +22,9 @@ public static class SearchBuilder
         if (builder.ExecutionContext.IsRunMode)
             search.Service = builder
                 .AddElasticsearch(name: "search")
-                .WaitFor(dependency: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
+                .WaitFor(dependency: storage.Blobs ?? throw new InvalidOperationException(message: "Storage blobs are not available."))
+                .WaitFor(dependency: storage.Queues ?? throw new InvalidOperationException(message: "Storage queues are not available."))
+                .WaitFor(dependency: storage.Tables ?? throw new InvalidOperationException(message: "Storage tables are not available."))
                 .WaitFor(dependency: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
                 .WithDataVolume()
                 .WithLifetime(lifetime: ContainerLifetime.Persistent)
@@ -42,7 +44,9 @@ public static class SearchBuilder
                 .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder")
                 .WaitFor(dependency: search.Service ?? throw new InvalidOperationException(message: "Search service is not available."))
                 .WithParentRelationship(parent: search.Service)
-                .WithReference(source: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
+                .WithReference(source: storage.Blobs ?? throw new InvalidOperationException(message: "Storage blobs are not available."))
+                .WithReference(source: storage.Queues ?? throw new InvalidOperationException(message: "Storage queues are not available."))
+                .WithReference(source: storage.Tables ?? throw new InvalidOperationException(message: "Storage tables are not available."))
                 .WithReference(source: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
                 .WithReference(source: search.Service);
         
@@ -50,7 +54,9 @@ public static class SearchBuilder
             builder
                 .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder")
                 .WaitFor(dependency: search.Connection ?? throw new InvalidOperationException(message: "Search connection is not available."))
-                .WithReference(source: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
+                .WithReference(source: storage.Blobs ?? throw new InvalidOperationException(message: "Storage blobs are not available."))
+                .WithReference(source: storage.Queues ?? throw new InvalidOperationException(message: "Storage queues are not available."))
+                .WithReference(source: storage.Tables ?? throw new InvalidOperationException(message: "Storage tables are not available."))
                 .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WithReference(source: search.Connection)
                 .PublishAsAzureContainerApp(configure: (infrastructure, app) =>

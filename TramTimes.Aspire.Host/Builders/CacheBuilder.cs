@@ -24,7 +24,9 @@ public static class CacheBuilder
         if (builder.ExecutionContext.IsRunMode)
             cache.Service = builder
                 .AddRedis(name: "cache")
-                .WaitFor(dependency: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
+                .WaitFor(dependency: storage.Blobs ?? throw new InvalidOperationException(message: "Storage blobs are not available."))
+                .WaitFor(dependency: storage.Queues ?? throw new InvalidOperationException(message: "Storage queues are not available."))
+                .WaitFor(dependency: storage.Tables ?? throw new InvalidOperationException(message: "Storage tables are not available."))
                 .WaitFor(dependency: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
                 .WithDataVolume()
                 .WithLifetime(lifetime: ContainerLifetime.Persistent);
@@ -70,7 +72,9 @@ public static class CacheBuilder
                 .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder")
                 .WaitFor(dependency: cache.Service ?? throw new InvalidOperationException(message: "Cache service is not available."))
                 .WithParentRelationship(parent: cache.Service)
-                .WithReference(source: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
+                .WithReference(source: storage.Blobs ?? throw new InvalidOperationException(message: "Storage blobs are not available."))
+                .WithReference(source: storage.Queues ?? throw new InvalidOperationException(message: "Storage queues are not available."))
+                .WithReference(source: storage.Tables ?? throw new InvalidOperationException(message: "Storage tables are not available."))
                 .WithReference(source: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
                 .WithReference(source: cache.Service);
         
@@ -78,7 +82,9 @@ public static class CacheBuilder
             builder
                 .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder")
                 .WaitFor(dependency: cache.Connection ?? throw new InvalidOperationException(message: "Cache connection is not available."))
-                .WithReference(source: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
+                .WithReference(source: storage.Blobs ?? throw new InvalidOperationException(message: "Storage blobs are not available."))
+                .WithReference(source: storage.Queues ?? throw new InvalidOperationException(message: "Storage queues are not available."))
+                .WithReference(source: storage.Tables ?? throw new InvalidOperationException(message: "Storage tables are not available."))
                 .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WithReference(source: cache.Connection)
                 .PublishAsAzureContainerApp(configure: (infrastructure, app) =>

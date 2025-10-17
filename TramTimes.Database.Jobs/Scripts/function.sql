@@ -1,4 +1,4 @@
-create function get_from_point(
+create or replace function get_from_point(
     origin_longitude real,
     origin_latitude real,
     destination_longitude real,

@@ -11,7 +11,7 @@ public class DatabaseCheck(IConfiguration configuration) : IHealthCheck
         
         #region build connection
         
-        var connectionString = configuration.GetConnectionString(name: "southyorkshire");
+        var connectionString = configuration.GetConnectionString(name: "database");
         
         if (string.IsNullOrEmpty(value: connectionString))
             return HealthCheckResult.Unhealthy();

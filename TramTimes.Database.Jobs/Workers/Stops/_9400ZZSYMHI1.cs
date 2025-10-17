@@ -13,7 +13,7 @@ using TramTimes.Database.Jobs.Models;
 namespace TramTimes.Database.Jobs.Workers.Stops;
 
 public class _9400ZZSYMHI1(
-    BlobContainerClient blobService,
+    BlobContainerClient containerClient,
     NpgsqlDataSource dataSource,
     ILogger<_9400ZZSYMHI1> logger,
     IMapper mapper) : IJob {
@@ -32,10 +32,10 @@ public class _9400ZZSYMHI1(
         {
             #region get active blobs
             
-            var activeBlobs = blobService.GetBlobsAsync(prefix: $"database/{context.FireTimeUtc.Date:yyyyMMdd}/gtfs");
+            var activeBlobs = containerClient.GetBlobsAsync(prefix: $"database/{context.FireTimeUtc.Date:yyyyMMdd}/gtfs");
             
             await foreach (var item in activeBlobs)
-                await blobService
+                await containerClient
                     .GetBlobClient(item.Name)
                     .DownloadToAsync(path: Path.Combine(
                         path1: storage.FullName,
@@ -519,7 +519,7 @@ public class _9400ZZSYMHI1(
                 path3: "record",
                 path4: "9400ZZSYMHI1.json");
             
-            await blobService
+            await containerClient
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -551,7 +551,7 @@ public class _9400ZZSYMHI1(
                 path3: "service",
                 path4: "9400ZZSYMHI1.json");
             
-            await blobService
+            await containerClient
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -583,7 +583,7 @@ public class _9400ZZSYMHI1(
                 path3: "test",
                 path4: "9400ZZSYMHI1.json");
             
-            await blobService
+            await containerClient
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,

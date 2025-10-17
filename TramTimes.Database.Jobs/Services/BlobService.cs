@@ -1,22 +1,22 @@
-using Npgsql;
+using Azure.Storage.Blobs;
 using Polly;
 using Polly.Retry;
 
 namespace TramTimes.Database.Jobs.Services;
 
-public class DatabaseService : IHostedService
+public class BlobService : IHostedService
 {
-    private readonly NpgsqlDataSource _service;
-    private readonly ILogger<DatabaseService> _logger;
+    private readonly BlobContainerClient _client;
+    private readonly ILogger<BlobService> _logger;
     private readonly AsyncRetryPolicy _result;
     
-    public DatabaseService(
-        NpgsqlDataSource service,
-        ILogger<DatabaseService> logger) {
+    public BlobService(
+        BlobContainerClient client,
+        ILogger<BlobService> logger) {
         
-        #region inject servics
+        #region inject services
         
-        _service = service;
+        _client = client;
         _logger = logger;
         
         #endregion
@@ -40,18 +40,10 @@ public class DatabaseService : IHostedService
         
         await _result.ExecuteAsync(action: async () =>
         {
-            await using var connection = await _service.OpenConnectionAsync(cancellationToken: cancellationToken);
-            
-            await using var command = new NpgsqlCommand(
-                cmdText: await File.ReadAllTextAsync(
-                    path: "Scripts/function.sql",
-                    cancellationToken: cancellationToken),
-                connection: connection);
-            
-            await command.ExecuteNonQueryAsync(cancellationToken: cancellationToken);
+            await _client.CreateIfNotExistsAsync(cancellationToken: cancellationToken);
             
             _logger.LogInformation(
-                message: "Database service health status: {status}",
+                message: "Blob service health status: {status}",
                 args: "Green");
         });
         

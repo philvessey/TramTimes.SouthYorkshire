@@ -1,6 +1,5 @@
 // ReSharper disable all
 
-using TramTimes.Aspire.Host.Parameters;
 using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
@@ -12,22 +11,6 @@ public static class StorageBuilder
         #region build resources
         
         var storage = new StorageResources();
-        
-        #endregion
-        
-        #region add parameters
-        
-        storage.Parameters = new StorageParameters();
-        
-        if (builder.ExecutionContext.IsPublishMode)
-            storage.Parameters.Group = builder.AddParameter(
-                name: "storage-group",
-                secret: false);
-        
-        if (builder.ExecutionContext.IsPublishMode)
-            storage.Parameters.Name = builder.AddParameter(
-                name: "storage-name",
-                secret: false);
         
         #endregion
         
@@ -52,17 +35,15 @@ public static class StorageBuilder
                 });
         
         if (builder.ExecutionContext.IsPublishMode)
-            storage.Service = builder
-                .AddAzureStorage(name: "storage")
-                .PublishAsExisting(
-                    nameParameter: storage.Parameters.Name ?? throw new InvalidOperationException(message: "Name parameter is not available."),
-                    resourceGroupParameter: storage.Parameters.Group ?? throw new InvalidOperationException(message: "Group parameter is not available."));
+            storage.Service = builder.AddAzureStorage(name: "storage");
         
         #endregion
         
-        #region add blob service
+        #region add storage services
         
-        storage.Resource = storage.Service?.AddBlobs(name: "storage-blobs");
+        storage.Blobs = storage.Service?.AddBlobs(name: "storage-blobs");
+        storage.Queues = storage.Service?.AddQueues(name: "storage-queues");
+        storage.Tables = storage.Service?.AddTables(name: "storage-tables");
         
         #endregion
         

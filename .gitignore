@@ -6,6 +6,9 @@
 # aspire
 **/.aspire
 
+# bicep
+**/*.bicep
+
 # nuget
 **/nuget.config
 

@@ -1,22 +1,22 @@
-using Azure.Storage.Blobs;
+using Azure.Data.Tables;
 using Polly;
 using Polly.Retry;
 
 namespace TramTimes.Database.Jobs.Services;
 
-public class StorageService : IHostedService
+public class TableService : IHostedService
 {
-    private readonly BlobContainerClient _service;
-    private readonly ILogger<StorageService> _logger;
+    private readonly TableClient _client;
+    private readonly ILogger<TableService> _logger;
     private readonly AsyncRetryPolicy _result;
     
-    public StorageService(
-        BlobContainerClient service,
-        ILogger<StorageService> logger) {
+    public TableService(
+        TableClient client,
+        ILogger<TableService> logger) {
         
-        #region inject servics
+        #region inject services
         
-        _service = service;
+        _client = client;
         _logger = logger;
         
         #endregion
@@ -40,10 +40,10 @@ public class StorageService : IHostedService
         
         await _result.ExecuteAsync(action: async () =>
         {
-            await _service.CreateIfNotExistsAsync(cancellationToken: cancellationToken);
+            await _client.CreateIfNotExistsAsync(cancellationToken: cancellationToken);
             
             _logger.LogInformation(
-                message: "Storage service health status: {status}",
+                message: "Table service health status: {status}",
                 args: "Green");
         });
         

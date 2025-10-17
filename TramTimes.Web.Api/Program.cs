@@ -1,4 +1,6 @@
+using Azure.Data.Tables;
 using Azure.Storage.Blobs;
+using Azure.Storage.Queues;
 using TramTimes.Web.Api.Checks;
 using TramTimes.Web.Api.Endpoints;
 using TramTimes.Web.Api.Services;
@@ -16,7 +18,9 @@ builder
 #region inject services
 
 builder.AddAzureBlobServiceClient(connectionName: "storage-blobs");
-builder.AddNpgsqlDataSource(connectionName: "southyorkshire");
+builder.AddAzureQueueServiceClient(connectionName: "storage-queues");
+builder.AddAzureTableServiceClient(connectionName: "storage-tables");
+builder.AddNpgsqlDataSource(connectionName: "database");
 builder.AddRedisClient(connectionName: "cache");
 builder.AddElasticsearchClient(connectionName: "search");
 
@@ -27,6 +31,14 @@ builder.AddElasticsearchClient(connectionName: "search");
 builder.Services.AddSingleton(implementationFactory: provider => provider
     .GetRequiredService<BlobServiceClient>()
     .GetBlobContainerClient(blobContainerName: "southyorkshire"));
+
+builder.Services.AddSingleton(implementationFactory: provider => provider
+    .GetRequiredService<QueueServiceClient>()
+    .GetQueueClient(queueName: "southyorkshire"));
+
+builder.Services.AddSingleton(implementationFactory: provider => provider
+    .GetRequiredService<TableServiceClient>()
+    .GetTableClient(tableName: "southyorkshire"));
 
 #endregion
 

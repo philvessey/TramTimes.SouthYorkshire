@@ -14,7 +14,7 @@ using TramTimes.Database.Jobs.Tools;
 namespace TramTimes.Database.Jobs.Workers;
 
 public class Build(
-    BlobContainerClient blobService,
+    BlobContainerClient containerClient,
     NpgsqlDataSource dataSource,
     ILogger<Build> logger) : IJob {
     
@@ -46,7 +46,7 @@ public class Build(
                 path3: "raw",
                 path4: "localities.csv");
             
-            var remoteExists = await blobService
+            var remoteExists = await containerClient
                 .GetBlobClient(blobName: remotePath)
                 .ExistsAsync();
             
@@ -62,7 +62,7 @@ public class Build(
             
             var localities = NaptanLocalityTools.GetFromFile(path: localPath);
             
-            await blobService
+            await containerClient
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -84,7 +84,7 @@ public class Build(
                 path3: "raw",
                 path4: "stops.csv");
             
-            remoteExists = await blobService
+            remoteExists = await containerClient
                 .GetBlobClient(blobName: remotePath)
                 .ExistsAsync();
             
@@ -100,7 +100,7 @@ public class Build(
             
             var stops = NaptanStopTools.GetFromFile(path: localPath);
             
-            await blobService
+            await containerClient
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -122,7 +122,7 @@ public class Build(
                 path3: "raw",
                 path4: "traveline.zip");
             
-            remoteExists = await blobService
+            remoteExists = await containerClient
                 .GetBlobClient(blobName: remotePath)
                 .ExistsAsync();
             
@@ -138,7 +138,7 @@ public class Build(
             if (status is not FtpStatus.Success)
                 return;
             
-            await blobService
+            await containerClient
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: Path.Combine(
@@ -367,7 +367,7 @@ public class Build(
                 schedules: results,
                 path: storage.FullName);
             
-            await blobService
+            await containerClient
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -389,7 +389,7 @@ public class Build(
                 schedules: results,
                 path: storage.FullName);
             
-            await blobService
+            await containerClient
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -411,7 +411,7 @@ public class Build(
                 schedules: results,
                 path: storage.FullName);
             
-            await blobService
+            await containerClient
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -433,7 +433,7 @@ public class Build(
                 schedules: results,
                 path: storage.FullName);
             
-            await blobService
+            await containerClient
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -455,7 +455,7 @@ public class Build(
                 schedules: results,
                 path: storage.FullName);
             
-            await blobService
+            await containerClient
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -477,7 +477,7 @@ public class Build(
                 schedules: results,
                 path: storage.FullName);
             
-            await blobService
+            await containerClient
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -499,7 +499,7 @@ public class Build(
                 schedules: results,
                 path: storage.FullName);
             
-            await blobService
+            await containerClient
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,

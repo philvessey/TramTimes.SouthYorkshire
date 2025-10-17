@@ -1688,7 +1688,7 @@ public static class WebHandler
     }
     
     public static async Task<IResult> PostScreenshotByFileAsync(
-        BlobContainerClient blobService,
+        BlobContainerClient containerClient,
         HttpRequest request) {
         
         #region check headers
@@ -1719,17 +1719,17 @@ public static class WebHandler
         
         #region upload file
         
-        var blobClient = blobService.GetBlobClient(blobName: $"web/{customName}");
-        
-        await blobClient.UploadAsync(
-            content: request.Body,
-            options: new BlobUploadOptions
-            {
-                HttpHeaders = new BlobHttpHeaders
+        await containerClient
+            .GetBlobClient(blobName: $"web/{customName}")
+            .UploadAsync(
+                content: request.Body,
+                options: new BlobUploadOptions
                 {
-                    ContentType = "image/png"
-                }
-            });
+                    HttpHeaders = new BlobHttpHeaders
+                    {
+                        ContentType = "image/png"
+                    }
+                });
         
         #endregion
         

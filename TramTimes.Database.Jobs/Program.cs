@@ -1,4 +1,6 @@
+using Azure.Data.Tables;
 using Azure.Storage.Blobs;
+using Azure.Storage.Queues;
 using TramTimes.Database.Jobs.Services;
 
 var builder = Host.CreateApplicationBuilder(args: args);
@@ -15,7 +17,9 @@ builder
 #region inject services
 
 builder.AddAzureBlobServiceClient(connectionName: "storage-blobs");
-builder.AddNpgsqlDataSource(connectionName: "southyorkshire");
+builder.AddAzureQueueServiceClient(connectionName: "storage-queues");
+builder.AddAzureTableServiceClient(connectionName: "storage-tables");
+builder.AddNpgsqlDataSource(connectionName: "database");
 
 #endregion
 
@@ -25,7 +29,17 @@ builder.Services.AddSingleton(implementationFactory: provider => provider
     .GetRequiredService<BlobServiceClient>()
     .GetBlobContainerClient(blobContainerName: "southyorkshire"));
 
-builder.Services.AddHostedService<StorageService>();
+builder.Services.AddSingleton(implementationFactory: provider => provider
+    .GetRequiredService<QueueServiceClient>()
+    .GetQueueClient(queueName: "southyorkshire"));
+
+builder.Services.AddSingleton(implementationFactory: provider => provider
+    .GetRequiredService<TableServiceClient>()
+    .GetTableClient(tableName: "southyorkshire"));
+
+builder.Services.AddHostedService<BlobService>();
+builder.Services.AddHostedService<QueueService>();
+builder.Services.AddHostedService<TableService>();
 builder.Services.AddHostedService<DatabaseService>();
 
 #endregion

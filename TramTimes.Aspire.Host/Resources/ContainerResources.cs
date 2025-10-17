@@ -1,6 +1,6 @@
 using Aspire.Hosting.Azure;
+using Aspire.Hosting.Azure.AppContainers;
 using JetBrains.Annotations;
-using TramTimes.Aspire.Host.Parameters;
 
 namespace TramTimes.Aspire.Host.Resources;
 
@@ -10,5 +10,5 @@ public class ContainerResources
     public IResourceBuilder<AzureContainerRegistryResource>? Service { get; set; }
     
     [UsedImplicitly]
-    public ContainerParameters? Parameters { get; set; }
+    public IResourceBuilder<AzureContainerAppEnvironmentResource>? Resource { get; set; }
 }

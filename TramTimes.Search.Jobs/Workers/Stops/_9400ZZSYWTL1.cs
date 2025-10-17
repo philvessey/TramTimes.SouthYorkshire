@@ -13,7 +13,7 @@ using TramTimes.Search.Jobs.Models;
 namespace TramTimes.Search.Jobs.Workers.Stops;
 
 public class _9400ZZSYWTL1(
-    BlobContainerClient blobService,
+    BlobContainerClient containerClient,
     NpgsqlDataSource dataSource,
     ElasticsearchClient searchService,
     ILogger<_9400ZZSYWTL1> logger,
@@ -122,7 +122,7 @@ public class _9400ZZSYWTL1(
                 path3: "get",
                 path4: "9400ZZSYWTL1.json");
             
-            await blobService
+            await containerClient
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,
@@ -154,7 +154,7 @@ public class _9400ZZSYWTL1(
                 path3: "set",
                 path4: "9400ZZSYWTL1.json");
             
-            await blobService
+            await containerClient
                 .GetBlobClient(blobName: remotePath)
                 .UploadAsync(
                     path: localPath,

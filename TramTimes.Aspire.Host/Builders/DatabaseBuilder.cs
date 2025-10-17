@@ -45,7 +45,9 @@ public static class DatabaseBuilder
         if (builder.ExecutionContext.IsRunMode)
             database.Service = builder
                 .AddPostgres(name: "server")
-                .WaitFor(dependency: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
+                .WaitFor(dependency: storage.Blobs ?? throw new InvalidOperationException(message: "Storage blobs are not available."))
+                .WaitFor(dependency: storage.Queues ?? throw new InvalidOperationException(message: "Storage queues are not available."))
+                .WaitFor(dependency: storage.Tables ?? throw new InvalidOperationException(message: "Storage tables are not available."))
                 .WithDataVolume()
                 .WithLifetime(lifetime: ContainerLifetime.Persistent);
         
@@ -54,10 +56,10 @@ public static class DatabaseBuilder
         #region add database
         
         if (builder.ExecutionContext.IsRunMode)
-            database.Resource = database.Service?.AddDatabase(name: "southyorkshire"); 
+            database.Resource = database.Service?.AddDatabase(name: "database");
         
         if (builder.ExecutionContext.IsPublishMode)
-            database.Connection = builder.AddConnectionString(name: "southyorkshire");
+            database.Connection = builder.AddConnectionString(name: "database");
         
         #endregion
         
@@ -122,7 +124,7 @@ public static class DatabaseBuilder
         
         if (builder.ExecutionContext.IsRunMode)
             builder
-                .AddProject<Projects.TramTimes_Database_Jobs>(name: "transxchange-builder")
+                .AddProject<Projects.TramTimes_Database_Jobs>(name: "database-builder")
                 .WaitFor(dependency: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
                 .WaitFor(dependency: database.Parameters.Hostname ?? throw new InvalidOperationException(message: "Hostname parameter is not available."))
                 .WaitFor(dependency: database.Parameters.Username ?? throw new InvalidOperationException(message: "Username parameter is not available."))
@@ -137,12 +139,14 @@ public static class DatabaseBuilder
                     name: "FTP_PASSWORD",
                     parameter: database.Parameters.Userpass)
                 .WithParentRelationship(parent: database.Resource)
-                .WithReference(source: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
+                .WithReference(source: storage.Blobs ?? throw new InvalidOperationException(message: "Storage blobs are not available."))
+                .WithReference(source: storage.Queues ?? throw new InvalidOperationException(message: "Storage queues are not available."))
+                .WithReference(source: storage.Tables ?? throw new InvalidOperationException(message: "Storage tables are not available."))
                 .WithReference(source: database.Resource);
         
         if (builder.ExecutionContext.IsPublishMode)
             builder
-                .AddProject<Projects.TramTimes_Database_Jobs>(name: "transxchange-builder")
+                .AddProject<Projects.TramTimes_Database_Jobs>(name: "database-builder")
                 .WaitFor(dependency: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WaitFor(dependency: database.Parameters.Hostname ?? throw new InvalidOperationException(message: "Hostname parameter is not available."))
                 .WaitFor(dependency: database.Parameters.Username ?? throw new InvalidOperationException(message: "Username parameter is not available."))
@@ -156,7 +160,9 @@ public static class DatabaseBuilder
                 .WithEnvironment(
                     name: "FTP_PASSWORD",
                     parameter: database.Parameters.Userpass)
-                .WithReference(source: storage.Resource ?? throw new InvalidOperationException(message: "Storage resource is not available."))
+                .WithReference(source: storage.Blobs ?? throw new InvalidOperationException(message: "Storage blobs are not available."))
+                .WithReference(source: storage.Queues ?? throw new InvalidOperationException(message: "Storage queues are not available."))
+                .WithReference(source: storage.Tables ?? throw new InvalidOperationException(message: "Storage tables are not available."))
                 .WithReference(source: database.Connection)
                 .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
                 {
