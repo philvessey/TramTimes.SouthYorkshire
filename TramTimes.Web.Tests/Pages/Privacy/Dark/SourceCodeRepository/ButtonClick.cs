@@ -41,8 +41,8 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
             #region wait page
             
             await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
-                response.Status is 200);
+                response.Url.Contains(value: "pin.png") &&
+                response.Status is 200 or 304);
             
             #endregion
             
@@ -64,11 +64,24 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
                     .Expect(locator: child)
                     .ToBeInViewportAsync();
                 
-                await child.ClickAsync();
+                var task = page.Context.WaitForPageAsync();
+                
+                await child.ClickAsync(options: new LocatorClickOptions
+                {
+                    Delay = 250
+                });
+                
+                var newPage = await task;
                 
                 await Assertions
-                    .Expect(page: page)
+                    .Expect(page: newPage)
                     .ToHaveURLAsync(urlOrRegExp: "https://github.com/philvessey/TramTimes.SouthYorkshire");
+                
+                await newPage.CloseAsync();
+                
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
             }
             catch (Exception e)
             {
@@ -127,8 +140,8 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
             #region wait page
             
             await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
-                response.Status is 200);
+                response.Url.Contains(value: "pin.png") &&
+                response.Status is 200 or 304);
             
             #endregion
             
@@ -150,11 +163,24 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
                     .Expect(locator: child)
                     .ToBeInViewportAsync();
                 
-                await child.ClickAsync();
+                var task = page.Context.WaitForPageAsync();
+                
+                await child.ClickAsync(options: new LocatorClickOptions
+                {
+                    Delay = 250
+                });
+                
+                var newPage = await task;
                 
                 await Assertions
-                    .Expect(page: page)
+                    .Expect(page: newPage)
                     .ToHaveURLAsync(urlOrRegExp: "https://github.com/philvessey/TramTimes.SouthYorkshire");
+                
+                await newPage.CloseAsync();
+                
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
             }
             catch (Exception e)
             {

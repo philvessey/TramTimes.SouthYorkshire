@@ -46,8 +46,8 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
             #region wait page
             
             await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
-                response.Status is 200);
+                response.Url.Contains(value: "pin.png") &&
+                response.Status is 200 or 304);
             
             #endregion
             
@@ -119,6 +119,10 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
                 await Assertions
                     .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
+                
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
             }
             catch (Exception e)
             {
@@ -181,8 +185,8 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
             #region wait page
             
             await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
-                response.Status is 200);
+                response.Url.Contains(value: "pin.png") &&
+                response.Status is 200 or 304);
             
             #endregion
             
@@ -254,6 +258,10 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
                 await Assertions
                     .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
+                
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
             }
             catch (Exception e)
             {

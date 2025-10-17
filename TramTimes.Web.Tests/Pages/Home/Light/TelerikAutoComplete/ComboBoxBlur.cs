@@ -44,7 +44,7 @@ public class ComboBoxBlur(AspireManager aspireManager) : BaseTest(aspireManager:
             
             await page.WaitForResponseAsync(urlOrPredicate: response =>
                 response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
-                response.Status is 200);
+                response.Status is 200 or 304);
             
             #endregion
             
@@ -114,6 +114,10 @@ public class ComboBoxBlur(AspireManager aspireManager) : BaseTest(aspireManager:
                 await Assertions
                     .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
+                
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
             }
             catch (Exception e)
             {
@@ -175,7 +179,7 @@ public class ComboBoxBlur(AspireManager aspireManager) : BaseTest(aspireManager:
             
             await page.WaitForResponseAsync(urlOrPredicate: response =>
                 response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
-                response.Status is 200);
+                response.Status is 200 or 304);
             
             #endregion
             
@@ -245,6 +249,10 @@ public class ComboBoxBlur(AspireManager aspireManager) : BaseTest(aspireManager:
                 await Assertions
                     .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
+                
+                await page.Mouse.MoveAsync(
+                    x: 0,
+                    y: 0);
             }
             catch (Exception e)
             {
