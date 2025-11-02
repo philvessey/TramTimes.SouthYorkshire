@@ -16,4 +16,7 @@ public class DatabaseResources
     
     [UsedImplicitly]
     public DatabaseParameters? Parameters { get; set; }
+    
+    [UsedImplicitly]
+    public IResourceBuilder<ProjectResource>? Builder { get; set; }
 }

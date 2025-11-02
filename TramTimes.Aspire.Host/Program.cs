@@ -22,17 +22,13 @@ var database = builder.BuildDatabase(storage: storage);
 
 #region build cache
 
-var cache = builder.BuildCache(
-    storage: storage,
-    database: database);
+var cache = builder.BuildCache(database: database);
 
 #endregion
 
 #region build search
 
-var search = builder.BuildSearch(
-    storage: storage,
-    database: database);
+var search = builder.BuildSearch(database: database);
 
 #endregion
 

@@ -6,6 +6,8 @@ namespace TramTimes.Aspire.Host.Builders;
 
 public static class StorageBuilder
 {
+    private static readonly string Testing = Environment.GetEnvironmentVariable(variable: "ASPIRE_TESTING") ?? string.Empty;
+    
     public static StorageResources BuildStorage(this IDistributedApplicationBuilder builder)
     {
         #region build resources
@@ -14,7 +16,7 @@ public static class StorageBuilder
         
         #endregion
         
-        #region add azure storage
+        #region add storage
         
         if (builder.ExecutionContext.IsRunMode)
             storage.Service = builder
@@ -34,16 +36,18 @@ public static class StorageBuilder
                     resource.WithLifetime(lifetime: ContainerLifetime.Persistent);
                 });
         
-        if (builder.ExecutionContext.IsPublishMode)
-            storage.Service = builder.AddAzureStorage(name: "storage");
-        
         #endregion
         
-        #region add storage services
+        #region add services
         
-        storage.Blobs = storage.Service?.AddBlobs(name: "storage-blobs");
-        storage.Queues = storage.Service?.AddQueues(name: "storage-queues");
-        storage.Tables = storage.Service?.AddTables(name: "storage-tables");
+        if (builder.ExecutionContext.IsRunMode)
+            storage.Blobs = storage.Service?.AddBlobs(name: "storage-blobs");
+        
+        if (builder.ExecutionContext.IsRunMode)
+            storage.Queues = storage.Service?.AddQueues(name: "storage-queues");
+        
+        if (builder.ExecutionContext.IsRunMode)
+            storage.Tables = storage.Service?.AddTables(name: "storage-tables");
         
         #endregion
         

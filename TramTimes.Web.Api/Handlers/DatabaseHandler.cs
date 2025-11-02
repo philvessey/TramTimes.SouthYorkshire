@@ -23,7 +23,7 @@ public static class DatabaseHandler
         var request = await feed.GetServicesByStopAsync(
             id: id.ToUpperInvariant(),
             comparison: ComparisonType.Exact,
-            tolerance: TimeSpan.FromMinutes(value: 119));
+            tolerance: TimeSpan.FromMinutes(value: 179));
         
         if (request.IsNullOrEmpty())
             return Results.NotFound();
@@ -53,7 +53,7 @@ public static class DatabaseHandler
         var request = await feed.GetServicesByTripAsync(
             id: id.ToLowerInvariant(),
             comparison: ComparisonType.Exact,
-            tolerance: TimeSpan.FromMinutes(value: 119));
+            tolerance: TimeSpan.FromMinutes(value: 359));
         
         if (request.IsNullOrEmpty())
             return Results.NotFound();
@@ -99,7 +99,7 @@ public static class DatabaseHandler
                     source: await feed.GetServicesByStopAsync(
                         id: item.Id,
                         comparison: ComparisonType.Exact,
-                        tolerance: TimeSpan.FromMinutes(value: 119))));
+                        tolerance: TimeSpan.FromMinutes(value: 179))));
         
         #endregion
         
@@ -134,7 +134,7 @@ public static class DatabaseHandler
                     source: await feed.GetServicesByStopAsync(
                         id: item.Id,
                         comparison: ComparisonType.Exact,
-                        tolerance: TimeSpan.FromMinutes(value: 119))));
+                        tolerance: TimeSpan.FromMinutes(value: 179))));
         
         #endregion
         
@@ -169,7 +169,7 @@ public static class DatabaseHandler
                     source: await feed.GetServicesByStopAsync(
                         id: item.Id,
                         comparison: ComparisonType.Exact,
-                        tolerance: TimeSpan.FromMinutes(value: 119))));
+                        tolerance: TimeSpan.FromMinutes(value: 179))));
         
         #endregion
         
@@ -210,7 +210,7 @@ public static class DatabaseHandler
                     source: await feed.GetServicesByStopAsync(
                         id: item.Id,
                         comparison: ComparisonType.Exact,
-                        tolerance: TimeSpan.FromMinutes(value: 119))));
+                        tolerance: TimeSpan.FromMinutes(value: 179))));
         
         #endregion
         
@@ -248,7 +248,7 @@ public static class DatabaseHandler
                     source: await feed.GetServicesByStopAsync(
                         id: item.Id,
                         comparison: ComparisonType.Exact,
-                        tolerance: TimeSpan.FromMinutes(value: 119))));
+                        tolerance: TimeSpan.FromMinutes(value: 179))));
         
         #endregion
         

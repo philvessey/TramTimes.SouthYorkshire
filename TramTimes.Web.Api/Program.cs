@@ -17,28 +17,37 @@ builder
 
 #region inject services
 
-builder.AddAzureBlobServiceClient(connectionName: "storage-blobs");
-builder.AddAzureQueueServiceClient(connectionName: "storage-queues");
-builder.AddAzureTableServiceClient(connectionName: "storage-tables");
 builder.AddNpgsqlDataSource(connectionName: "database");
 builder.AddRedisClient(connectionName: "cache");
 builder.AddElasticsearchClient(connectionName: "search");
+
+if (builder.Environment.IsDevelopment())
+    builder.AddAzureBlobServiceClient(connectionName: "storage-blobs");
+
+if (builder.Environment.IsDevelopment())
+    builder.AddAzureQueueServiceClient(connectionName: "storage-queues");
+
+if (builder.Environment.IsDevelopment())
+    builder.AddAzureTableServiceClient(connectionName: "storage-tables");
 
 #endregion
 
 #region configure services
 
-builder.Services.AddSingleton(implementationFactory: provider => provider
-    .GetRequiredService<BlobServiceClient>()
-    .GetBlobContainerClient(blobContainerName: "southyorkshire"));
+if (builder.Environment.IsDevelopment())
+    builder.Services.AddSingleton(implementationFactory: provider => provider
+        .GetRequiredService<BlobServiceClient>()
+        .GetBlobContainerClient(blobContainerName: "uploads"));
 
-builder.Services.AddSingleton(implementationFactory: provider => provider
-    .GetRequiredService<QueueServiceClient>()
-    .GetQueueClient(queueName: "southyorkshire"));
+if (builder.Environment.IsDevelopment())
+    builder.Services.AddSingleton(implementationFactory: provider => provider
+        .GetRequiredService<QueueServiceClient>()
+        .GetQueueClient(queueName: "jobs"));
 
-builder.Services.AddSingleton(implementationFactory: provider => provider
-    .GetRequiredService<TableServiceClient>()
-    .GetTableClient(tableName: "southyorkshire"));
+if (builder.Environment.IsDevelopment())
+    builder.Services.AddSingleton(implementationFactory: provider => provider
+        .GetRequiredService<TableServiceClient>()
+        .GetTableClient(tableName: "Logs"));
 
 #endregion
 

@@ -225,17 +225,15 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
 			await using var fileStream = item.OpenRead();
 			var content = new StreamContent(content: fileStream);
 			
-			var name = item.Name.Replace(
-				oldValue: "|",
-				newValue: "/");
-			
 			content.Headers.Add(
 				name: "Content-Type",
 				value: "image/png");
 			
 			content.Headers.Add(
 				name: "Custom-Name",
-				value: $"{AspireManager.Storage.CreationTimeUtc:yyyyMMdd}/{name}");
+				value: item.Name.Replace(
+					oldValue: "|",
+					newValue: "/"));
 			
 			var response = await httpClient.PostAsync(
 				requestUri: new Uri(

@@ -1720,7 +1720,7 @@ public static class WebHandler
         #region upload file
         
         await containerClient
-            .GetBlobClient(blobName: $"web/{customName}")
+            .GetBlobClient(blobName: $"screenshots/{customName}")
             .UploadAsync(
                 content: request.Body,
                 options: new BlobUploadOptions

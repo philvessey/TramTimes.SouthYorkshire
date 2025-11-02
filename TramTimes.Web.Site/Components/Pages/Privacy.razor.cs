@@ -140,7 +140,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         foreach (var item in MapData)
             item.Points = item.Points?
                 .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
-                                           point.DepartureDateTime <= DateTime.Now.AddHours(value: 2))
+                                           point.DepartureDateTime <= DateTime.Now.AddMinutes(value: 119))
                 .ToList();
         
         if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
@@ -195,7 +195,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         foreach (var item in MapData)
             item.Points = item.Points?
                 .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
-                                           point.DepartureDateTime <= DateTime.Now.AddHours(value: 2))
+                                           point.DepartureDateTime <= DateTime.Now.AddMinutes(value: 119))
                 .ToList();
         
         if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
@@ -309,7 +309,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         foreach (var item in ListData)
             item.Points = item.Points?
                 .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
-                                           point.DepartureDateTime <= DateTime.Now.AddHours(value: 2))
+                                           point.DepartureDateTime <= DateTime.Now.AddMinutes(value: 119))
                 .ToList();
         
         if (ListData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
@@ -362,7 +362,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         foreach (var item in ListData)
             item.Points = item.Points?
                 .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
-                                           point.DepartureDateTime <= DateTime.Now.AddHours(value: 2))
+                                           point.DepartureDateTime <= DateTime.Now.AddMinutes(value: 119))
                 .ToList();
         
         if (ListData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
@@ -563,7 +563,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         foreach (var item in MapData)
             item.Points = item.Points?
                 .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
-                                           point.DepartureDateTime <= DateTime.Now.AddHours(value: 2))
+                                           point.DepartureDateTime <= DateTime.Now.AddMinutes(value: 119))
                 .ToList();
         
         if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
@@ -618,7 +618,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         foreach (var item in MapData)
             item.Points = item.Points?
                 .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
-                                           point.DepartureDateTime <= DateTime.Now.AddHours(value: 2))
+                                           point.DepartureDateTime <= DateTime.Now.AddMinutes(value: 119))
                 .ToList();
         
         if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
@@ -722,7 +722,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         foreach (var item in MapData)
             item.Points = item.Points?
                 .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
-                                           point.DepartureDateTime <= DateTime.Now.AddHours(value: 2))
+                                           point.DepartureDateTime <= DateTime.Now.AddMinutes(value: 119))
                 .ToList();
         
         if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
@@ -777,7 +777,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         foreach (var item in MapData)
             item.Points = item.Points?
                 .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
-                                           point.DepartureDateTime <= DateTime.Now.AddHours(value: 2))
+                                           point.DepartureDateTime <= DateTime.Now.AddMinutes(value: 119))
                 .ToList();
         
         if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
@@ -1015,7 +1015,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         foreach (var item in SearchData)
             item.Points = item.Points?
                 .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
-                                           point.DepartureDateTime <= DateTime.Now.AddHours(value: 2))
+                                           point.DepartureDateTime <= DateTime.Now.AddMinutes(value: 119))
                 .ToList();
         
         if (SearchData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
@@ -1067,7 +1067,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         foreach (var item in SearchData)
             item.Points = item.Points?
                 .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
-                                           point.DepartureDateTime <= DateTime.Now.AddHours(value: 2))
+                                           point.DepartureDateTime <= DateTime.Now.AddMinutes(value: 119))
                 .ToList();
         
         if (SearchData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))

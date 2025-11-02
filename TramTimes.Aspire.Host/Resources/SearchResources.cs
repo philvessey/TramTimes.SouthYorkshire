@@ -9,4 +9,7 @@ public class SearchResources
     
     [UsedImplicitly]
     public IResourceBuilder<IResourceWithConnectionString>? Connection { get; set; }
+    
+    [UsedImplicitly]
+    public IResourceBuilder<ProjectResource>? Builder { get; set; }
 }

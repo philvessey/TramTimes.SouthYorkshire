@@ -6,6 +6,8 @@ namespace TramTimes.Aspire.Host.Builders;
 
 public static class ContainerBuilder
 {
+    private static readonly string Testing = Environment.GetEnvironmentVariable(variable: "ASPIRE_TESTING") ?? string.Empty;
+    
     public static ContainerResources BuildContainer(this IDistributedApplicationBuilder builder)
     {
         #region build resources
@@ -14,18 +16,18 @@ public static class ContainerBuilder
         
         #endregion
         
-        #region add container registry
+        #region add registry
         
         if (builder.ExecutionContext.IsPublishMode)
-            container.Service = builder.AddAzureContainerRegistry(name: "registry");
+            container.Service = builder.AddAzureContainerRegistry(name: "container-registry");
         
         #endregion
         
-        #region add container environment
+        #region add environment
         
         if (builder.ExecutionContext.IsPublishMode)
             container.Resource = builder
-                .AddAzureContainerAppEnvironment(name: "environment")
+                .AddAzureContainerAppEnvironment(name: "application-environment")
                 .WithAzureContainerRegistry(registryBuilder: container.Service ?? throw new InvalidOperationException(message: "Container service is not available."));
         
         #endregion

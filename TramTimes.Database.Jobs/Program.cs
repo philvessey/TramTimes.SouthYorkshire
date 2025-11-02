@@ -8,7 +8,6 @@ var builder = Host.CreateApplicationBuilder(args: args);
 #region inject defaults
 
 builder
-    .AddMapperDefaults()
     .AddScheduleDefaults()
     .AddServiceDefaults();
 
@@ -16,31 +15,46 @@ builder
 
 #region inject services
 
-builder.AddAzureBlobServiceClient(connectionName: "storage-blobs");
-builder.AddAzureQueueServiceClient(connectionName: "storage-queues");
-builder.AddAzureTableServiceClient(connectionName: "storage-tables");
 builder.AddNpgsqlDataSource(connectionName: "database");
+
+if (builder.Environment.IsDevelopment())
+    builder.AddAzureBlobServiceClient(connectionName: "storage-blobs");
+
+if (builder.Environment.IsDevelopment())
+    builder.AddAzureQueueServiceClient(connectionName: "storage-queues");
+
+if (builder.Environment.IsDevelopment())
+    builder.AddAzureTableServiceClient(connectionName: "storage-tables");
 
 #endregion
 
 #region configure services
 
-builder.Services.AddSingleton(implementationFactory: provider => provider
-    .GetRequiredService<BlobServiceClient>()
-    .GetBlobContainerClient(blobContainerName: "southyorkshire"));
-
-builder.Services.AddSingleton(implementationFactory: provider => provider
-    .GetRequiredService<QueueServiceClient>()
-    .GetQueueClient(queueName: "southyorkshire"));
-
-builder.Services.AddSingleton(implementationFactory: provider => provider
-    .GetRequiredService<TableServiceClient>()
-    .GetTableClient(tableName: "southyorkshire"));
-
-builder.Services.AddHostedService<BlobService>();
-builder.Services.AddHostedService<QueueService>();
-builder.Services.AddHostedService<TableService>();
 builder.Services.AddHostedService<DatabaseService>();
+
+if (builder.Environment.IsDevelopment())
+    builder.Services.AddSingleton(implementationFactory: provider => provider
+        .GetRequiredService<BlobServiceClient>()
+        .GetBlobContainerClient(blobContainerName: "uploads"));
+
+if (builder.Environment.IsDevelopment())
+    builder.Services.AddSingleton(implementationFactory: provider => provider
+        .GetRequiredService<QueueServiceClient>()
+        .GetQueueClient(queueName: "jobs"));
+
+if (builder.Environment.IsDevelopment())
+    builder.Services.AddSingleton(implementationFactory: provider => provider
+        .GetRequiredService<TableServiceClient>()
+        .GetTableClient(tableName: "Logs"));
+
+if (builder.Environment.IsDevelopment())
+    builder.Services.AddHostedService<BlobService>();
+
+if (builder.Environment.IsDevelopment())
+    builder.Services.AddHostedService<QueueService>();
+
+if (builder.Environment.IsDevelopment())
+    builder.Services.AddHostedService<TableService>();
 
 #endregion
 

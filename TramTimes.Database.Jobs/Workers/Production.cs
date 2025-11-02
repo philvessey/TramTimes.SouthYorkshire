@@ -1,7 +1,5 @@
 using System.IO.Compression;
 using System.Xml.Serialization;
-using Azure.Storage.Blobs;
-using Azure.Storage.Blobs.Models;
 using FluentFTP;
 using Flurl.Http;
 using Npgsql;
@@ -13,10 +11,9 @@ using TramTimes.Database.Jobs.Tools;
 
 namespace TramTimes.Database.Jobs.Workers;
 
-public class Build(
-    BlobContainerClient containerClient,
+public class Production(
     NpgsqlDataSource dataSource,
-    ILogger<Build> logger) : IJob {
+    ILogger<Production> logger) : IJob {
     
     private const string Holidays = "https://date.nager.at/api/v3/NextPublicHolidays/gb";
     private const string Localities = "https://naptan.api.dft.gov.uk/v1/nptg/localities";
@@ -40,19 +37,6 @@ public class Build(
             
             #region get naptan localities
             
-            var remotePath = Path.Combine(
-                path1: "database",
-                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path3: "raw",
-                path4: "localities.csv");
-            
-            var remoteExists = await containerClient
-                .GetBlobClient(blobName: remotePath)
-                .ExistsAsync();
-            
-            if (remoteExists)
-                return;
-            
             var localPath = await Localities.DownloadFileAsync(
                 localFolderPath: storage.FullName,
                 localFileName: "localities.csv");
@@ -62,34 +46,9 @@ public class Build(
             
             var localities = NaptanLocalityTools.GetFromFile(path: localPath);
             
-            await containerClient
-                .GetBlobClient(blobName: remotePath)
-                .UploadAsync(
-                    path: localPath,
-                    options: new BlobUploadOptions
-                    {
-                        HttpHeaders = new BlobHttpHeaders
-                        {
-                            ContentType = "text/csv"
-                        }
-                    });
-            
             #endregion
             
             #region get naptan stops
-            
-            remotePath = Path.Combine(
-                path1: "database",
-                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path3: "raw",
-                path4: "stops.csv");
-            
-            remoteExists = await containerClient
-                .GetBlobClient(blobName: remotePath)
-                .ExistsAsync();
-            
-            if (remoteExists)
-                return;
             
             localPath = await Stops.DownloadFileAsync(
                 localFolderPath: storage.FullName,
@@ -100,34 +59,9 @@ public class Build(
             
             var stops = NaptanStopTools.GetFromFile(path: localPath);
             
-            await containerClient
-                .GetBlobClient(blobName: remotePath)
-                .UploadAsync(
-                    path: localPath,
-                    options: new BlobUploadOptions
-                    {
-                        HttpHeaders = new BlobHttpHeaders
-                        {
-                            ContentType = "text/csv"
-                        }
-                    });
-            
             #endregion
             
             #region get traveline data
-            
-            remotePath = Path.Combine(
-                path1: "database",
-                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path3: "raw",
-                path4: "traveline.zip");
-            
-            remoteExists = await containerClient
-                .GetBlobClient(blobName: remotePath)
-                .ExistsAsync();
-            
-            if (remoteExists)
-                return;
             
             var status = await FtpClientTools.GetFromRemoteAsync(
                 localPath: Path.Combine(
@@ -137,20 +71,6 @@ public class Build(
             
             if (status is not FtpStatus.Success)
                 return;
-            
-            await containerClient
-                .GetBlobClient(blobName: remotePath)
-                .UploadAsync(
-                    path: Path.Combine(
-                        path1: storage.FullName,
-                        path2: "traveline.zip"),
-                    options: new BlobUploadOptions
-                    {
-                        HttpHeaders = new BlobHttpHeaders
-                        {
-                            ContentType = "application/zip"
-                        }
-                    });
             
             #endregion
             
@@ -355,164 +275,6 @@ public class Build(
             
             #endregion
             
-            #region build storage data
-            
-            remotePath = Path.Combine(
-                path1: "database",
-                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path3: "gtfs",
-                path4: "agency.txt");
-            
-            localPath = await GtfsAgencyBuilder.BuildAsync(
-                schedules: results,
-                path: storage.FullName);
-            
-            await containerClient
-                .GetBlobClient(blobName: remotePath)
-                .UploadAsync(
-                    path: localPath,
-                    options: new BlobUploadOptions
-                    {
-                        HttpHeaders = new BlobHttpHeaders
-                        {
-                            ContentType = "text/plain"
-                        }
-                    });
-            
-            remotePath = Path.Combine(
-                path1: "database",
-                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path3: "gtfs",
-                path4: "calendar.txt");
-            
-            localPath = await GtfsCalendarBuilder.BuildAsync(
-                schedules: results,
-                path: storage.FullName);
-            
-            await containerClient
-                .GetBlobClient(blobName: remotePath)
-                .UploadAsync(
-                    path: localPath,
-                    options: new BlobUploadOptions
-                    {
-                        HttpHeaders = new BlobHttpHeaders
-                        {
-                            ContentType = "text/plain"
-                        }
-                    });
-            
-            remotePath = Path.Combine(
-                path1: "database",
-                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path3: "gtfs",
-                path4: "calendar_dates.txt");
-            
-            localPath = await GtfsCalendarDateBuilder.BuildAsync(
-                schedules: results,
-                path: storage.FullName);
-            
-            await containerClient
-                .GetBlobClient(blobName: remotePath)
-                .UploadAsync(
-                    path: localPath,
-                    options: new BlobUploadOptions
-                    {
-                        HttpHeaders = new BlobHttpHeaders
-                        {
-                            ContentType = "text/plain"
-                        }
-                    });
-            
-            remotePath = Path.Combine(
-                path1: "database",
-                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path3: "gtfs",
-                path4: "routes.txt");
-            
-            localPath = await GtfsRouteBuilder.BuildAsync(
-                schedules: results,
-                path: storage.FullName);
-            
-            await containerClient
-                .GetBlobClient(blobName: remotePath)
-                .UploadAsync(
-                    path: localPath,
-                    options: new BlobUploadOptions
-                    {
-                        HttpHeaders = new BlobHttpHeaders
-                        {
-                            ContentType = "text/plain"
-                        }
-                    });
-            
-            remotePath = Path.Combine(
-                path1: "database",
-                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path3: "gtfs",
-                path4: "stops.txt");
-            
-            localPath = await GtfsStopBuilder.BuildAsync(
-                schedules: results,
-                path: storage.FullName);
-            
-            await containerClient
-                .GetBlobClient(blobName: remotePath)
-                .UploadAsync(
-                    path: localPath,
-                    options: new BlobUploadOptions
-                    {
-                        HttpHeaders = new BlobHttpHeaders
-                        {
-                            ContentType = "text/plain"
-                        }
-                    });
-            
-            remotePath = Path.Combine(
-                path1: "database",
-                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path3: "gtfs",
-                path4: "stop_times.txt");
-            
-            localPath = await GtfsStopTimeBuilder.BuildAsync(
-                schedules: results,
-                path: storage.FullName);
-            
-            await containerClient
-                .GetBlobClient(blobName: remotePath)
-                .UploadAsync(
-                    path: localPath,
-                    options: new BlobUploadOptions
-                    {
-                        HttpHeaders = new BlobHttpHeaders
-                        {
-                            ContentType = "text/plain"
-                        }
-                    });
-            
-            remotePath = Path.Combine(
-                path1: "database",
-                path2: context.FireTimeUtc.Date.ToString(format: "yyyyMMdd"),
-                path3: "gtfs",
-                path4: "trips.txt");
-            
-            localPath = await GtfsTripBuilder.BuildAsync(
-                schedules: results,
-                path: storage.FullName);
-            
-            await containerClient
-                .GetBlobClient(blobName: remotePath)
-                .UploadAsync(
-                    path: localPath,
-                    options: new BlobUploadOptions
-                    {
-                        HttpHeaders = new BlobHttpHeaders
-                        {
-                            ContentType = "text/plain"
-                        }
-                    });
-            
-            #endregion
-            
             #region output log messages
             
             logger.LogInformation(
@@ -542,19 +304,6 @@ public class Build(
             logger.LogInformation(
                 message: "WRITE: {count} database records",
                 args: records);
-            
-            #endregion
-            
-            #region schedule test job
-            
-            await context.Scheduler.ScheduleJob(
-                jobDetail: JobBuilder
-                    .Create<Test>()
-                    .Build(),
-                trigger: TriggerBuilder
-                    .Create()
-                    .StartNow()
-                    .Build());
             
             #endregion
         }

@@ -19,27 +19,6 @@ public static class DatabaseBuilder
         
         #endregion
         
-        #region add parameters
-        
-        database.Parameters = new DatabaseParameters();
-        
-        if (builder.ExecutionContext.IsPublishMode)
-            database.Parameters.Hostname = builder.AddParameter(
-                name: "transxchange-hostname",
-                secret: false);
-        
-        if (builder.ExecutionContext.IsPublishMode)
-            database.Parameters.Username = builder.AddParameter(
-                name: "transxchange-username",
-                secret: false);
-        
-        if (builder.ExecutionContext.IsPublishMode)
-            database.Parameters.Userpass = builder.AddParameter(
-                name: "transxchange-userpass",
-                secret: true);
-        
-        #endregion
-        
         #region add server
         
         if (builder.ExecutionContext.IsRunMode)
@@ -63,9 +42,110 @@ public static class DatabaseBuilder
         
         #endregion
         
+        #region add parameters
+        
+        database.Parameters = new DatabaseParameters();
+        
+        if (builder.ExecutionContext.IsRunMode)
+            database.Parameters.Hostname = builder
+                .AddParameter(
+                    name: "transxchange-hostname",
+                    secret: false)
+                .WithDescription(description: "Hostname for the Traveline FTP server.")
+                .WithParentRelationship(parent: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
+        
+        if (builder.ExecutionContext.IsPublishMode)
+            database.Parameters.Hostname = builder.AddParameter(
+                name: "transxchange-hostname",
+                secret: false);
+        
+        if (builder.ExecutionContext.IsRunMode)
+            database.Parameters.Username = builder
+                .AddParameter(
+                    name: "transxchange-username",
+                    secret: false)
+                .WithDescription(description: "Username for the Traveline FTP server.")
+                .WithParentRelationship(parent: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
+        
+        if (builder.ExecutionContext.IsPublishMode)
+            database.Parameters.Username = builder.AddParameter(
+                name: "transxchange-username",
+                secret: false);
+        
+        if (builder.ExecutionContext.IsRunMode)
+            database.Parameters.Userpass = builder
+                .AddParameter(
+                    name: "transxchange-userpass",
+                    secret: true)
+                .WithDescription(description: "Password for the Traveline FTP server.")
+                .WithParentRelationship(parent: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
+        
+        if (builder.ExecutionContext.IsPublishMode)
+            database.Parameters.Userpass = builder.AddParameter(
+                name: "transxchange-userpass",
+                secret: true);
+        
+        #endregion
+        
+        #region add project
+        
+        if (builder.ExecutionContext.IsRunMode)
+            database.Builder = builder
+                .AddProject<Projects.TramTimes_Database_Jobs>(name: "database-builder")
+                .WaitFor(dependency: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
+                .WaitFor(dependency: database.Parameters.Hostname ?? throw new InvalidOperationException(message: "Hostname parameter is not available."))
+                .WaitFor(dependency: database.Parameters.Username ?? throw new InvalidOperationException(message: "Username parameter is not available."))
+                .WaitFor(dependency: database.Parameters.Userpass ?? throw new InvalidOperationException(message: "Password parameter is not available."))
+                .WithEnvironment(
+                    name: "FTP_HOSTNAME",
+                    parameter: database.Parameters.Hostname)
+                .WithEnvironment(
+                    name: "FTP_USERNAME",
+                    parameter: database.Parameters.Username)
+                .WithEnvironment(
+                    name: "FTP_PASSWORD",
+                    parameter: database.Parameters.Userpass)
+                .WithParentRelationship(parent: database.Resource)
+                .WithReference(source: storage.Blobs ?? throw new InvalidOperationException(message: "Storage blobs are not available."))
+                .WithReference(source: storage.Queues ?? throw new InvalidOperationException(message: "Storage queues are not available."))
+                .WithReference(source: storage.Tables ?? throw new InvalidOperationException(message: "Storage tables are not available."))
+                .WithReference(source: database.Resource);
+        
+        if (builder.ExecutionContext.IsPublishMode)
+            database.Builder = builder
+                .AddProject<Projects.TramTimes_Database_Jobs>(name: "database-builder")
+                .WaitFor(dependency: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
+                .WaitFor(dependency: database.Parameters.Hostname ?? throw new InvalidOperationException(message: "Hostname parameter is not available."))
+                .WaitFor(dependency: database.Parameters.Username ?? throw new InvalidOperationException(message: "Username parameter is not available."))
+                .WaitFor(dependency: database.Parameters.Userpass ?? throw new InvalidOperationException(message: "Password parameter is not available."))
+                .WithEnvironment(
+                    name: "FTP_HOSTNAME",
+                    parameter: database.Parameters.Hostname)
+                .WithEnvironment(
+                    name: "FTP_USERNAME",
+                    parameter: database.Parameters.Username)
+                .WithEnvironment(
+                    name: "FTP_PASSWORD",
+                    parameter: database.Parameters.Userpass)
+                .WithReference(source: database.Connection)
+                .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
+                {
+                    app.Template.Scale.MinReplicas = 1;
+                    app.Template.Scale.MaxReplicas = 1;
+                });
+        
+        #endregion
+        
+        #region check testing
+        
+        if (!string.IsNullOrEmpty(value: Testing))
+            return database;
+        
+        #endregion
+        
         #region add tools
         
-        if (builder.ExecutionContext.IsRunMode && string.IsNullOrEmpty(value: Testing))
+        if (builder.ExecutionContext.IsRunMode)
             database.Service?
                 .WithPgAdmin(
                     containerName: "server-admin",
@@ -89,86 +169,6 @@ public static class DatabaseBuilder
                             callback: annotation => annotation.DisplayText = "Administration",
                             endpointName: "http");
                     });
-        
-        #endregion
-        
-        #region add parameters
-        
-        if (builder.ExecutionContext.IsRunMode)
-            database.Parameters.Hostname = builder
-                .AddParameter(
-                    name: "transxchange-hostname",
-                    secret: false)
-                .WithDescription(description: "Hostname for the Traveline FTP server.")
-                .WithParentRelationship(parent: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
-        
-        if (builder.ExecutionContext.IsRunMode)
-            database.Parameters.Username = builder
-                .AddParameter(
-                    name: "transxchange-username",
-                    secret: false)
-                .WithDescription(description: "Username for the Traveline FTP server.")
-                .WithParentRelationship(parent: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
-        
-        if (builder.ExecutionContext.IsRunMode)
-            database.Parameters.Userpass = builder
-                .AddParameter(
-                    name: "transxchange-userpass",
-                    secret: true)
-                .WithDescription(description: "Password for the Traveline FTP server.")
-                .WithParentRelationship(parent: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
-        
-        #endregion
-        
-        #region add project
-        
-        if (builder.ExecutionContext.IsRunMode)
-            builder
-                .AddProject<Projects.TramTimes_Database_Jobs>(name: "database-builder")
-                .WaitFor(dependency: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
-                .WaitFor(dependency: database.Parameters.Hostname ?? throw new InvalidOperationException(message: "Hostname parameter is not available."))
-                .WaitFor(dependency: database.Parameters.Username ?? throw new InvalidOperationException(message: "Username parameter is not available."))
-                .WaitFor(dependency: database.Parameters.Userpass ?? throw new InvalidOperationException(message: "Password parameter is not available."))
-                .WithEnvironment(
-                    name: "FTP_HOSTNAME",
-                    parameter: database.Parameters.Hostname)
-                .WithEnvironment(
-                    name: "FTP_USERNAME",
-                    parameter: database.Parameters.Username)
-                .WithEnvironment(
-                    name: "FTP_PASSWORD",
-                    parameter: database.Parameters.Userpass)
-                .WithParentRelationship(parent: database.Resource)
-                .WithReference(source: storage.Blobs ?? throw new InvalidOperationException(message: "Storage blobs are not available."))
-                .WithReference(source: storage.Queues ?? throw new InvalidOperationException(message: "Storage queues are not available."))
-                .WithReference(source: storage.Tables ?? throw new InvalidOperationException(message: "Storage tables are not available."))
-                .WithReference(source: database.Resource);
-        
-        if (builder.ExecutionContext.IsPublishMode)
-            builder
-                .AddProject<Projects.TramTimes_Database_Jobs>(name: "database-builder")
-                .WaitFor(dependency: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
-                .WaitFor(dependency: database.Parameters.Hostname ?? throw new InvalidOperationException(message: "Hostname parameter is not available."))
-                .WaitFor(dependency: database.Parameters.Username ?? throw new InvalidOperationException(message: "Username parameter is not available."))
-                .WaitFor(dependency: database.Parameters.Userpass ?? throw new InvalidOperationException(message: "Password parameter is not available."))
-                .WithEnvironment(
-                    name: "FTP_HOSTNAME",
-                    parameter: database.Parameters.Hostname)
-                .WithEnvironment(
-                    name: "FTP_USERNAME",
-                    parameter: database.Parameters.Username)
-                .WithEnvironment(
-                    name: "FTP_PASSWORD",
-                    parameter: database.Parameters.Userpass)
-                .WithReference(source: storage.Blobs ?? throw new InvalidOperationException(message: "Storage blobs are not available."))
-                .WithReference(source: storage.Queues ?? throw new InvalidOperationException(message: "Storage queues are not available."))
-                .WithReference(source: storage.Tables ?? throw new InvalidOperationException(message: "Storage tables are not available."))
-                .WithReference(source: database.Connection)
-                .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
-                {
-                    app.Template.Scale.MinReplicas = 1;
-                    app.Template.Scale.MaxReplicas = 1;
-                });
         
         #endregion
         

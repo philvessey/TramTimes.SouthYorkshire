@@ -15,9 +15,11 @@ public static class DateOnlyTools
         
         #region build result
         
-        var result = startDate.Value.ToDateTime(time: TimeOnly.MinValue).Subtract(value: scheduleDate.ToDateTime(time: TimeOnly.MinValue)).TotalDays < 27
-            ? startDate.Value
-            : DateOnly.MaxValue;
+        var result = startDate.Value
+            .ToDateTime(time: TimeOnly.MinValue)
+            .Subtract(value: scheduleDate.ToDateTime(time: TimeOnly.MinValue)).TotalDays < 27
+                ? startDate.Value
+                : DateOnly.MaxValue;
         
         #endregion
         
@@ -43,9 +45,11 @@ public static class DateOnlyTools
         
         #region build result
         
-        var result = endDate.Value.ToDateTime(time: TimeOnly.MinValue).Subtract(value: scheduleDate.ToDateTime(time: TimeOnly.MinValue)).TotalDays > 27
-            ? scheduleDate.AddDays(value: 27)
-            : endDate.Value;
+        var result = endDate.Value
+            .ToDateTime(time: TimeOnly.MinValue)
+            .Subtract(value: scheduleDate.ToDateTime(time: TimeOnly.MinValue)).TotalDays > 27
+                ? scheduleDate.AddDays(value: 27)
+                : endDate.Value;
         
         #endregion
         
@@ -68,9 +72,11 @@ public static class DateOnlyTools
         
         #region build result
         
-        var result = startDate.Value.ToDateTime(time: TimeOnly.MinValue).Subtract(value: scheduleDate.ToDateTime(time: TimeOnly.MinValue)).TotalDays < 27
-            ? startDate.Value
-            : DateOnly.MaxValue;
+        var result = startDate.Value
+            .ToDateTime(time: TimeOnly.MinValue)
+            .Subtract(value: scheduleDate.ToDateTime(time: TimeOnly.MinValue)).TotalDays < 27
+                ? startDate.Value
+                : DateOnly.MaxValue;
         
         #endregion
         
@@ -93,9 +99,11 @@ public static class DateOnlyTools
         
         #region build result
         
-        var result = endDate.Value.ToDateTime(time: TimeOnly.MinValue).Subtract(value: scheduleDate.ToDateTime(time: TimeOnly.MinValue)).TotalDays < 27
-            ? endDate.Value
-            : DateOnly.MinValue;
+        var result = endDate.Value
+            .ToDateTime(time: TimeOnly.MinValue)
+            .Subtract(value: scheduleDate.ToDateTime(time: TimeOnly.MinValue)).TotalDays < 27
+                ? endDate.Value
+                : DateOnly.MinValue;
         
         #endregion
         

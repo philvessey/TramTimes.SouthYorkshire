@@ -1,13 +1,13 @@
 <Project>
     
     <PropertyGroup>
-        <AspireVersion>9.5.1</AspireVersion>
+        <AspireVersion>9.5.2</AspireVersion>
         <AspireElasticVersion>9.5.0</AspireElasticVersion>
-        <NextDeparturesVersion>3.8.5</NextDeparturesVersion>
+        <NextDeparturesVersion>3.8.6</NextDeparturesVersion>
     </PropertyGroup>
     
     <PropertyGroup>
-        <AspirePreviewVersion>9.5.1-preview.1.25502.11</AspirePreviewVersion>
+        <AspirePreviewVersion>9.5.2-preview.1.25522.3</AspirePreviewVersion>
     </PropertyGroup>
     
     <PropertyGroup>
@@ -36,11 +36,11 @@
     </ItemGroup>
     
     <ItemGroup>
-        <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.9" />
-        <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="9.0.9" />
-        <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.9" />
-        <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="9.9.0" />
-        <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="9.5.1" />
+        <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="9.0.10" />
+        <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="9.0.10" />
+        <PackageVersion Include="Microsoft.Extensions.Hosting" Version="9.0.10" />
+        <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="9.10.0" />
+        <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="9.5.2" />
         <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.0" />
         <PackageVersion Include="Microsoft.Playwright" Version="1.55.0" />
         <PackageVersion Include="Microsoft.Playwright.Xunit" Version="1.55.0" />
@@ -48,16 +48,15 @@
     
     <ItemGroup>
         <PackageVersion Include="NextDepartures.Standard" Version="$(NextDeparturesVersion)" />
-        <PackageVersion Include="NextDepartures.Storage.GTFS" Version="$(NextDeparturesVersion)" />
         <PackageVersion Include="NextDepartures.Storage.Postgres.Aspire" Version="$(NextDeparturesVersion)" />
     </ItemGroup>
     
     <ItemGroup>
-        <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.13.0" />
-        <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.13.0" />
-        <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.12.0" />
-        <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.12.0" />
-        <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.12.0" />
+        <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.13.1" />
+        <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.13.1" />
+        <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.13.0" />
+        <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.13.0" />
+        <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.13.0" />
     </ItemGroup>
     
     <ItemGroup>
@@ -80,9 +79,9 @@
         <PackageVersion Include="IeuanWalker.GeoUK" Version="1.3.0" />
         <PackageVersion Include="JetBrains.Annotations" Version="2025.2.2" />
         <PackageVersion Include="Polly" Version="8.6.4" />
-        <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.15.0" />
+        <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.15.1" />
         <PackageVersion Include="Swashbuckle.AspNetCore" Version="9.0.6" />
-        <PackageVersion Include="Telerik.UI.for.Blazor" Version="11.1.1" />
+        <PackageVersion Include="Telerik.UI.for.Blazor" Version="11.3.0" />
     </ItemGroup>
     
 </Project>

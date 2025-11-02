@@ -9,12 +9,18 @@ Write-Host ""
 
 $command = "dotnet test --settings test.runsettings"
 
-if ($filter) {
-    if ($run -gt 0) {
-        $command += " --filter `"DisplayName~$filter&DisplayName~run: $run`""
-    } else {
-        $command += " --filter `"DisplayName~$filter`""
+if ($filter -or $run -gt 0) {
+    $parts = @()
+    
+    if ($filter) {
+        $parts += "DisplayName~$filter"
     }
+    
+    if ($run -gt 0) {
+        $parts += "DisplayName~run: $run"
+    }
+    
+    $command += " --filter `"$($parts -join '&')`""
 }
 
 $output = Invoke-Expression "$command 2>&1" | Out-String

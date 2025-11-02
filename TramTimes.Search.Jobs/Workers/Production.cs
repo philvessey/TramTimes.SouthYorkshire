@@ -5,18 +5,12 @@ using Quartz;
 
 namespace TramTimes.Search.Jobs.Workers;
 
-public class Clean(
+public class Production(
     ElasticsearchClient searchService,
-    ILogger<Clean> logger) : IJob {
+    ILogger<Production> logger) : IJob {
     
     public async Task Execute(IJobExecutionContext context)
     {
-        var guid = Guid.NewGuid();
-        
-        var storage = Directory.CreateDirectory(path: Path.Combine(
-            path1: Path.GetTempPath(),
-            path2: guid.ToString()));
-        
         try
         {
             #region delete search index
@@ -56,10 +50,6 @@ public class Clean(
             logger.LogError(
                 message: "Exception: {exception}",
                 args: e.ToString());
-        }
-        finally
-        {
-            storage.Delete(recursive: true);
         }
     }
 }
