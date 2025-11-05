@@ -9,7 +9,8 @@ public static class DatabaseStopTimeBuilder
 {
     public static async Task<ulong> BuildAsync(
         Dictionary<string, TravelineSchedule> schedules,
-        NpgsqlConnection connection) {
+        NpgsqlConnection connection,
+        NpgsqlTransaction transaction) {
         
         #region build stop times
         
@@ -31,7 +32,8 @@ public static class DatabaseStopTimeBuilder
                      "drop_off_type character varying(255), " +
                      "shape_dist_travelled real, " +
                      "timepoint smallint)",
-            connection: connection);
+            connection: connection,
+            transaction: transaction);
         
         await createCommand.ExecuteNonQueryAsync();
         
@@ -41,7 +43,8 @@ public static class DatabaseStopTimeBuilder
         
         await using var truncateCommand = new NpgsqlCommand(
             cmdText: "truncate table gtfs_stop_times",
-            connection: connection);
+            connection: connection,
+            transaction: transaction);
         
         await truncateCommand.ExecuteNonQueryAsync();
         

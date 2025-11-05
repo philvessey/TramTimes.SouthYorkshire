@@ -9,7 +9,8 @@ public static class DatabaseAgencyBuilder
 {
     public static async Task<ulong> BuildAsync(
         Dictionary<string, TravelineSchedule> schedules,
-        NpgsqlConnection connection) {
+        NpgsqlConnection connection,
+        NpgsqlTransaction transaction) {
         
         #region build agencies
         
@@ -29,7 +30,8 @@ public static class DatabaseAgencyBuilder
                      "agency_phone character varying(255), " +
                      "agency_fare_url character varying(255), " +
                      "agency_email character varying(255))",
-            connection: connection);
+            connection: connection,
+            transaction: transaction);
         
         await createCommand.ExecuteNonQueryAsync();
         
@@ -39,7 +41,8 @@ public static class DatabaseAgencyBuilder
         
         await using var truncateCommand = new NpgsqlCommand(
             cmdText: "truncate table gtfs_agency",
-            connection: connection);
+            connection: connection,
+            transaction: transaction);
         
         await truncateCommand.ExecuteNonQueryAsync();
         

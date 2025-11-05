@@ -22,6 +22,12 @@
     </ItemGroup>
     
     <ItemGroup>
+        <None Include="Data\stops.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Include="Scripts\function.sql">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
         <None Include="Workers\Schedules\*.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>

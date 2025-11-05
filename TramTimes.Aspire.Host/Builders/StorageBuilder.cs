@@ -6,7 +6,7 @@ namespace TramTimes.Aspire.Host.Builders;
 
 public static class StorageBuilder
 {
-    private static readonly string Testing = Environment.GetEnvironmentVariable(variable: "ASPIRE_TESTING") ?? string.Empty;
+    private static readonly string Context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
     
     public static StorageResources BuildStorage(this IDistributedApplicationBuilder builder)
     {

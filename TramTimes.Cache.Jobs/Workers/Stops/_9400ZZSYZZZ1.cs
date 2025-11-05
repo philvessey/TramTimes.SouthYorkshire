@@ -1,0 +1,110 @@
+using System.Text.Json;
+using AutoMapper;
+using NextDepartures.Standard;
+using NextDepartures.Standard.Types;
+using NextDepartures.Storage.Postgres.Aspire;
+using Npgsql;
+using Quartz;
+using StackExchange.Redis;
+using TramTimes.Cache.Jobs.Models;
+
+namespace TramTimes.Cache.Jobs.Workers.Stops;
+
+public class _9400ZZSYZZZ1(
+    NpgsqlDataSource dataSource,
+    IConnectionMultiplexer cacheService,
+    ILogger<_9400ZZSYZZZ1> logger,
+    IMapper mapper) : IJob {
+    
+    public async Task Execute(IJobExecutionContext context)
+    {
+        try
+        {
+            #region get cache feed
+            
+            var cacheFeed = await cacheService
+                .GetDatabase()
+                .StringGetAsync(key: "southyorkshire:stop:9400ZZSYZZZ1");
+            
+            List<CacheStopPoint> mappedResults = [];
+            
+            if (!cacheFeed.IsNullOrEmpty)
+                mappedResults = mapper.Map<List<CacheStopPoint>>(
+                    source: JsonSerializer.Deserialize<List<WorkerStopPoint>>(
+                        json: cacheFeed.ToString()));
+            
+            #endregion
+            
+            #region check cache feed
+            
+            if (mappedResults.FirstOrDefault()?.DepartureDateTime >= DateTime.Now)
+                return;
+            
+            #endregion
+            
+            #region delete cache feed
+            
+            if (mappedResults.LastOrDefault()?.DepartureDateTime < DateTime.Now)
+                await cacheService
+                    .GetDatabase()
+                    .KeyDeleteAsync(key: "southyorkshire:stop:9400ZZSYZZZ1");
+            
+            #endregion
+            
+            #region get database feed
+            
+            var databaseFeed = await Feed.LoadAsync(dataStorage: PostgresStorage.Load(dataSource: dataSource));
+            
+            var databaseResults = await databaseFeed.GetServicesByStopAsync(
+                id: "9400ZZSYZZZ1",
+                comparison: ComparisonType.Exact,
+                tolerance: TimeSpan.FromMinutes(value: 179));
+            
+            #endregion
+            
+            #region set cache feed
+            
+            await cacheService
+                .GetDatabase()
+                .StringSetAsync(
+                    key: "southyorkshire:stop:9400ZZSYZZZ1",
+                    value: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults)),
+                    expiry: TimeSpan.FromMinutes(value: 179));
+            
+            #endregion
+            
+            #region get trip feed
+            
+            var tripFeed = databaseResults
+                .Select(selector: s => s.TripId)
+                .ToList();
+            
+            #endregion
+            
+            #region set cache feed
+            
+            foreach (var item in tripFeed)
+            {
+                databaseResults = await databaseFeed.GetServicesByTripAsync(
+                    id: item,
+                    comparison: ComparisonType.Exact,
+                    tolerance: TimeSpan.FromMinutes(value: 359));
+                
+                await cacheService
+                    .GetDatabase()
+                    .StringSetAsync(
+                        key: $"southyorkshire:trip:{item}",
+                        value: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults)),
+                        expiry: TimeSpan.FromMinutes(value: 359));
+            }
+            
+            #endregion
+        }
+        catch (Exception e)
+        {
+            logger.LogError(
+                message: "Exception: {exception}",
+                args: e.ToString());
+        }
+    }
+}

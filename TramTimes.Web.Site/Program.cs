@@ -5,6 +5,12 @@ using TramTimes.Web.Site.Services;
 
 var builder = WebApplication.CreateBuilder(args: args);
 
+#region get context
+
+var context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
+
+#endregion
+
 #region inject defaults
 
 builder
@@ -55,7 +61,7 @@ application.UseCookiePolicy();
 application.UseHttpsRedirection();
 application.UseStaticFiles();
 
-if (!application.Environment.IsDevelopment())
+if (context is "Production")
     application.UseHsts();
 
 application.MapStaticAssets();

@@ -9,7 +9,8 @@ public static class DatabaseCalendarBuilder
 {
     public static async Task<ulong> BuildAsync(
         Dictionary<string, TravelineSchedule> schedules,
-        NpgsqlConnection connection) {
+        NpgsqlConnection connection,
+        NpgsqlTransaction transaction) {
         
         #region build calendars
         
@@ -31,7 +32,8 @@ public static class DatabaseCalendarBuilder
                      "sunday smallint not null, " +
                      "start_date date not null, " +
                      "end_date date not null)",
-            connection: connection);
+            connection: connection,
+            transaction: transaction);
         
         await createCommand.ExecuteNonQueryAsync();
         
@@ -41,7 +43,8 @@ public static class DatabaseCalendarBuilder
         
         await using var truncateCommand = new NpgsqlCommand(
             cmdText: "truncate table gtfs_calendar",
-            connection: connection);
+            connection: connection,
+            transaction: transaction);
         
         await truncateCommand.ExecuteNonQueryAsync();
         

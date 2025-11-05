@@ -5,6 +5,12 @@ using TramTimes.Database.Jobs.Services;
 
 var builder = Host.CreateApplicationBuilder(args: args);
 
+#region get context
+
+var context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
+
+#endregion
+
 #region inject defaults
 
 builder
@@ -17,13 +23,13 @@ builder
 
 builder.AddNpgsqlDataSource(connectionName: "database");
 
-if (builder.Environment.IsDevelopment())
+if (context is not "Production")
     builder.AddAzureBlobServiceClient(connectionName: "storage-blobs");
 
-if (builder.Environment.IsDevelopment())
+if (context is not "Production")
     builder.AddAzureQueueServiceClient(connectionName: "storage-queues");
 
-if (builder.Environment.IsDevelopment())
+if (context is not "Production")
     builder.AddAzureTableServiceClient(connectionName: "storage-tables");
 
 #endregion
@@ -32,28 +38,28 @@ if (builder.Environment.IsDevelopment())
 
 builder.Services.AddHostedService<DatabaseService>();
 
-if (builder.Environment.IsDevelopment())
+if (context is not "Production")
     builder.Services.AddSingleton(implementationFactory: provider => provider
         .GetRequiredService<BlobServiceClient>()
         .GetBlobContainerClient(blobContainerName: "uploads"));
 
-if (builder.Environment.IsDevelopment())
+if (context is not "Production")
     builder.Services.AddSingleton(implementationFactory: provider => provider
         .GetRequiredService<QueueServiceClient>()
         .GetQueueClient(queueName: "jobs"));
 
-if (builder.Environment.IsDevelopment())
+if (context is not "Production")
     builder.Services.AddSingleton(implementationFactory: provider => provider
         .GetRequiredService<TableServiceClient>()
         .GetTableClient(tableName: "Logs"));
 
-if (builder.Environment.IsDevelopment())
+if (context is not "Production")
     builder.Services.AddHostedService<BlobService>();
 
-if (builder.Environment.IsDevelopment())
+if (context is not "Production")
     builder.Services.AddHostedService<QueueService>();
 
-if (builder.Environment.IsDevelopment())
+if (context is not "Production")
     builder.Services.AddHostedService<TableService>();
 
 #endregion

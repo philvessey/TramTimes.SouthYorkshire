@@ -6,7 +6,7 @@ namespace TramTimes.Aspire.Host.Builders;
 
 public static class SearchBuilder
 {
-    private static readonly string Testing = Environment.GetEnvironmentVariable(variable: "ASPIRE_TESTING") ?? string.Empty;
+    private static readonly string Context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
     
     public static SearchResources BuildSearch(
         this IDistributedApplicationBuilder builder,
@@ -41,6 +41,9 @@ public static class SearchBuilder
             search.Builder = builder
                 .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder")
                 .WaitFor(dependency: search.Service ?? throw new InvalidOperationException(message: "Search service is not available."))
+                .WithEnvironment(
+                    name: "ASPIRE_CONTEXT",
+                    value: Context)
                 .WithParentRelationship(parent: search.Service)
                 .WithReference(source: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
                 .WithReference(source: search.Service);
@@ -49,6 +52,9 @@ public static class SearchBuilder
             search.Builder = builder
                 .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder")
                 .WaitFor(dependency: search.Connection ?? throw new InvalidOperationException(message: "Search connection is not available."))
+                .WithEnvironment(
+                    name: "ASPIRE_CONTEXT",
+                    value: "Production")
                 .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WithReference(source: search.Connection)
                 .PublishAsAzureContainerApp(configure: (infrastructure, app) =>

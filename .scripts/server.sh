@@ -77,5 +77,5 @@ chmod +x /etc/letsencrypt/renewal-hooks/deploy/run.sh
 echo ""
 echo "✅ Setup complete. Use command: sudo docker compose up -d"
 echo "✅ Setup complete. Use command: sudo docker exec -it server psql -U postgres -d postgres"
-echo "✅ Setup complete. Use connection: Host=server.tramtimes.net;Port=5433;SslMode=Require;Username=postgres;Password=$PASSWORD;Database=southyorkshire"
+echo "✅ Setup complete. Use connection: Host=server.tramtimes.net;Port=5433;Database=southyorkshire;Username=postgres;Password=$PASSWORD;SslMode=Require;Tcp Keepalive=true;Keepalive=30;Connection Idle Lifetime=30;Connection Lifetime=300"
 echo ""

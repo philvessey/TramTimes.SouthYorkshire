@@ -9,7 +9,8 @@ public static class DatabaseTripBuilder
 {
     public static async Task<ulong> BuildAsync(
         Dictionary<string, TravelineSchedule> schedules,
-        NpgsqlConnection connection) {
+        NpgsqlConnection connection,
+        NpgsqlTransaction transaction) {
         
         #region build trips
         
@@ -31,7 +32,8 @@ public static class DatabaseTripBuilder
                      "shape_id character varying(255), " +
                      "wheelchair_accessible character varying(255), " +
                      "bikes_allowed character varying(255))",
-            connection: connection);
+            connection: connection,
+            transaction: transaction);
         
         await createCommand.ExecuteNonQueryAsync();
         
@@ -41,7 +43,8 @@ public static class DatabaseTripBuilder
         
         await using var truncateCommand = new NpgsqlCommand(
             cmdText: "truncate table gtfs_trips",
-            connection: connection);
+            connection: connection,
+            transaction: transaction);
         
         await truncateCommand.ExecuteNonQueryAsync();
         

@@ -29,9 +29,17 @@ public class Production(
         
         try
         {
-            #region get nager holidays
+            #region get public holidays
             
             var holidays = await Holidays.GetJsonAsync<List<Holiday>>() ?? [];
+            
+            #endregion
+            
+            #region output log messages
+            
+            logger.LogInformation(
+                message: "READ: {count} public holidays",
+                args: holidays.Count);
             
             #endregion
             
@@ -48,6 +56,14 @@ public class Production(
             
             #endregion
             
+            #region output log messages
+            
+            logger.LogInformation(
+                message: "READ: {count} naptan localities",
+                args: localities.Count);
+            
+            #endregion
+            
             #region get naptan stops
             
             localPath = await Stops.DownloadFileAsync(
@@ -58,6 +74,14 @@ public class Production(
                 return;
             
             var stops = NaptanStopTools.GetFromFile(path: localPath);
+            
+            #endregion
+            
+            #region output log messages
+            
+            logger.LogInformation(
+                message: "READ: {count} naptan stops",
+                args: stops.Count);
             
             #endregion
             
@@ -107,6 +131,22 @@ public class Production(
                 if (!contents.Contains(value: "ZZSY"))
                     invalidFiles.Add(item: item);
             }
+            
+            #endregion
+            
+            #region output log messages
+            
+            logger.LogInformation(
+                message: "READ: {count} transxchange files",
+                args: rawFiles.Length);
+            
+            logger.LogInformation(
+                message: "READ: {count} transxchange files valid",
+                args: validFiles.Count);
+            
+            logger.LogInformation(
+                message: "READ: {count} transxchange files invalid",
+                args: invalidFiles.Count);
             
             #endregion
             
@@ -219,43 +259,60 @@ public class Production(
             
             #endregion
             
+            #region output log messages
+            
+            logger.LogInformation(
+                message: "READ: {count} transxchange schedules",
+                args: results.Count);
+            
+            #endregion
+            
             #region build database data
             
             await using var connection = await dataSource.OpenConnectionAsync();
+            await using var transaction = await connection.BeginTransactionAsync();
             
             await using var dropCommand = new NpgsqlCommand(
                 cmdText: "drop index if exists gtfs_stop_times_idx",
-                connection: connection);
+                connection: connection,
+                transaction: transaction);
             
             await dropCommand.ExecuteNonQueryAsync();
             
             var records = await DatabaseAgencyBuilder.BuildAsync(
                 schedules: results,
-                connection: connection);
+                connection: connection,
+                transaction: transaction);
             
             records += await DatabaseCalendarBuilder.BuildAsync(
                 schedules: results,
-                connection: connection);
+                connection: connection,
+                transaction: transaction);
             
             records += await DatabaseCalendarDateBuilder.BuildAsync(
                 schedules: results,
-                connection: connection);
+                connection: connection,
+                transaction: transaction);
             
             records += await DatabaseRouteBuilder.BuildAsync(
                 schedules: results,
-                connection: connection);
+                connection: connection,
+                transaction: transaction);
             
             records += await DatabaseStopBuilder.BuildAsync(
                 schedules: results,
-                connection: connection);
+                connection: connection,
+                transaction: transaction);
             
             records += await DatabaseStopTimeBuilder.BuildAsync(
                 schedules: results,
-                connection: connection);
+                connection: connection,
+                transaction: transaction);
             
             records += await DatabaseTripBuilder.BuildAsync(
                 schedules: results,
-                connection: connection);
+                connection: connection,
+                transaction: transaction);
             
             await using var createCommand = new NpgsqlCommand(
                 cmdText: "create index gtfs_stop_times_idx on gtfs_stop_times (" +
@@ -269,37 +326,15 @@ public class Production(
                          "drop_off_type, " +
                          "shape_dist_travelled, " +
                          "timepoint)",
-                connection: connection);
+                connection: connection,
+                transaction: transaction);
             
             await createCommand.ExecuteNonQueryAsync();
+            await transaction.CommitAsync();
             
             #endregion
             
             #region output log messages
-            
-            logger.LogInformation(
-                message: "READ: {count} naptan localities",
-                args: localities.Count);
-            
-            logger.LogInformation(
-                message: "READ: {count} naptan stops",
-                args: stops.Count);
-            
-            logger.LogInformation(
-                message: "READ: {count} transxchange files",
-                args: rawFiles.Length);
-            
-            logger.LogWarning(
-                message: "READ: {count} transxchange files invalid",
-                args: invalidFiles.Count);
-            
-            logger.LogInformation(
-                message: "READ: {count} transxchange files valid",
-                args: validFiles.Count);
-            
-            logger.LogInformation(
-                message: "READ: {count} transxchange schedules",
-                args: results.Count);
             
             logger.LogInformation(
                 message: "WRITE: {count} database records",

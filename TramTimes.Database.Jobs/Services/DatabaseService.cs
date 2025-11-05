@@ -41,14 +41,19 @@ public class DatabaseService : IHostedService
         await _result.ExecuteAsync(action: async () =>
         {
             await using var connection = await _service.OpenConnectionAsync(cancellationToken: cancellationToken);
+            await using var transaction = await connection.BeginTransactionAsync(cancellationToken: cancellationToken);
             
             await using var command = new NpgsqlCommand(
                 cmdText: await File.ReadAllTextAsync(
-                    path: "Scripts/function.sql",
+                    path: Path.Combine(
+                        path1: "Scripts",
+                        path2: "function.sql"),
                     cancellationToken: cancellationToken),
-                connection: connection);
+                connection: connection,
+                transaction: transaction);
             
             await command.ExecuteNonQueryAsync(cancellationToken: cancellationToken);
+            await transaction.CommitAsync(cancellationToken: cancellationToken);
             
             _logger.LogInformation(
                 message: "Database service health status: {status}",

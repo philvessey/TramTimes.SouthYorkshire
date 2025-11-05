@@ -3,7 +3,7 @@
     <RunConfiguration>
         <EnvironmentVariables>
             <DEBUG>pw:api</DEBUG>
-            <ASPIRE_TESTING>true</ASPIRE_TESTING>
+            <ASPIRE_CONTEXT>Testing</ASPIRE_CONTEXT>
         </EnvironmentVariables>
     </RunConfiguration>
     

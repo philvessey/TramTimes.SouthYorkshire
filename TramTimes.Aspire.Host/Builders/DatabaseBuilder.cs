@@ -7,7 +7,7 @@ namespace TramTimes.Aspire.Host.Builders;
 
 public static class DatabaseBuilder
 {
-    private static readonly string Testing = Environment.GetEnvironmentVariable(variable: "ASPIRE_TESTING") ?? string.Empty;
+    private static readonly string Context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
     
     public static DatabaseResources BuildDatabase(
         this IDistributedApplicationBuilder builder,
@@ -97,6 +97,9 @@ public static class DatabaseBuilder
                 .WaitFor(dependency: database.Parameters.Username ?? throw new InvalidOperationException(message: "Username parameter is not available."))
                 .WaitFor(dependency: database.Parameters.Userpass ?? throw new InvalidOperationException(message: "Password parameter is not available."))
                 .WithEnvironment(
+                    name: "ASPIRE_CONTEXT",
+                    value: Context)
+                .WithEnvironment(
                     name: "FTP_HOSTNAME",
                     parameter: database.Parameters.Hostname)
                 .WithEnvironment(
@@ -119,6 +122,9 @@ public static class DatabaseBuilder
                 .WaitFor(dependency: database.Parameters.Username ?? throw new InvalidOperationException(message: "Username parameter is not available."))
                 .WaitFor(dependency: database.Parameters.Userpass ?? throw new InvalidOperationException(message: "Password parameter is not available."))
                 .WithEnvironment(
+                    name: "ASPIRE_CONTEXT",
+                    value: "Production")
+                .WithEnvironment(
                     name: "FTP_HOSTNAME",
                     parameter: database.Parameters.Hostname)
                 .WithEnvironment(
@@ -136,9 +142,9 @@ public static class DatabaseBuilder
         
         #endregion
         
-        #region check testing
+        #region check context
         
-        if (!string.IsNullOrEmpty(value: Testing))
+        if (Context is "Testing")
             return database;
         
         #endregion

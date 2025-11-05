@@ -6,7 +6,7 @@ namespace TramTimes.Aspire.Host.Builders;
 
 public static class CacheBuilder
 {
-    private static readonly string Testing = Environment.GetEnvironmentVariable(variable: "ASPIRE_TESTING") ?? string.Empty;
+    private static readonly string Context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
     
     public static CacheResources BuildCache(
         this IDistributedApplicationBuilder builder,
@@ -38,6 +38,9 @@ public static class CacheBuilder
             cache.Builder = builder
                 .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder")
                 .WaitFor(dependency: cache.Service ?? throw new InvalidOperationException(message: "Cache service is not available."))
+                .WithEnvironment(
+                    name: "ASPIRE_CONTEXT",
+                    value: Context)
                 .WithParentRelationship(parent: cache.Service)
                 .WithReference(source: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
                 .WithReference(source: cache.Service);
@@ -46,6 +49,9 @@ public static class CacheBuilder
             cache.Builder = builder
                 .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder")
                 .WaitFor(dependency: cache.Connection ?? throw new InvalidOperationException(message: "Cache connection is not available."))
+                .WithEnvironment(
+                    name: "ASPIRE_CONTEXT",
+                    value: "Production")
                 .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WithReference(source: cache.Connection)
                 .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
@@ -56,9 +62,9 @@ public static class CacheBuilder
         
         #endregion
         
-        #region check testing
+        #region check context
         
-        if (!string.IsNullOrEmpty(value: Testing))
+        if (Context is "Testing")
             return cache;
         
         #endregion

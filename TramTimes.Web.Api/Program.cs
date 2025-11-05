@@ -7,6 +7,12 @@ using TramTimes.Web.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args: args);
 
+#region get context
+
+var context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
+
+#endregion
+
 #region inject defaults
 
 builder
@@ -21,30 +27,30 @@ builder.AddNpgsqlDataSource(connectionName: "database");
 builder.AddRedisClient(connectionName: "cache");
 builder.AddElasticsearchClient(connectionName: "search");
 
-if (builder.Environment.IsDevelopment())
+if (context is not "Production")
     builder.AddAzureBlobServiceClient(connectionName: "storage-blobs");
 
-if (builder.Environment.IsDevelopment())
+if (context is not "Production")
     builder.AddAzureQueueServiceClient(connectionName: "storage-queues");
 
-if (builder.Environment.IsDevelopment())
+if (context is not "Production")
     builder.AddAzureTableServiceClient(connectionName: "storage-tables");
 
 #endregion
 
 #region configure services
 
-if (builder.Environment.IsDevelopment())
+if (context is not "Production")
     builder.Services.AddSingleton(implementationFactory: provider => provider
         .GetRequiredService<BlobServiceClient>()
         .GetBlobContainerClient(blobContainerName: "uploads"));
 
-if (builder.Environment.IsDevelopment())
+if (context is not "Production")
     builder.Services.AddSingleton(implementationFactory: provider => provider
         .GetRequiredService<QueueServiceClient>()
         .GetQueueClient(queueName: "jobs"));
 
-if (builder.Environment.IsDevelopment())
+if (context is not "Production")
     builder.Services.AddSingleton(implementationFactory: provider => provider
         .GetRequiredService<TableServiceClient>()
         .GetTableClient(tableName: "Logs"));
@@ -73,14 +79,14 @@ builder.Services
 var application = builder.Build();
 application.UseExceptionHandler();
 
-if (application.Environment.IsDevelopment())
+if (context is not "Production")
     application
         .UseSwagger()
         .UseSwaggerUI();
 
 application.MapHealthChecks(pattern: "/healthz");
 
-if (application.Environment.IsDevelopment())
+if (context is not "Production")
     application.MapOpenApi();
 
 application.MapDefaultEndpoints();
@@ -88,7 +94,7 @@ application.MapDatabaseEndpoints();
 application.MapCacheEndpoints();
 application.MapSearchEndpoints();
 
-if (application.Environment.IsDevelopment())
+if (context is not "Production")
     application.MapWebEndpoints();
 
 #endregion

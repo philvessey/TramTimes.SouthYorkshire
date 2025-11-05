@@ -9,7 +9,8 @@ public static class DatabaseRouteBuilder
 {
     public static async Task<ulong> BuildAsync(
         Dictionary<string, TravelineSchedule> schedules,
-        NpgsqlConnection connection) {
+        NpgsqlConnection connection,
+        NpgsqlTransaction transaction) {
         
         #region build routes
         
@@ -31,7 +32,8 @@ public static class DatabaseRouteBuilder
                      "route_color character varying(255), " +
                      "route_text_color character varying(255), " +
                      "route_sort_order smallint)",
-            connection: connection);
+            connection: connection,
+            transaction: transaction);
         
         await createCommand.ExecuteNonQueryAsync();
         
@@ -41,7 +43,8 @@ public static class DatabaseRouteBuilder
         
         await using var truncateCommand = new NpgsqlCommand(
             cmdText: "truncate table gtfs_routes",
-            connection: connection);
+            connection: connection,
+            transaction: transaction);
         
         await truncateCommand.ExecuteNonQueryAsync();
         

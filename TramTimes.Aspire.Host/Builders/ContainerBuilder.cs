@@ -6,7 +6,7 @@ namespace TramTimes.Aspire.Host.Builders;
 
 public static class ContainerBuilder
 {
-    private static readonly string Testing = Environment.GetEnvironmentVariable(variable: "ASPIRE_TESTING") ?? string.Empty;
+    private static readonly string Context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
     
     public static ContainerResources BuildContainer(this IDistributedApplicationBuilder builder)
     {

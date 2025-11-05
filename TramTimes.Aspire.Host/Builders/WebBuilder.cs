@@ -6,7 +6,7 @@ namespace TramTimes.Aspire.Host.Builders;
 
 public static class WebBuilder
 {
-    private static readonly string Testing = Environment.GetEnvironmentVariable(variable: "ASPIRE_TESTING") ?? string.Empty;
+    private static readonly string Context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
     
     public static void BuildWeb(
         this IDistributedApplicationBuilder builder,
@@ -28,6 +28,9 @@ public static class WebBuilder
                 .AddProject<Projects.TramTimes_Web_Api>(name: "web-api")
                 .WaitFor(dependency: cache.Builder ?? throw new InvalidOperationException(message: "Cache builder is not available."))
                 .WaitFor(dependency: search.Builder ?? throw new InvalidOperationException(message: "Search builder is not available."))
+                .WithEnvironment(
+                    name: "ASPIRE_CONTEXT",
+                    value: Context)
                 .WithExternalHttpEndpoints()
                 .WithHttpCommand(
                     displayName: "Build cache",
@@ -76,6 +79,9 @@ public static class WebBuilder
                 .AddProject<Projects.TramTimes_Web_Api>(name: "web-api")
                 .WaitFor(dependency: cache.Builder ?? throw new InvalidOperationException(message: "Cache builder is not available."))
                 .WaitFor(dependency: search.Builder ?? throw new InvalidOperationException(message: "Search builder is not available."))
+                .WithEnvironment(
+                    name: "ASPIRE_CONTEXT",
+                    value: "Production")
                 .WithExternalHttpEndpoints()
                 .WithHttpHealthCheck(path: "/healthz")
                 .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
@@ -100,6 +106,9 @@ public static class WebBuilder
                     endpointReference: web.Backend.GetEndpoint(name: "https").Exists
                         ? web.Backend.GetEndpoint(name: "https")
                         : web.Backend.GetEndpoint(name: "http"))
+                .WithEnvironment(
+                    name: "ASPIRE_CONTEXT",
+                    value: Context)
                 .WithExternalHttpEndpoints()
                 .WithUrlForEndpoint(
                     callback: annotation => annotation.DisplayText = "Primary",
@@ -117,6 +126,9 @@ public static class WebBuilder
                     endpointReference: web.Backend.GetEndpoint(name: "https").Exists
                         ? web.Backend.GetEndpoint(name: "https")
                         : web.Backend.GetEndpoint(name: "http"))
+                .WithEnvironment(
+                    name: "ASPIRE_CONTEXT",
+                    value: "Production")
                 .WithExternalHttpEndpoints()
                 .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
                 {
