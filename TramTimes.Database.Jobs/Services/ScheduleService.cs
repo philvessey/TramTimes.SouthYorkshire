@@ -13,6 +13,12 @@ public static class ScheduleService
     {
         builder.Services.AddQuartz(configure: quartz =>
         {
+            #region build pool
+            
+            quartz.UseDefaultThreadPool(maxConcurrency: 5);
+            
+            #endregion
+            
             #region build database
             
             switch (Context)
@@ -30,7 +36,7 @@ public static class ScheduleService
                         {
                             trigger.ForJob(jobKey: production);
                             trigger.WithIdentity(name: "production-trigger-maintenance");
-                            trigger.WithCronSchedule(cronExpression: "0 15 3 ? * *");
+                            trigger.WithCronSchedule(cronExpression: "0 0 3 ? * *");
                         })
                         .AddTrigger(configure: trigger =>
                         {

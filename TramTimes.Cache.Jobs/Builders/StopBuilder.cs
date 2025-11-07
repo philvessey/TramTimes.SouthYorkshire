@@ -1,6 +1,6 @@
 namespace TramTimes.Cache.Jobs.Builders;
 
-public static class LocalStopBuilder
+public static class StopBuilder
 {
     public static string[] Build(string path)
     {

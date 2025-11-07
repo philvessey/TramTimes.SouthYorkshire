@@ -20,4 +20,10 @@
         <ProjectReference Include="..\TramTimes.Web.Utilities\TramTimes.Web.Utilities.csproj" />
     </ItemGroup>
     
+    <ItemGroup>
+        <None Include="Data\stops.txt">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+    
 </Project>

@@ -13,6 +13,12 @@ public static class ScheduleService
     {
         builder.Services.AddQuartz(configure: quartz =>
         {
+            #region build pool
+            
+            quartz.UseDefaultThreadPool(maxConcurrency: 5);
+            
+            #endregion
+            
             #region build index
             
             if (Context is "Production")
@@ -28,7 +34,7 @@ public static class ScheduleService
                     {
                         trigger.ForJob(jobKey: clean);
                         trigger.WithIdentity(name: "clean-trigger");
-                        trigger.WithCronSchedule(cronExpression: "0 15 3 ? * *");
+                        trigger.WithCronSchedule(cronExpression: "0 0 3 ? * *");
                     });
             }
             
@@ -36,7 +42,7 @@ public static class ScheduleService
             
             #region build stops
             
-            var stops = LocalStopBuilder.Build(path: Path.Combine(
+            var stops = StopBuilder.Build(path: Path.Combine(
                 path1: "Data",
                 path2: "stops.txt"));
             
@@ -66,28 +72,28 @@ public static class ScheduleService
                         trigger.ForJob(jobKey: jobKey);
                         trigger.WithIdentity(name: $"{item}-trigger-peak");
                         trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
-                        trigger.WithCronSchedule(cronExpression: "0 0/2 6-9,16-19 ? * 1-5");
+                        trigger.WithCronSchedule(cronExpression: "0 5/10 6-9,16-19 ? * 1-5");
                     })
                     .AddTrigger(configure: trigger =>
                     {
                         trigger.ForJob(jobKey: jobKey);
                         trigger.WithIdentity(name: $"{item}-trigger-offpeak");
                         trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
-                        trigger.WithCronSchedule(cronExpression: "0 0/5 10-15,20-23 ? * 1-5");
+                        trigger.WithCronSchedule(cronExpression: "0 10/20 10-15,20-23 ? * 1-5");
                     })
                     .AddTrigger(configure: trigger =>
                     {
                         trigger.ForJob(jobKey: jobKey);
                         trigger.WithIdentity(name: $"{item}-trigger-weekend");
                         trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
-                        trigger.WithCronSchedule(cronExpression: "0 0/10 6-23 ? * 6-7");
+                        trigger.WithCronSchedule(cronExpression: "0 15/30 6-23 ? * 6-7");
                     })
                     .AddTrigger(configure: trigger =>
                     {
                         trigger.ForJob(jobKey: jobKey);
                         trigger.WithIdentity(name: $"{item}-trigger-night");
                         trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
-                        trigger.WithCronSchedule(cronExpression: "0 0/15 0-2,4-5 ? * *");
+                        trigger.WithCronSchedule(cronExpression: "0 30/60 0-2,4-5 ? * *");
                     });
             }
             

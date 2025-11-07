@@ -1,6 +1,6 @@
-namespace TramTimes.Search.Jobs.Builders;
+namespace TramTimes.Web.Api.Builders;
 
-public static class LocalStopBuilder
+public static class StopBuilder
 {
     public static string[] Build(string path)
     {
