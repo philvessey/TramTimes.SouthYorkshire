@@ -37,17 +37,8 @@ public class _9400ZZSYHLP2(
             
             #region check cache feed
             
-            if (mappedResults.FirstOrDefault()?.DepartureDateTime >= DateTime.Now)
+            if (mappedResults.LastOrDefault()?.DepartureDateTime > DateTime.Now.AddHours(value: 4))
                 return;
-            
-            #endregion
-            
-            #region delete cache feed
-            
-            if (mappedResults.LastOrDefault()?.DepartureDateTime < DateTime.Now)
-                await cacheService
-                    .GetDatabase()
-                    .KeyDeleteAsync(key: "southyorkshire:stop:9400ZZSYHLP2");
             
             #endregion
             
@@ -57,8 +48,11 @@ public class _9400ZZSYHLP2(
             
             var databaseResults = await databaseFeed.GetServicesByStopAsync(
                 id: "9400ZZSYHLP2",
+                target: DateTime.Now,
+                offset: TimeSpan.FromMinutes(value: -60),
                 comparison: ComparisonType.Exact,
-                tolerance: TimeSpan.FromMinutes(value: 179));
+                tolerance: TimeSpan.FromHours(value: 12),
+                results: 250);
             
             #endregion
             
@@ -69,7 +63,7 @@ public class _9400ZZSYHLP2(
                 .StringSetAsync(
                     key: "southyorkshire:stop:9400ZZSYHLP2",
                     value: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults)),
-                    expiry: TimeSpan.FromMinutes(value: 179));
+                    expiry: TimeSpan.FromHours(value: 12));
             
             #endregion
             
@@ -87,15 +81,18 @@ public class _9400ZZSYHLP2(
             {
                 databaseResults = await databaseFeed.GetServicesByTripAsync(
                     id: item,
+                    target: DateTime.Now,
+                    offset: TimeSpan.FromMinutes(value: -60),
                     comparison: ComparisonType.Exact,
-                    tolerance: TimeSpan.FromMinutes(value: 359));
+                    tolerance: TimeSpan.FromHours(value: 12),
+                    results: 250);
                 
                 await cacheService
                     .GetDatabase()
                     .StringSetAsync(
                         key: $"southyorkshire:trip:{item}",
                         value: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults)),
-                        expiry: TimeSpan.FromMinutes(value: 359));
+                        expiry: TimeSpan.FromHours(value: 12));
             }
             
             #endregion

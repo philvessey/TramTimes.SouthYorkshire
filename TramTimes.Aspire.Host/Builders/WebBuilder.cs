@@ -89,7 +89,7 @@ public static class WebBuilder
                 .WithReference(source: search.Connection ?? throw new InvalidOperationException(message: "Search connection is not available."))
                 .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
                 {
-                    app.Template.Scale.MinReplicas = 1;
+                    app.Template.Scale.MinReplicas = 0;
                     app.Template.Scale.MaxReplicas = 5;
                 });
         
@@ -132,7 +132,7 @@ public static class WebBuilder
                 .WithExternalHttpEndpoints()
                 .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
                 {
-                    app.Template.Scale.MinReplicas = 1;
+                    app.Template.Scale.MinReplicas = 0;
                     app.Template.Scale.MaxReplicas = 5;
                 });
         

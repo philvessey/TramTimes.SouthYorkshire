@@ -36,19 +36,8 @@ public class _9400ZZSYWBN2(
             
             #region check search feed
             
-            if (mappedResults.FirstOrDefault()?.DepartureDateTime >= DateTime.Now)
+            if (mappedResults.LastOrDefault()?.DepartureDateTime > DateTime.Now.AddHours(value: 4))
                 return;
-            
-            #endregion
-            
-            #region delete search feed
-            
-            if (mappedResults.LastOrDefault()?.DepartureDateTime < DateTime.Now)
-                await searchService.DeleteAsync(request: new DeleteRequest
-                {
-                    Id = "9400ZZSYWBN2",
-                    Index = "southyorkshire"
-                });
             
             #endregion
             
@@ -62,8 +51,11 @@ public class _9400ZZSYWBN2(
             
             var serviceResults = await databaseFeed.GetServicesByStopAsync(
                 id: "9400ZZSYWBN2",
+                target: DateTime.Now,
+                offset: TimeSpan.FromMinutes(value: -60),
                 comparison: ComparisonType.Exact,
-                tolerance: TimeSpan.FromMinutes(value: 179));
+                tolerance: TimeSpan.FromHours(value: 12),
+                results: 250);
             
             var databaseResults = mapper.Map<List<SearchStop>>(source: stopResults).FirstOrDefault() ?? new SearchStop();
             databaseResults.Points = mapper.Map<List<SearchStopPoint>>(source: serviceResults) ?? [];

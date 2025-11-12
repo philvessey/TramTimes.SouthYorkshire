@@ -26,8 +26,10 @@ public static class IndexBuilder
         
         var serviceResults = await databaseFeed.GetServicesByStopAsync(
             id: id,
+            target: DateTime.Now,
+            offset: TimeSpan.FromMinutes(minutes: -60),
             comparison: ComparisonType.Exact,
-            tolerance: TimeSpan.FromMinutes(value: 179));
+            tolerance: TimeSpan.FromHours(value: 4));
         
         var databaseResults = mapperService.Map<List<SearchStop>>(source: stopResults).FirstOrDefault() ?? new SearchStop();
         databaseResults.Points = mapperService.Map<List<SearchStopPoint>>(source: serviceResults) ?? [];

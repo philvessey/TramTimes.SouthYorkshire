@@ -57,25 +57,16 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
         
         if (firstRender)
         {
-            try
-            {
-                Manager = await JavascriptService.InvokeAsync<IJSObjectReference>(
-                    identifier: "import",
-                    args: "./Components/Shared/LocalStorageConsent.razor.js");
-                
-                var consent = await Manager.InvokeAsync<string>(
-                    identifier: "getCookie",
-                    args: ".AspNet.Consent");
-                
-                if (string.IsNullOrEmpty(value: consent))
-                    ShowPrivacyOutline();
-            }
-            catch (ObjectDisposedException e)
-            {
-                LoggerService.LogInformation(
-                    message: "Exception: {exception}",
-                    args: e.ToString());
-            }
+            Manager = await JavascriptService.InvokeAsync<IJSObjectReference>(
+                identifier: "import",
+                args: "./Components/Shared/LocalStorageConsent.razor.js");
+            
+            var consent = await Manager.InvokeAsync<string>(
+                identifier: "getCookie",
+                args: ".AspNet.Consent");
+            
+            if (string.IsNullOrEmpty(value: consent))
+                ShowPrivacyOutline();
         }
         
         #endregion
@@ -128,21 +119,12 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
             oldValue: "false",
             newValue: "true");
         
-        try
-        {
-            if (Manager is not null)
-                await Manager.InvokeVoidAsync(
-                    identifier: "setCookie",
-                    args: [ConsentCookie, DateTime.UtcNow
-                        .AddDays(value: 365)
-                        .ToString(provider: CultureInfo.InvariantCulture)]);
-        }
-        catch (ObjectDisposedException e)
-        {
-            LoggerService.LogInformation(
-                message: "Exception: {exception}",
-                args: e.ToString());
-        }
+        if (Manager is not null)
+            await Manager.InvokeVoidAsync(
+                identifier: "setCookie",
+                args: [ConsentCookie, DateTime.UtcNow
+                    .AddDays(value: 365)
+                    .ToString(provider: CultureInfo.InvariantCulture)]);
         
         #endregion
         
@@ -171,21 +153,12 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
             oldValue: "true",
             newValue: "false");
         
-        try
-        {
-            if (Manager is not null)
-                await Manager.InvokeVoidAsync(
-                    identifier: "setCookie",
-                    args: [ConsentCookie, DateTime.UtcNow
-                        .AddDays(value: 365)
-                        .ToString(provider: CultureInfo.InvariantCulture)]);
-        }
-        catch (ObjectDisposedException e)
-        {
-            LoggerService.LogInformation(
-                message: "Exception: {exception}",
-                args: e.ToString());
-        }
+        if (Manager is not null)
+            await Manager.InvokeVoidAsync(
+                identifier: "setCookie",
+                args: [ConsentCookie, DateTime.UtcNow
+                    .AddDays(value: 365)
+                    .ToString(provider: CultureInfo.InvariantCulture)]);
         
         #endregion
         
@@ -215,17 +188,8 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
         
         #region dispose manager
         
-        try
-        {
-            if (Manager is not null)
-                await Manager.DisposeAsync();
-        }
-        catch (JSDisconnectedException e)
-        {
-            LoggerService.LogInformation(
-                message: "Exception: {exception}",
-                args: e.ToString());
-        }
+        if (Manager is not null)
+            await Manager.DisposeAsync();
         
         #endregion
     }

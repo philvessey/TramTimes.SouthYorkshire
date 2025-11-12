@@ -3,7 +3,7 @@
     <PropertyGroup>
         <AspireVersion>9.5.2</AspireVersion>
         <AspireElasticVersion>9.5.0</AspireElasticVersion>
-        <NextDeparturesVersion>3.8.7</NextDeparturesVersion>
+        <NextDeparturesVersion>3.8.8</NextDeparturesVersion>
     </PropertyGroup>
     
     <PropertyGroup>

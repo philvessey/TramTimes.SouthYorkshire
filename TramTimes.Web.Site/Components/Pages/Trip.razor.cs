@@ -55,18 +55,6 @@ public partial class Trip : ComponentBase, IAsyncDisposable
     {
         await base.OnParametersSetAsync();
         
-        #region clear stop data
-        
-        StopData = new TelerikStop();
-        
-        #endregion
-        
-        #region rebind list view
-        
-        ListManager?.Rebind();
-        
-        #endregion
-        
         #region get storage consent
         
         var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
@@ -93,7 +81,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         {
             Zoom = TelerikMapDefaults.MinZoom;
         }
-        else
+        else if (!Zoom.HasValue)
         {
             Zoom = TelerikMapDefaults.Zoom;
         }
@@ -114,53 +102,30 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #endregion
         
-        #region build query data
+        # region get local storage
         
-        var query = QueryBuilder.GetStopsFromSearch(
-            type: QueryType.StopId,
-            value: StopId ?? "unknown");
+        List<TelerikStop> cache = [];
         
-        var response = await HttpService.GetAsync(requestUri: query);
+        if (consent)
+            cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
         
-        if (!response.IsSuccessStatusCode)
-        {
-            query = QueryBuilder.GetStopsFromDatabase(
-                type: QueryType.StopId,
-                value: StopId ?? "unknown");
-            
-            response = await HttpService.GetAsync(requestUri: query);
-        }
-        
-        #endregion
-        
-        #region build results data
-        
-        List<WebStop> data = [];
-        
-        if (response.IsSuccessStatusCode)
-            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
-        
-        if (!data.IsNullOrEmpty())
-            StopData = MapperService.Map<TelerikStop>(source: data.FirstOrDefault());
+        StopData = cache.FirstOrDefault(predicate: stop => stop.Id == StopId) ?? new TelerikStop();
         
         #endregion
         
         #region navigate to page
         
         if (StopData is { Id: not null, Latitude: not null, Longitude: not null })
-        {
             if (Math.Abs(value: StopData.Latitude.Value - Latitude.GetValueOrDefault()) > 1e-6)
                 NavigationService.NavigateTo(
                     uri: $"/trip/{TripId}/{StopData.Id}/{StopData.Longitude}/{StopData.Latitude}/{Zoom}",
-                    forceLoad: true,
                     replace: true);
-            
+        
+        if (StopData is { Id: not null, Latitude: not null, Longitude: not null })
             if (Math.Abs(value: StopData.Longitude.Value - Longitude.GetValueOrDefault()) > 1e-6)
                 NavigationService.NavigateTo(
                     uri: $"/trip/{TripId}/{StopData.Id}/{StopData.Longitude}/{StopData.Latitude}/{Zoom}",
-                    forceLoad: true,
                     replace: true);
-        }
         
         #endregion
         
@@ -171,34 +136,52 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #endregion
         
+        #region rebind list view
+        
+        ListManager?.Rebind();
+        
+        #endregion
+        
+        #region get local time
+        
+        var currentDateTime = new DateTime(
+            year: DateTime.Now.Year,
+            month: DateTime.Now.Month,
+            day: DateTime.Now.Day,
+            hour: DateTime.Now.Hour,
+            minute: DateTime.Now.Minute,
+            second: 0);
+        
+        var offsetDateTime = currentDateTime
+            .AddHours(value: 1)
+            .AddMinutes(value: 59)
+            .AddSeconds(value: 59);
+        
+        #endregion
+        
         #region get local storage
         
-        List<TelerikStop> cache = [];
-        
-        if (consent)
-            cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
-        
         MapData = [];
-        
-        if (!cache.IsNullOrEmpty())
-            MapData.AddRange(collection: cache);
+        MapData.AddRange(collection: cache);
         
         foreach (var item in MapData)
+        {
             item.Distance = GeoCalculator.GetDistance(
                 originLatitude: item.Latitude ?? 0,
                 originLongitude: item.Longitude ?? 0,
                 destinationLatitude: Center.ElementAt(index: 0),
                 destinationLongitude: Center.ElementAt(index: 1),
                 distanceUnit: DistanceUnit.Meters);
-        
-        foreach (var item in MapData)
+            
             item.Points = item.Points?
-                .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
-                                           point.DepartureDateTime <= DateTime.Now.AddMinutes(value: 119))
+                .Where(predicate: point => point.DepartureDateTime >= currentDateTime)
+                .Where(predicate: point => point.DepartureDateTime <= offsetDateTime)
                 .ToList();
+        }
         
-        if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
-            MapData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
+        MapData.RemoveAll(match: stop => stop.Points?.IsNullOrEmpty() == true);
+        MapData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime < currentDateTime) == true);
+        MapData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime > offsetDateTime) == true);
         
         MapData = MapData
             .OrderBy(keySelector: stop => stop.Distance)
@@ -208,52 +191,45 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #region build query data
         
-        query = QueryBuilder.GetStopsFromSearch(
+        var response = await HttpService.GetAsync(requestUri: QueryBuilder.GetStopsFromSearch(
             type: QueryType.StopPoint,
-            value: Center);
-        
-        response = await HttpService.GetAsync(requestUri: query);
+            value: Center));
         
         if (!response.IsSuccessStatusCode)
-        {
-            query = QueryBuilder.GetStopsFromDatabase(
+            response = await HttpService.GetAsync(requestUri: QueryBuilder.GetStopsFromDatabase(
                 type: QueryType.StopPoint,
-                value: Center);
-            
-            response = await HttpService.GetAsync(requestUri: query);
-        }
+                value: Center));
         
         #endregion
         
         #region build results data
         
-        data = [];
+        List<WebStop> data = [];
         
         if (response.IsSuccessStatusCode)
             data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
         
-        if (MapData.Any(predicate: stop => data.Any(predicate: item => stop.Id == item.Id)))
-            MapData.RemoveAll(match: stop => data.Any(predicate: item => stop.Id == item.Id));
-        
-        if (!data.IsNullOrEmpty())
-            MapData.AddRange(collection: MapperService.Map<List<TelerikStop>>(source: data));
+        MapData.RemoveAll(match: stop => data.Any(predicate: item => stop.Id == item.Id));
+        MapData.AddRange(collection: MapperService.Map<List<TelerikStop>>(source: data));
         
         foreach (var item in MapData)
+        {
             item.Distance = GeoCalculator.GetDistance(
                 originLatitude: item.Latitude ?? 0,
                 originLongitude: item.Longitude ?? 0,
                 destinationLatitude: Center.ElementAt(index: 0),
                 destinationLongitude: Center.ElementAt(index: 1),
                 distanceUnit: DistanceUnit.Meters);
-        
-        foreach (var item in MapData)
+            
             item.Points = item.Points?
-                .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
-                                           point.DepartureDateTime <= DateTime.Now.AddMinutes(value: 119))
+                .Where(predicate: point => point.DepartureDateTime >= currentDateTime)
+                .Where(predicate: point => point.DepartureDateTime <= offsetDateTime)
                 .ToList();
+        }
         
-        if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
-            MapData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
+        MapData.RemoveAll(match: stop => stop.Points?.IsNullOrEmpty() == true);
+        MapData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime < currentDateTime) == true);
+        MapData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime > offsetDateTime) == true);
         
         MapData = MapData
             .OrderBy(keySelector: stop => stop.Distance)
@@ -270,15 +246,14 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         #region save local storage
         
         if (consent)
-        {
             await StorageService.SetItemAsync(
                 key: "location",
                 data: Center);
-            
+        
+        if (consent)
             await StorageService.SetItemAsync(
                 key: "cache",
                 data: MapData.OrderBy(keySelector: stop => stop.Id));
-        }
         
         #endregion
     }
@@ -298,34 +273,25 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         if (firstRender)
         {
-            try
-            {
-                JavascriptManager = await JavascriptService.InvokeAsync<IJSObjectReference>(
-                    identifier: "import",
-                    args: "./Components/Pages/Trip.razor.js");
-                
-                await JavascriptManager.InvokeVoidAsync(
-                    identifier: "registerResize",
-                    args: DotNetObjectReference.Create(value: this));
-                
-                var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
-                var consent = "unknown";
-                
-                if (feature is not null)
-                    consent = feature.CanTrack
-                        ? "accept"
-                        : "reject";
-                
-                await JavascriptManager.InvokeVoidAsync(
-                    identifier: "writeConsole",
-                    args: $"trip: consent {consent}");
-            }
-            catch (ObjectDisposedException e)
-            {
-                LoggerService.LogInformation(
-                    message: "Exception: {exception}",
-                    args: e.ToString());
-            }
+            JavascriptManager = await JavascriptService.InvokeAsync<IJSObjectReference>(
+                identifier: "import",
+                args: "./Components/Pages/Trip.razor.js");
+            
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "registerResize",
+                args: DotNetObjectReference.Create(value: this));
+            
+            var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
+            var consent = "unknown";
+            
+            if (feature is not null)
+                consent = feature.CanTrack
+                    ? "accept"
+                    : "reject";
+            
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"trip: consent {consent}");
         }
         
         #endregion
@@ -333,22 +299,33 @@ public partial class Trip : ComponentBase, IAsyncDisposable
     
     private async Task OnListReadAsync(ListViewReadEventArgs readEventArgs)
     {
+        #region get local time
+        
+        var currentDateTime = new DateTime(
+            year: DateTime.Now.Year,
+            month: DateTime.Now.Month,
+            day: DateTime.Now.Day,
+            hour: DateTime.Now.Hour,
+            minute: DateTime.Now.Minute,
+            second: 0);
+        
+        var offsetDateTime = currentDateTime
+            .AddHours(value: 1)
+            .AddMinutes(value: 59)
+            .AddSeconds(value: 59);
+        
+        #endregion
+        
         #region build query data
         
-        var query = QueryBuilder.GetServicesFromCache(
+        var response = await HttpService.GetAsync(requestUri: QueryBuilder.GetServicesFromCache(
             type: QueryType.TripId,
-            value: TripId);
-        
-        var response = await HttpService.GetAsync(requestUri: query);
+            value: TripId));
         
         if (!response.IsSuccessStatusCode)
-        {
-            query = QueryBuilder.GetServicesFromDatabase(
+            response = await HttpService.GetAsync(requestUri: QueryBuilder.GetServicesFromDatabase(
                 type: QueryType.TripId,
-                value: TripId);
-            
-            response = await HttpService.GetAsync(requestUri: query);
-        }
+                value: TripId));
         
         #endregion
         
@@ -360,12 +337,10 @@ public partial class Trip : ComponentBase, IAsyncDisposable
             data = await response.Content.ReadFromJsonAsync<List<WebStopPoint>>() ?? [];
         
         ListData = [];
+        ListData = MapperService.Map<List<TelerikStopPoint>>(source: data);
         
-        if (!data.IsNullOrEmpty())
-            ListData = MapperService.Map<List<TelerikStopPoint>>(source: data);
-        
-        if (ListData.Any(predicate: point => point.DepartureDateTime < DateTime.Now))
-            ListData.RemoveAll(match: point => point.DepartureDateTime < DateTime.Now);
+        ListData.RemoveAll(match: point => point.DepartureDateTime < currentDateTime);
+        ListData.RemoveAll(match: point => point.DepartureDateTime > offsetDateTime);
         
         readEventArgs.Data = ListData;
         
@@ -380,19 +355,10 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #region output console message
         
-        try
-        {
-            if (JavascriptManager is not null)
-                await JavascriptManager.InvokeVoidAsync(
-                    identifier: "writeConsole",
-                    args: $"trip: list read {TripId}");
-        }
-        catch (ObjectDisposedException e)
-        {
-            LoggerService.LogInformation(
-                message: "Exception: {exception}",
-                args: e.ToString());
-        }
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"trip: list read {TripId}");
         
         #endregion
     }
@@ -417,19 +383,10 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #region output console message
         
-        try
-        {
-            if (JavascriptManager is not null)
-                await JavascriptManager.InvokeVoidAsync(
-                    identifier: "writeConsole",
-                    args: $"trip: list change {tripId}/{stopId}");
-        }
-        catch (ObjectDisposedException e)
-        {
-            LoggerService.LogInformation(
-                message: "Exception: {exception}",
-                args: e.ToString());
-        }
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"trip: list change {tripId}/{stopId}");
         
         #endregion
         
@@ -466,19 +423,10 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #region output console message
         
-        try
-        {
-            if (JavascriptManager is not null)
-                await JavascriptManager.InvokeVoidAsync(
-                    identifier: "writeConsole",
-                    args: $"trip: map click {stop.Id}");
-        }
-        catch (ObjectDisposedException e)
-        {
-            LoggerService.LogInformation(
-                message: "Exception: {exception}",
-                args: e.ToString());
-        }
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"trip: map click {stop.Id}");
         
         #endregion
         
@@ -502,130 +450,6 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #endregion
         
-        #region rebind list view
-        
-        ListManager?.Rebind();
-        
-        #endregion
-        
-        #region get storage consent
-        
-        var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
-        var consent = feature?.CanTrack ?? false;
-        
-        #endregion
-        
-        #region get local storage
-        
-        List<TelerikStop> cache = [];
-        
-        if (consent)
-            cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
-        
-        MapData = [];
-        
-        if (!cache.IsNullOrEmpty())
-            MapData.AddRange(collection: cache);
-        
-        foreach (var item in MapData)
-            item.Distance = GeoCalculator.GetDistance(
-                originLatitude: item.Latitude ?? 0,
-                originLongitude: item.Longitude ?? 0,
-                destinationLatitude: Center.ElementAt(index: 0),
-                destinationLongitude: Center.ElementAt(index: 1),
-                distanceUnit: DistanceUnit.Meters);
-        
-        foreach (var item in MapData)
-            item.Points = item.Points?
-                .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
-                                           point.DepartureDateTime <= DateTime.Now.AddMinutes(value: 119))
-                .ToList();
-        
-        if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
-            MapData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
-        
-        MapData = MapData
-            .OrderBy(keySelector: stop => stop.Distance)
-            .ToList();
-        
-        #endregion
-        
-        #region build query data
-        
-        var query = QueryBuilder.GetStopsFromSearch(
-            type: QueryType.StopLocation,
-            value: args.Extent);
-        
-        var response = await HttpService.GetAsync(requestUri: query);
-        
-        if (!response.IsSuccessStatusCode)
-        {
-            query = QueryBuilder.GetStopsFromDatabase(
-                type: QueryType.StopLocation,
-                value: args.Extent);
-            
-            response = await HttpService.GetAsync(requestUri: query);
-        }
-        
-        #endregion
-        
-        #region build results data
-        
-        List<WebStop> data = [];
-        
-        if (response.IsSuccessStatusCode)
-            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
-        
-        if (MapData.Any(predicate: stop => data.Any(predicate: item => stop.Id == item.Id)))
-            MapData.RemoveAll(match: stop => data.Any(predicate: item => stop.Id == item.Id));
-        
-        if (!data.IsNullOrEmpty())
-            MapData.AddRange(collection: MapperService.Map<List<TelerikStop>>(source: data));
-        
-        foreach (var item in MapData)
-            item.Distance = GeoCalculator.GetDistance(
-                originLatitude: item.Latitude ?? 0,
-                originLongitude: item.Longitude ?? 0,
-                destinationLatitude: Center.ElementAt(index: 0),
-                destinationLongitude: Center.ElementAt(index: 1),
-                distanceUnit: DistanceUnit.Meters);
-        
-        foreach (var item in MapData)
-            item.Points = item.Points?
-                .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
-                                           point.DepartureDateTime <= DateTime.Now.AddMinutes(value: 119))
-                .ToList();
-        
-        if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
-            MapData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
-        
-        MapData = MapData
-            .OrderBy(keySelector: stop => stop.Distance)
-            .ToList();
-        
-        #endregion
-        
-        #region clear local storage
-        
-        await StorageService.ClearAsync();
-        
-        #endregion
-        
-        #region save local storage
-        
-        if (consent)
-        {
-            await StorageService.SetItemAsync(
-                key: "location",
-                data: Center);
-            
-            await StorageService.SetItemAsync(
-                key: "cache",
-                data: MapData.OrderBy(keySelector: stop => stop.Id));
-        }
-        
-        #endregion
-        
         # region check component disposed
         
         if (Disposed.HasValue && Disposed.Value)
@@ -635,19 +459,16 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #region output console message
         
-        try
-        {
-            if (JavascriptManager is not null)
-                await JavascriptManager.InvokeVoidAsync(
-                    identifier: "writeConsole",
-                    args: $"trip: map pan {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
-        }
-        catch (ObjectDisposedException e)
-        {
-            LoggerService.LogInformation(
-                message: "Exception: {exception}",
-                args: e.ToString());
-        }
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"trip: map pan {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+        
+        #endregion
+        
+        #region navigate to page
+        
+        NavigationService.NavigateTo(uri: $"/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{Zoom}");
         
         #endregion
     }
@@ -661,130 +482,6 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #endregion
         
-        #region rebind list view
-        
-        ListManager?.Rebind();
-        
-        #endregion
-        
-        #region get storage consent
-        
-        var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
-        var consent = feature?.CanTrack ?? false;
-        
-        #endregion
-        
-        #region get local storage
-        
-        List<TelerikStop> cache = [];
-        
-        if (consent)
-            cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
-        
-        MapData = [];
-        
-        if (!cache.IsNullOrEmpty())
-            MapData.AddRange(collection: cache);
-        
-        foreach (var item in MapData)
-            item.Distance = GeoCalculator.GetDistance(
-                originLatitude: item.Latitude ?? 0,
-                originLongitude: item.Longitude ?? 0,
-                destinationLatitude: Center.ElementAt(index: 0),
-                destinationLongitude: Center.ElementAt(index: 1),
-                distanceUnit: DistanceUnit.Meters);
-        
-        foreach (var item in MapData)
-            item.Points = item.Points?
-                .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
-                                           point.DepartureDateTime <= DateTime.Now.AddMinutes(value: 119))
-                .ToList();
-        
-        if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
-            MapData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
-        
-        MapData = MapData
-            .OrderBy(keySelector: stop => stop.Distance)
-            .ToList();
-        
-        #endregion
-        
-        #region build query data
-        
-        var query = QueryBuilder.GetStopsFromSearch(
-            type: QueryType.StopLocation,
-            value: args.Extent);
-        
-        var response = await HttpService.GetAsync(requestUri: query);
-        
-        if (!response.IsSuccessStatusCode)
-        {
-            query = QueryBuilder.GetStopsFromDatabase(
-                type: QueryType.StopLocation,
-                value: args.Extent);
-            
-            response = await HttpService.GetAsync(requestUri: query);
-        }
-        
-        #endregion
-        
-        #region build results data
-        
-        List<WebStop> data = [];
-        
-        if (response.IsSuccessStatusCode)
-            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
-        
-        if (MapData.Any(predicate: stop => data.Any(predicate: item => stop.Id == item.Id)))
-            MapData.RemoveAll(match: stop => data.Any(predicate: item => stop.Id == item.Id));
-        
-        if (!data.IsNullOrEmpty())
-            MapData.AddRange(collection: MapperService.Map<List<TelerikStop>>(source: data));
-        
-        foreach (var item in MapData)
-            item.Distance = GeoCalculator.GetDistance(
-                originLatitude: item.Latitude ?? 0,
-                originLongitude: item.Longitude ?? 0,
-                destinationLatitude: Center.ElementAt(index: 0),
-                destinationLongitude: Center.ElementAt(index: 1),
-                distanceUnit: DistanceUnit.Meters);
-        
-        foreach (var item in MapData)
-            item.Points = item.Points?
-                .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
-                                           point.DepartureDateTime <= DateTime.Now.AddMinutes(value: 119))
-                .ToList();
-        
-        if (MapData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
-            MapData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
-        
-        MapData = MapData
-            .OrderBy(keySelector: stop => stop.Distance)
-            .ToList();
-        
-        #endregion
-        
-        #region clear local storage
-        
-        await StorageService.ClearAsync();
-        
-        #endregion
-        
-        #region save local storage
-        
-        if (consent)
-        {
-            await StorageService.SetItemAsync(
-                key: "location",
-                data: Center);
-            
-            await StorageService.SetItemAsync(
-                key: "cache",
-                data: MapData.OrderBy(keySelector: stop => stop.Id));
-        }
-        
-        #endregion
-        
         # region check component disposed
         
         if (Disposed.HasValue && Disposed.Value)
@@ -794,19 +491,16 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #region output console message
         
-        try
-        {
-            if (JavascriptManager is not null)
-                await JavascriptManager.InvokeVoidAsync(
-                    identifier: "writeConsole",
-                    args: $"trip: map zoom {Zoom}");
-        }
-        catch (ObjectDisposedException e)
-        {
-            LoggerService.LogInformation(
-                message: "Exception: {exception}",
-                args: e.ToString());
-        }
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"trip: map zoom {Zoom}");
+        
+        #endregion
+        
+        #region navigate to page
+        
+        NavigationService.NavigateTo(uri: $"/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{Zoom}");
         
         #endregion
     }
@@ -829,19 +523,10 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #region output console message
         
-        try
-        {
-            if (JavascriptManager is not null)
-                await JavascriptManager.InvokeVoidAsync(
-                    identifier: "writeConsole",
-                    args: $"trip: screen resized {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
-        }
-        catch (ObjectDisposedException e)
-        {
-            LoggerService.LogInformation(
-                message: "Exception: {exception}",
-                args: e.ToString());
-        }
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"trip: screen resized {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
         
         #endregion
     }
@@ -871,19 +556,10 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #region output console message
         
-        try
-        {
-            if (JavascriptManager is not null)
-                await JavascriptManager.InvokeVoidAsync(
-                    identifier: "writeConsole",
-                    args: $"trip: search change {stop.Id}");
-        }
-        catch (ObjectDisposedException e)
-        {
-            LoggerService.LogInformation(
-                message: "Exception: {exception}",
-                args: e.ToString());
-        }
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"trip: search change {stop.Id}");
         
         #endregion
         
@@ -910,19 +586,10 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #region output console message
         
-        try
-        {
-            if (JavascriptManager is not null)
-                await JavascriptManager.InvokeVoidAsync(
-                    identifier: "writeConsole",
-                    args: "trip: search close");
-        }
-        catch (ObjectDisposedException e)
-        {
-            LoggerService.LogInformation(
-                message: "Exception: {exception}",
-                args: e.ToString());
-        }
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: "trip: search close");
         
         #endregion
     }
@@ -938,19 +605,10 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #region output console message
         
-        try
-        {
-            if (JavascriptManager is not null)
-                await JavascriptManager.InvokeVoidAsync(
-                    identifier: "writeConsole",
-                    args: "trip: search open");
-        }
-        catch (ObjectDisposedException e)
-        {
-            LoggerService.LogInformation(
-                message: "Exception: {exception}",
-                args: e.ToString());
-        }
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: "trip: search open");
         
         #endregion
     }
@@ -975,6 +633,23 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #endregion
         
+        #region get local time
+        
+        var currentDateTime = new DateTime(
+            year: DateTime.Now.Year,
+            month: DateTime.Now.Month,
+            day: DateTime.Now.Day,
+            hour: DateTime.Now.Hour,
+            minute: DateTime.Now.Minute,
+            second: 0);
+        
+        var offsetDateTime = currentDateTime
+            .AddHours(value: 1)
+            .AddMinutes(value: 59)
+            .AddSeconds(value: 59);
+        
+        #endregion
+        
         #region get local storage
         
         List<TelerikStop> cache = [];
@@ -983,18 +658,26 @@ public partial class Trip : ComponentBase, IAsyncDisposable
             cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
         
         SearchData = [];
-        
-        if (!cache.IsNullOrEmpty())
-            SearchData.AddRange(collection: cache);
+        SearchData.AddRange(collection: cache);
         
         foreach (var item in SearchData)
+        {
+            item.Distance = GeoCalculator.GetDistance(
+                originLatitude: item.Latitude ?? 0,
+                originLongitude: item.Longitude ?? 0,
+                destinationLatitude: Center.ElementAt(index: 0),
+                destinationLongitude: Center.ElementAt(index: 1),
+                distanceUnit: DistanceUnit.Meters);
+            
             item.Points = item.Points?
-                .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
-                                           point.DepartureDateTime <= DateTime.Now.AddMinutes(value: 119))
+                .Where(predicate: point => point.DepartureDateTime >= currentDateTime)
+                .Where(predicate: point => point.DepartureDateTime <= offsetDateTime)
                 .ToList();
+        }
         
-        if (SearchData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
-            SearchData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
+        SearchData.RemoveAll(match: stop => stop.Points?.IsNullOrEmpty() == true);
+        SearchData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime < currentDateTime) == true);
+        SearchData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime > offsetDateTime) == true);
         
         readEventArgs.Data = SearchData
             .OrderByDescending(keySelector: stop => stop.Name.ContainsIgnoreCase(value: name))
@@ -1009,20 +692,14 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #region build query data
         
-        var query = QueryBuilder.GetStopsFromSearch(
+        var response = await HttpService.GetAsync(requestUri: QueryBuilder.GetStopsFromSearch(
             type: QueryType.StopName,
-            value: name);
-        
-        var response = await HttpService.GetAsync(requestUri: query);
+            value: name));
         
         if (!response.IsSuccessStatusCode)
-        {
-            query = QueryBuilder.GetStopsFromDatabase(
+            response = await HttpService.GetAsync(requestUri: QueryBuilder.GetStopsFromDatabase(
                 type: QueryType.StopName,
-                value: name);
-            
-            response = await HttpService.GetAsync(requestUri: query);
-        }
+                value: name));
         
         #endregion
         
@@ -1033,20 +710,27 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         if (response.IsSuccessStatusCode)
             data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
         
-        if (SearchData.Any(predicate: stop => data.Any(predicate: item => stop.Id == item.Id)))
-            SearchData.RemoveAll(match: stop => data.Any(predicate: item => stop.Id == item.Id));
-        
-        if (!data.IsNullOrEmpty())
-            SearchData.AddRange(collection: MapperService.Map<List<TelerikStop>>(source: data));
+        SearchData.RemoveAll(match: stop => data.Any(predicate: item => stop.Id == item.Id));
+        SearchData.AddRange(collection: MapperService.Map<List<TelerikStop>>(source: data));
         
         foreach (var item in SearchData)
+        {
+            item.Distance = GeoCalculator.GetDistance(
+                originLatitude: item.Latitude ?? 0,
+                originLongitude: item.Longitude ?? 0,
+                destinationLatitude: Center.ElementAt(index: 0),
+                destinationLongitude: Center.ElementAt(index: 1),
+                distanceUnit: DistanceUnit.Meters);
+            
             item.Points = item.Points?
-                .Where(predicate: point => point.DepartureDateTime >= DateTime.Now &&
-                                           point.DepartureDateTime <= DateTime.Now.AddMinutes(value: 119))
+                .Where(predicate: point => point.DepartureDateTime >= currentDateTime)
+                .Where(predicate: point => point.DepartureDateTime <= offsetDateTime)
                 .ToList();
+        }
         
-        if (SearchData.Any(predicate: stop => stop.Points.IsNullOrEmpty()))
-            SearchData.RemoveAll(match: stop => stop.Points.IsNullOrEmpty());
+        SearchData.RemoveAll(match: stop => stop.Points?.IsNullOrEmpty() == true);
+        SearchData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime < currentDateTime) == true);
+        SearchData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime > offsetDateTime) == true);
         
         readEventArgs.Data = SearchData
             .OrderByDescending(keySelector: stop => stop.Name.ContainsIgnoreCase(value: name))
@@ -1065,15 +749,14 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         #region save local storage
         
         if (consent)
-        {
             await StorageService.SetItemAsync(
                 key: "location",
                 data: Center);
-            
+        
+        if (consent)
             await StorageService.SetItemAsync(
                 key: "cache",
                 data: SearchData.OrderBy(keySelector: stop => stop.Id));
-        }
         
         #endregion
         
@@ -1086,19 +769,10 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #region output console message
         
-        try
-        {
-            if (JavascriptManager is not null)
-                await JavascriptManager.InvokeVoidAsync(
-                    identifier: "writeConsole",
-                    args: $"trip: search read {name}");
-        }
-        catch (ObjectDisposedException e)
-        {
-            LoggerService.LogInformation(
-                message: "Exception: {exception}",
-                args: e.ToString());
-        }
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"trip: search read {name}");
         
         #endregion
     }
@@ -1119,17 +793,8 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #region dispose javascript manager
         
-        try
-        {
-            if (JavascriptManager is not null)
-                await JavascriptManager.DisposeAsync();
-        }
-        catch (JSDisconnectedException e)
-        {
-            LoggerService.LogInformation(
-                message: "Exception: {exception}",
-                args: e.ToString());
-        }
+        if (JavascriptManager is not null)
+            await JavascriptManager.DisposeAsync();
         
         #endregion
     }

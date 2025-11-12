@@ -33,18 +33,9 @@ public partial class SourceCodeRepository : ComponentBase, IAsyncDisposable
         
         if (firstRender)
         {
-            try
-            {
-                Manager = await JavascriptService.InvokeAsync<IJSObjectReference>(
-                    identifier: "import",
-                    args: "./Components/Shared/SourceCodeRepository.razor.js");
-            }
-            catch (ObjectDisposedException e)
-            {
-                LoggerService.LogInformation(
-                    message: "Exception: {exception}",
-                    args: e.ToString());
-            }
+            Manager = await JavascriptService.InvokeAsync<IJSObjectReference>(
+                identifier: "import",
+                args: "./Components/Shared/SourceCodeRepository.razor.js");
         }
         
         #endregion
@@ -61,19 +52,10 @@ public partial class SourceCodeRepository : ComponentBase, IAsyncDisposable
         
         #region navigate to
         
-        try
-        {
-            if (Manager is not null)
-                await Manager.InvokeVoidAsync(
-                    identifier: "navigateTo",
-                    args: Url);
-        }
-        catch (ObjectDisposedException e)
-        {
-            LoggerService.LogInformation(
-                message: "Exception: {exception}",
-                args: e.ToString());
-        }
+        if (Manager is not null)
+            await Manager.InvokeVoidAsync(
+                identifier: "navigateTo",
+                args: Url);
         
         #endregion
     }
@@ -94,17 +76,8 @@ public partial class SourceCodeRepository : ComponentBase, IAsyncDisposable
         
         #region dispose manager
         
-        try
-        {
-            if (Manager is not null)
-                await Manager.DisposeAsync();
-        }
-        catch (JSDisconnectedException e)
-        {
-            LoggerService.LogInformation(
-                message: "Exception: {exception}",
-                args: e.ToString());
-        }
+        if (Manager is not null)
+            await Manager.DisposeAsync();
         
         #endregion
     }
