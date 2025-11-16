@@ -78,10 +78,6 @@ public class MarkerHover(AspireManager aspireManager) : BaseTest(aspireManager: 
                 await Assertions
                     .Expect(locator: child)
                     .ToContainTextAsync(expected: name);
-                
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {
@@ -177,10 +173,6 @@ public class MarkerHover(AspireManager aspireManager) : BaseTest(aspireManager: 
                 await Assertions
                     .Expect(locator: child)
                     .ToContainTextAsync(expected: name);
-                
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {

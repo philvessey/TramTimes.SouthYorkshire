@@ -21,7 +21,6 @@ public partial class Trip : ComponentBase, IAsyncDisposable
     private TelerikStop StopData { get; set; } = new();
     private double[] Center { get; set; } = [];
     private IJSObjectReference? JavascriptManager { get; set; }
-    private TelerikListView<TelerikStopPoint>? ListManager { get; set; }
     private TelerikMap? MapManager { get; set; }
     private bool? Disposed { get; set; }
     private string? Query { get; set; }
@@ -113,19 +112,19 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #endregion
         
-        #region navigate to page
+        #region navigate to trip
         
-        if (StopData is { Id: not null, Latitude: not null, Longitude: not null })
-            if (Math.Abs(value: StopData.Latitude.Value - Latitude.GetValueOrDefault()) > 1e-6)
+        if (NavigationService.Uri.Equals(value: NavigationService.BaseUri + $"trip/{TripId}/{StopId}"))
+        {
+            if (StopData is { Id: not null, Latitude: not null, Longitude: not null })
+            {
                 NavigationService.NavigateTo(
                     uri: $"/trip/{TripId}/{StopData.Id}/{StopData.Longitude}/{StopData.Latitude}/{Zoom}",
                     replace: true);
-        
-        if (StopData is { Id: not null, Latitude: not null, Longitude: not null })
-            if (Math.Abs(value: StopData.Longitude.Value - Longitude.GetValueOrDefault()) > 1e-6)
-                NavigationService.NavigateTo(
-                    uri: $"/trip/{TripId}/{StopData.Id}/{StopData.Longitude}/{StopData.Latitude}/{Zoom}",
-                    replace: true);
+                
+                return;
+            }
+        }
         
         #endregion
         
@@ -133,12 +132,6 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         if (StopData.Name is not null)
             Title = $"TramTimes - South Yorkshire - Trip from {StopData.Name}";
-        
-        #endregion
-        
-        #region rebind list view
-        
-        ListManager?.Rebind();
         
         #endregion
         
@@ -358,19 +351,19 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         if (JavascriptManager is not null)
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"trip: list read {TripId}");
+                args: $"trip: list read {TripId}/{StopData.Id ?? StopId}");
         
         #endregion
     }
     
-    private async Task OnListChange(
-        string? tripId,
-        string? stopId) {
+    private async Task OnListChange(string? stopId) {
         
-        #region get trip data
+        #region get stop data
         
-        if (tripId is null || stopId is null)
-            return;
+        var stop = new TelerikStop();
+        
+        if (MapData.Any(predicate: item => item.Id!.Equals(value: stopId)))
+            stop = MapData.First(predicate: item => item.Id!.Equals(value: stopId));
         
         #endregion
         
@@ -386,18 +379,18 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         if (JavascriptManager is not null)
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"trip: list change {tripId}/{stopId}");
+                args: $"trip: list change {stopId}");
         
         #endregion
         
-        #region navigate to trip
+        #region navigate to stop
         
-        if (NavigationService.Uri.Contains(value: $"/trip/{tripId}/{stopId}"))
+        if (NavigationService.Uri.Contains(value: $"/stop/{stopId}"))
             return;
         
-        NavigationService.NavigateTo(uri: StopData is { Latitude: not null, Longitude: not null }
-            ? $"/trip/{tripId}/{stopId}/{StopData.Longitude}/{StopData.Latitude}/{TelerikMapDefaults.Zoom}"
-            : $"/trip/{tripId}/{stopId}");
+        NavigationService.NavigateTo(uri: stop is { Latitude: not null, Longitude: not null }
+            ? $"/stop/{stopId}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
+            : $"/stop/{stopId}/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{TelerikMapDefaults.Zoom}");
         
         #endregion
     }
@@ -437,7 +430,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
             ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
-            : $"/stop/{stop.Id}");
+            : $"/stop/{stop.Id}/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{TelerikMapDefaults.Zoom}");
         
         #endregion
     }
@@ -466,7 +459,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #endregion
         
-        #region navigate to page
+        #region navigate to home
         
         NavigationService.NavigateTo(uri: $"/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{Zoom}");
         
@@ -498,7 +491,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #endregion
         
-        #region navigate to page
+        #region navigate to home
         
         NavigationService.NavigateTo(uri: $"/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{Zoom}");
         
@@ -526,7 +519,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         if (JavascriptManager is not null)
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"trip: screen resized {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+                args: "trip: screen resized");
         
         #endregion
     }
@@ -570,7 +563,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
             ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
-            : $"/stop/{stopId}");
+            : $"/stop/{stop.Id}/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{TelerikMapDefaults.Zoom}");
         
         #endregion
     }

@@ -1,7 +1,11 @@
 using Microsoft.Playwright;
 using TramTimes.Web.Tests.Cookies;
 using TramTimes.Web.Tests.Managers;
+using TramTimes.Web.Tests.Models;
+using TramTimes.Web.Tests.Services;
+using TramTimes.Web.Utilities.Extensions;
 using Xunit;
+using Xunit.Sdk;
 
 namespace TramTimes.Web.Tests.Pages.Trip.Dark.TelerikMap;
 
@@ -23,8 +27,51 @@ public class MapZoom(AspireManager aspireManager) : BaseTest(aspireManager: aspi
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
-        var values = await QueryTestAsync(id: id);
-        var tripId = values.ElementAtOrDefault(index: 0)?.TripId ?? string.Empty;
+        #region map test
+        
+        var mapper = MapperService.CreateMapper();
+        
+        #endregion
+        
+        #region check test
+        
+        if (DateTime.Now.Second > 30)
+            await Task.Delay(delay: TimeSpan.FromSeconds(value: 60 - DateTime.Now.Second + 1));
+        
+        #endregion
+        
+        #region query test
+        
+        var results = await QueryTestAsync(
+            id: id,
+            type: "stop");
+        
+        if (results.IsNullOrEmpty())
+            throw new XunitException(userMessage: "Invalid data from api query.");
+        
+        #endregion
+        
+        #region build test
+        
+        var points = mapper.Map<List<TelerikStopPoint>>(source: results);
+        
+        if (points.IsNullOrEmpty())
+            throw new XunitException(userMessage: "Invalid data from api query.");
+        
+        var tripId = points
+            .Where(predicate: point => point.DepartureDateTime >= new DateTime(
+                year: DateTime.Now.Year,
+                month: DateTime.Now.Month,
+                day: DateTime.Now.Day,
+                hour: DateTime.Now.Hour,
+                minute: DateTime.Now.Minute,
+                second: 0))
+            .ElementAtOrDefault(index: 0)?.TripId ?? string.Empty;
+        
+        if (string.IsNullOrEmpty(value: tripId))
+            throw new XunitException(userMessage: "Invalid data from api query.");
+        
+        #endregion
         
         await RunTestAsync(cookie: ConsentCookies.True, scheme: ColorScheme.Dark, test: async page =>
         {
@@ -76,11 +123,11 @@ public class MapZoom(AspireManager aspireManager) : BaseTest(aspireManager: aspi
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "trip: consent") ||
-                                           message.Text.Contains(value: "trip: list") ||
-                                           message.Text.Contains(value: "trip: map") ||
-                                           message.Text.Contains(value: "trip: screen") ||
-                                           message.Text.Contains(value: "trip: search")
+                    Predicate = message => message.Text.Contains(value: "home: consent") ||
+                                           message.Text.Contains(value: "home: list") ||
+                                           message.Text.Contains(value: "home: map") ||
+                                           message.Text.Contains(value: "home: screen") ||
+                                           message.Text.Contains(value: "home: search")
                 });
                 
                 parent = page.GetByTestId(testId: "telerik-map");
@@ -156,8 +203,51 @@ public class MapZoom(AspireManager aspireManager) : BaseTest(aspireManager: aspi
         
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
         
-        var values = await QueryTestAsync(id: id);
-        var tripId = values.ElementAtOrDefault(index: 0)?.TripId ?? string.Empty;
+        #region map test
+        
+        var mapper = MapperService.CreateMapper();
+        
+        #endregion
+        
+        #region check test
+        
+        if (DateTime.Now.Second > 30)
+            await Task.Delay(delay: TimeSpan.FromSeconds(value: 60 - DateTime.Now.Second + 1));
+        
+        #endregion
+        
+        #region query test
+        
+        var results = await QueryTestAsync(
+            id: id,
+            type: "stop");
+        
+        if (results.IsNullOrEmpty())
+            throw new XunitException(userMessage: "Invalid data from api query.");
+        
+        #endregion
+        
+        #region build test
+        
+        var points = mapper.Map<List<TelerikStopPoint>>(source: results);
+        
+        if (points.IsNullOrEmpty())
+            throw new XunitException(userMessage: "Invalid data from api query.");
+        
+        var tripId = points
+            .Where(predicate: point => point.DepartureDateTime >= new DateTime(
+                year: DateTime.Now.Year,
+                month: DateTime.Now.Month,
+                day: DateTime.Now.Day,
+                hour: DateTime.Now.Hour,
+                minute: DateTime.Now.Minute,
+                second: 0))
+            .ElementAtOrDefault(index: 0)?.TripId ?? string.Empty;
+        
+        if (string.IsNullOrEmpty(value: tripId))
+            throw new XunitException(userMessage: "Invalid data from api query.");
+        
+        #endregion
         
         await RunTestAsync(cookie: ConsentCookies.False, scheme: ColorScheme.Dark, test: async page =>
         {
@@ -209,11 +299,11 @@ public class MapZoom(AspireManager aspireManager) : BaseTest(aspireManager: aspi
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "trip: consent") ||
-                                           message.Text.Contains(value: "trip: list") ||
-                                           message.Text.Contains(value: "trip: map") ||
-                                           message.Text.Contains(value: "trip: screen") ||
-                                           message.Text.Contains(value: "trip: search")
+                    Predicate = message => message.Text.Contains(value: "home: consent") ||
+                                           message.Text.Contains(value: "home: list") ||
+                                           message.Text.Contains(value: "home: map") ||
+                                           message.Text.Contains(value: "home: screen") ||
+                                           message.Text.Contains(value: "home: search")
                 });
                 
                 parent = page.GetByTestId(testId: "telerik-map");

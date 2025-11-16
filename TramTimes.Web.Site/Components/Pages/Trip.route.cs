@@ -8,7 +8,7 @@ public partial class Trip
     public required string TripId { get; set; }
     
     [Parameter]
-    public string? StopId { get; set; }
+    public required string StopId { get; set; }
     
     [Parameter]
     public double? Longitude { get; set; }

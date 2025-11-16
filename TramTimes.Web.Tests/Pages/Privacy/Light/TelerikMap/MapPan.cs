@@ -80,11 +80,11 @@ public class MapPan(AspireManager aspireManager) : BaseTest(aspireManager: aspir
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "privacy: consent") ||
-                                           message.Text.Contains(value: "privacy: list") ||
-                                           message.Text.Contains(value: "privacy: map") ||
-                                           message.Text.Contains(value: "privacy: screen") ||
-                                           message.Text.Contains(value: "privacy: search")
+                    Predicate = message => message.Text.Contains(value: "home: consent") ||
+                                           message.Text.Contains(value: "home: list") ||
+                                           message.Text.Contains(value: "home: map") ||
+                                           message.Text.Contains(value: "home: screen") ||
+                                           message.Text.Contains(value: "home: search")
                 });
                 
                 parent = page.GetByTestId(testId: "telerik-map");
@@ -217,11 +217,11 @@ public class MapPan(AspireManager aspireManager) : BaseTest(aspireManager: aspir
                 
                 await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
                 {
-                    Predicate = message => message.Text.Contains(value: "privacy: consent") ||
-                                           message.Text.Contains(value: "privacy: list") ||
-                                           message.Text.Contains(value: "privacy: map") ||
-                                           message.Text.Contains(value: "privacy: screen") ||
-                                           message.Text.Contains(value: "privacy: search")
+                    Predicate = message => message.Text.Contains(value: "home: consent") ||
+                                           message.Text.Contains(value: "home: list") ||
+                                           message.Text.Contains(value: "home: map") ||
+                                           message.Text.Contains(value: "home: screen") ||
+                                           message.Text.Contains(value: "home: search")
                 });
                 
                 parent = page.GetByTestId(testId: "telerik-map");

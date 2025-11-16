@@ -41,7 +41,7 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
             #region wait page
             
             await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Url.Contains(value: "pin.png") &&
                 response.Status is 200 or 304);
             
             #endregion
@@ -133,7 +133,7 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
             #region wait page
             
             await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "https://cdn.mapmarker.io/api/") &&
+                response.Url.Contains(value: "pin.png") &&
                 response.Status is 200 or 304);
             
             #endregion

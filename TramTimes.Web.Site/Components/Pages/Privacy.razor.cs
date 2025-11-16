@@ -101,12 +101,16 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         
         #endregion
         
-        #region navigate to page
+        #region navigate to privacy
         
         if (NavigationService.Uri.Equals(value: NavigationService.BaseUri + "privacy"))
+        {
             NavigationService.NavigateTo(
                 uri: $"/privacy/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{Zoom}",
                 replace: true);
+            
+            return;
+        }
         
         #endregion
         
@@ -314,8 +318,8 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         
         var stop = new TelerikStop();
         
-        if (ListData.Any(predicate: item => item.Id!.Equals(value: stopId)))
-            stop = ListData.First(predicate: item => item.Id!.Equals(value: stopId));
+        if (MapData.Any(predicate: item => item.Id!.Equals(value: stopId)))
+            stop = MapData.First(predicate: item => item.Id!.Equals(value: stopId));
         
         if (stop.Id is null)
             return;
@@ -345,7 +349,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         
         NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
             ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
-            : $"/stop/{stopId}");
+            : $"/stop/{stop.Id}/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{TelerikMapDefaults.Zoom}");
         
         #endregion
     }
@@ -385,7 +389,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         
         NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
             ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
-            : $"/stop/{stop.Id}");
+            : $"/stop/{stop.Id}/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{TelerikMapDefaults.Zoom}");
         
         #endregion
     }
@@ -414,7 +418,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         
         #endregion
         
-        #region navigate to page
+        #region navigate to home
         
         NavigationService.NavigateTo(uri: $"/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{Zoom}");
         
@@ -446,7 +450,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         
         #endregion
         
-        #region navigate to page
+        #region navigate to home
         
         NavigationService.NavigateTo(uri: $"/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{Zoom}");
         
@@ -474,7 +478,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         if (JavascriptManager is not null)
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"privacy: screen resized {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+                args: "privacy: screen resized");
         
         #endregion
     }
@@ -518,7 +522,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         
         NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
             ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
-            : $"/stop/{stopId}");
+            : $"/stop/{stop.Id}/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{TelerikMapDefaults.Zoom}");
         
         #endregion
     }

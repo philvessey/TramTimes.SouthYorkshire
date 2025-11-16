@@ -21,7 +21,6 @@ public partial class Stop : ComponentBase, IAsyncDisposable
     private TelerikStop StopData { get; set; } = new();
     private double[] Center { get; set; } = [];
     private IJSObjectReference? JavascriptManager { get; set; }
-    private TelerikListView<TelerikStopPoint>? ListManager { get; set; }
     private TelerikMap? MapManager { get; set; }
     private bool? Disposed { get; set; }
     private string? Query { get; set; }
@@ -113,19 +112,19 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         #endregion
         
-        #region navigate to page
+        #region navigate to stop
         
-        if (StopData is { Id: not null, Latitude: not null, Longitude: not null })
-            if (Math.Abs(value: StopData.Latitude.Value - Latitude.GetValueOrDefault()) > 1e-6)
+        if (NavigationService.Uri.Equals(value: NavigationService.BaseUri + $"stop/{StopId}"))
+        {
+            if (StopData is { Id: not null, Latitude: not null, Longitude: not null })
+            {
                 NavigationService.NavigateTo(
                     uri: $"/stop/{StopData.Id}/{StopData.Longitude}/{StopData.Latitude}/{Zoom}",
                     replace: true);
-        
-        if (StopData is { Id: not null, Latitude: not null, Longitude: not null })
-            if (Math.Abs(value: StopData.Longitude.Value - Longitude.GetValueOrDefault()) > 1e-6)
-                NavigationService.NavigateTo(
-                    uri: $"/stop/{StopData.Id}/{StopData.Longitude}/{StopData.Latitude}/{Zoom}",
-                    replace: true);
+                
+                return;
+            }
+        }
         
         #endregion
         
@@ -133,12 +132,6 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         if (StopData.Name is not null)
             Title = $"TramTimes - South Yorkshire - Services from {StopData.Name}";
-        
-        #endregion
-        
-        #region rebind list view
-        
-        ListManager?.Rebind();
         
         #endregion
         
@@ -367,13 +360,6 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         string? tripId,
         string? stopId) {
         
-        #region get trip data
-        
-        if (tripId is null || stopId is null)
-            return;
-        
-        #endregion
-        
         # region check component disposed
         
         if (Disposed.HasValue && Disposed.Value)
@@ -397,7 +383,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         NavigationService.NavigateTo(uri: StopData is { Latitude: not null, Longitude: not null }
             ? $"/trip/{tripId}/{stopId}/{StopData.Longitude}/{StopData.Latitude}/{TelerikMapDefaults.Zoom}"
-            : $"/trip/{tripId}/{stopId}");
+            : $"/trip/{tripId}/{stopId}/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{TelerikMapDefaults.Zoom}");
         
         #endregion
     }
@@ -437,7 +423,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
             ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
-            : $"/stop/{stop.Id}");
+            : $"/stop/{stop.Id}/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{TelerikMapDefaults.Zoom}");
         
         #endregion
     }
@@ -466,7 +452,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         #endregion
         
-        #region navigate to page
+        #region navigate to home
         
         NavigationService.NavigateTo(uri: $"/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{Zoom}");
         
@@ -498,7 +484,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         #endregion
         
-        #region navigate to page
+        #region navigate to home
         
         NavigationService.NavigateTo(uri: $"/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{Zoom}");
         
@@ -526,7 +512,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         if (JavascriptManager is not null)
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"stop: screen resized {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+                args: "stop: screen resized");
         
         #endregion
     }
@@ -570,7 +556,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
             ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
-            : $"/stop/{stopId}");
+            : $"/stop/{stop.Id}/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{TelerikMapDefaults.Zoom}");
         
         #endregion
     }

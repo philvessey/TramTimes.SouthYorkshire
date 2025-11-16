@@ -101,12 +101,16 @@ public partial class Home : ComponentBase, IAsyncDisposable
         
         #endregion
         
-        #region navigate to page
+        #region navigate to home
         
         if (NavigationService.Uri.Equals(value: NavigationService.BaseUri))
+        {
             NavigationService.NavigateTo(
                 uri: $"/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{Zoom}",
                 replace: true);
+            
+            return;
+        }
         
         #endregion
         
@@ -314,8 +318,8 @@ public partial class Home : ComponentBase, IAsyncDisposable
         
         var stop = new TelerikStop();
         
-        if (ListData.Any(predicate: item => item.Id!.Equals(value: stopId)))
-            stop = ListData.First(predicate: item => item.Id!.Equals(value: stopId));
+        if (MapData.Any(predicate: item => item.Id!.Equals(value: stopId)))
+            stop = MapData.First(predicate: item => item.Id!.Equals(value: stopId));
         
         if (stop.Id is null)
             return;
@@ -345,7 +349,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
         
         NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
             ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
-            : $"/stop/{stopId}");
+            : $"/stop/{stop.Id}/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{TelerikMapDefaults.Zoom}");
         
         #endregion
     }
@@ -385,7 +389,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
         
         NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
             ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
-            : $"/stop/{stop.Id}");
+            : $"/stop/{stop.Id}/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{TelerikMapDefaults.Zoom}");
         
         #endregion
     }
@@ -414,7 +418,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
         
         #endregion
         
-        #region navigate to page
+        #region navigate to home
         
         NavigationService.NavigateTo(
             uri: $"/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{Zoom}",
@@ -448,7 +452,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
         
         #endregion
         
-        #region navigate to page
+        #region navigate to home
         
         NavigationService.NavigateTo(
             uri: $"/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{Zoom}",
@@ -478,7 +482,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
         if (JavascriptManager is not null)
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"home: screen resized {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+                args: "home: screen resized");
         
         #endregion
     }
@@ -522,7 +526,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
         
         NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
             ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
-            : $"/stop/{stopId}");
+            : $"/stop/{stop.Id}/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{TelerikMapDefaults.Zoom}");
         
         #endregion
     }
