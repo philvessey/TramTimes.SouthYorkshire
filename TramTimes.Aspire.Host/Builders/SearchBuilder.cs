@@ -1,5 +1,6 @@
 // ReSharper disable all
 
+using TramTimes.Aspire.Host.Extensions;
 using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
@@ -25,10 +26,17 @@ public static class SearchBuilder
                 .AddElasticsearch(name: "search")
                 .WaitFor(dependency: database.Builder ?? throw new InvalidOperationException(message: "Database builder is not available."))
                 .WithDataVolume()
+                .WithEnvironment(
+                    name: "xpack.security.enabled",
+                    value: "false")
+                .WithImageTag(tag: "8.17.3")
                 .WithLifetime(lifetime: ContainerLifetime.Persistent)
                 .WithUrlForEndpoint(
-                    callback: annotation => annotation.DisplayText = "Administration",
-                    endpointName: "http");
+                    callback: annotation => annotation.DisplayLocation = UrlDisplayLocation.DetailsOnly,
+                    endpointName: "http")
+                .WithUrlForEndpoint(
+                    callback: annotation => annotation.DisplayLocation = UrlDisplayLocation.DetailsOnly,
+                    endpointName: "internal");
         
         if (builder.ExecutionContext.IsPublishMode)
             search.Connection = builder.AddConnectionString(name: "search");
@@ -61,6 +69,36 @@ public static class SearchBuilder
                 {
                     app.Template.Scale.MinReplicas = 1;
                     app.Template.Scale.MaxReplicas = 1;
+                });
+        
+        #endregion
+        
+        #region check context
+        
+        if (Context is "Testing")
+            return search;
+        
+        #endregion
+        
+        #region add tools
+        
+        if (builder.ExecutionContext.IsRunMode)
+            search.Service?.WithKibana(
+                containerName: "search-kibana",
+                configureContainer: resource =>
+                {
+                    resource.WaitFor(dependency: search.Service);
+                    resource.WithBuildCommand();
+                    resource.WithDeleteCommand();
+                    resource.WithEnvironment(
+                        name: "xpack.security.enabled",
+                        value: "false");
+                    resource.WithImageTag(tag: "8.17.3");
+                    resource.WithLifetime(lifetime: ContainerLifetime.Session);
+                    resource.WithParentRelationship(parent: search.Service);
+                    resource.WithUrlForEndpoint(
+                        callback: annotation => annotation.DisplayText = "Administration",
+                        endpointName: "http");
                 });
         
         #endregion

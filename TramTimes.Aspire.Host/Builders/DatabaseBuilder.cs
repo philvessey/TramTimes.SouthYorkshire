@@ -28,7 +28,10 @@ public static class DatabaseBuilder
                 .WaitFor(dependency: storage.Queues ?? throw new InvalidOperationException(message: "Storage queues are not available."))
                 .WaitFor(dependency: storage.Tables ?? throw new InvalidOperationException(message: "Storage tables are not available."))
                 .WithDataVolume()
-                .WithLifetime(lifetime: ContainerLifetime.Persistent);
+                .WithLifetime(lifetime: ContainerLifetime.Persistent)
+                .WithUrlForEndpoint(
+                    callback: annotation => annotation.DisplayLocation = UrlDisplayLocation.DetailsOnly,
+                    endpointName: "tcp");
         
         #endregion
         
