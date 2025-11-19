@@ -1,5 +1,6 @@
 // ReSharper disable all
 
+using Azure.Provisioning.AppContainers;
 using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
@@ -59,6 +60,14 @@ public static class CacheBuilder
                 .WithReference(source: cache.Connection)
                 .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
                 {
+                    var container = app.Template.Containers.Single().Value;
+                    
+                    if (container is not null)
+                    {
+                        container.Resources.Cpu = 0.25;
+                        container.Resources.Memory = "0.5Gi";
+                    }
+                    
                     app.Template.Scale.MinReplicas = 1;
                     app.Template.Scale.MaxReplicas = 1;
                 });

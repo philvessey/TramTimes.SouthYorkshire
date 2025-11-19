@@ -18,9 +18,11 @@ public partial class Stop : ComponentBase, IAsyncDisposable
     private List<TelerikStopPoint> ListData { get; set; } = [];
     private List<TelerikStop> MapData { get; set; } = [];
     private List<TelerikStop> SearchData { get; set; } = [];
-    private TelerikStop StopData { get; set; } = new();
+    private TelerikStop LastStop { get; set; } = new();
+    private TelerikStop NextStop { get; set; } = new();
     private double[] Center { get; set; } = [];
     private IJSObjectReference? JavascriptManager { get; set; }
+    private TelerikListView<TelerikStopPoint>? ListManager { get; set; }
     private TelerikMap? MapManager { get; set; }
     private bool? Disposed { get; set; }
     private string? Query { get; set; }
@@ -108,7 +110,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         if (consent)
             cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
         
-        StopData = cache.FirstOrDefault(predicate: stop => stop.Id == StopId) ?? new TelerikStop();
+        NextStop = cache.FirstOrDefault(predicate: stop => stop.Id == StopId) ?? new TelerikStop();
         
         #endregion
         
@@ -116,10 +118,10 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         if (NavigationService.Uri.Equals(value: NavigationService.BaseUri + $"stop/{StopId}"))
         {
-            if (StopData is { Id: not null, Latitude: not null, Longitude: not null })
+            if (NextStop is { Id: not null, Latitude: not null, Longitude: not null })
             {
                 NavigationService.NavigateTo(
-                    uri: $"/stop/{StopData.Id}/{StopData.Longitude}/{StopData.Latitude}/{Zoom}",
+                    uri: $"/stop/{NextStop.Id}/{NextStop.Longitude}/{NextStop.Latitude}/{Zoom}",
                     replace: true);
                 
                 return;
@@ -130,8 +132,8 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         #region set page title
         
-        if (StopData.Name is not null)
-            Title = $"TramTimes - South Yorkshire - Services from {StopData.Name}";
+        if (NextStop.Name is not null)
+            Title = $"TramTimes - South Yorkshire - Services from {NextStop.Name}";
         
         #endregion
         
@@ -230,6 +232,16 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         #endregion
         
+        #region rebind list view
+        
+        if (LastStop is { Id: not null } && NextStop is { Id: not null })
+            if (LastStop.Id != NextStop.Id)
+                ListManager?.Rebind();
+        
+        LastStop = NextStop;
+        
+        #endregion
+        
         #region clear local storage
         
         await StorageService.ClearAsync();
@@ -313,12 +325,12 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         var response = await HttpService.GetAsync(requestUri: QueryBuilder.GetServicesFromCache(
             type: QueryType.StopId,
-            value: StopData.Id ?? StopId));
+            value: NextStop.Id ?? StopId));
         
         if (!response.IsSuccessStatusCode)
             response = await HttpService.GetAsync(requestUri: QueryBuilder.GetServicesFromDatabase(
                 type: QueryType.StopId,
-                value: StopData.Id ?? StopId));
+                value: NextStop.Id ?? StopId));
         
         #endregion
         
@@ -351,7 +363,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         if (JavascriptManager is not null)
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"stop: list read {StopData.Id ?? StopId}");
+                args: $"stop: list read {NextStop.Id ?? StopId}");
         
         #endregion
     }
@@ -381,8 +393,8 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         if (NavigationService.Uri.Contains(value: $"/trip/{tripId}/{stopId}"))
             return;
         
-        NavigationService.NavigateTo(uri: StopData is { Latitude: not null, Longitude: not null }
-            ? $"/trip/{tripId}/{stopId}/{StopData.Longitude}/{StopData.Latitude}/{TelerikMapDefaults.Zoom}"
+        NavigationService.NavigateTo(uri: NextStop is { Latitude: not null, Longitude: not null }
+            ? $"/trip/{tripId}/{stopId}/{NextStop.Longitude}/{NextStop.Latitude}/{TelerikMapDefaults.Zoom}"
             : $"/trip/{tripId}/{stopId}/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{TelerikMapDefaults.Zoom}");
         
         #endregion

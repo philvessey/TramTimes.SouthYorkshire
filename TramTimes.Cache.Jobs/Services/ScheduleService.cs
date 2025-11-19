@@ -93,7 +93,7 @@ public static class ScheduleService
                         trigger.ForJob(jobKey: jobKey);
                         trigger.WithIdentity(name: $"{item}-trigger-night");
                         trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
-                        trigger.WithCronSchedule(cronExpression: "0 0/40 0-1,4-5 ? * *");
+                        trigger.WithCronSchedule(cronExpression: "0 0/30 0-1,4-5 ? * *");
                     });
             }
             

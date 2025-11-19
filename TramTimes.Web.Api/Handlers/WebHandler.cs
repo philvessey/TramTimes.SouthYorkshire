@@ -115,8 +115,8 @@ public static class WebHandler
                     { "location", new GeoPointProperty() },
                     { "longitude", new DoubleNumberProperty() },
                     { "name", new KeywordProperty() },
-                    { "platform", new TextProperty() },
-                    { "points", new ObjectProperty() }
+                    { "platform", new KeywordProperty() },
+                    { "points", new ObjectProperty { Enabled = false } }
                 }
             }
         });
@@ -174,8 +174,8 @@ public static class WebHandler
                     { "location", new GeoPointProperty() },
                     { "longitude", new DoubleNumberProperty() },
                     { "name", new KeywordProperty() },
-                    { "platform", new TextProperty() },
-                    { "points", new ObjectProperty() }
+                    { "platform", new KeywordProperty() },
+                    { "points", new ObjectProperty { Enabled = false } }
                 }
             }
         });

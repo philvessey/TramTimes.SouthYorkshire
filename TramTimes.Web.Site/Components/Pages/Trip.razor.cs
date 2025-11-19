@@ -18,9 +18,11 @@ public partial class Trip : ComponentBase, IAsyncDisposable
     private List<TelerikStopPoint> ListData { get; set; } = [];
     private List<TelerikStop> MapData { get; set; } = [];
     private List<TelerikStop> SearchData { get; set; } = [];
-    private TelerikStop StopData { get; set; } = new();
+    private TelerikStop LastStop { get; set; } = new();
+    private TelerikStop NextStop { get; set; } = new();
     private double[] Center { get; set; } = [];
     private IJSObjectReference? JavascriptManager { get; set; }
+    private TelerikListView<TelerikStopPoint>? ListManager { get; set; }
     private TelerikMap? MapManager { get; set; }
     private bool? Disposed { get; set; }
     private string? Query { get; set; }
@@ -108,7 +110,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         if (consent)
             cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
         
-        StopData = cache.FirstOrDefault(predicate: stop => stop.Id == StopId) ?? new TelerikStop();
+        NextStop = cache.FirstOrDefault(predicate: stop => stop.Id == StopId) ?? new TelerikStop();
         
         #endregion
         
@@ -116,10 +118,10 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         if (NavigationService.Uri.Equals(value: NavigationService.BaseUri + $"trip/{TripId}/{StopId}"))
         {
-            if (StopData is { Id: not null, Latitude: not null, Longitude: not null })
+            if (NextStop is { Id: not null, Latitude: not null, Longitude: not null })
             {
                 NavigationService.NavigateTo(
-                    uri: $"/trip/{TripId}/{StopData.Id}/{StopData.Longitude}/{StopData.Latitude}/{Zoom}",
+                    uri: $"/trip/{TripId}/{NextStop.Id}/{NextStop.Longitude}/{NextStop.Latitude}/{Zoom}",
                     replace: true);
                 
                 return;
@@ -130,8 +132,8 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         
         #region set page title
         
-        if (StopData.Name is not null)
-            Title = $"TramTimes - South Yorkshire - Trip from {StopData.Name}";
+        if (NextStop.Name is not null)
+            Title = $"TramTimes - South Yorkshire - Trip from {NextStop.Name}";
         
         #endregion
         
@@ -227,6 +229,16 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         MapData = MapData
             .OrderBy(keySelector: stop => stop.Distance)
             .ToList();
+        
+        #endregion
+        
+        #region rebind list view
+        
+        if (LastStop is { Id: not null } && NextStop is { Id: not null })
+            if (LastStop.Id != NextStop.Id)
+                ListManager?.Rebind();
+        
+        LastStop = NextStop;
         
         #endregion
         
@@ -351,7 +363,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         if (JavascriptManager is not null)
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"trip: list read {TripId}/{StopData.Id ?? StopId}");
+                args: $"trip: list read {TripId}/{NextStop.Id ?? StopId}");
         
         #endregion
     }

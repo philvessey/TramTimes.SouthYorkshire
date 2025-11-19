@@ -110,6 +110,7 @@ public static class WebBuilder
                     name: "ASPIRE_CONTEXT",
                     value: Context)
                 .WithExternalHttpEndpoints()
+                .WithHttpHealthCheck(path: "/healthz")
                 .WithUrlForEndpoint(
                     callback: annotation => annotation.DisplayText = "Primary",
                     endpointName: "https")
@@ -130,6 +131,7 @@ public static class WebBuilder
                     name: "ASPIRE_CONTEXT",
                     value: "Production")
                 .WithExternalHttpEndpoints()
+                .WithHttpHealthCheck(path: "/healthz")
                 .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
                 {
                     app.Template.Scale.MinReplicas = 0;

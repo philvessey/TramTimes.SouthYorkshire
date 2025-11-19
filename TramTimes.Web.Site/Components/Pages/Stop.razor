@@ -130,7 +130,8 @@
                          Height="100%"
                          OnRead="@OnListReadAsync"
                          Width="100%"
-                         TItem="@TelerikStopPoint">
+                         TItem="@TelerikStopPoint"
+                         @ref="@ListManager">
             
             <Template>
                 <div id="stop-telerik-list-view__result"
