@@ -62,6 +62,9 @@ if (context is not "Production")
 if (context is not "Production")
     builder.Services.AddHostedService<TableService>();
 
+if (context is "Production")
+    builder.Services.AddHostedService<BuildService>();
+
 #endregion
 
 #region build application

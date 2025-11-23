@@ -26,6 +26,7 @@ public static class CacheBuilder
                 .AddRedis(name: "cache")
                 .WaitFor(dependency: database.Builder ?? throw new InvalidOperationException(message: "Database builder is not available."))
                 .WithDataVolume()
+                .WithImageTag(tag: "8.2")
                 .WithLifetime(lifetime: ContainerLifetime.Persistent)
                 .WithUrlForEndpoint(
                     callback: annotation => annotation.DisplayLocation = UrlDisplayLocation.DetailsOnly,

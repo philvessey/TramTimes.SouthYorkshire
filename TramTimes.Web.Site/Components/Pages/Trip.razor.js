@@ -2,12 +2,16 @@
 
 let resizeTimeout;
 
+export function focusElement(element) {
+    element?.focus();
+}
+
 export function registerResize(dotNetHelper) {
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
         
         resizeTimeout = setTimeout(() => {
-            dotNetHelper.invokeMethodAsync('OnScreenResized');
+            dotNetHelper.invokeMethodAsync('OnScreenResizedAsync');
         }, 500);
     });
 }

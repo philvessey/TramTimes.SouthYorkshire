@@ -44,6 +44,12 @@ builder.Services.Configure<HubOptions>(configureOptions: options =>
 
 #endregion
 
+#region add checks
+
+builder.Services.AddHealthChecks();
+
+#endregion
+
 #region add components
 
 builder.Services
@@ -64,6 +70,7 @@ application.UseStaticFiles();
 if (context is "Production")
     application.UseHsts();
 
+application.MapHealthChecks(pattern: "/healthz");
 application.MapStaticAssets();
 
 var endpoint = application.MapRazorComponents<Site>();

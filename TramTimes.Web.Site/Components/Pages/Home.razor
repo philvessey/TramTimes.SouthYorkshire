@@ -22,7 +22,7 @@
                     Height="100%"
                     MaxZoom="@TelerikMapDefaults.MaxZoom"
                     MinZoom="@TelerikMapDefaults.MinZoom"
-                    OnMarkerClick="@OnMapMarkerClick"
+                    OnMarkerClick="@OnMapMarkerClickAsync"
                     OnPanEnd="@OnMapPanEndAsync"
                     OnZoomEnd="@OnMapZoomEndAsync"
                     Width="100%"
@@ -124,7 +124,9 @@
     <!-- #region telerik-list-view -->
     
     <div id="home-telerik-list-view"
-         data-testid="telerik-list-view">
+         data-testid="telerik-list-view"
+         tabindex="-1"
+         @ref="@ListElement">
         
         <TelerikListView EnableLoaderContainer="@TelerikListViewDefaults.EnableLoaderContainer"
                          Height="100%"
@@ -136,7 +138,7 @@
             <Template>
                 <div id="home-telerik-list-view__result"
                      data-testid="result"
-                     @onclick="@( _ => OnListChange(stopId: context.Id) )">
+                     @onclick="@( _ => OnListChangeAsync(stopId: context.Id) )">
                     
                     <div class="name"
                          data-testid="name">
@@ -224,7 +226,8 @@
                              DebounceDelay="@TelerikAutoCompleteDefaults.DebounceDelay"
                              Filterable="true"
                              MinLength="@TelerikAutoCompleteDefaults.MinCacheLength"
-                             OnChange="@OnSearchChange"
+                             OnBlur="@OnSearchBlurAsync"
+                             OnChange="@OnSearchChangeAsync"
                              OnClose="@OnSearchCloseAsync"
                              OnOpen="@OnSearchOpenAsync"
                              OnRead="@OnSearchReadAsync"

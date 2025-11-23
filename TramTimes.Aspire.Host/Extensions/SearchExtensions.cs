@@ -1,5 +1,3 @@
-#pragma warning disable ASPIREINTERACTION001
-
 using System.Net.Http.Json;
 using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;

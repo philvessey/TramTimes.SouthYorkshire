@@ -23,30 +23,6 @@ public static class ScheduleService
             
             switch (Context)
             {
-                case "Production":
-                {
-                    var production = new JobKey(name: "production");
-                    
-                    quartz
-                        .AddJob<Production>(jobKey: production, configure: job =>
-                        {
-                            job.WithDescription(description: "Production job to build the database.");
-                        })
-                        .AddTrigger(configure: trigger =>
-                        {
-                            trigger.ForJob(jobKey: production);
-                            trigger.WithIdentity(name: "production-trigger-maintenance");
-                            trigger.WithCronSchedule(cronExpression: "0 0 3 ? * *");
-                        })
-                        .AddTrigger(configure: trigger =>
-                        {
-                            trigger.ForJob(jobKey: production);
-                            trigger.WithIdentity(name: "production-trigger-startup");
-                            trigger.StartNow();
-                        });
-                    
-                    break;
-                }
                 case "Development":
                 {
                     var development = new JobKey(name: "development");
@@ -60,6 +36,24 @@ public static class ScheduleService
                         {
                             trigger.ForJob(jobKey: development);
                             trigger.WithIdentity(name: "development-trigger");
+                            trigger.StartNow();
+                        });
+                    
+                    break;
+                }
+                case "Testing":
+                {
+                    var testing = new JobKey(name: "testing");
+                    
+                    quartz
+                        .AddJob<Testing>(jobKey: testing, configure: job =>
+                        {
+                            job.WithDescription(description: "Testing job to build the database.");
+                        })
+                        .AddTrigger(configure: trigger =>
+                        {
+                            trigger.ForJob(jobKey: testing);
+                            trigger.WithIdentity(name: "testing-trigger");
                             trigger.StartNow();
                         });
                     
@@ -79,7 +73,7 @@ public static class ScheduleService
             
             #region check context
             
-            if (Context is "Production")
+            if (Context is "Testing")
                 return;
             
             #endregion

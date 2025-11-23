@@ -13,10 +13,10 @@ using TramTimes.Database.Jobs.Tools;
 
 namespace TramTimes.Database.Jobs.Workers;
 
-public class Development(
+public class Testing(
     BlobContainerClient containerClient,
     NpgsqlDataSource dataSource,
-    ILogger<Development> logger) : IJob {
+    ILogger<Testing> logger) : IJob {
     
     private const string Holidays = "https://date.nager.at/api/v3/NextPublicHolidays/gb";
     private const string Localities = "https://naptan.api.dft.gov.uk/v1/nptg/localities";
@@ -35,14 +35,6 @@ public class Development(
             #region get public holidays
             
             var holidays = await Holidays.GetJsonAsync<List<Holiday>>() ?? [];
-            
-            #endregion
-            
-            #region output log messages
-            
-            logger.LogInformation(
-                message: "READ: {count} public holidays",
-                args: holidays.Count);
             
             #endregion
             
@@ -82,14 +74,6 @@ public class Development(
             
             #endregion
             
-            #region output log messages
-            
-            logger.LogInformation(
-                message: "READ: {count} naptan localities",
-                args: localities.Count);
-            
-            #endregion
-            
             #region get naptan stops
             
             remotePath = Path.Combine(
@@ -123,14 +107,6 @@ public class Development(
                             ContentType = "text/csv"
                         }
                     });
-            
-            #endregion
-            
-            #region output log messages
-            
-            logger.LogInformation(
-                message: "READ: {count} naptan stops",
-                args: stops.Count);
             
             #endregion
             
@@ -195,18 +171,6 @@ public class Development(
                 if (contents.Contains(value: "ZZSY"))
                     workingFiles.Add(item: item);
             }
-            
-            #endregion
-            
-            #region output log messages
-            
-            logger.LogInformation(
-                message: "READ: {count} transxchange files",
-                args: rawFiles.Length);
-            
-            logger.LogInformation(
-                message: "READ: {count} working files",
-                args: workingFiles.Count);
             
             #endregion
             
@@ -319,14 +283,6 @@ public class Development(
             
             #endregion
             
-            #region output log messages
-            
-            logger.LogInformation(
-                message: "READ: {count} transxchange schedules",
-                args: results.Count);
-            
-            #endregion
-            
             #region build database data
             
             await using var connection = await dataSource.OpenConnectionAsync();
@@ -339,37 +295,37 @@ public class Development(
             
             await dropCommand.ExecuteNonQueryAsync();
             
-            var records = await DatabaseAgencyBuilder.BuildAsync(
+            await DatabaseAgencyBuilder.BuildAsync(
                 schedules: results,
                 connection: connection,
                 transaction: transaction);
             
-            records += await DatabaseCalendarBuilder.BuildAsync(
+            await DatabaseCalendarBuilder.BuildAsync(
                 schedules: results,
                 connection: connection,
                 transaction: transaction);
             
-            records += await DatabaseCalendarDateBuilder.BuildAsync(
+            await DatabaseCalendarDateBuilder.BuildAsync(
                 schedules: results,
                 connection: connection,
                 transaction: transaction);
             
-            records += await DatabaseRouteBuilder.BuildAsync(
+            await DatabaseRouteBuilder.BuildAsync(
                 schedules: results,
                 connection: connection,
                 transaction: transaction);
             
-            records += await DatabaseStopBuilder.BuildAsync(
+            await DatabaseStopBuilder.BuildAsync(
                 schedules: results,
                 connection: connection,
                 transaction: transaction);
             
-            records += await DatabaseStopTimeBuilder.BuildAsync(
+            await DatabaseStopTimeBuilder.BuildAsync(
                 schedules: results,
                 connection: connection,
                 transaction: transaction);
             
-            records += await DatabaseTripBuilder.BuildAsync(
+            await DatabaseTripBuilder.BuildAsync(
                 schedules: results,
                 connection: connection,
                 transaction: transaction);
@@ -391,14 +347,6 @@ public class Development(
             
             await createCommand.ExecuteNonQueryAsync();
             await transaction.CommitAsync();
-            
-            #endregion
-            
-            #region output log messages
-            
-            logger.LogInformation(
-                message: "WRITE: {count} database records",
-                args: records);
             
             #endregion
             

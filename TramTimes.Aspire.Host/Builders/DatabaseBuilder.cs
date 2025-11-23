@@ -1,5 +1,6 @@
 // ReSharper disable all
 
+using Azure.Provisioning.AppContainers;
 using TramTimes.Aspire.Host.Parameters;
 using TramTimes.Aspire.Host.Resources;
 
@@ -28,6 +29,7 @@ public static class DatabaseBuilder
                 .WaitFor(dependency: storage.Queues ?? throw new InvalidOperationException(message: "Storage queues are not available."))
                 .WaitFor(dependency: storage.Tables ?? throw new InvalidOperationException(message: "Storage tables are not available."))
                 .WithDataVolume()
+                .WithImageTag(tag: "17.6")
                 .WithLifetime(lifetime: ContainerLifetime.Persistent)
                 .WithUrlForEndpoint(
                     callback: annotation => annotation.DisplayLocation = UrlDisplayLocation.DetailsOnly,
@@ -137,18 +139,18 @@ public static class DatabaseBuilder
                     name: "FTP_PASSWORD",
                     parameter: database.Parameters.Userpass)
                 .WithReference(source: database.Connection)
-                .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
+                .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>
                 {
-                    var container = app.Template.Containers.Single().Value;
+                    var container = job.Template.Containers.Single().Value;
                     
                     if (container is not null)
                     {
-                        container.Resources.Cpu = 0.25;
-                        container.Resources.Memory = "0.5Gi";
+                        container.Resources.Cpu = 1.0;
+                        container.Resources.Memory = "2.0Gi";
                     }
                     
-                    app.Template.Scale.MinReplicas = 1;
-                    app.Template.Scale.MaxReplicas = 1;
+                    job.Configuration.TriggerType = ContainerAppJobTriggerType.Schedule;
+                    job.Configuration.ScheduleTriggerConfig.CronExpression = "0 3 * * *";
                 });
         
         #endregion

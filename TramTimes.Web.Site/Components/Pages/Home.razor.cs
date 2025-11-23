@@ -20,6 +20,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
     private List<TelerikStop> SearchData { get; set; } = [];
     private double[] Center { get; set; } = [];
     private IJSObjectReference? JavascriptManager { get; set; }
+    private ElementReference? ListElement { get; set; }
     private TelerikListView<TelerikStop>? ListManager { get; set; }
     private TelerikMap? MapManager { get; set; }
     private string? Query { get; set; }
@@ -220,6 +221,15 @@ public partial class Home : ComponentBase, IAsyncDisposable
         
         #endregion
         
+        #region focus list view
+        
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "focusElement",
+                args: ListElement);
+        
+        #endregion
+        
         #region clear local storage
         
         await StorageService.ClearAsync();
@@ -236,7 +246,11 @@ public partial class Home : ComponentBase, IAsyncDisposable
         if (consent)
             await StorageService.SetItemAsync(
                 key: "cache",
-                data: MapData.OrderBy(keySelector: stop => stop.Id));
+                data: MapperService
+                    .Map<List<TelerikStop>>(source: data)
+                    .Concat(second: cache)
+                    .DistinctBy(keySelector: stop => stop.Id)
+                    .OrderBy(keySelector: stop => stop.Id));
         
         #endregion
     }
@@ -312,7 +326,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
         #endregion
     }
     
-    private async Task OnListChange(string? stopId)
+    private async Task OnListChangeAsync(string? stopId)
     {
         #region get stop data
         
@@ -354,7 +368,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
         #endregion
     }
     
-    private async Task OnMapMarkerClick(MapMarkerClickEventArgs args)
+    private async Task OnMapMarkerClickAsync(MapMarkerClickEventArgs args)
     {
         #region get stop data
         
@@ -462,7 +476,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
     }
     
     [JSInvokable]
-    public async Task OnScreenResized()
+    public async Task OnScreenResizedAsync()
     {
         #region refresh map view
         
@@ -487,7 +501,26 @@ public partial class Home : ComponentBase, IAsyncDisposable
         #endregion
     }
     
-    private async Task OnSearchChange(object? stopId)
+    private async Task OnSearchBlurAsync()
+    {
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
+        #region output console message
+        
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: "home: search blur");
+        
+        #endregion
+    }
+    
+    private async Task OnSearchChangeAsync(object? stopId)
     {
         #region get stop data
         
@@ -712,7 +745,11 @@ public partial class Home : ComponentBase, IAsyncDisposable
         if (consent)
             await StorageService.SetItemAsync(
                 key: "cache",
-                data: SearchData.OrderBy(keySelector: stop => stop.Id));
+                data: MapperService
+                    .Map<List<TelerikStop>>(source: data)
+                    .Concat(second: cache)
+                    .DistinctBy(keySelector: stop => stop.Id)
+                    .OrderBy(keySelector: stop => stop.Id));
         
         #endregion
         

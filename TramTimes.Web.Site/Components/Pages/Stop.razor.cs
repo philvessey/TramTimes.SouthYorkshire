@@ -22,6 +22,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
     private TelerikStop NextStop { get; set; } = new();
     private double[] Center { get; set; } = [];
     private IJSObjectReference? JavascriptManager { get; set; }
+    private ElementReference? ListElement { get; set; }
     private TelerikListView<TelerikStopPoint>? ListManager { get; set; }
     private TelerikMap? MapManager { get; set; }
     private bool? Disposed { get; set; }
@@ -110,7 +111,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         if (consent)
             cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
         
-        NextStop = cache.FirstOrDefault(predicate: stop => stop.Id == StopId) ?? new TelerikStop();
+        NextStop = cache.FirstOrDefault(predicate: stop => stop.Id == StopId) ?? new TelerikStop { Id = StopId };
         
         #endregion
         
@@ -242,6 +243,15 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         
         #endregion
         
+        #region focus list view
+        
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "focusElement",
+                args: ListElement);
+        
+        #endregion
+        
         #region clear local storage
         
         await StorageService.ClearAsync();
@@ -258,7 +268,11 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         if (consent)
             await StorageService.SetItemAsync(
                 key: "cache",
-                data: MapData.OrderBy(keySelector: stop => stop.Id));
+                data: MapperService
+                    .Map<List<TelerikStop>>(source: data)
+                    .Concat(second: cache)
+                    .DistinctBy(keySelector: stop => stop.Id)
+                    .OrderBy(keySelector: stop => stop.Id));
         
         #endregion
     }
@@ -368,7 +382,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         #endregion
     }
     
-    private async Task OnListChange(
+    private async Task OnListChangeAsync(
         string? tripId,
         string? stopId) {
         
@@ -400,7 +414,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         #endregion
     }
     
-    private async Task OnMapMarkerClick(MapMarkerClickEventArgs args)
+    private async Task OnMapMarkerClickAsync(MapMarkerClickEventArgs args)
     {
         #region get stop data
         
@@ -504,7 +518,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
     }
     
     [JSInvokable]
-    public async Task OnScreenResized()
+    public async Task OnScreenResizedAsync()
     {
         #region refresh map view
         
@@ -529,7 +543,26 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         #endregion
     }
     
-    private async Task OnSearchChange(object? stopId)
+    private async Task OnSearchBlurAsync()
+    {
+        # region check component disposed
+        
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+        
+        #endregion
+        
+        #region output console message
+        
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: "stop: search blur");
+        
+        #endregion
+    }
+    
+    private async Task OnSearchChangeAsync(object? stopId)
     {
         #region get stop data
         
@@ -754,7 +787,11 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         if (consent)
             await StorageService.SetItemAsync(
                 key: "cache",
-                data: SearchData.OrderBy(keySelector: stop => stop.Id));
+                data: MapperService
+                    .Map<List<TelerikStop>>(source: data)
+                    .Concat(second: cache)
+                    .DistinctBy(keySelector: stop => stop.Id)
+                    .OrderBy(keySelector: stop => stop.Id));
         
         #endregion
         

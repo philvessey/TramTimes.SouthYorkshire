@@ -1,160 +1,128 @@
 using System.IO.Compression;
 using System.Xml.Serialization;
 using FluentFTP;
+using FluentFTP.Exceptions;
 using Flurl.Http;
 using Npgsql;
-using Quartz;
+using Polly;
+using Polly.Retry;
 using TramTimes.Database.Jobs.Builders;
 using TramTimes.Database.Jobs.Extensions;
 using TramTimes.Database.Jobs.Models;
 using TramTimes.Database.Jobs.Tools;
 
-namespace TramTimes.Database.Jobs.Workers;
+namespace TramTimes.Database.Jobs.Services;
 
-public class Production(
-    NpgsqlDataSource dataSource,
-    ILogger<Production> logger) : IJob {
+public class BuildService : IHostedService
+{
+    private readonly NpgsqlDataSource _service;
+    private readonly ILogger<BuildService> _logger;
+    private readonly IHostApplicationLifetime _host;
+    private readonly DirectoryInfo _storage;
+    private readonly AsyncRetryPolicy _result;
     
     private const string Holidays = "https://date.nager.at/api/v3/NextPublicHolidays/gb";
     private const string Localities = "https://naptan.api.dft.gov.uk/v1/nptg/localities";
     private const string Stops = "https://naptan.api.dft.gov.uk/v1/access-nodes?dataFormat=csv&atcoAreaCodes=370%2C940";
     
-    public async Task Execute(IJobExecutionContext context)
-    {
+    public BuildService(
+        NpgsqlDataSource service,
+        ILogger<BuildService> logger,
+        IHostApplicationLifetime host) {
+        
+        #region inject services
+        
+        _service = service;
+        _logger = logger;
+        _host = host;
+        
+        #endregion
+        
+        #region build storage
+        
         var guid = Guid.NewGuid();
         
-        var storage = Directory.CreateDirectory(path: Path.Combine(
+        _storage = Directory.CreateDirectory(path: Path.Combine(
             path1: Path.GetTempPath(),
             path2: guid.ToString()));
         
-        try
+        #endregion
+        
+        #region build result
+        
+        _result = Policy
+            .Handle<Exception>()
+            .WaitAndRetryAsync(
+                retryCount: 5,
+                sleepDurationProvider: i => TimeSpan.FromSeconds(value: Math.Pow(
+                    x: 5,
+                    y: i)));
+        
+        #endregion
+    }
+    
+    public async Task StartAsync(CancellationToken cancellationToken)
+    {
+        #region build task
+        
+        await _result.ExecuteAsync(action: async () =>
         {
-            #region get public holidays
-            
-            var holidays = await Holidays.GetJsonAsync<List<Holiday>>() ?? [];
-            
-            #endregion
-            
-            #region output log messages
-            
-            logger.LogInformation(
-                message: "READ: {count} public holidays",
-                args: holidays.Count);
-            
-            #endregion
-            
-            #region get naptan localities
+            var holidays = await Holidays.GetJsonAsync<List<Holiday>>(cancellationToken: cancellationToken) ?? [];
             
             var localPath = await Localities.DownloadFileAsync(
-                localFolderPath: storage.FullName,
-                localFileName: "localities.csv");
+                localFolderPath: _storage.FullName,
+                localFileName: "localities.csv",
+                cancellationToken: cancellationToken);
             
             if (localPath is null)
-                return;
+                throw new FtpException(message: "Failed to download Naptan localities");
             
             var localities = NaptanLocalityTools.GetFromFile(path: localPath);
             
-            #endregion
-            
-            #region output log messages
-            
-            logger.LogInformation(
-                message: "READ: {count} naptan localities",
-                args: localities.Count);
-            
-            #endregion
-            
-            #region get naptan stops
-            
             localPath = await Stops.DownloadFileAsync(
-                localFolderPath: storage.FullName,
-                localFileName: "stops.csv");
+                localFolderPath: _storage.FullName,
+                localFileName: "stops.csv",
+                cancellationToken: cancellationToken);
             
             if (localPath is null)
-                return;
+                throw new FtpException(message: "Failed to download Naptan stops");
             
             var stops = NaptanStopTools.GetFromFile(path: localPath);
             
-            #endregion
-            
-            #region output log messages
-            
-            logger.LogInformation(
-                message: "READ: {count} naptan stops",
-                args: stops.Count);
-            
-            #endregion
-            
-            #region get traveline data
-            
             var status = await FtpClientTools.GetFromRemoteAsync(
                 localPath: Path.Combine(
-                    path1: storage.FullName,
+                    path1: _storage.FullName,
                     path2: "traveline.zip"),
                 remoteFileName: "Y.zip");
             
             if (status is not FtpStatus.Success)
-                return;
-            
-            #endregion
-            
-            #region process traveline data
+                throw new FtpException(message: "Failed to download Traveline data");
             
             ZipFile.ExtractToDirectory(
                 sourceArchiveFileName: Path.Combine(
-                    path1: storage.FullName,
+                    path1: _storage.FullName,
                     path2: "traveline.zip"),
-                destinationDirectoryName: storage.FullName);
+                destinationDirectoryName: _storage.FullName);
             
             var rawFiles = Directory
-                .GetFiles(path: storage.FullName)
+                .GetFiles(path: _storage.FullName)
                 .Where(predicate: file => file.EndsWith(value: ".xml"))
                 .ToArray();
             
-            var validFiles = new List<string>();
-            var invalidFiles = new List<string>();
+            var workingFiles = new List<string>();
             
             foreach (var item in rawFiles)
             {
                 var reader = new StreamReader(path: item);
-                var contents = await reader.ReadToEndAsync();
+                var contents = await reader.ReadToEndAsync(cancellationToken: cancellationToken);
                 
                 if (contents.Contains(value: "ZZSY"))
-                    validFiles.Add(item: item);
+                    workingFiles.Add(item: item);
             }
-            
-            foreach (var item in rawFiles)
-            {
-                var reader = new StreamReader(path: item);
-                var contents = await reader.ReadToEndAsync();
-                
-                if (!contents.Contains(value: "ZZSY"))
-                    invalidFiles.Add(item: item);
-            }
-            
-            #endregion
-            
-            #region output log messages
-            
-            logger.LogInformation(
-                message: "READ: {count} transxchange files",
-                args: rawFiles.Length);
-            
-            logger.LogInformation(
-                message: "READ: {count} transxchange files valid",
-                args: validFiles.Count);
-            
-            logger.LogInformation(
-                message: "READ: {count} transxchange files invalid",
-                args: invalidFiles.Count);
-            
-            #endregion
-            
-            #region process schedule data
             
             Dictionary<string, TravelineSchedule> results = [];
             
-            foreach (var reader in validFiles.Select(selector: file => new StreamReader(path: file)))
+            foreach (var reader in workingFiles.Select(selector: file => new StreamReader(path: file)))
             {
                 if (new XmlSerializer(type: typeof(TransXChange)).Deserialize(textReader: reader) is not TransXChange xml)
                     continue;
@@ -163,11 +131,11 @@ public class Production(
                     continue;
                 
                 var startDate = DateOnlyTools.GetPeriodStartDate(
-                    scheduleDate: DateOnly.FromDateTime(dateTime: context.FireTimeUtc.Date),
+                    scheduleDate: DateOnly.FromDateTime(dateTime: DateTime.UtcNow.Date),
                     startDate: xml.Services?.Service?.OperatingPeriod?.StartDate.ToDate());
                 
                 var endDate = DateOnlyTools.GetPeriodEndDate(
-                    scheduleDate: DateOnly.FromDateTime(dateTime: context.FireTimeUtc.Date),
+                    scheduleDate: DateOnly.FromDateTime(dateTime: DateTime.UtcNow.Date),
                     endDate: xml.Services?.Service?.OperatingPeriod?.EndDate.ToDate());
                 
                 if (startDate > endDate)
@@ -176,7 +144,7 @@ public class Production(
                 foreach (var item in xml.VehicleJourneys.VehicleJourney)
                 {
                     var calendar = TravelineCalendarBuilder.Build(
-                        scheduleDate: DateOnly.FromDateTime(dateTime: context.FireTimeUtc.Date),
+                        scheduleDate: DateOnly.FromDateTime(dateTime: DateTime.UtcNow.Date),
                         holidays: holidays,
                         services: xml.Services,
                         vehicleJourney: item,
@@ -257,59 +225,47 @@ public class Production(
                 }
             }
             
-            #endregion
-            
-            #region output log messages
-            
-            logger.LogInformation(
-                message: "READ: {count} transxchange schedules",
-                args: results.Count);
-            
-            #endregion
-            
-            #region build database data
-            
-            await using var connection = await dataSource.OpenConnectionAsync();
-            await using var transaction = await connection.BeginTransactionAsync();
+            await using var connection = await _service.OpenConnectionAsync(cancellationToken: cancellationToken);
+            await using var transaction = await connection.BeginTransactionAsync(cancellationToken: cancellationToken);
             
             await using var dropCommand = new NpgsqlCommand(
                 cmdText: "drop index if exists gtfs_stop_times_idx",
                 connection: connection,
                 transaction: transaction);
             
-            await dropCommand.ExecuteNonQueryAsync();
+            await dropCommand.ExecuteNonQueryAsync(cancellationToken: cancellationToken);
             
-            var records = await DatabaseAgencyBuilder.BuildAsync(
+            await DatabaseAgencyBuilder.BuildAsync(
                 schedules: results,
                 connection: connection,
                 transaction: transaction);
             
-            records += await DatabaseCalendarBuilder.BuildAsync(
+            await DatabaseCalendarBuilder.BuildAsync(
                 schedules: results,
                 connection: connection,
                 transaction: transaction);
             
-            records += await DatabaseCalendarDateBuilder.BuildAsync(
+            await DatabaseCalendarDateBuilder.BuildAsync(
                 schedules: results,
                 connection: connection,
                 transaction: transaction);
             
-            records += await DatabaseRouteBuilder.BuildAsync(
+            await DatabaseRouteBuilder.BuildAsync(
                 schedules: results,
                 connection: connection,
                 transaction: transaction);
             
-            records += await DatabaseStopBuilder.BuildAsync(
+            await DatabaseStopBuilder.BuildAsync(
                 schedules: results,
                 connection: connection,
                 transaction: transaction);
             
-            records += await DatabaseStopTimeBuilder.BuildAsync(
+            await DatabaseStopTimeBuilder.BuildAsync(
                 schedules: results,
                 connection: connection,
                 transaction: transaction);
             
-            records += await DatabaseTripBuilder.BuildAsync(
+            await DatabaseTripBuilder.BuildAsync(
                 schedules: results,
                 connection: connection,
                 transaction: transaction);
@@ -329,28 +285,25 @@ public class Production(
                 connection: connection,
                 transaction: transaction);
             
-            await createCommand.ExecuteNonQueryAsync();
-            await transaction.CommitAsync();
+            await createCommand.ExecuteNonQueryAsync(cancellationToken: cancellationToken);
+            await transaction.CommitAsync(cancellationToken: cancellationToken);
             
-            #endregion
+            _logger.LogInformation(
+                message: "Build service health status: {status}",
+                args: "Green");
             
-            #region output log messages
-            
-            logger.LogInformation(
-                message: "WRITE: {count} database records",
-                args: records);
-            
-            #endregion
-        }
-        catch (Exception e)
-        {
-            logger.LogError(
-                message: "Exception: {exception}",
-                args: e.ToString());
-        }
-        finally
-        {
-            storage.Delete(recursive: true);
-        }
+            _host.StopApplication();
+        });
+        
+        #endregion
+    }
+    
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        #region build task
+        
+        return Task.CompletedTask;
+        
+        #endregion
     }
 }
