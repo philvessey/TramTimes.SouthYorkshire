@@ -4,7 +4,18 @@ param(
 )
 
 Write-Host ""
-Write-Host "Running tests..."
+Write-Host "Building solution ..."
+
+$output = dotnet build 2>&1 | Out-String
+
+if ($output -match "net\d+\.\d+") {
+    $framework = $matches[0]
+    
+    Write-Host "Installing playwright for $framework ..."
+    $null = & "TramTimes.Web.Tests/bin/Debug/$framework/playwright.ps1" install 2>&1
+}
+
+Write-Host "Running tests ..."
 Write-Host ""
 
 $command = "dotnet test --settings test.runsettings"
@@ -50,6 +61,7 @@ if ($failLines.Count -gt 0) {
     $failLines | ForEach-Object { 
         $cleaned = ($_ -replace 'TramTimes\.Web\.Tests\.Pages\.', '' -replace '\[.*?\]', '' -replace '\s{2,}', '').Trim()
         $cleaned = $cleaned -replace '\(.*?, (run: \d+)\)', ' ($1)'
+        
         Write-Host $cleaned
     }
     
@@ -62,6 +74,7 @@ if ($skipLines.Count -gt 0) {
     $skipLines | ForEach-Object { 
         $cleaned = ($_ -replace 'TramTimes\.Web\.Tests\.Pages\.', '' -replace '\[.*?\]', '' -replace '\s{2,}', '').Trim()
         $cleaned = $cleaned -replace '\(.*?, (run: \d+)\)', ' ($1)'
+        
         Write-Host $cleaned
     }
     
