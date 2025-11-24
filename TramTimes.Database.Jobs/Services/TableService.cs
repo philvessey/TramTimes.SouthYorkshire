@@ -42,9 +42,10 @@ public class TableService : IHostedService
         {
             await _client.CreateIfNotExistsAsync(cancellationToken: cancellationToken);
             
-            _logger.LogInformation(
-                message: "Table service health status: {status}",
-                args: "Green");
+            if (_logger.IsEnabled(logLevel: LogLevel.Information))
+                _logger.LogInformation(
+                    message: "Table service health status: {status}",
+                    args: "Green");
         });
         
         #endregion

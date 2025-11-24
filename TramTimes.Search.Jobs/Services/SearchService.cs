@@ -70,9 +70,10 @@ public class SearchService : IHostedService
                 },
                 cancellationToken: cancellationToken);
             
-            _logger.LogInformation(
-                message: "Search service health status: {status}",
-                args: "Green");
+            if (_logger.IsEnabled(logLevel: LogLevel.Information))
+                _logger.LogInformation(
+                    message: "Search service health status: {status}",
+                    args: "Green");
         });
         
         #endregion

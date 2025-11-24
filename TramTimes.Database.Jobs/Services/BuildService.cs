@@ -98,11 +98,12 @@ public class BuildService : IHostedService
             if (status is not FtpStatus.Success)
                 throw new FtpException(message: "Failed to download Traveline data");
             
-            ZipFile.ExtractToDirectory(
+            await ZipFile.ExtractToDirectoryAsync(
                 sourceArchiveFileName: Path.Combine(
                     path1: _storage.FullName,
                     path2: "traveline.zip"),
-                destinationDirectoryName: _storage.FullName);
+                destinationDirectoryName: _storage.FullName,
+                cancellationToken: cancellationToken);
             
             var rawFiles = Directory
                 .GetFiles(path: _storage.FullName)
@@ -288,9 +289,10 @@ public class BuildService : IHostedService
             await createCommand.ExecuteNonQueryAsync(cancellationToken: cancellationToken);
             await transaction.CommitAsync(cancellationToken: cancellationToken);
             
-            _logger.LogInformation(
-                message: "Build service health status: {status}",
-                args: "Green");
+            if (_logger.IsEnabled(logLevel: LogLevel.Information))
+                _logger.LogInformation(
+                    message: "Build service health status: {status}",
+                    args: "Green");
             
             _host.StopApplication();
         });

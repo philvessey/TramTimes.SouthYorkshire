@@ -55,9 +55,10 @@ public class DatabaseService : IHostedService
             await command.ExecuteNonQueryAsync(cancellationToken: cancellationToken);
             await transaction.CommitAsync(cancellationToken: cancellationToken);
             
-            _logger.LogInformation(
-                message: "Database service health status: {status}",
-                args: "Green");
+            if (_logger.IsEnabled(logLevel: LogLevel.Information))
+                _logger.LogInformation(
+                    message: "Database service health status: {status}",
+                    args: "Green");
         });
         
         #endregion

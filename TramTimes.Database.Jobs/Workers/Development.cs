@@ -40,9 +40,10 @@ public class Development(
             
             #region output log messages
             
-            logger.LogInformation(
-                message: "READ: {count} public holidays",
-                args: holidays.Count);
+            if (logger.IsEnabled(logLevel: LogLevel.Information))
+                logger.LogInformation(
+                    message: "READ: {count} public holidays",
+                    args: holidays.Count);
             
             #endregion
             
@@ -84,9 +85,10 @@ public class Development(
             
             #region output log messages
             
-            logger.LogInformation(
-                message: "READ: {count} naptan localities",
-                args: localities.Count);
+            if (logger.IsEnabled(logLevel: LogLevel.Information))
+                logger.LogInformation(
+                    message: "READ: {count} naptan localities",
+                    args: localities.Count);
             
             #endregion
             
@@ -128,9 +130,10 @@ public class Development(
             
             #region output log messages
             
-            logger.LogInformation(
-                message: "READ: {count} naptan stops",
-                args: stops.Count);
+            if (logger.IsEnabled(logLevel: LogLevel.Information))
+                logger.LogInformation(
+                    message: "READ: {count} naptan stops",
+                    args: stops.Count);
             
             #endregion
             
@@ -174,7 +177,7 @@ public class Development(
             
             #region process traveline data
             
-            ZipFile.ExtractToDirectory(
+            await ZipFile.ExtractToDirectoryAsync(
                 sourceArchiveFileName: Path.Combine(
                     path1: storage.FullName,
                     path2: "traveline.zip"),
@@ -200,13 +203,15 @@ public class Development(
             
             #region output log messages
             
-            logger.LogInformation(
-                message: "READ: {count} transxchange files",
-                args: rawFiles.Length);
+            if (logger.IsEnabled(logLevel: LogLevel.Information))
+                logger.LogInformation(
+                    message: "READ: {count} transxchange files",
+                    args: rawFiles.Length);
             
-            logger.LogInformation(
-                message: "READ: {count} working files",
-                args: workingFiles.Count);
+            if (logger.IsEnabled(logLevel: LogLevel.Information))
+                logger.LogInformation(
+                    message: "READ: {count} working files",
+                    args: workingFiles.Count);
             
             #endregion
             
@@ -321,9 +326,10 @@ public class Development(
             
             #region output log messages
             
-            logger.LogInformation(
-                message: "READ: {count} transxchange schedules",
-                args: results.Count);
+            if (logger.IsEnabled(logLevel: LogLevel.Information))
+                logger.LogInformation(
+                    message: "READ: {count} transxchange schedules",
+                    args: results.Count);
             
             #endregion
             
@@ -396,9 +402,10 @@ public class Development(
             
             #region output log messages
             
-            logger.LogInformation(
-                message: "WRITE: {count} database records",
-                args: records);
+            if (logger.IsEnabled(logLevel: LogLevel.Information))
+                logger.LogInformation(
+                    message: "WRITE: {count} database records",
+                    args: records);
             
             #endregion
             
@@ -548,9 +555,10 @@ public class Development(
         }
         catch (Exception e)
         {
-            logger.LogError(
-                message: "Exception: {exception}",
-                args: e.ToString());
+            if (logger.IsEnabled(logLevel: LogLevel.Error))
+                logger.LogError(
+                    message: "Exception: {exception}",
+                    args: e.ToString());
         }
         finally
         {

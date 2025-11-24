@@ -51,9 +51,10 @@ public class CacheService : IHostedService
                 .GetDatabase()
                 .KeyDeleteAsync(keys: keys);
             
-            _logger.LogInformation(
-                message: "Cache service health status: {status}",
-                args: "Green");
+            if (_logger.IsEnabled(logLevel: LogLevel.Information))
+                _logger.LogInformation(
+                    message: "Cache service health status: {status}",
+                    args: "Green");
         });
         
         #endregion

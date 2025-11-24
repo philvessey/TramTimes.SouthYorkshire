@@ -70,6 +70,7 @@ application.UseStaticFiles();
 if (context is "Production")
     application.UseHsts();
 
+application.MapDefaultEndpoints();
 application.MapHealthChecks(pattern: "/healthz");
 application.MapStaticAssets();
 

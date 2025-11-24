@@ -150,7 +150,7 @@ public class Testing(
             
             #region process traveline data
             
-            ZipFile.ExtractToDirectory(
+            await ZipFile.ExtractToDirectoryAsync(
                 sourceArchiveFileName: Path.Combine(
                     path1: storage.FullName,
                     path2: "traveline.zip"),
@@ -496,9 +496,10 @@ public class Testing(
         }
         catch (Exception e)
         {
-            logger.LogError(
-                message: "Exception: {exception}",
-                args: e.ToString());
+            if (logger.IsEnabled(logLevel: LogLevel.Error))
+                logger.LogError(
+                    message: "Exception: {exception}",
+                    args: e.ToString());
         }
         finally
         {

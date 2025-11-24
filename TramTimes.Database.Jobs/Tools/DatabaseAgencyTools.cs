@@ -48,7 +48,6 @@ public static class DatabaseAgencyTools
             };
             
             if (item.Calendar is { StartDate: not null, EndDate: not null })
-            {
                 calendar.ServiceId = $"{item.ServiceCode}" +
                                      $"-" +
                                      $"{item.Calendar?.StartDate:yyyy}" +
@@ -66,7 +65,6 @@ public static class DatabaseAgencyTools
                                      $"{item.Calendar?.Friday.ToInt()}" +
                                      $"{item.Calendar?.Saturday.ToInt()}" +
                                      $"{item.Calendar?.Sunday.ToInt()}";
-            }
             
             #endregion
             
