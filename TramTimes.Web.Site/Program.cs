@@ -1,5 +1,8 @@
+using System.Net;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.SignalR;
+using Polly;
+using Polly.Timeout;
 using TramTimes.Web.Site.Components;
 using TramTimes.Web.Site.Services;
 
@@ -19,7 +22,29 @@ builder
 
 #endregion
 
+#region configure defaults
+
+var retry = Policy
+    .Handle<HttpRequestException>()
+    .OrResult<HttpResponseMessage>(response => response.StatusCode is
+        HttpStatusCode.InternalServerError or
+        HttpStatusCode.NotImplemented or
+        HttpStatusCode.BadGateway or
+        HttpStatusCode.ServiceUnavailable or
+        HttpStatusCode.GatewayTimeout)
+    .RetryAsync(retryCount: 10);
+
+var timeout = Policy.TimeoutAsync<HttpResponseMessage>(
+    timeout: TimeSpan.FromSeconds(seconds: 10),
+    timeoutStrategy: TimeoutStrategy.Pessimistic);
+
+#endregion
+
 #region inject services
+
+builder.Services
+    .AddHttpClient(name: "api")
+    .AddPolicyHandler(policy: Policy.WrapAsync(policies: [retry, timeout]));
 
 builder.Services
     .AddBlazoredLocalStorage()

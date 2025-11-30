@@ -169,12 +169,14 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         
         #region build query data
         
-        var response = await HttpService.GetAsync(requestUri: QueryBuilder.GetStopsFromSearch(
+        var client = HttpService.CreateClient(name: "api");
+        
+        var response = await client.GetAsync(requestUri: QueryBuilder.GetStopsFromSearch(
             type: QueryType.StopPoint,
             value: Center));
         
         if (!response.IsSuccessStatusCode)
-           response = await HttpService.GetAsync(requestUri: QueryBuilder.GetStopsFromDatabase(
+           response = await client.GetAsync(requestUri: QueryBuilder.GetStopsFromDatabase(
                 type: QueryType.StopPoint,
                 value: Center));
         
@@ -677,12 +679,14 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         
         #region build query data
         
-        var response = await HttpService.GetAsync(requestUri: QueryBuilder.GetStopsFromSearch(
+        var client = HttpService.CreateClient(name: "api");
+        
+        var response = await client.GetAsync(requestUri: QueryBuilder.GetStopsFromSearch(
             type: QueryType.StopName,
             value: name));
         
         if (!response.IsSuccessStatusCode)
-            response = await HttpService.GetAsync(requestUri: QueryBuilder.GetStopsFromDatabase(
+            response = await client.GetAsync(requestUri: QueryBuilder.GetStopsFromDatabase(
                 type: QueryType.StopName,
                 value: name));
         
