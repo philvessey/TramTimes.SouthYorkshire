@@ -1,5 +1,7 @@
 // ReSharper disable all
 
+using Azure.Provisioning;
+using Azure.Provisioning.AppContainers;
 using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
@@ -89,8 +91,57 @@ public static class WebBuilder
                 .WithReference(source: search.Connection ?? throw new InvalidOperationException(message: "Search connection is not available."))
                 .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
                 {
-                    app.Template.Scale.MinReplicas = 0;
+                    var container = app.Template.Containers.Single().Value;
+                    
+                    if (container is not null)
+                    {
+                        container.Resources.Cpu = 0.5;
+                        container.Resources.Memory = "1.0Gi";
+                    }
+                    
+                    app.Template.Scale.MinReplicas = 1;
                     app.Template.Scale.MaxReplicas = 5;
+                    
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule()
+                    {
+                        Name = "http-requests",
+                        Custom = new ContainerAppCustomScaleRule()
+                        {
+                            CustomScaleRuleType = "http",
+                            Metadata = new BicepDictionary<string>()
+                            {
+                                { "concurrentRequests", "100" }
+                            }
+                        }
+                    }));
+                    
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule()
+                    {
+                        Name = "cpu-threshold",
+                        Custom = new ContainerAppCustomScaleRule()
+                        {
+                            CustomScaleRuleType = "cpu",
+                            Metadata = new BicepDictionary<string>()
+                            {
+                                { "type", "Utilization" },
+                                { "value", "75" }
+                            }
+                        }
+                    }));
+                    
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule()
+                    {
+                        Name = "memory-threshold",
+                        Custom = new ContainerAppCustomScaleRule()
+                        {
+                            CustomScaleRuleType = "memory",
+                            Metadata = new BicepDictionary<string>()
+                            {
+                                { "type", "Utilization" },
+                                { "value", "75" }
+                            }
+                        }
+                    }));
                 });
         
         #endregion
@@ -134,8 +185,57 @@ public static class WebBuilder
                 .WithHttpHealthCheck(path: "/healthz")
                 .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
                 {
+                    var container = app.Template.Containers.Single().Value;
+                    
+                    if (container is not null)
+                    {
+                        container.Resources.Cpu = 1.0;
+                        container.Resources.Memory = "2.0Gi";
+                    }
+                    
                     app.Template.Scale.MinReplicas = 0;
                     app.Template.Scale.MaxReplicas = 5;
+                    
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule()
+                    {
+                        Name = "http-requests",
+                        Custom = new ContainerAppCustomScaleRule()
+                        {
+                            CustomScaleRuleType = "http",
+                            Metadata = new BicepDictionary<string>()
+                            {
+                                { "concurrentRequests", "100" }
+                            }
+                        }
+                    }));
+                    
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule()
+                    {
+                        Name = "cpu-threshold",
+                        Custom = new ContainerAppCustomScaleRule()
+                        {
+                            CustomScaleRuleType = "cpu",
+                            Metadata = new BicepDictionary<string>()
+                            {
+                                { "type", "Utilization" },
+                                { "value", "75" }
+                            }
+                        }
+                    }));
+                    
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule()
+                    {
+                        Name = "memory-threshold",
+                        Custom = new ContainerAppCustomScaleRule()
+                        {
+                            CustomScaleRuleType = "memory",
+                            Metadata = new BicepDictionary<string>()
+                            {
+                                { "type", "Utilization" },
+                                { "value", "75" }
+                            }
+                        }
+                    }));
                 });
         
         #endregion

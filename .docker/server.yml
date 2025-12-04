@@ -22,6 +22,7 @@ services:
       - server-data:/var/lib/postgresql/data
       - /etc/letsencrypt/live/server.tramtimes.net/fullchain.pem:/certs/fullchain.pem:ro
       - /etc/letsencrypt/live/server.tramtimes.net/privkey.pem:/certs/privkey.pem:ro
+      - /etc/postgresql/pg_hba.conf:/etc/postgresql/pg_hba.conf:ro
       - /etc/postgresql/postgresql.conf:/etc/postgresql/postgresql.conf:ro
 
 volumes:

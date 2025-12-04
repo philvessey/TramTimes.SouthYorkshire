@@ -23,8 +23,23 @@ chown 999:999 /etc/letsencrypt/live/server.tramtimes.net/privkey.pem
 # Create directory
 mkdir -p /etc/postgresql
 
+# Create pg_hba
+tee /etc/postgresql/pg_hba.conf > /dev/null <<'EOF'
+# TYPE  DATABASE        USER            ADDRESS                 METHOD
+local   all             postgres                                trust
+host    all             postgres        127.0.0.1/32            trust
+host    all             all             127.0.0.1/32            scram-sha-256
+host    all             all             ::1/128                 scram-sha-256
+hostssl all             all             0.0.0.0/0               scram-sha-256
+EOF
+
+chmod 644 /etc/postgresql/pg_hba.conf
+chown 999:999 /etc/postgresql/pg_hba.conf
+
 # Create postgresql
 tee /etc/postgresql/postgresql.conf > /dev/null <<'EOF'
+hba_file = '/etc/postgresql/pg_hba.conf'
+
 listen_addresses = '*'
 port = 5432
 
@@ -77,5 +92,5 @@ chmod +x /etc/letsencrypt/renewal-hooks/deploy/run.sh
 echo ""
 echo "✅ Setup complete. Use command: sudo docker compose up -d"
 echo "✅ Setup complete. Use command: sudo docker exec -it server psql -U postgres -d postgres"
-echo "✅ Setup complete. Use connection: Host=server.tramtimes.net;Port=5433;Database=southyorkshire;Username=postgres;Password=$PASSWORD;SslMode=Require;Tcp Keepalive=true;Keepalive=30;Connection Idle Lifetime=30;Connection Lifetime=300"
+echo "✅ Setup complete. Use connection: Host=server.tramtimes.net;Port=5433;Database=southyorkshire;Username=postgres;Password=$PASSWORD;SslMode=Require;GSS Encryption Mode=Disable;Tcp Keepalive=True;Keepalive=30;Connection Idle Lifetime=30;Connection Lifetime=300"
 echo ""
