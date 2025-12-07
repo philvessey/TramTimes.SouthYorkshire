@@ -68,9 +68,9 @@ builder.Services
 #region add extensions
 
 builder.Services
-    .AddOpenApi()
     .AddProblemDetails()
-    .AddSwaggerGen();
+    .AddSwaggerGen()
+    .AddOpenApi();
 
 #endregion
 
@@ -79,10 +79,13 @@ builder.Services
 var application = builder.Build();
 application.UseExceptionHandler();
 
+if (context is "Production")
+    application.UseHttpsRedirection();
+
 if (context is not "Production")
     application
-        .UseSwagger()
-        .UseSwaggerUI();
+        .UseSwaggerUI()
+        .UseSwagger();
 
 application.MapHealthChecks(pattern: "/healthz");
 

@@ -32,10 +32,10 @@ public static class SearchBuilder
                 .WithImageTag(tag: "8.17.3")
                 .WithLifetime(lifetime: ContainerLifetime.Persistent)
                 .WithUrlForEndpoint(
-                    callback: annotation => annotation.DisplayLocation = UrlDisplayLocation.DetailsOnly,
+                    callback: url => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
                     endpointName: "http")
                 .WithUrlForEndpoint(
-                    callback: annotation => annotation.DisplayLocation = UrlDisplayLocation.DetailsOnly,
+                    callback: url => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
                     endpointName: "internal");
         
         if (builder.ExecutionContext.IsPublishMode)
@@ -105,7 +105,7 @@ public static class SearchBuilder
                     resource.WithLifetime(lifetime: ContainerLifetime.Session);
                     resource.WithParentRelationship(parent: search.Service);
                     resource.WithUrlForEndpoint(
-                        callback: annotation => annotation.DisplayText = "Administration",
+                        callback: url => url.DisplayText = "Administration",
                         endpointName: "http");
                 });
         

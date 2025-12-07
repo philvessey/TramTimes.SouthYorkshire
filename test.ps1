@@ -45,7 +45,6 @@ if (-not (Test-Path "telerik-license.txt")) {
 Write-Host "Checking secrets ..."
 
 $requiredSecrets = @(
-    "Parameters:transxchange-hostname",
     "Parameters:transxchange-username",
     "Parameters:transxchange-userpass"
 )

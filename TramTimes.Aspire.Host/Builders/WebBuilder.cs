@@ -2,6 +2,7 @@
 
 using Azure.Provisioning;
 using Azure.Provisioning.AppContainers;
+using TramTimes.Aspire.Host.Parameters;
 using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
@@ -20,6 +21,22 @@ public static class WebBuilder
         #region build resources
         
         var web = new WebResources();
+        
+        #endregion
+        
+        #region add parameters
+        
+        web.Parameters = new WebParameters();
+        
+        if (builder.ExecutionContext.IsPublishMode)
+            web.Parameters.Certificate = builder.AddParameter(
+                name: "frontend-certificate",
+                secret: false);
+        
+        if (builder.ExecutionContext.IsPublishMode)
+            web.Parameters.Domain = builder.AddParameter(
+                name: "frontend-domain",
+                value: "southyorkshire.tramtimes.net");
         
         #endregion
         
@@ -70,11 +87,29 @@ public static class WebBuilder
                 .WithReference(source: cache.Service ?? throw new InvalidOperationException(message: "Cache service is not available."))
                 .WithReference(source: search.Service ?? throw new InvalidOperationException(message: "Search service is not available."))
                 .WithUrlForEndpoint(
-                    callback: annotation => annotation.DisplayText = "Primary",
+                    callback: url => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
                     endpointName: "https")
                 .WithUrlForEndpoint(
-                    callback: annotation => annotation.DisplayText = "Secondary",
-                    endpointName: "http");
+                    callback: url => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
+                    endpointName: "http")
+                .WithUrls(callback =>
+                {
+                    callback.Urls.Add(item: new ResourceUrlAnnotation
+                    {
+                        DisplayText = "Primary",
+                        DisplayLocation = UrlDisplayLocation.SummaryAndDetails,
+                        Endpoint = callback.GetEndpoint(name: "https"),
+                        Url = "/swagger"
+                    });
+                    
+                    callback.Urls.Add(item: new ResourceUrlAnnotation
+                    {
+                        DisplayText = "Secondary",
+                        DisplayLocation = UrlDisplayLocation.SummaryAndDetails,
+                        Endpoint = callback.GetEndpoint(name: "http"),
+                        Url = "/swagger"
+                    });
+                });
         
         if (builder.ExecutionContext.IsPublishMode)
             web.Backend = builder
@@ -102,26 +137,26 @@ public static class WebBuilder
                     app.Template.Scale.MinReplicas = 1;
                     app.Template.Scale.MaxReplicas = 5;
                     
-                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule()
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule
                     {
                         Name = "http-requests",
-                        Custom = new ContainerAppCustomScaleRule()
+                        Custom = new ContainerAppCustomScaleRule
                         {
                             CustomScaleRuleType = "http",
-                            Metadata = new BicepDictionary<string>()
+                            Metadata = new BicepDictionary<string>
                             {
                                 { "concurrentRequests", "100" }
                             }
                         }
                     }));
                     
-                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule()
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule
                     {
                         Name = "cpu-threshold",
-                        Custom = new ContainerAppCustomScaleRule()
+                        Custom = new ContainerAppCustomScaleRule
                         {
                             CustomScaleRuleType = "cpu",
-                            Metadata = new BicepDictionary<string>()
+                            Metadata = new BicepDictionary<string>
                             {
                                 { "type", "Utilization" },
                                 { "value", "75" }
@@ -129,13 +164,13 @@ public static class WebBuilder
                         }
                     }));
                     
-                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule()
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule
                     {
                         Name = "memory-threshold",
-                        Custom = new ContainerAppCustomScaleRule()
+                        Custom = new ContainerAppCustomScaleRule
                         {
                             CustomScaleRuleType = "memory",
-                            Metadata = new BicepDictionary<string>()
+                            Metadata = new BicepDictionary<string>
                             {
                                 { "type", "Utilization" },
                                 { "value", "75" }
@@ -163,10 +198,10 @@ public static class WebBuilder
                 .WithExternalHttpEndpoints()
                 .WithHttpHealthCheck(path: "/healthz")
                 .WithUrlForEndpoint(
-                    callback: annotation => annotation.DisplayText = "Primary",
+                    callback: url => url.DisplayText = "Primary",
                     endpointName: "https")
                 .WithUrlForEndpoint(
-                    callback: annotation => annotation.DisplayText = "Secondary",
+                    callback: url => url.DisplayText = "Secondary",
                     endpointName: "http");
         
         if (builder.ExecutionContext.IsPublishMode)
@@ -196,26 +231,26 @@ public static class WebBuilder
                     app.Template.Scale.MinReplicas = 0;
                     app.Template.Scale.MaxReplicas = 5;
                     
-                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule()
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule
                     {
                         Name = "http-requests",
-                        Custom = new ContainerAppCustomScaleRule()
+                        Custom = new ContainerAppCustomScaleRule
                         {
                             CustomScaleRuleType = "http",
-                            Metadata = new BicepDictionary<string>()
+                            Metadata = new BicepDictionary<string>
                             {
                                 { "concurrentRequests", "100" }
                             }
                         }
                     }));
                     
-                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule()
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule
                     {
                         Name = "cpu-threshold",
-                        Custom = new ContainerAppCustomScaleRule()
+                        Custom = new ContainerAppCustomScaleRule
                         {
                             CustomScaleRuleType = "cpu",
-                            Metadata = new BicepDictionary<string>()
+                            Metadata = new BicepDictionary<string>
                             {
                                 { "type", "Utilization" },
                                 { "value", "75" }
@@ -223,19 +258,23 @@ public static class WebBuilder
                         }
                     }));
                     
-                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule()
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule
                     {
                         Name = "memory-threshold",
-                        Custom = new ContainerAppCustomScaleRule()
+                        Custom = new ContainerAppCustomScaleRule
                         {
                             CustomScaleRuleType = "memory",
-                            Metadata = new BicepDictionary<string>()
+                            Metadata = new BicepDictionary<string>
                             {
                                 { "type", "Utilization" },
                                 { "value", "75" }
                             }
                         }
                     }));
+                    
+                    app.ConfigureCustomDomain(
+                        certificateName: web.Parameters.Certificate ?? throw new InvalidOperationException(message: "Certificate parameter is not available."),
+                        customDomain: web.Parameters.Domain ?? throw new InvalidOperationException(message: "Domain parameter is not available."));
                 });
         
         #endregion

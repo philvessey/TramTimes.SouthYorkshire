@@ -1,7 +1,7 @@
 <Project>
     
     <PropertyGroup>
-        <NoWarn>ASPIREAZURE001;ASPIREAZURE002;ASPIREINTERACTION001;ASPIREINTERACTION002;NU1900</NoWarn>
+        <NoWarn>ASPIREACADOMAINS001;ASPIREACADOMAINS002;ASPIREAZURE001;ASPIREAZURE002;ASPIREINTERACTION001;ASPIREINTERACTION002;NU1900</NoWarn>
         <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>

@@ -1,13 +1,13 @@
 <Project>
     
     <PropertyGroup>
-        <AspireVersion>13.0.1</AspireVersion>
+        <AspireVersion>13.0.2</AspireVersion>
         <AspireElasticVersion>13.0.0</AspireElasticVersion>
-        <NextDeparturesVersion>3.9.1</NextDeparturesVersion>
+        <NextDeparturesVersion>3.9.2</NextDeparturesVersion>
     </PropertyGroup>
     
     <PropertyGroup>
-        <AspirePreviewVersion>13.0.1-preview.1.25575.3</AspirePreviewVersion>
+        <AspirePreviewVersion>13.0.2-preview.1.25603.5</AspirePreviewVersion>
     </PropertyGroup>
     
     <PropertyGroup>
@@ -43,8 +43,8 @@
         <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.0.0" />
         <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.0.0" />
         <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
-        <PackageVersion Include="Microsoft.Playwright" Version="1.56.0" />
-        <PackageVersion Include="Microsoft.Playwright.Xunit" Version="1.56.0" />
+        <PackageVersion Include="Microsoft.Playwright" Version="1.57.0" />
+        <PackageVersion Include="Microsoft.Playwright.Xunit" Version="1.57.0" />
     </ItemGroup>
     
     <ItemGroup>

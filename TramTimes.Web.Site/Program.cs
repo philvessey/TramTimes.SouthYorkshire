@@ -89,11 +89,12 @@ builder.Services
 var application = builder.Build();
 application.UseAntiforgery();
 application.UseCookiePolicy();
-application.UseHttpsRedirection();
 application.UseStaticFiles();
 
 if (context is "Production")
-    application.UseHsts();
+    application
+        .UseHttpsRedirection()
+        .UseHsts();
 
 application.MapDefaultEndpoints();
 application.MapHealthChecks(pattern: "/healthz");

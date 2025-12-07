@@ -32,7 +32,7 @@ public static class DatabaseBuilder
                 .WithImageTag(tag: "17.6")
                 .WithLifetime(lifetime: ContainerLifetime.Persistent)
                 .WithUrlForEndpoint(
-                    callback: annotation => annotation.DisplayLocation = UrlDisplayLocation.DetailsOnly,
+                    callback: url => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
                     endpointName: "tcp");
         
         #endregion
@@ -55,14 +55,14 @@ public static class DatabaseBuilder
             database.Parameters.Hostname = builder
                 .AddParameter(
                     name: "transxchange-hostname",
-                    secret: false)
+                    value: "tnds.basemap.co.uk")
                 .WithDescription(description: "Hostname for the Traveline FTP server.")
                 .WithParentRelationship(parent: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
         
         if (builder.ExecutionContext.IsPublishMode)
             database.Parameters.Hostname = builder.AddParameter(
                 name: "transxchange-hostname",
-                secret: false);
+                value: "tnds.basemap.co.uk");
         
         if (builder.ExecutionContext.IsRunMode)
             database.Parameters.Username = builder
@@ -174,7 +174,7 @@ public static class DatabaseBuilder
                         resource.WithLifetime(lifetime: ContainerLifetime.Session);
                         resource.WithParentRelationship(parent: database.Service);
                         resource.WithUrlForEndpoint(
-                            callback: annotation => annotation.DisplayText = "Administration",
+                            callback: url => url.DisplayText = "Administration",
                             endpointName: "http");
                     })
                 .WithPgWeb(
@@ -185,7 +185,7 @@ public static class DatabaseBuilder
                         resource.WithLifetime(lifetime: ContainerLifetime.Session);
                         resource.WithParentRelationship(parent: database.Service);
                         resource.WithUrlForEndpoint(
-                            callback: annotation => annotation.DisplayText = "Administration",
+                            callback: url => url.DisplayText = "Administration",
                             endpointName: "http");
                     });
         
