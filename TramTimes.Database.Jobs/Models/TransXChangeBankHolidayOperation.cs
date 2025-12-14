@@ -9,7 +9,7 @@ public class TransXChangeBankHolidayOperation
     [UsedImplicitly]
     [XmlElement(elementName: "DaysOfOperation")]
     public TransXChangeDaysOfOperation? DaysOfOperation { get; set; }
-    
+
     [UsedImplicitly]
     [XmlElement(elementName: "DaysOfNonOperation")]
     public TransXChangeDaysOfNonOperation? DaysOfNonOperation { get; set; }

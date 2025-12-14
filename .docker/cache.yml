@@ -7,7 +7,7 @@ networks:
 
 services:
   cache:
-    command: ["redis-server", "--requirepass", "{{PASSWORD}}"]
+    command: [ "redis-server", "--requirepass", "{{PASSWORD}}" ]
     container_name: cache
     image: redis:8.2
     networks:

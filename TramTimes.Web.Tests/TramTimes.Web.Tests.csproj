@@ -1,31 +1,31 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    
-    <PropertyGroup>
-        <IsTestProject>true</IsTestProject>
-    </PropertyGroup>
-    
-    <ItemGroup>
-        <PackageReference Include="AutoMapper" />
-        <PackageReference Include="Aspire.Hosting.Testing" />
-        <PackageReference Include="Microsoft.AspNetCore.TestHost" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" />
-        <PackageReference Include="Microsoft.Playwright" />
-        <PackageReference Include="Microsoft.Playwright.Xunit" />
-    </ItemGroup>
-    
-    <ItemGroup>
-        <PackageReference Include="xunit" />
-        <PackageReference Include="xunit.core" />
-        <PackageReference Include="xunit.assert" />
-        <PackageReference Include="xunit.extensibility.core" />
-        <PackageReference Include="xunit.extensibility.execution" />
-        <PackageReference Include="xunit.runner.console" />
-        <PackageReference Include="xunit.runner.visualstudio" />
-    </ItemGroup>
-    
-    <ItemGroup>
-        <ProjectReference Include="..\TramTimes.Aspire.Host\TramTimes.Aspire.Host.csproj" />
-        <ProjectReference Include="..\TramTimes.Web.Utilities\TramTimes.Web.Utilities.csproj" />
-    </ItemGroup>
-    
+
+  <PropertyGroup>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper"/>
+    <PackageReference Include="Aspire.Hosting.Testing"/>
+    <PackageReference Include="Microsoft.AspNetCore.TestHost"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk"/>
+    <PackageReference Include="Microsoft.Playwright"/>
+    <PackageReference Include="Microsoft.Playwright.Xunit"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit"/>
+    <PackageReference Include="xunit.core"/>
+    <PackageReference Include="xunit.assert"/>
+    <PackageReference Include="xunit.extensibility.core"/>
+    <PackageReference Include="xunit.extensibility.execution"/>
+    <PackageReference Include="xunit.runner.console"/>
+    <PackageReference Include="xunit.runner.visualstudio"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TramTimes.Aspire.Host\TramTimes.Aspire.Host.csproj"/>
+    <ProjectReference Include="..\TramTimes.Web.Utilities\TramTimes.Web.Utilities.csproj"/>
+  </ItemGroup>
+
 </Project>

@@ -9,7 +9,7 @@ public class TransXChangePlace
     [UsedImplicitly]
     [XmlElement(elementName: "NptgLocalityRef")]
     public string? NptgLocalityRef { get; set; }
-    
+
     [UsedImplicitly]
     [XmlElement(elementName: "Location")]
     public TransXChangeLocation? Location { get; set; }

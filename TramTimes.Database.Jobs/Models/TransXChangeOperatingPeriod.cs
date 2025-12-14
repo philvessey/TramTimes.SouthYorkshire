@@ -9,7 +9,7 @@ public class TransXChangeOperatingPeriod
     [UsedImplicitly]
     [XmlElement(elementName: "StartDate")]
     public string? StartDate { get; set; }
-    
+
     [UsedImplicitly]
     [XmlElement(elementName: "EndDate")]
     public string? EndDate { get; set; }

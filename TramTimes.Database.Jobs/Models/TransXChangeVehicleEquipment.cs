@@ -9,7 +9,7 @@ public class TransXChangeVehicleEquipment
     [UsedImplicitly]
     [XmlElement(elementName: "AccessVehicleEquipment")]
     public string? AccessVehicleEquipment { get; set; }
-    
+
     [UsedImplicitly]
     [XmlElement(elementName: "WheelchairVehicleEquipment")]
     public TransXChangeWheelchairVehicleEquipment? WheelchairVehicleEquipment { get; set; }

@@ -9,7 +9,7 @@ public class TransXChangeLocation
     [UsedImplicitly]
     [XmlElement(elementName: "Easting")]
     public string? Easting { get; set; }
-    
+
     [UsedImplicitly]
     [XmlElement(elementName: "Northing")]
     public string? Northing { get; set; }

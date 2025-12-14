@@ -13,7 +13,7 @@ public static class ConsentCookies
         Secure = true,
         Value = "true"
     };
-    
+
     public static Cookie False => new()
     {
         Domain = "localhost",
@@ -23,7 +23,7 @@ public static class ConsentCookies
         Secure = true,
         Value = "false"
     };
-    
+
     public static Cookie Unknown => new()
     {
         Domain = "localhost",

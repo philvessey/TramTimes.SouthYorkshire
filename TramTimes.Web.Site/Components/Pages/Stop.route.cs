@@ -4,15 +4,8 @@ namespace TramTimes.Web.Site.Components.Pages;
 
 public partial class Stop
 {
-    [Parameter]
-    public required string StopId { get; set; }
-    
-    [Parameter]
-    public double? Longitude { get; set; }
-    
-    [Parameter]
-    public double? Latitude { get; set; }
-    
-    [Parameter]
-    public double? Zoom { get; set; }
+    [Parameter] public required string StopId { get; set; }
+    [Parameter] public double? Longitude { get; set; }
+    [Parameter] public double? Latitude { get; set; }
+    [Parameter] public double? Zoom { get; set; }
 }

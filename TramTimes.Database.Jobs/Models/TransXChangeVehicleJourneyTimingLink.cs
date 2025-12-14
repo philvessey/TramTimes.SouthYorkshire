@@ -9,7 +9,7 @@ public class TransXChangeVehicleJourneyTimingLink
     [UsedImplicitly]
     [XmlAttribute(attributeName: "id")]
     public string? Id { get; set; }
-    
+
     [UsedImplicitly]
     [XmlElement(elementName: "JourneyPatternTimingLinkRef")]
     public string? JourneyPatternTimingLinkRef { get; set; }

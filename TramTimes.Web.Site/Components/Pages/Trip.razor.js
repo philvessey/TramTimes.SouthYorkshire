@@ -9,7 +9,7 @@ export function focusElement(element) {
 export function registerResize(dotNetHelper) {
     window.addEventListener('resize', () => {
         clearTimeout(resizeTimeout);
-        
+
         resizeTimeout = setTimeout(() => {
             dotNetHelper.invokeMethodAsync('OnScreenResizedAsync');
         }, 500);

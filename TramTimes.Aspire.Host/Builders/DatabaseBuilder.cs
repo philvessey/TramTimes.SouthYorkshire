@@ -8,20 +8,20 @@ namespace TramTimes.Aspire.Host.Builders;
 
 public static class DatabaseBuilder
 {
-    private static readonly string Context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
-    
+    private static readonly string _context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
+
     public static DatabaseResources BuildDatabase(
         this IDistributedApplicationBuilder builder,
         StorageResources storage) {
-        
+
         #region build resources
-        
+
         var database = new DatabaseResources();
-        
+
         #endregion
-        
+
         #region add server
-        
+
         if (builder.ExecutionContext.IsRunMode)
             database.Service = builder
                 .AddPostgres(name: "server")
@@ -34,23 +34,23 @@ public static class DatabaseBuilder
                 .WithUrlForEndpoint(
                     callback: url => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
                     endpointName: "tcp");
-        
+
         #endregion
-        
+
         #region add database
-        
+
         if (builder.ExecutionContext.IsRunMode)
             database.Resource = database.Service?.AddDatabase(name: "database");
-        
+
         if (builder.ExecutionContext.IsPublishMode)
             database.Connection = builder.AddConnectionString(name: "database");
-        
+
         #endregion
-        
+
         #region add parameters
-        
+
         database.Parameters = new DatabaseParameters();
-        
+
         if (builder.ExecutionContext.IsRunMode)
             database.Parameters.Hostname = builder
                 .AddParameter(
@@ -58,12 +58,12 @@ public static class DatabaseBuilder
                     value: "tnds.basemap.co.uk")
                 .WithDescription(description: "Hostname for the Traveline FTP server.")
                 .WithParentRelationship(parent: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
-        
+
         if (builder.ExecutionContext.IsPublishMode)
             database.Parameters.Hostname = builder.AddParameter(
                 name: "transxchange-hostname",
                 value: "tnds.basemap.co.uk");
-        
+
         if (builder.ExecutionContext.IsRunMode)
             database.Parameters.Username = builder
                 .AddParameter(
@@ -71,12 +71,12 @@ public static class DatabaseBuilder
                     secret: false)
                 .WithDescription(description: "Username for the Traveline FTP server.")
                 .WithParentRelationship(parent: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
-        
+
         if (builder.ExecutionContext.IsPublishMode)
             database.Parameters.Username = builder.AddParameter(
                 name: "transxchange-username",
                 secret: false);
-        
+
         if (builder.ExecutionContext.IsRunMode)
             database.Parameters.Userpass = builder
                 .AddParameter(
@@ -84,16 +84,16 @@ public static class DatabaseBuilder
                     secret: true)
                 .WithDescription(description: "Password for the Traveline FTP server.")
                 .WithParentRelationship(parent: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."));
-        
+
         if (builder.ExecutionContext.IsPublishMode)
             database.Parameters.Userpass = builder.AddParameter(
                 name: "transxchange-userpass",
                 secret: true);
-        
+
         #endregion
-        
+
         #region add project
-        
+
         if (builder.ExecutionContext.IsRunMode)
             database.Builder = builder
                 .AddProject<Projects.TramTimes_Database_Jobs>(name: "database-builder")
@@ -103,7 +103,7 @@ public static class DatabaseBuilder
                 .WaitFor(dependency: database.Parameters.Userpass ?? throw new InvalidOperationException(message: "Password parameter is not available."))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
-                    value: Context)
+                    value: _context)
                 .WithEnvironment(
                     name: "FTP_HOSTNAME",
                     parameter: database.Parameters.Hostname)
@@ -118,7 +118,7 @@ public static class DatabaseBuilder
                 .WithReference(source: storage.Queues ?? throw new InvalidOperationException(message: "Storage queues are not available."))
                 .WithReference(source: storage.Tables ?? throw new InvalidOperationException(message: "Storage tables are not available."))
                 .WithReference(source: database.Resource);
-        
+
         if (builder.ExecutionContext.IsPublishMode)
             database.Builder = builder
                 .AddProject<Projects.TramTimes_Database_Jobs>(name: "database-builder")
@@ -142,28 +142,28 @@ public static class DatabaseBuilder
                 .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>
                 {
                     var container = job.Template.Containers.Single().Value;
-                    
+
                     if (container is not null)
                     {
                         container.Resources.Cpu = 1.0;
                         container.Resources.Memory = "2.0Gi";
                     }
-                    
+
                     job.Configuration.TriggerType = ContainerAppJobTriggerType.Schedule;
                     job.Configuration.ScheduleTriggerConfig.CronExpression = "0 3 * * *";
                 });
-        
+
         #endregion
-        
+
         #region check context
-        
-        if (Context is "Testing")
+
+        if (_context is "Testing")
             return database;
-        
+
         #endregion
-        
+
         #region add tools
-        
+
         if (builder.ExecutionContext.IsRunMode)
             database.Service?
                 .WithPgAdmin(
@@ -188,9 +188,9 @@ public static class DatabaseBuilder
                             callback: url => url.DisplayText = "Administration",
                             endpointName: "http");
                     });
-        
+
         #endregion
-        
+
         return database;
     }
 }

@@ -8,22 +8,19 @@ namespace TramTimes.Search.Jobs.Workers;
 public class Production(
     ElasticsearchClient searchService,
     ILogger<Production> logger) : IJob {
-    
+
     public async Task Execute(IJobExecutionContext context)
     {
         try
         {
             #region delete search index
-            
-            await searchService.Indices.DeleteAsync(request: new DeleteIndexRequest
-            {
-                Indices = "southyorkshire"
-            });
-            
+
+            await searchService.Indices.DeleteAsync(request: new DeleteIndexRequest { Indices = "southyorkshire" });
+
             #endregion
-            
+
             #region create search index
-            
+
             await searchService.Indices.CreateAsync(request: new CreateIndexRequest
             {
                 Index = "southyorkshire",
@@ -42,7 +39,7 @@ public class Production(
                     }
                 }
             });
-            
+
             #endregion
         }
         catch (Exception e)

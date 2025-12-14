@@ -15,47 +15,47 @@ public static class IndexBuilder
         ElasticsearchClient searchService,
         IMapper mapperService,
         string id) {
-        
+
         #region get database feed
-        
+
         var databaseFeed = await Feed.LoadAsync(dataStorage: PostgresStorage.Load(dataSource: dataSource));
-        
+
         var stopResults = await databaseFeed.GetStopsByIdAsync(
             id: id,
             comparison: ComparisonType.Exact);
-        
+
         var serviceResults = await databaseFeed.GetServicesByStopAsync(
             id: id,
             target: DateTime.Now,
             offset: TimeSpan.FromMinutes(minutes: -60),
             comparison: ComparisonType.Exact,
             tolerance: TimeSpan.FromHours(value: 4));
-        
+
         var databaseResults = mapperService.Map<List<SearchStop>>(source: stopResults).FirstOrDefault() ?? new SearchStop();
         databaseResults.Points = mapperService.Map<List<SearchStopPoint>>(source: serviceResults) ?? [];
-        
+
         #endregion
-        
+
         #region check database feed
-        
+
         if (databaseResults is { Latitude: not null, Longitude: not null })
-            databaseResults.Location = GeoLocation.LatitudeLongitude(latitudeLongitude: new LatLonGeoLocation 
+            databaseResults.Location = GeoLocation.LatitudeLongitude(latitudeLongitude: new LatLonGeoLocation
             {
                 Lat = databaseResults.Latitude.Value,
                 Lon = databaseResults.Longitude.Value
             });
-        
+
         #endregion
-        
+
         #region set search feed
-        
+
         await searchService.IndexAsync(request: new IndexRequest<SearchStop>
         {
             Document = databaseResults,
             Id = databaseResults.Id ?? id,
             Index = "southyorkshire"
         });
-        
+
         #endregion
     }
 }

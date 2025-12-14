@@ -9,39 +9,39 @@ namespace TramTimes.Aspire.Host.Builders;
 
 public static class WebBuilder
 {
-    private static readonly string Context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
-    
+    private static readonly string _context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
+
     public static void BuildWeb(
         this IDistributedApplicationBuilder builder,
         StorageResources storage,
         DatabaseResources database,
         CacheResources cache,
         SearchResources search) {
-        
+
         #region build resources
-        
+
         var web = new WebResources();
-        
+
         #endregion
-        
+
         #region add parameters
-        
+
         web.Parameters = new WebParameters();
-        
+
         if (builder.ExecutionContext.IsPublishMode)
             web.Parameters.Certificate = builder.AddParameter(
                 name: "frontend-certificate",
                 secret: false);
-        
+
         if (builder.ExecutionContext.IsPublishMode)
             web.Parameters.Domain = builder.AddParameter(
                 name: "frontend-domain",
                 value: "southyorkshire.tramtimes.net");
-        
+
         #endregion
-        
+
         #region add api
-        
+
         if (builder.ExecutionContext.IsRunMode)
             web.Backend = builder
                 .AddProject<Projects.TramTimes_Web_Api>(name: "web-api")
@@ -49,36 +49,24 @@ public static class WebBuilder
                 .WaitFor(dependency: search.Builder ?? throw new InvalidOperationException(message: "Search builder is not available."))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
-                    value: Context)
+                    value: _context)
                 .WithExternalHttpEndpoints()
                 .WithHttpCommand(
                     displayName: "Build cache",
                     path: "/web/cache/build",
-                    commandOptions: new HttpCommandOptions
-                    {
-                        IconName = "Settings"
-                    })
+                    commandOptions: new HttpCommandOptions { IconName = "Settings" })
                 .WithHttpCommand(
                     displayName: "Delete cache",
                     path: "/web/cache/delete",
-                    commandOptions: new HttpCommandOptions
-                    {
-                        IconName = "Delete"
-                    })
+                    commandOptions: new HttpCommandOptions { IconName = "Delete" })
                 .WithHttpCommand(
                     displayName: "Build index",
                     path: "/web/index/build",
-                    commandOptions: new HttpCommandOptions
-                    {
-                        IconName = "Settings"
-                    })
+                    commandOptions: new HttpCommandOptions { IconName = "Settings" })
                 .WithHttpCommand(
                     displayName: "Delete index",
                     path: "/web/index/delete",
-                    commandOptions: new HttpCommandOptions
-                    {
-                        IconName = "Delete"
-                    })
+                    commandOptions: new HttpCommandOptions { IconName = "Delete" })
                 .WithHttpHealthCheck(path: "/healthz")
                 .WithReference(source: storage.Blobs ?? throw new InvalidOperationException(message: "Storage blobs are not available."))
                 .WithReference(source: storage.Queues ?? throw new InvalidOperationException(message: "Storage queues are not available."))
@@ -101,7 +89,7 @@ public static class WebBuilder
                         Endpoint = callback.GetEndpoint(name: "https"),
                         Url = "/swagger"
                     });
-                    
+
                     callback.Urls.Add(item: new ResourceUrlAnnotation
                     {
                         DisplayText = "Secondary",
@@ -110,7 +98,7 @@ public static class WebBuilder
                         Url = "/swagger"
                     });
                 });
-        
+
         if (builder.ExecutionContext.IsPublishMode)
             web.Backend = builder
                 .AddProject<Projects.TramTimes_Web_Api>(name: "web-api")
@@ -127,62 +115,62 @@ public static class WebBuilder
                 .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
                 {
                     var container = app.Template.Containers.Single().Value;
-                    
+
                     if (container is not null)
                     {
                         container.Resources.Cpu = 0.5;
                         container.Resources.Memory = "1.0Gi";
                     }
-                    
+
                     app.Template.Scale.MinReplicas = 1;
                     app.Template.Scale.MaxReplicas = 5;
-                    
-                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule
-                    {
-                        Name = "http-requests",
-                        Custom = new ContainerAppCustomScaleRule
+
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(
+                        literal: new ContainerAppScaleRule
                         {
-                            CustomScaleRuleType = "http",
-                            Metadata = new BicepDictionary<string>
+                            Name = "http-requests",
+                            Custom = new ContainerAppCustomScaleRule
                             {
-                                { "concurrentRequests", "100" }
+                                CustomScaleRuleType = "http",
+                                Metadata = new BicepDictionary<string> { { "concurrentRequests", "100" } }
                             }
-                        }
-                    }));
-                    
-                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule
-                    {
-                        Name = "cpu-threshold",
-                        Custom = new ContainerAppCustomScaleRule
+                        }));
+
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(
+                        literal: new ContainerAppScaleRule
                         {
-                            CustomScaleRuleType = "cpu",
-                            Metadata = new BicepDictionary<string>
+                            Name = "cpu-threshold",
+                            Custom = new ContainerAppCustomScaleRule
                             {
-                                { "type", "Utilization" },
-                                { "value", "75" }
+                                CustomScaleRuleType = "cpu",
+                                Metadata = new BicepDictionary<string>
+                                {
+                                    { "type", "Utilization" },
+                                    { "value", "75" }
+                                }
                             }
-                        }
-                    }));
-                    
-                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule
-                    {
-                        Name = "memory-threshold",
-                        Custom = new ContainerAppCustomScaleRule
+                        }));
+
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(
+                        literal: new ContainerAppScaleRule
                         {
-                            CustomScaleRuleType = "memory",
-                            Metadata = new BicepDictionary<string>
+                            Name = "memory-threshold",
+                            Custom = new ContainerAppCustomScaleRule
                             {
-                                { "type", "Utilization" },
-                                { "value", "75" }
+                                CustomScaleRuleType = "memory",
+                                Metadata = new BicepDictionary<string>
+                                {
+                                    { "type", "Utilization" },
+                                    { "value", "75" }
+                                }
                             }
-                        }
-                    }));
+                        }));
                 });
-        
+
         #endregion
-        
+
         #region add site
-        
+
         if (builder.ExecutionContext.IsRunMode)
             web.Frontend = builder
                 .AddProject<Projects.TramTimes_Web_Site>(name: "web-site")
@@ -194,7 +182,7 @@ public static class WebBuilder
                         : web.Backend.GetEndpoint(name: "http"))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
-                    value: Context)
+                    value: _context)
                 .WithExternalHttpEndpoints()
                 .WithHttpHealthCheck(path: "/healthz")
                 .WithUrlForEndpoint(
@@ -203,7 +191,7 @@ public static class WebBuilder
                 .WithUrlForEndpoint(
                     callback: url => url.DisplayText = "Secondary",
                     endpointName: "http");
-        
+
         if (builder.ExecutionContext.IsPublishMode)
             web.Frontend = builder
                 .AddProject<Projects.TramTimes_Web_Site>(name: "web-site")
@@ -221,62 +209,62 @@ public static class WebBuilder
                 .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
                 {
                     var container = app.Template.Containers.Single().Value;
-                    
+
                     if (container is not null)
                     {
                         container.Resources.Cpu = 1.0;
                         container.Resources.Memory = "2.0Gi";
                     }
-                    
+
                     app.Template.Scale.MinReplicas = 0;
                     app.Template.Scale.MaxReplicas = 5;
-                    
-                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule
-                    {
-                        Name = "http-requests",
-                        Custom = new ContainerAppCustomScaleRule
+
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(
+                        literal: new ContainerAppScaleRule
                         {
-                            CustomScaleRuleType = "http",
-                            Metadata = new BicepDictionary<string>
+                            Name = "http-requests",
+                            Custom = new ContainerAppCustomScaleRule
                             {
-                                { "concurrentRequests", "100" }
+                                CustomScaleRuleType = "http",
+                                Metadata = new BicepDictionary<string> { { "concurrentRequests", "100" } }
                             }
-                        }
-                    }));
-                    
-                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule
-                    {
-                        Name = "cpu-threshold",
-                        Custom = new ContainerAppCustomScaleRule
+                        }));
+
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(
+                        literal: new ContainerAppScaleRule
                         {
-                            CustomScaleRuleType = "cpu",
-                            Metadata = new BicepDictionary<string>
+                            Name = "cpu-threshold",
+                            Custom = new ContainerAppCustomScaleRule
                             {
-                                { "type", "Utilization" },
-                                { "value", "75" }
+                                CustomScaleRuleType = "cpu",
+                                Metadata = new BicepDictionary<string>
+                                {
+                                    { "type", "Utilization" },
+                                    { "value", "75" }
+                                }
                             }
-                        }
-                    }));
-                    
-                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(literal: new ContainerAppScaleRule
-                    {
-                        Name = "memory-threshold",
-                        Custom = new ContainerAppCustomScaleRule
+                        }));
+
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(
+                        literal: new ContainerAppScaleRule
                         {
-                            CustomScaleRuleType = "memory",
-                            Metadata = new BicepDictionary<string>
+                            Name = "memory-threshold",
+                            Custom = new ContainerAppCustomScaleRule
                             {
-                                { "type", "Utilization" },
-                                { "value", "75" }
+                                CustomScaleRuleType = "memory",
+                                Metadata = new BicepDictionary<string>
+                                {
+                                    { "type", "Utilization" },
+                                    { "value", "75" }
+                                }
                             }
-                        }
-                    }));
-                    
+                        }));
+
                     app.ConfigureCustomDomain(
                         certificateName: web.Parameters.Certificate ?? throw new InvalidOperationException(message: "Certificate parameter is not available."),
                         customDomain: web.Parameters.Domain ?? throw new InvalidOperationException(message: "Domain parameter is not available."));
                 });
-        
+
         #endregion
     }
 }

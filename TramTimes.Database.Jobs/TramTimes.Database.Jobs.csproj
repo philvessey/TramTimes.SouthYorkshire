@@ -1,36 +1,36 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
-    
-    <ItemGroup>
-        <PackageReference Include="Aspire.Azure.Data.Tables" />
-        <PackageReference Include="Aspire.Azure.Storage.Blobs" />
-        <PackageReference Include="Aspire.Azure.Storage.Queues" />
-        <PackageReference Include="Aspire.Npgsql" />
-        <PackageReference Include="CsvHelper" />
-        <PackageReference Include="FluentFTP" />
-        <PackageReference Include="Flurl.Http" />
-        <PackageReference Include="IeuanWalker.GeoUK" />
-        <PackageReference Include="JetBrains.Annotations" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" />
-        <PackageReference Include="NextDepartures.Standard" />
-        <PackageReference Include="NextDepartures.Storage.Postgres.Aspire" />
-        <PackageReference Include="Polly" />
-        <PackageReference Include="Quartz.Extensions.Hosting" />
-    </ItemGroup>
-    
-    <ItemGroup>
-        <ProjectReference Include="..\TramTimes.Aspire.Services\TramTimes.Aspire.Services.csproj" />
-    </ItemGroup>
-    
-    <ItemGroup>
-        <None Include="Data\stops.txt">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Scripts\function.sql">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Include="Workers\Schedules\*.json">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-    
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Azure.Data.Tables"/>
+    <PackageReference Include="Aspire.Azure.Storage.Blobs"/>
+    <PackageReference Include="Aspire.Azure.Storage.Queues"/>
+    <PackageReference Include="Aspire.Npgsql"/>
+    <PackageReference Include="CsvHelper"/>
+    <PackageReference Include="FluentFTP"/>
+    <PackageReference Include="Flurl.Http"/>
+    <PackageReference Include="IeuanWalker.GeoUK"/>
+    <PackageReference Include="JetBrains.Annotations"/>
+    <PackageReference Include="Microsoft.Extensions.Hosting"/>
+    <PackageReference Include="NextDepartures.Standard"/>
+    <PackageReference Include="NextDepartures.Storage.Postgres.Aspire"/>
+    <PackageReference Include="Polly"/>
+    <PackageReference Include="Quartz.Extensions.Hosting"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TramTimes.Aspire.Services\TramTimes.Aspire.Services.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Data\stops.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Scripts\function.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Workers\Schedules\*.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

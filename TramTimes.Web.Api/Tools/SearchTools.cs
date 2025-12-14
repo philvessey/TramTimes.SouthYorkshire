@@ -7,7 +7,7 @@ public static class SearchTools
     public static List<SortOptions> SortByDistance(LatLonGeoLocation location)
     {
         #region build results
-        
+
         var results = new List<SortOptions>
         {
             new()
@@ -15,25 +15,22 @@ public static class SearchTools
                 GeoDistance = new GeoDistanceSort
                 {
                     Field = "location",
-                    Location = new List<GeoLocation>
-                    {
-                        GeoLocation.LatitudeLongitude(latitudeLongitude: location)
-                    },
+                    Location = new List<GeoLocation> { GeoLocation.LatitudeLongitude(latitudeLongitude: location) },
                     Order = SortOrder.Asc,
                     Unit = DistanceUnit.Meters
                 }
             }
         };
-        
+
         #endregion
-        
+
         return results;
     }
-    
+
     public static List<SortOptions> SortByNameThenById()
     {
         #region build results
-        
+
         var results = new List<SortOptions>
         {
             new()
@@ -53,9 +50,9 @@ public static class SearchTools
                 }
             }
         };
-        
+
         #endregion
-        
+
         return results;
     }
 }

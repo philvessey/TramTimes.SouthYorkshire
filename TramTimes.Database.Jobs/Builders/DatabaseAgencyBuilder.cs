@@ -11,15 +11,15 @@ public static class DatabaseAgencyBuilder
         Dictionary<string, TravelineSchedule> schedules,
         NpgsqlConnection connection,
         NpgsqlTransaction transaction) {
-        
+
         #region build agencies
-        
+
         var agencies = DatabaseAgencyTools.GetFromSchedules(schedules: schedules);
-        
+
         #endregion
-        
+
         #region create table
-        
+
         await using var createCommand = new NpgsqlCommand(
             cmdText: "create table if not exists gtfs_agency (" +
                      "agency_id character varying(255), " +
@@ -32,80 +32,81 @@ public static class DatabaseAgencyBuilder
                      "agency_email character varying(255))",
             connection: connection,
             transaction: transaction);
-        
+
         await createCommand.ExecuteNonQueryAsync();
-        
+
         #endregion
-        
+
         #region truncate table
-        
+
         await using var truncateCommand = new NpgsqlCommand(
             cmdText: "truncate table gtfs_agency",
             connection: connection,
             transaction: transaction);
-        
+
         await truncateCommand.ExecuteNonQueryAsync();
-        
+
         #endregion
-        
+
         #region create importer
-        
-        await using var importer = await connection.BeginBinaryImportAsync(copyFromCommand: "copy gtfs_agency (" +
-                                                                                            "agency_id, " +
-                                                                                            "agency_name, " +
-                                                                                            "agency_url, " +
-                                                                                            "agency_timezone, " +
-                                                                                            "agency_lang, " +
-                                                                                            "agency_phone, " +
-                                                                                            "agency_fare_url, " +
-                                                                                            "agency_email) " +
-                                                                                            "from stdin (format binary)");
-        
+
+        await using var importer = await connection.BeginBinaryImportAsync(
+            copyFromCommand: "copy gtfs_agency (" +
+                             "agency_id, " +
+                             "agency_name, " +
+                             "agency_url, " +
+                             "agency_timezone, " +
+                             "agency_lang, " +
+                             "agency_phone, " +
+                             "agency_fare_url, " +
+                             "agency_email) " +
+                             "from stdin (format binary)");
+
         #endregion
-        
+
         #region build results
-        
+
         foreach (var item in agencies.Values)
         {
             await importer.StartRowAsync();
-            
+
             await importer.WriteAsync(
                 value: item.AgencyId,
                 npgsqlDbType: NpgsqlDbType.Varchar);
-            
+
             await importer.WriteAsync(
                 value: item.AgencyName,
                 npgsqlDbType: NpgsqlDbType.Varchar);
-            
+
             await importer.WriteAsync(
                 value: item.AgencyUrl,
                 npgsqlDbType: NpgsqlDbType.Varchar);
-            
+
             await importer.WriteAsync(
                 value: item.AgencyTimezone,
                 npgsqlDbType: NpgsqlDbType.Varchar);
-            
+
             await importer.WriteAsync(
                 value: item.AgencyLang,
                 npgsqlDbType: NpgsqlDbType.Varchar);
-            
+
             await importer.WriteAsync(
                 value: item.AgencyPhone,
                 npgsqlDbType: NpgsqlDbType.Varchar);
-            
+
             await importer.WriteAsync(
                 value: item.AgencyFareUrl,
                 npgsqlDbType: NpgsqlDbType.Varchar);
-            
+
             await importer.WriteAsync(
                 value: item.AgencyEmail,
                 npgsqlDbType: NpgsqlDbType.Varchar);
         }
-        
+
         var results = await importer.CompleteAsync();
-        
+
         #endregion
-        
+
         return results;
     }
 }

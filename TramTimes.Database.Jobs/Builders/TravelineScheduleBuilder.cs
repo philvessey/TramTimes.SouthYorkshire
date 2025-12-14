@@ -10,20 +10,17 @@ public static class TravelineScheduleBuilder
         TransXChangeServices? services,
         TransXChangeJourneyPattern? journeyPattern,
         TravelineCalendar? calendar) {
-        
+
         #region build unknown
-        
+
         var guid = Guid.NewGuid();
-        
-        var unknown = new TravelineSchedule
-        {
-            Id = guid.ToString()
-        };
-        
+
+        var unknown = new TravelineSchedule { Id = guid.ToString() };
+
         #endregion
-        
+
         #region build result
-        
+
         var result = new TravelineSchedule
         {
             Id = guid.ToString(),
@@ -38,21 +35,21 @@ public static class TravelineScheduleBuilder
             Calendar = calendar,
             StopPoints = []
         };
-        
+
         if (calendar is null)
             return unknown;
-        
+
         if (string.IsNullOrWhiteSpace(value: result.OperatorName))
             result.OperatorName = operators?.Operator?.OperatorNameOnLicence;
-        
+
         if (string.IsNullOrWhiteSpace(value: result.OperatorName))
             result.OperatorName = operators?.Operator?.OperatorShortName;
-        
+
         if (string.IsNullOrWhiteSpace(value: result.OperatorPhone))
             result.OperatorPhone = operators?.Operator?.EnquiryTelephoneNumber?.TelNationalNumber;
-        
+
         #endregion
-        
+
         return result;
     }
 }

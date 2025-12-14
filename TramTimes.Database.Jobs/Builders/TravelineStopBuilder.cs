@@ -13,27 +13,24 @@ public static class TravelineStopBuilder
         Dictionary<string, NaptanLocality> localities,
         TransXChangeStopPoints? stopPoints,
         string? reference) {
-        
+
         #region build unknown
-        
-        var unknown = new TravelineStop
-        {
-            AtcoCode = reference ?? "unknown"
-        };
-        
+
+        var unknown = new TravelineStop { AtcoCode = reference ?? "unknown" };
+
         #endregion
-        
+
         #region build result
-        
+
         var stopPoint = stopPoints?.StopPoint?.FirstOrDefault(predicate: point => point.AtcoCode == reference);
-        
+
         localities.TryGetValue(
             key: stopPoint?.Place?.NptgLocalityRef ?? "unknown",
             value: out var locality);
-        
+
         if (locality is null)
             return unknown;
-        
+
         var result = new TravelineStop
         {
             AtcoCode = reference ?? "unknown",
@@ -52,10 +49,10 @@ public static class TravelineStopBuilder
             StopType = stopPoint?.StopClassification?.StopType,
             AdministrativeAreaCode = stopPoint?.AdministrativeAreaRef
         };
-        
+
         if (result.Easting is null || result.Northing is null)
             return result;
-        
+
         var latitudeLongitude = GeoUK.Convert.ToLatitudeLongitude(
             ellipsoid: new Wgs84(),
             coordinates: Transform.Osgb36ToEtrs89(coordinates: GeoUK.Convert.ToCartesian(
@@ -64,12 +61,12 @@ public static class TravelineStopBuilder
                 coordinates: new EastingNorthing(
                     easting: double.Parse(s: result.Easting),
                     northing: double.Parse(s: result.Northing)))));
-        
+
         result.Latitude = latitudeLongitude.Latitude.ToString(provider: CultureInfo.InvariantCulture);
         result.Longitude = latitudeLongitude.Longitude.ToString(provider: CultureInfo.InvariantCulture);
-        
+
         #endregion
-        
+
         return result;
     }
 }

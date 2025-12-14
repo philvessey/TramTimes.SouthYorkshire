@@ -116,22 +116,22 @@ tee "/etc/nginx/conf.d/elasticsearch.conf" > /dev/null <<'EOF'
 server {
     listen 9201 ssl;
     server_name search.tramtimes.net;
-    
+
     ssl_certificate     /etc/letsencrypt/live/search.tramtimes.net/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/search.tramtimes.net/privkey.pem;
-    
+
     ssl_protocols       TLSv1.2 TLSv1.3;
     ssl_ciphers         HIGH:!aNULL:!MD5;
-    
+
     location / {
         proxy_http_version 1.1;
         proxy_pass https://172.28.0.2:9200;
-        
+
         proxy_ssl_name search1;
         proxy_ssl_trusted_certificate /etc/nginx/certs/elasticsearch.crt;
         proxy_ssl_verify on;
         proxy_ssl_verify_depth 2;
-        
+
         proxy_set_header Connection "keep-alive";
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -166,9 +166,9 @@ if [ $(date -d "$EXPIRY" +%s) -lt $(date -d "+365 days" +%s) ]; then
   docker run --rm -v "/tmp/certbot:/working" docker.elastic.co/elasticsearch/elasticsearch:8.17.3 \
     bin/elasticsearch-certutil ca -out /working/ca.zip \
     --pem > /dev/null 2>&1
-  
+
   unzip -oq /tmp/certbot/ca.zip -d /etc/elasticsearch
-  
+
   chmod 644 /etc/elasticsearch/ca/ca.crt
   chown 1000:1000 /etc/elasticsearch/ca/ca.crt
   chmod 600 /etc/elasticsearch/ca/ca.key

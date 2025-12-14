@@ -1,14 +1,14 @@
 <RunSettings>
-    
-    <RunConfiguration>
-        <EnvironmentVariables>
-            <DEBUG>pw:api</DEBUG>
-            <ASPIRE_CONTEXT>Testing</ASPIRE_CONTEXT>
-        </EnvironmentVariables>
-    </RunConfiguration>
-    
-    <xUnit>
-        <MaxParallelThreads>1</MaxParallelThreads>
-    </xUnit>
-    
+
+  <RunConfiguration>
+    <EnvironmentVariables>
+      <DEBUG>pw:api</DEBUG>
+      <ASPIRE_CONTEXT>Testing</ASPIRE_CONTEXT>
+    </EnvironmentVariables>
+  </RunConfiguration>
+
+  <xUnit>
+    <MaxParallelThreads>1</MaxParallelThreads>
+  </xUnit>
+
 </RunSettings>

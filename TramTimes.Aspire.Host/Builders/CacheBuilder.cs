@@ -1,26 +1,25 @@
 // ReSharper disable all
 
-using Azure.Provisioning.AppContainers;
 using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
 
 public static class CacheBuilder
 {
-    private static readonly string Context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
-    
+    private static readonly string _context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
+
     public static CacheResources BuildCache(
         this IDistributedApplicationBuilder builder,
         DatabaseResources database) {
-        
+
         #region build resources
-        
+
         var cache = new CacheResources();
-        
+
         #endregion
-        
+
         #region add redis
-        
+
         if (builder.ExecutionContext.IsRunMode)
             cache.Service = builder
                 .AddRedis(name: "cache")
@@ -31,25 +30,25 @@ public static class CacheBuilder
                 .WithUrlForEndpoint(
                     callback: url => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
                     endpointName: "tcp");
-        
+
         if (builder.ExecutionContext.IsPublishMode)
             cache.Connection = builder.AddConnectionString(name: "cache");
-        
+
         #endregion
-        
+
         #region add project
-        
+
         if (builder.ExecutionContext.IsRunMode)
             cache.Builder = builder
                 .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder")
                 .WaitFor(dependency: cache.Service ?? throw new InvalidOperationException(message: "Cache service is not available."))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
-                    value: Context)
+                    value: _context)
                 .WithParentRelationship(parent: cache.Service)
                 .WithReference(source: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
                 .WithReference(source: cache.Service);
-        
+
         if (builder.ExecutionContext.IsPublishMode)
             cache.Builder = builder
                 .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder")
@@ -62,28 +61,28 @@ public static class CacheBuilder
                 .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
                 {
                     var container = app.Template.Containers.Single().Value;
-                    
+
                     if (container is not null)
                     {
                         container.Resources.Cpu = 0.25;
                         container.Resources.Memory = "0.5Gi";
                     }
-                    
+
                     app.Template.Scale.MinReplicas = 1;
                     app.Template.Scale.MaxReplicas = 1;
                 });
-        
+
         #endregion
-        
+
         #region check context
-        
-        if (Context is "Testing")
+
+        if (_context is "Testing")
             return cache;
-        
+
         #endregion
-        
+
         #region add tools
-        
+
         if (builder.ExecutionContext.IsRunMode)
             cache.Service?
                 .WithRedisCommander(
@@ -108,9 +107,9 @@ public static class CacheBuilder
                             callback: url => url.DisplayText = "Administration",
                             endpointName: "http");
                     });
-        
+
         #endregion
-        
+
         return cache;
     }
 }

@@ -9,11 +9,11 @@ public class TransXChangeDateRange
     [UsedImplicitly]
     [XmlElement(elementName: "StartDate")]
     public string? StartDate { get; set; }
-    
+
     [UsedImplicitly]
     [XmlElement(elementName: "EndDate")]
     public string? EndDate { get; set; }
-    
+
     [UsedImplicitly]
     [XmlElement(elementName: "Note")]
     public string? Note { get; set; }

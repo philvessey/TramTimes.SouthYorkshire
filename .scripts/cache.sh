@@ -19,10 +19,10 @@ tee "/etc/nginx/stream.conf" > /dev/null <<'EOF'
 server {
     listen 6380 ssl;
     proxy_pass 172.28.0.2:6379;
-    
+
     ssl_certificate     /etc/letsencrypt/live/cache.tramtimes.net/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/cache.tramtimes.net/privkey.pem;
-    
+
     ssl_protocols       TLSv1.2 TLSv1.3;
     ssl_ciphers         HIGH:!aNULL:!MD5;
 }

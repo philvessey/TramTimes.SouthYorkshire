@@ -1,25 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk.Worker">
-    
-    <ItemGroup>
-        <PackageReference Include="Aspire.Elastic.Clients.Elasticsearch" />
-        <PackageReference Include="Aspire.Npgsql" />
-        <PackageReference Include="AutoMapper" />
-        <PackageReference Include="JetBrains.Annotations" />
-        <PackageReference Include="Microsoft.Extensions.Hosting" />
-        <PackageReference Include="NextDepartures.Standard" />
-        <PackageReference Include="NextDepartures.Storage.Postgres.Aspire" />
-        <PackageReference Include="Polly" />
-        <PackageReference Include="Quartz.Extensions.Hosting" />
-    </ItemGroup>
-    
-    <ItemGroup>
-        <ProjectReference Include="..\TramTimes.Aspire.Services\TramTimes.Aspire.Services.csproj" />
-    </ItemGroup>
-    
-    <ItemGroup>
-        <None Include="Data\stops.txt">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-    
+
+  <ItemGroup>
+    <PackageReference Include="Aspire.Elastic.Clients.Elasticsearch"/>
+    <PackageReference Include="Aspire.Npgsql"/>
+    <PackageReference Include="AutoMapper"/>
+    <PackageReference Include="JetBrains.Annotations"/>
+    <PackageReference Include="Microsoft.Extensions.Hosting"/>
+    <PackageReference Include="NextDepartures.Standard"/>
+    <PackageReference Include="NextDepartures.Storage.Postgres.Aspire"/>
+    <PackageReference Include="Polly"/>
+    <PackageReference Include="Quartz.Extensions.Hosting"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TramTimes.Aspire.Services\TramTimes.Aspire.Services.csproj"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Data\stops.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

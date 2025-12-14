@@ -5,7 +5,7 @@ param(
 
 function Clear-Lines {
     param([int]$count)
-    
+
     for ($i = 0; $i -lt $count; $i++) {
         Write-Host "`e[1A`e[2K" -NoNewline
     }
@@ -13,7 +13,7 @@ function Clear-Lines {
 
 function Write-Lines {
     param([int]$count)
-    
+
     for ($i = 0; $i -lt $count; $i++) {
         Write-Host ""
     }
@@ -27,7 +27,7 @@ if (-not (Test-Path "nuget.config")) {
     Write-Host "NuGet Configuration Missing!" -ForegroundColor Red
     Write-Host "Please ensure you have a valid nuget.config file in the repository root." -ForegroundColor Yellow
     Write-Lines -count 1
-    
+
     exit 1
 }
 
@@ -38,7 +38,7 @@ if (-not (Test-Path "telerik-license.txt")) {
     Write-Host "Telerik License Missing!" -ForegroundColor Red
     Write-Host "Please ensure you have a valid telerik-license.txt file in the repository root." -ForegroundColor Yellow
     Write-Lines -count 1
-    
+
     exit 1
 }
 
@@ -61,13 +61,13 @@ foreach ($secret in $requiredSecrets) {
 if ($missingSecrets.Count -gt 0) {
     Write-Lines -count 1
     Write-Host "User Secrets Missing!" -ForegroundColor Red
-    
+
     foreach ($secret in $missingSecrets) {
         Write-Host "dotnet user-secrets set `"$secret`" `"your-value`" --project TramTimes.Aspire.Host" -ForegroundColor Yellow
     }
-    
+
     Write-Lines -count 1
-    
+
     exit 1
 }
 
@@ -78,7 +78,7 @@ $output = dotnet build 2>&1 | Out-String
 
 if ($output -match "net\d+\.\d+") {
     $framework = $matches[0]
-    
+
     Write-Host "Building playwright ..."
     $null = & "TramTimes.Web.Tests/bin/Debug/$framework/playwright.ps1" install 2>&1
 }
@@ -91,15 +91,15 @@ $command = "dotnet test --settings test.runsettings"
 
 if ($filter -or $run -gt 0) {
     $parts = @()
-    
+
     if ($filter) {
         $parts += "DisplayName~$filter"
     }
-    
+
     if ($run -gt 0) {
         $parts += "DisplayName~run: $run"
     }
-    
+
     $command += " --filter `"$($parts -join '&')`""
 }
 
@@ -113,7 +113,7 @@ $output = $otherLines -join "`n"
 
 if ($output -match "Failed:\s*(\d+), Passed:\s*(\d+), Skipped:\s*(\d+), Total:\s*(\d+)") {
     $failed, $passed, $skipped, $total = $matches[1], $matches[2], $matches[3], $matches[4]
-    
+
     Write-Host ("{0,-8} {1,5}" -f 'Passed', $passed) -ForegroundColor Green
     Write-Host ("{0,-8} {1,5}" -f 'Failed', $failed) -ForegroundColor Red
     Write-Host ("{0,-8} {1,5}" -f 'Skipped', $skipped) -ForegroundColor Yellow
@@ -126,27 +126,27 @@ if ($output -match "Failed:\s*(\d+), Passed:\s*(\d+), Skipped:\s*(\d+), Total:\s
 
 if ($failLines.Count -gt 0) {
     Write-Host "[FAILED]" -ForegroundColor Red
-    
-    $failLines | ForEach-Object { 
+
+    $failLines | ForEach-Object {
         $cleaned = ($_ -replace 'TramTimes\.Web\.Tests\.Pages\.', '' -replace '\[.*?\]', '' -replace '\s{2,}', '').Trim()
         $cleaned = $cleaned -replace '\(.*?, (run: \d+)\)', ' ($1)'
-        
+
         Write-Host $cleaned
     }
-    
+
     Write-Lines -count 1
 }
 
 if ($skipLines.Count -gt 0) {
     Write-Host "[SKIPPED]" -ForegroundColor Yellow
-    
-    $skipLines | ForEach-Object { 
+
+    $skipLines | ForEach-Object {
         $cleaned = ($_ -replace 'TramTimes\.Web\.Tests\.Pages\.', '' -replace '\[.*?\]', '' -replace '\s{2,}', '').Trim()
         $cleaned = $cleaned -replace '\(.*?, (run: \d+)\)', ' ($1)'
-        
+
         Write-Host $cleaned
     }
-    
+
     Write-Lines -count 1
 }
 

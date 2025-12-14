@@ -12,113 +12,113 @@ public static class TravelineScheduleTools
         List<DateOnly>? supplementNonRunningDates,
         string? direction,
         string? line) {
-        
+
         #region get running date duplicates
-        
+
         var result = TravelineCalendarRunningDateTools.GetDuplicateDates(
             schedules: schedules,
             stopPoints: stopPoints,
             dates: runningDates,
             direction: direction,
             line: line);
-        
+
         if (result)
             return true;
-        
+
         result = TravelineCalendarRunningDateTools.GetDuplicateDates(
             schedules: schedules,
             stopPoints: stopPoints,
             dates: supplementRunningDates,
             direction: direction,
             line: line);
-        
+
         if (result)
             return true;
-        
+
         result = TravelineCalendarRunningDateTools.GetDuplicateDates(
             schedules: schedules,
             stopPoints: stopPoints,
             dates: supplementNonRunningDates,
             direction: direction,
             line: line);
-        
+
         if (result)
             return true;
-        
+
         #endregion
-        
+
         #region get supplement running date duplicates
-        
+
         result = TravelineCalendarSupplementRunningDateTools.GetDuplicateDates(
             schedules: schedules,
             stopPoints: stopPoints,
             dates: runningDates,
             direction: direction,
             line: line);
-        
+
         if (result)
             return true;
-        
+
         result = TravelineCalendarSupplementRunningDateTools.GetDuplicateDates(
             schedules: schedules,
             stopPoints: stopPoints,
             dates: supplementRunningDates,
             direction: direction,
             line: line);
-        
+
         if (result)
             return true;
-        
+
         result = TravelineCalendarSupplementRunningDateTools.GetDuplicateDates(
             schedules: schedules,
             stopPoints: stopPoints,
             dates: supplementNonRunningDates,
             direction: direction,
             line: line);
-        
+
         if (result)
             return true;
-        
+
         #endregion
-        
+
         #region get supplement non running date duplicates
-        
+
         result = TravelineCalendarSupplementNonRunningDateTools.GetDuplicateDates(
             schedules: schedules,
             stopPoints: stopPoints,
             dates: runningDates,
             direction: direction,
             line: line);
-        
+
         if (result)
             return true;
-        
+
         result = TravelineCalendarSupplementNonRunningDateTools.GetDuplicateDates(
             schedules: schedules,
             stopPoints: stopPoints,
             dates: supplementRunningDates,
             direction: direction,
             line: line);
-        
+
         if (result)
             return true;
-        
+
         result = TravelineCalendarSupplementNonRunningDateTools.GetDuplicateDates(
             schedules: schedules,
             stopPoints: stopPoints,
             dates: supplementNonRunningDates,
             direction: direction,
             line: line);
-        
+
         #endregion
-        
+
         return result;
     }
-    
+
     public static string GetServiceDirection(string? direction)
     {
         #region get service direction
-        
+
         var result = direction switch
         {
             "outbound" => "0",
@@ -129,9 +129,9 @@ public static class TravelineScheduleTools
             "anticlockwise" => "5",
             _ => "6"
         };
-        
+
         #endregion
-        
+
         return result;
     }
 }

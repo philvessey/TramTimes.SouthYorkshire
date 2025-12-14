@@ -9,7 +9,7 @@ public class TransXChangeStopClassification
     [UsedImplicitly]
     [XmlElement(elementName: "StopType")]
     public string? StopType { get; set; }
-    
+
     [UsedImplicitly]
     [XmlElement(elementName: "OffStreet")]
     public TransXChangeOffStreet? OffStreet { get; set; }

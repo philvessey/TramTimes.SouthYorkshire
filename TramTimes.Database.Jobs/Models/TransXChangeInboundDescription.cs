@@ -9,11 +9,11 @@ public class TransXChangeInboundDescription
     [UsedImplicitly]
     [XmlElement(elementName: "Origin")]
     public string? Origin { get; set; }
-    
+
     [UsedImplicitly]
     [XmlElement(elementName: "Destination")]
     public string? Destination { get; set; }
-    
+
     [UsedImplicitly]
     [XmlElement(elementName: "Description")]
     public string? Description { get; set; }

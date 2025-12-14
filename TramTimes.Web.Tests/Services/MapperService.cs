@@ -13,13 +13,13 @@ public static class MapperService
         var configuration = new MapperConfiguration(configure: expression =>
         {
             #region telerik stop -> web stop
-            
+
             expression.CreateMap<TelerikStop, WebStop>()
                 .ForMember(
                     destinationMember: stop => stop.Name,
                     memberOptions: member => member.MapFrom(mapExpression: stop =>
                         $"{stop.Name} {stop.Direction}"));
-            
+
             expression.CreateMap<WebStop, TelerikStop>()
                 .ForMember(
                     destinationMember: stop => stop.Name,
@@ -33,11 +33,11 @@ public static class MapperService
                     destinationMember: stop => stop.Location,
                     memberOptions: member => member.MapFrom(mapExpression: stop =>
                         new[] { stop.Latitude ?? 0, stop.Longitude ?? 0 }));
-            
+
             #endregion
-            
+
             #region telerik stop point -> web stop point
-            
+
             expression.CreateMap<TelerikStopPoint, WebStopPoint>()
                 .ForMember(
                     destinationMember: point => point.DepartureDateTime,
@@ -51,7 +51,7 @@ public static class MapperService
                     destinationMember: point => point.StopName,
                     memberOptions: member => member.MapFrom(mapExpression: point =>
                         $"{point.StopName} {point.StopDirection}"));
-            
+
             expression.CreateMap<WebStopPoint, TelerikStopPoint>()
                 .ForMember(
                     destinationMember: point => point.DepartureDateTime,
@@ -73,10 +73,10 @@ public static class MapperService
                     destinationMember: point => point.StopDirection,
                     memberOptions: member => member.MapFrom(mapExpression: point =>
                         RegexTools.RemoveName(point.StopName ?? string.Empty)));
-            
+
             #endregion
         });
-        
+
         return configuration.CreateMapper();
     }
 }

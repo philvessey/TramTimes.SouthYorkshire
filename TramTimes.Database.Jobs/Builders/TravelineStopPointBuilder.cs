@@ -12,18 +12,15 @@ public static class TravelineStopPointBuilder
         string? activity,
         TimeSpan? arrivalTime,
         TimeSpan? departureTime) {
-        
+
         #region build unknown
-        
-        var unknown = new TravelineStopPoint
-        {
-            AtcoCode = reference ?? "unknown"
-        };
-        
+
+        var unknown = new TravelineStopPoint { AtcoCode = reference ?? "unknown" };
+
         #endregion
-        
+
         #region build result
-        
+
         var result = new TravelineStopPoint
         {
             AtcoCode = reference,
@@ -31,21 +28,21 @@ public static class TravelineStopPointBuilder
             ArrivalTime = arrivalTime,
             DepartureTime = departureTime
         };
-        
+
         if (!arrivalTime.HasValue || !departureTime.HasValue)
             return unknown;
-        
+
         result.NaptanStop = NaptanStopBuilder.Build(
             stops: stops,
             reference: reference);
-        
+
         result.TravelineStop = TravelineStopBuilder.Build(
             localities: localities,
             stopPoints: stopPoints,
             reference: reference);
-        
+
         #endregion
-        
+
         return result;
     }
 }

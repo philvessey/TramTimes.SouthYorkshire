@@ -12,9 +12,9 @@ public static class TravelineCalendarBuilder
         TransXChangeVehicleJourney? vehicleJourney,
         DateOnly? startDate,
         DateOnly? endDate) {
-        
+
         #region build unknown
-        
+
         TravelineCalendar unknown = new()
         {
             Monday = false,
@@ -25,11 +25,11 @@ public static class TravelineCalendarBuilder
             Saturday = false,
             Sunday = false
         };
-        
+
         #endregion
-        
+
         #region build result
-        
+
         TravelineCalendar result = new()
         {
             Monday = false,
@@ -42,12 +42,12 @@ public static class TravelineCalendarBuilder
             StartDate = startDate,
             EndDate = endDate
         };
-        
+
         if (!startDate.HasValue || !endDate.HasValue)
             return unknown;
-        
+
         var operatingProfile = vehicleJourney?.OperatingProfile ?? services?.Service?.OperatingProfile;
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.MondayToFriday is not null)
         {
             result.Monday = true;
@@ -56,7 +56,7 @@ public static class TravelineCalendarBuilder
             result.Thursday = true;
             result.Friday = true;
         }
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.MondayToSaturday is not null)
         {
             result.Monday = true;
@@ -66,7 +66,7 @@ public static class TravelineCalendarBuilder
             result.Friday = true;
             result.Saturday = true;
         }
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.MondayToSunday is not null)
         {
             result.Monday = true;
@@ -77,13 +77,13 @@ public static class TravelineCalendarBuilder
             result.Saturday = true;
             result.Sunday = true;
         }
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.Weekend is not null)
         {
             result.Saturday = true;
             result.Sunday = true;
         }
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.NotMonday is not null)
         {
             result.Tuesday = true;
@@ -93,7 +93,7 @@ public static class TravelineCalendarBuilder
             result.Saturday = true;
             result.Sunday = true;
         }
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.NotTuesday is not null)
         {
             result.Monday = true;
@@ -103,7 +103,7 @@ public static class TravelineCalendarBuilder
             result.Saturday = true;
             result.Sunday = true;
         }
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.NotTuesday is not null)
         {
             result.Monday = true;
@@ -113,7 +113,7 @@ public static class TravelineCalendarBuilder
             result.Saturday = true;
             result.Sunday = true;
         }
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.NotWednesday is not null)
         {
             result.Monday = true;
@@ -123,7 +123,7 @@ public static class TravelineCalendarBuilder
             result.Saturday = true;
             result.Sunday = true;
         }
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.NotWednesday is not null)
         {
             result.Monday = true;
@@ -133,7 +133,7 @@ public static class TravelineCalendarBuilder
             result.Saturday = true;
             result.Sunday = true;
         }
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.NotWednesday is not null)
         {
             result.Monday = true;
@@ -143,7 +143,7 @@ public static class TravelineCalendarBuilder
             result.Saturday = true;
             result.Sunday = true;
         }
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.NotWednesday is not null)
         {
             result.Monday = true;
@@ -153,7 +153,7 @@ public static class TravelineCalendarBuilder
             result.Saturday = true;
             result.Sunday = true;
         }
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.NotThursday is not null)
         {
             result.Monday = true;
@@ -163,7 +163,7 @@ public static class TravelineCalendarBuilder
             result.Saturday = true;
             result.Sunday = true;
         }
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.NotFriday is not null)
         {
             result.Monday = true;
@@ -173,7 +173,7 @@ public static class TravelineCalendarBuilder
             result.Saturday = true;
             result.Sunday = true;
         }
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.NotSaturday is not null)
         {
             result.Monday = true;
@@ -183,7 +183,7 @@ public static class TravelineCalendarBuilder
             result.Friday = true;
             result.Sunday = true;
         }
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.NotSunday is not null)
         {
             result.Monday = true;
@@ -193,28 +193,28 @@ public static class TravelineCalendarBuilder
             result.Friday = true;
             result.Saturday = true;
         }
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.Monday is not null)
             result.Monday = true;
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.Tuesday is not null)
             result.Tuesday = true;
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.Wednesday is not null)
             result.Wednesday = true;
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.Thursday is not null)
             result.Thursday = true;
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.Friday is not null)
             result.Friday = true;
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.Saturday is not null)
             result.Saturday = true;
-        
+
         if (operatingProfile?.RegularDayType?.DaysOfWeek?.Sunday is not null)
             result.Sunday = true;
-        
+
         result.RunningDates = TravelineCalendarRunningDateTools.GetAllDates(
             startDate: result.StartDate,
             endDate: result.EndDate,
@@ -225,7 +225,7 @@ public static class TravelineCalendarBuilder
             friday: result.Friday,
             saturday: result.Saturday,
             sunday: result.Sunday);
-        
+
         result.SupplementRunningDates = TravelineCalendarSupplementRunningDateTools.GetAllDates(
             scheduleDate: scheduleDate,
             holidays: holidays,
@@ -240,7 +240,7 @@ public static class TravelineCalendarBuilder
             saturday: result.Saturday,
             sunday: result.Sunday,
             dates: result.RunningDates);
-        
+
         result.SupplementNonRunningDates = TravelineCalendarSupplementNonRunningDateTools.GetAllDates(
             scheduleDate: scheduleDate,
             holidays: holidays,
@@ -255,9 +255,9 @@ public static class TravelineCalendarBuilder
             saturday: result.Saturday,
             sunday: result.Sunday,
             dates: result.RunningDates);
-        
+
         #endregion
-        
+
         return result;
     }
 }

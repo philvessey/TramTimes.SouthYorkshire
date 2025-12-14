@@ -14,9 +14,9 @@ public static class SearchHandler
         ElasticsearchClient searchService,
         IMapper mapperService,
         string id) {
-        
+
         #region build request
-        
+
         var request = new SearchRequest
         {
             Indices = "southyorkshire",
@@ -28,28 +28,28 @@ public static class SearchHandler
             Size = 1000,
             Sort = SearchTools.SortByNameThenById()
         };
-        
+
         #endregion
-        
+
         #region build results
-        
+
         var results = await searchService.SearchAsync<SearchStop>(request: request);
-        
+
         if (!results.IsValidResponse || results.Documents.IsNullOrEmpty())
             return Results.NotFound();
-        
+
         #endregion
-        
+
         return Results.Json(data: mapperService.Map<List<WebStop>>(source: results.Documents));
     }
-    
+
     public static async Task<IResult> GetStopsByCodeAsync(
         ElasticsearchClient searchService,
         IMapper mapperService,
         string code) {
-        
+
         #region build request
-        
+
         var request = new SearchRequest
         {
             Indices = "southyorkshire",
@@ -61,28 +61,28 @@ public static class SearchHandler
             Size = 1000,
             Sort = SearchTools.SortByNameThenById()
         };
-        
+
         #endregion
-        
+
         #region build results
-        
+
         var results = await searchService.SearchAsync<SearchStop>(request: request);
-        
+
         if (!results.IsValidResponse || results.Documents.IsNullOrEmpty())
             return Results.NotFound();
-        
+
         #endregion
-        
+
         return Results.Json(data: mapperService.Map<List<WebStop>>(source: results.Documents));
     }
-    
+
     public static async Task<IResult> GetStopsByNameAsync(
         ElasticsearchClient searchService,
         IMapper mapperService,
         string name) {
-        
+
         #region build request
-        
+
         var request = new SearchRequest
         {
             Indices = "southyorkshire",
@@ -95,21 +95,21 @@ public static class SearchHandler
             Size = 1000,
             Sort = SearchTools.SortByNameThenById()
         };
-        
+
         #endregion
-        
+
         #region build results
-        
+
         var results = await searchService.SearchAsync<SearchStop>(request: request);
-        
+
         if (!results.IsValidResponse || results.Documents.IsNullOrEmpty())
             return Results.NotFound();
-        
+
         #endregion
-        
+
         return Results.Json(data: mapperService.Map<List<WebStop>>(source: results.Documents));
     }
-    
+
     public static async Task<IResult> GetStopsByLocationAsync(
         ElasticsearchClient searchService,
         IMapper mapperService,
@@ -117,9 +117,9 @@ public static class SearchHandler
         double minLat,
         double maxLon,
         double maxLat) {
-        
+
         #region build request
-        
+
         var request = new SearchRequest
         {
             Indices = "southyorkshire",
@@ -147,29 +147,29 @@ public static class SearchHandler
                 Lon = (minLon + maxLon) / 2
             })
         };
-        
+
         #endregion
-        
+
         #region build results
-        
+
         var results = await searchService.SearchAsync<SearchStop>(request: request);
-        
+
         if (!results.IsValidResponse || results.Documents.IsNullOrEmpty())
             return Results.NotFound();
-        
+
         #endregion
-        
+
         return Results.Json(data: mapperService.Map<List<WebStop>>(source: results.Documents));
     }
-    
+
     public static async Task<IResult> GetStopsByPointAsync(
         ElasticsearchClient searchService,
         IMapper mapperService,
         double lon,
         double lat) {
-        
+
         #region build request
-        
+
         var request = new SearchRequest
         {
             Indices = "southyorkshire",
@@ -190,18 +190,18 @@ public static class SearchHandler
                 Lon = lon
             })
         };
-        
+
         #endregion
-        
+
         #region build results
-        
+
         var results = await searchService.SearchAsync<SearchStop>(request: request);
-        
+
         if (!results.IsValidResponse || results.Documents.IsNullOrEmpty())
             return Results.NotFound();
-        
+
         #endregion
-        
+
         return Results.Json(data: mapperService.Map<List<WebStop>>(source: results.Documents));
     }
 }

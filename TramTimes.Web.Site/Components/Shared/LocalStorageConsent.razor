@@ -8,8 +8,8 @@
              fill="currentColor"
              viewBox="0 0 512 512"
              xmlns="http://www.w3.org/2000/svg">
-            
-            <path d="M510.52 255.82c-69.97-.85-126.47-57.69-126.47-127.86-70.17 0-127-56.49-127.86-126.45-27.26-4.14-55.13.3-79.72 12.82l-69.13 35.22a132.221 132.221 0 0 0-57.79 57.81l-35.1 68.88a132.645 132.645 0 0 0-12.82 80.95l12.08 76.27a132.521 132.521 0 0 0 37.16 72.96l54.77 54.76a132.036 132.036 0 0 0 72.71 37.06l76.71 12.15c27.51 4.36 55.7-.11 80.53-12.76l69.13-35.21a132.273 132.273 0 0 0 57.79-57.81l35.1-68.88c12.56-24.64 17.01-52.58 12.91-79.91zM176 368c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32 32zm32-160c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32 32zm160 128c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32 32z" />
+
+            <path d="M510.52 255.82c-69.97-.85-126.47-57.69-126.47-127.86-70.17 0-127-56.49-127.86-126.45-27.26-4.14-55.13.3-79.72 12.82l-69.13 35.22a132.221 132.221 0 0 0-57.79 57.81l-35.1 68.88a132.645 132.645 0 0 0-12.82 80.95l12.08 76.27a132.521 132.521 0 0 0 37.16 72.96l54.77 54.76a132.036 132.036 0 0 0 72.71 37.06l76.71 12.15c27.51 4.36 55.7-.11 80.53-12.76l69.13-35.21a132.273 132.273 0 0 0 57.79-57.81l35.1-68.88c12.56-24.64 17.01-52.58 12.91-79.91zM176 368c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32 32zm32-160c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32 32zm160 128c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32 32z"/>
         </svg>
     </button>
 </div>
@@ -18,22 +18,22 @@
 {
     <div id="local-storage-consent__outline"
          data-testid="local-storage-consent__outline">
-        
+
         <h3>We Use Cookies!</h3>
         <p>We use our own cookies and your browsers local storage to save stop information and your last viewed location. More information about how we use your data can be found in our <a data-testid="policy" @onclick="ShowPrivacyPolicy">privacy policy</a>.</p>
-        
+
         <div class="submit">
             <button class="accept"
                     data-testid="accept"
                     @onclick="AcceptPrivacyPolicyAsync">
-                
+
                 Accept
             </button>
-            
+
             <button class="reject"
                     data-testid="reject"
                     @onclick="RejectPrivacyPolicyAsync">
-                
+
                 Reject
             </button>
         </div>
@@ -44,28 +44,28 @@
 {
     <div id="local-storage-consent__policy"
          data-testid="local-storage-consent__policy">
-        
+
         <h3>Privacy Policy</h3>
-        
+
         <div class="content">
             <p>TramTimes values your privacy. The only cookie data stored is your consent to this privacy policy. No tracking or advertising cookies are used.</p><br />
             <p>We use your browsers local storage to save information about the stops you view. Saving stop information helps us create a cache for faster access to stops you view the most. If you reject consent the site will function normally but you will have to search for stops, either on the map or search input each time you visit the site.</p><br />
             <p>We use your browsers local storage to save your last viewed location. Saving your last viewed location allows us to quickly return you to the last location you viewed when you return to the site. If you reject consent the site will function normally but you will be returned to the default map location each time you visit the site.</p><br />
             <p>TramTimes does not share any of your data with third parties. The data stored in your browsers local storage is only accessible by TramTimes and all data remains on your device.</p>
         </div>
-        
+
         <div class="submit">
             <button class="accept"
                     data-testid="accept"
                     @onclick="AcceptPrivacyPolicyAsync">
-                
+
                 Accept
             </button>
-            
+
             <button class="reject"
                     data-testid="reject"
                     @onclick="RejectPrivacyPolicyAsync">
-                
+
                 Reject
             </button>
         </div>

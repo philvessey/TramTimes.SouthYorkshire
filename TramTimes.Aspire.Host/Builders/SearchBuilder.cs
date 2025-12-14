@@ -7,20 +7,20 @@ namespace TramTimes.Aspire.Host.Builders;
 
 public static class SearchBuilder
 {
-    private static readonly string Context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
-    
+    private static readonly string _context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
+
     public static SearchResources BuildSearch(
         this IDistributedApplicationBuilder builder,
         DatabaseResources database) {
-        
+
         #region build resources
-        
+
         var search = new SearchResources();
-        
+
         #endregion
-        
+
         #region add elasticsearch
-        
+
         if (builder.ExecutionContext.IsRunMode)
             search.Service = builder
                 .AddElasticsearch(name: "search")
@@ -37,25 +37,25 @@ public static class SearchBuilder
                 .WithUrlForEndpoint(
                     callback: url => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
                     endpointName: "internal");
-        
+
         if (builder.ExecutionContext.IsPublishMode)
             search.Connection = builder.AddConnectionString(name: "search");
-        
+
         #endregion
-        
+
         #region add project
-        
+
         if (builder.ExecutionContext.IsRunMode)
             search.Builder = builder
                 .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder")
                 .WaitFor(dependency: search.Service ?? throw new InvalidOperationException(message: "Search service is not available."))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
-                    value: Context)
+                    value: _context)
                 .WithParentRelationship(parent: search.Service)
                 .WithReference(source: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
                 .WithReference(source: search.Service);
-        
+
         if (builder.ExecutionContext.IsPublishMode)
             search.Builder = builder
                 .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder")
@@ -68,28 +68,28 @@ public static class SearchBuilder
                 .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
                 {
                     var container = app.Template.Containers.Single().Value;
-                    
+
                     if (container is not null)
                     {
                         container.Resources.Cpu = 0.25;
                         container.Resources.Memory = "0.5Gi";
                     }
-                    
+
                     app.Template.Scale.MinReplicas = 1;
                     app.Template.Scale.MaxReplicas = 1;
                 });
-        
+
         #endregion
-        
+
         #region check context
-        
-        if (Context is "Testing")
+
+        if (_context is "Testing")
             return search;
-        
+
         #endregion
-        
+
         #region add tools
-        
+
         if (builder.ExecutionContext.IsRunMode)
             search.Service?.WithKibana(
                 containerName: "search-kibana",
@@ -108,9 +108,9 @@ public static class SearchBuilder
                         callback: url => url.DisplayText = "Administration",
                         endpointName: "http");
                 });
-        
+
         #endregion
-        
+
         return search;
     }
 }

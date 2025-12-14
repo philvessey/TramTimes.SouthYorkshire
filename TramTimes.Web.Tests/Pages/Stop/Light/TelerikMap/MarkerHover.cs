@@ -10,7 +10,7 @@ public class MarkerHover(AspireManager aspireManager) : BaseTest(aspireManager: 
     private AspireManager AspireManager { get; } = aspireManager ?? throw new ArgumentNullException(paramName: nameof(aspireManager));
     private byte[]? Screenshot { get; set; }
     private string? Error { get; set; }
-    
+
     [Theory]
     [InlineData("9400ZZSYHFW1", "Halfway", 53.328532846077614, -1.3443136700078966, 1)]
     [InlineData("9400ZZSYMAL1", "Malin Bridge", 53.40064593919049, -1.5082120329876791, 2)]
@@ -21,61 +21,61 @@ public class MarkerHover(AspireManager aspireManager) : BaseTest(aspireManager: 
         double lat,
         double lon,
         int run) {
-        
+
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
-        
+
         await RunTestAsync(cookie: ConsentCookies.True, scheme: ColorScheme.Light, test: async page =>
         {
             #region configure page
-            
+
             await page.SetViewportSizeAsync(
                 width: 1440,
                 height: 900);
-            
+
             #endregion
-            
+
             #region load page
-            
+
             await page.GotoAsync(url: $"/stop/{id}/{lon}/{lat}");
-            
+
             #endregion
-            
+
             #region wait page
-            
+
             await page.WaitForResponseAsync(urlOrPredicate: response =>
                 response.Url.Contains(value: "pin.png") &&
                 response.Status is 200 or 304);
-            
+
             #endregion
-            
+
             #region test page
-            
+
             Error = string.Empty;
-            
+
             try
             {
                 var parent = page.GetByTestId(testId: "telerik-map");
-                
+
                 await Assertions
                     .Expect(locator: parent)
                     .ToBeInViewportAsync();
-                
+
                 var child = parent.GetByTestId(testId: "marker").First;
-                
+
                 await Assertions
                     .Expect(locator: child)
                     .ToBeInViewportAsync();
-                
+
                 await child.HoverAsync();
-                
+
                 parent = page.GetByTestId(testId: "tooltip");
-                
+
                 await Assertions
                     .Expect(locator: parent)
                     .ToBeInViewportAsync();
-                
+
                 child = parent.GetByTestId(testId: "name");
-                
+
                 await Assertions
                     .Expect(locator: child)
                     .ToContainTextAsync(expected: name);
@@ -88,25 +88,25 @@ public class MarkerHover(AspireManager aspireManager) : BaseTest(aspireManager: 
             {
                 Screenshot = await page.ScreenshotAsync();
             }
-            
+
             #endregion
-            
+
             #region save page
-            
+
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
                     path2: $"stop|light|telerik-map|marker-hover|run{run}|desktop.png"),
                 bytes: Screenshot ?? []);
-            
+
             await UploadTestAsync();
-            
+
             #endregion
         });
-        
+
         await CompleteTestAsync(error: Error);
     }
-    
+
     [Theory]
     [InlineData("9400ZZSYHFW1", "Halfway", 53.328532846077614, -1.3443136700078966, 1)]
     [InlineData("9400ZZSYMAL1", "Malin Bridge", 53.40064593919049, -1.5082120329876791, 2)]
@@ -117,61 +117,61 @@ public class MarkerHover(AspireManager aspireManager) : BaseTest(aspireManager: 
         double lat,
         double lon,
         int run) {
-        
+
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
-        
+
         await RunTestAsync(cookie: ConsentCookies.False, scheme: ColorScheme.Light, test: async page =>
         {
             #region configure page
-            
+
             await page.SetViewportSizeAsync(
                 width: 360,
                 height: 640);
-            
+
             #endregion
-            
+
             #region load page
-            
+
             await page.GotoAsync(url: $"/stop/{id}/{lon}/{lat}");
-            
+
             #endregion
-            
+
             #region wait page
-            
+
             await page.WaitForResponseAsync(urlOrPredicate: response =>
                 response.Url.Contains(value: "pin.png") &&
                 response.Status is 200 or 304);
-            
+
             #endregion
-            
+
             #region test page
-            
+
             Error = string.Empty;
-            
+
             try
             {
                 var parent = page.GetByTestId(testId: "telerik-map");
-                
+
                 await Assertions
                     .Expect(locator: parent)
                     .ToBeInViewportAsync();
-                
+
                 var child = parent.GetByTestId(testId: "marker").First;
-                
+
                 await Assertions
                     .Expect(locator: child)
                     .ToBeInViewportAsync();
-                
+
                 await child.HoverAsync();
-                
+
                 parent = page.GetByTestId(testId: "tooltip");
-                
+
                 await Assertions
                     .Expect(locator: parent)
                     .ToBeInViewportAsync();
-                
+
                 child = parent.GetByTestId(testId: "name");
-                
+
                 await Assertions
                     .Expect(locator: child)
                     .ToContainTextAsync(expected: name);
@@ -184,22 +184,22 @@ public class MarkerHover(AspireManager aspireManager) : BaseTest(aspireManager: 
             {
                 Screenshot = await page.ScreenshotAsync();
             }
-            
+
             #endregion
-            
+
             #region save page
-            
+
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
                     path2: $"stop|light|telerik-map|marker-hover|run{run}|mobile.png"),
                 bytes: Screenshot ?? []);
-            
+
             await UploadTestAsync();
-            
+
             #endregion
         });
-        
+
         await CompleteTestAsync(error: Error);
     }
 }
