@@ -22,7 +22,7 @@ jobs:
         run: |
           dotnet new nugetconfig
           dotnet nuget add source 'https://nuget.telerik.com/v3/index.json' --name 'telerik.com' --username 'api-key' --password '${{secrets.TELERIK_KEY}}' --configfile './nuget.config' --store-password-in-clear-text
-          sed -i '/<\/configuration>/i\' ./nuget.config && sed -i '/<\/configuration>/e cat nuget.xml' ./nuget.config
+          sed -i '/<\/configuration>/e sed "s/^/  /" nuget.xml; echo' ./nuget.config
 
       - name: Output NuGet
         run: sed 's/ClearTextPassword="[^"]*"/ClearTextPassword="***REDACTED***"/' ./nuget.config

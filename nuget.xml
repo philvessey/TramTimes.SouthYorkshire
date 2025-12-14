@@ -1,11 +1,11 @@
-﻿  <packageSourceMapping>
-    <packageSource key="nuget">
-      <package pattern="*" />
-      <package pattern="Telerik.Licensing" />
-      <package pattern="Telerik.FontIcons" />
-      <package pattern="Telerik.SvgIcons" />
-    </packageSource>
-    <packageSource key="telerik.com">
-      <package pattern="Telerik*" />
-    </packageSource>
-  </packageSourceMapping>
+﻿<packageSourceMapping>
+  <packageSource key="nuget">
+    <package pattern="*"/>
+    <package pattern="Telerik.Licensing"/>
+    <package pattern="Telerik.FontIcons"/>
+    <package pattern="Telerik.SvgIcons"/>
+  </packageSource>
+  <packageSource key="telerik.com">
+    <package pattern="Telerik*"/>
+  </packageSource>
+</packageSourceMapping>
