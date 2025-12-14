@@ -24,6 +24,9 @@ jobs:
           dotnet nuget add source 'https://nuget.telerik.com/v3/index.json' --name 'telerik.com' --username 'api-key' --password '${{secrets.TELERIK_KEY}}' --configfile './nuget.config' --store-password-in-clear-text
           sed -i '/<\/configuration>/r nuget.xml' ./nuget.config
 
+      - name: Output NuGet
+        run: sed 's/ClearTextPassword="[^"]*"/ClearTextPassword="***REDACTED***"/' ./nuget.config
+
       - name: Restore dependencies
         run: dotnet restore
 
