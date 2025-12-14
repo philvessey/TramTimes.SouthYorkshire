@@ -17,6 +17,15 @@
     <File Path=".scripts/server.sh"/>
   </Folder>
 
+  <Folder Name="/Solution Items/Workflows/">
+    <File Path=".github/workflows/ci.yml"/>
+    <File Path=".github/workflows/codeql.yml"/>
+    <File Path=".github/workflows/label.yml"/>
+    <File Path=".github/workflows/review.yml"/>
+    <File Path=".github/workflows/stale.yml"/>
+    <File Path=".github/workflows/sync.yml"/>
+  </Folder>
+
   <Project Path="TramTimes.Aspire.Host\TramTimes.Aspire.Host.csproj"/>
   <Project Path="TramTimes.Aspire.Services\TramTimes.Aspire.Services.csproj"/>
   <Project Path="TramTimes.Cache.Jobs\TramTimes.Cache.Jobs.csproj"/>
