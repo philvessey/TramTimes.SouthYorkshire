@@ -1,5 +1,5 @@
 ﻿  <packageSourceMapping>
-    <packageSource key="nuget.org">
+    <packageSource key="nuget">
       <package pattern="*" />
       <package pattern="Telerik.Licensing" />
       <package pattern="Telerik.FontIcons" />
