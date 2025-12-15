@@ -1,0 +1,47 @@
+# Default owner for everything in the repo
+* @philvessey
+
+# Documentation files
+*.md @philvessey
+
+# Package configuration files
+/.nuget.xml @philvessey
+
+# Root configuration files
+/Directory.Build.props @philvessey
+/Directory.Packages.props @philvessey
+
+# Test configuration files
+/.test.ps1 @philvessey
+/.test.runsettings @philvessey
+
+# Docker configuration
+/.docker/ @philvessey
+
+# GitHub workflows and templates
+/.github/ @philvessey
+
+# Server scripts
+/.scripts/ @philvessey
+/.setup.sh @philvessey
+
+# TramTimes.Aspire projects
+/TramTimes.Aspire.Host/ @philvessey
+/TramTimes.Aspire.Services/ @philvessey
+
+# TramTimes.Jobs projects
+/TramTimes.Cache.Jobs/ @philvessey
+/TramTimes.Database.Jobs/ @philvessey
+/TramTimes.Search.Jobs/ @philvessey
+
+# TramTimes.Web projects
+/TramTimes.Web.Api/ @philvessey
+/TramTimes.Web.Site/ @philvessey
+/TramTimes.Web.Tests/ @philvessey
+/TramTimes.Web.Utilities/ @philvessey
+
+# Security and community files
+/CODE_OF_CONDUCT.md @philvessey
+/CONTRIBUTING.md @philvessey
+/SECURITY.md @philvessey
+/LICENSE @philvessey

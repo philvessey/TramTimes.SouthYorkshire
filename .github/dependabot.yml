@@ -1,0 +1,53 @@
+version: 2
+
+registries:
+  telerik:
+    type: nuget-feed
+    url: "https://nuget.telerik.com/v3/index.json"
+    username: "api-key"
+    password: "${{secrets.TELERIK_KEY}}"
+
+updates:
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "philvessey"
+    labels:
+      - "dependencies"
+      - "nuget"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    allow:
+      - dependency-name: "Telerik.Licensing"
+      - dependency-name: "Telerik.FontIcons"
+      - dependency-name: "Telerik.SvgIcons"
+
+  - package-ecosystem: "nuget"
+    directory: "/"
+    registries:
+      - telerik
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "philvessey"
+    labels:
+      - "dependencies"
+      - "telerik"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    allow:
+      - dependency-name: "Telerik*"
+    ignore:
+      - dependency-name: "Telerik.Licensing"
+      - dependency-name: "Telerik.FontIcons"
+      - dependency-name: "Telerik.SvgIcons"
