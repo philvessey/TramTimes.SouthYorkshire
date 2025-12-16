@@ -21,7 +21,7 @@
 # GitHub workflows and templates
 /.github/ @philvessey
 
-# Server scripts
+# Server configuration
 /.scripts/ @philvessey
 /.setup.sh @philvessey
 

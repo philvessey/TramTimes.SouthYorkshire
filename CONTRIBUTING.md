@@ -64,7 +64,7 @@ Before you begin, ensure you have the following installed:
 1. **Fork the repository** on GitHub
 2. **Clone your fork** locally:
    ```bash
-   git clone https://github.com/philvessey/TramTimes.SouthYorkshire.git
+   git clone https://github.com/<your-username>/TramTimes.SouthYorkshire.git
    cd TramTimes.SouthYorkshire
    ```
 
@@ -438,9 +438,9 @@ Create an issue with the following information:
 - **Actual behavior**: What actually happens?
 - **Steps to reproduce**: Detailed steps to reproduce the issue
 - **Environment**:
-    - OS: (e.g., Windows 11, macOS 15, Ubuntu 22.04)
     - .NET Version: (run `dotnet --version`)
     - Aspire Version: (run `aspire --version`)
+    - Browser Version: (if applicable)
 - **Error messages**: Full error messages and stack traces
 - **Screenshots**: If applicable
 
@@ -462,9 +462,9 @@ A clear and concise description of what you expected to happen.
 
 **Environment:**
 
-- OS: [e.g., Windows 11]
 - .NET Version: [e.g., 10.0.0]
 - Aspire Version: [e.g., 13.0.2]
+- Browser Version: [e.g., Chrome 90]
 
 **Additional context**
 Add any other context about the problem here.

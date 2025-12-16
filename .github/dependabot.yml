@@ -23,13 +23,15 @@ updates:
     commit-message:
       prefix: "chore"
       include: "scope"
+    ignore:
+      - dependency-name: "Telerik*"
     allow:
       - dependency-name: "Telerik.Licensing"
       - dependency-name: "Telerik.FontIcons"
       - dependency-name: "Telerik.SvgIcons"
 
   - package-ecosystem: "nuget"
-    directory: "/"
+    directory: "/TramTimes.Web.Site"
     registries:
       - telerik
     schedule:
