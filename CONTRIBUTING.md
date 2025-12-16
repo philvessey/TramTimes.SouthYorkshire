@@ -105,7 +105,7 @@ Before you begin, ensure you have the following installed:
     sed -i '/<\/configuration>/e sed "s/^/  /" nuget.xml; echo' ./nuget.config
     ```
 
-9 **Run the solution** to verify everything works:
+9. **Run the solution** to verify everything works:
    ```bash
    aspire run
    ```
