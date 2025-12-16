@@ -54,14 +54,21 @@ Before you begin, ensure you have the following installed:
 
 
 - [Git](https://git-scm.com/downloads) version control system
+- [GitHub CLI](https://cli.github.com/) cli tool
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) container platform
 - [.NET 10.0 SDK](https://dotnet.microsoft.com/download) or later
 - [Aspire 13.0 CLI](https://aspire.dev/get-started/install-cli/) or later
 - [PowerShell 7.5](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell) or later
-- [Telerik UI for Blazor](https://www.telerik.com/blazor-ui) if working on UI components
+- [Telerik UI for Blazor](https://www.telerik.com/blazor-ui) components
+- [Traveline Data Set](https://www.travelinedata.org.uk/traveline-open-data/traveline-national-dataset/) access
 
 ### First Time Setup
 
 1. **Fork the repository** on GitHub
+   ```bash
+   gh repo fork philvessey/TramTimes.SouthYorkshire
+   ```
+
 2. **Clone your fork** locally:
    ```bash
    git clone https://github.com/<your-username>/TramTimes.SouthYorkshire.git
@@ -84,12 +91,20 @@ Before you begin, ensure you have the following installed:
    ```
 
 6. **Copy telerik-license.txt** to the root of the repository if you have a Telerik license
+   ```bash
+   cp /path/to/your/telerik-license.txt TramTimes.SouthYorkshire/
+   ```
+
 7. **Add custom telerik source** if you have a Telerik license:
    ```bash
    dotnet nuget add source "https://nuget.telerik.com/v3/index.json" --name "telerik" --username "api-key" --password "YOUR_API_KEY" --configfile "./nuget.config" --store-password-in-clear-text
    ```
 
 8. **Copy nuget.xml** to `./nuget.config` between `<configuration>` tags if you have a Telerik license
+    ```bash
+    sed -i '/<\/configuration>/e sed "s/^/  /" nuget.xml; echo' ./nuget.config
+    ```
+
 9. **Restore dependencies**:
    ```bash
    dotnet restore
@@ -422,7 +437,7 @@ docs(contributing): add commit message guidelines
 
 ### Before Submitting a Bug Report
 
-- Check the [existing issues](https://github.com/ORIGINAL-OWNER/TramTimes.Utilities/issues)
+- Check the [existing issues](https://github.com/philvessey/TramTimes.SouthYorkshire/issues)
 - Verify you're using the latest version
 - Collect relevant information about your environment
 

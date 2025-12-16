@@ -71,7 +71,7 @@ What would make this feature successful? How would you measure its impact?
 
 ## ✔️ Checklist
 
-- [ ] I have checked the [existing issues](https://github.com/philvessey/TramTimes.Utilities/issues) and this feature hasn't been requested
-- [ ] I have read the [CONTRIBUTING](https://github.com/philvessey/TramTimes.Utilities/blob/master/CONTRIBUTING.md) guidelines
+- [ ] I have checked the [existing issues](https://github.com/philvessey/TramTimes.SouthYorkshire/issues) and this feature hasn't been requested
+- [ ] I have read the [CONTRIBUTING](https://github.com/philvessey/TramTimes.SouthYorkshire/blob/master/CONTRIBUTING.md) guidelines
 - [ ] This feature aligns with the project's goals
 - [ ] I am willing to help implement this feature (optional)

@@ -14,8 +14,7 @@ A clear and concise description of the documentation problem.
 
 **Where is the documentation issue?**
 
-- [ ] README.md (main)
-- [ ] Project README (specify): _______________
+- [ ] README.md
 - [ ] CONTRIBUTING.md
 - [ ] Code comments
 - [ ] XML documentation
@@ -82,6 +81,6 @@ Add any screenshots, code examples, or other materials that help clarify the iss
 ## ✔️ Checklist
 
 - [ ] I have checked for existing documentation issues
-- [ ] I have read the [CONTRIBUTING](https://github.com/philvessey/TramTimes.Utilities/blob/master/CONTRIBUTING.md) guidelines
+- [ ] I have read the [CONTRIBUTING](https://github.com/philvessey/TramTimes.SouthYorkshire/blob/master/CONTRIBUTING.md) guidelines
 - [ ] I have provided specific location information
 - [ ] I am willing to submit a PR to fix this (optional)

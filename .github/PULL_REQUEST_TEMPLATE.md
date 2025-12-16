@@ -113,7 +113,7 @@ Paste output or add screenshot
 
 ### Code Quality
 
-- [ ] My code follows the project's [coding standards](https://github.com/philvessey/TramTimes.Utilities/blob/master/CONTRIBUTING.md#-coding-standards)
+- [ ] My code follows the project's [coding standards](https://github.com/philvessey/TramTimes.SouthYorkshire/blob/master/CONTRIBUTING.md#-coding-standards)
 - [ ] I have performed a self-review of my code
 - [ ] I have commented my code, particularly in hard-to-understand areas
 - [ ] My code builds successfully (`dotnet build`)

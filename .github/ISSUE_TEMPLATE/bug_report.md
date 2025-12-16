@@ -56,7 +56,7 @@ Add any other context about the problem here. This might include:
 
 ## ✔️ Checklist
 
-- [ ] I have checked the [existing issues](https://github.com/philvessey/TramTimes.Utilities/issues)
+- [ ] I have checked the [existing issues](https://github.com/philvessey/TramTimes.SouthYorkshire/issues)
 - [ ] I am using the latest version
-- [ ] I have read the [CONTRIBUTING](https://github.com/philvessey/TramTimes.Utilities/blob/master/CONTRIBUTING.md) guidelines
+- [ ] I have read the [CONTRIBUTING](https://github.com/philvessey/TramTimes.SouthYorkshire/blob/master/CONTRIBUTING.md) guidelines
 - [ ] I have provided all required environment information
