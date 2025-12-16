@@ -122,7 +122,7 @@ Paste output or add screenshot
 
 ### Commits
 
-- [ ] My commits follow the [Conventional Commits](https://www.conventionalcommits.org/) specification
+- [ ] My commits follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification
 - [ ] My commit messages are clear and descriptive
 - [ ] I have rebased my branch on the latest upstream/master
 

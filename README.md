@@ -1,6 +1,6 @@
 # TramTimes.SouthYorkshire
 
-[![.NET Version](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/download)
+[![.NET Version](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 A comprehensive tram information system for South Yorkshire, built with .NET and Aspire. This solution provides
@@ -40,7 +40,7 @@ distributed application architecture.
 
 - 🚀 Aspire orchestration and service discovery
 - 🔧 Infrastructure resource management (PostgreSQL, Redis, Elasticsearch, Azure Storage)
-- ⚙️ Development and production environment configurations
+- ⚙️ Development, Testing and Production environment configurations
 
 ### TramTimes.Aspire.Services
 
@@ -129,22 +129,14 @@ Shared utilities, extensions, and helper classes used across web projects.
 
 ## ✅ Prerequisites
 
-- [Git](https://git-scm.com/downloads) version control system
-- [Docker Desktop](https://www.docker.com/products/docker-desktop) container platform
-- [.NET 10.0 SDK](https://dotnet.microsoft.com/download) or later
-- [Aspire 13.0 CLI](https://aspire.dev/get-started/install-cli/) or later
-- [PowerShell 7.5](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell) or later
-- [Telerik UI for Blazor](https://www.telerik.com/blazor-ui) components
-- [Traveline Data Set](https://www.travelinedata.org.uk/traveline-open-data/traveline-national-dataset/) access
-
-### Infrastructure Dependencies (Docker)
-
-The following services are required for local development:
-
-- **PostgreSQL** - Primary database for tram schedules and data
-- **Redis** - Caching layer for performance optimization
-- **Elasticsearch** - Search indexing for stops and services
-- **Azure Storage Emulator** - Local blob and table storage
+- [Git](https://git-scm.com/downloads)
+- [GitHub CLI](https://cli.github.com/)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- [.NET SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
+- [Aspire CLI](https://aspire.dev/get-started/install-cli/)
+- [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell)
+- [Telerik UI for Blazor](https://www.telerik.com/blazor-ui)
+- [Traveline Data Set](https://www.travelinedata.org.uk/traveline-open-data/traveline-national-dataset/)
 
 ## 🚀 Getting Started (Local)
 
@@ -164,13 +156,13 @@ dotnet new nugetconfig
 ### Copy Telerik License
 
 ```bash
-cp /path/to/your/telerik.license TramTimes.SouthYorkshire/
+cp /path/to/your/telerik-license.txt TramTimes.SouthYorkshire/telerik-license.txt
 ```
 
 ### Add Custom Telerik Source
 
 ```bash
-dotnet nuget add source "https://nuget.telerik.com/v3/index.json" --name "telerik" --username "api-key" --password "YOUR_API_KEY" --configfile "./nuget.config" --store-password-in-clear-text
+dotnet nuget add source "https://nuget.telerik.com/v3/index.json" --name "telerik" --username "api-key" --password "<your-api-key>" --configfile "./nuget.config" --store-password-in-clear-text
 ```
 
 ### Update Custom Package Source
@@ -187,11 +179,23 @@ aspire run
 
 ## 🚀 Getting Started (Remote)
 
+### Authenticate Infrastructure
+
+```bash
+ssh -i <public-key> root@<server-address>
+```
+
 ### Setup Infrastructure
 
 ```bash
 nano setup.sh
 sudo bash setup.sh
+```
+
+### Authenticate Infrastructure
+
+```bash
+ssh -i <public-key> admin@<server-address>
 ```
 
 ### Build Cache Infrastructure
@@ -259,7 +263,7 @@ aspire deploy
 ### UI & Utilities
 
 - **Telerik UI for Blazor** - UI components
-- **Blazored.LocalStorage** - Local storage management
+- **Blazored.LocalStorage** - Local storage
 - **Playwright** - Website end-to-end testing
 
 ## 📁 Project Structure
@@ -299,4 +303,4 @@ Each project follows a consistent structure:
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

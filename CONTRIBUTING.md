@@ -53,18 +53,18 @@ Before you begin, ensure you have the following installed:
     - [Visual Studio Code](https://code.visualstudio.com/)
 
 
-- [Git](https://git-scm.com/downloads) version control system
-- [GitHub CLI](https://cli.github.com/) cli tool
-- [Docker Desktop](https://www.docker.com/products/docker-desktop) container platform
-- [.NET 10.0 SDK](https://dotnet.microsoft.com/download) or later
-- [Aspire 13.0 CLI](https://aspire.dev/get-started/install-cli/) or later
-- [PowerShell 7.5](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell) or later
-- [Telerik UI for Blazor](https://www.telerik.com/blazor-ui) components
-- [Traveline Data Set](https://www.travelinedata.org.uk/traveline-open-data/traveline-national-dataset/) access
+- [Git](https://git-scm.com/downloads)
+- [GitHub CLI](https://cli.github.com/)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- [.NET SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
+- [Aspire CLI](https://aspire.dev/get-started/install-cli/)
+- [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell)
+- [Telerik UI for Blazor](https://www.telerik.com/blazor-ui)
+- [Traveline Data Set](https://www.travelinedata.org.uk/traveline-open-data/traveline-national-dataset/)
 
 ### First Time Setup
 
-1. **Fork the repository** on GitHub
+1. **Fork the repository** on GitHub via Web or using GitHub CLI:
    ```bash
    gh repo fork philvessey/TramTimes.SouthYorkshire
    ```
@@ -90,32 +90,22 @@ Before you begin, ensure you have the following installed:
    dotnet new nugetconfig
    ```
 
-6. **Copy telerik-license.txt** to the root of the repository if you have a Telerik license
+6. **Copy telerik-license.txt** to the root of the repository if you have a Telerik license:
    ```bash
-   cp /path/to/your/telerik-license.txt TramTimes.SouthYorkshire/
+   cp /path/to/your/telerik-license.txt TramTimes.SouthYorkshire/telerik-license.txt
    ```
 
 7. **Add custom telerik source** if you have a Telerik license:
    ```bash
-   dotnet nuget add source "https://nuget.telerik.com/v3/index.json" --name "telerik" --username "api-key" --password "YOUR_API_KEY" --configfile "./nuget.config" --store-password-in-clear-text
+   dotnet nuget add source "https://nuget.telerik.com/v3/index.json" --name "telerik" --username "api-key" --password "<your-api-key>" --configfile "./nuget.config" --store-password-in-clear-text
    ```
 
-8. **Copy nuget.xml** to `./nuget.config` between `<configuration>` tags if you have a Telerik license
+8. **Copy nuget.xml** to `./nuget.config` between `<configuration>` tags if you have a Telerik license:
     ```bash
     sed -i '/<\/configuration>/e sed "s/^/  /" nuget.xml; echo' ./nuget.config
     ```
 
-9. **Restore dependencies**:
-   ```bash
-   dotnet restore
-   ```
-
-10. **Build the solution**:
-   ```bash
-   dotnet build
-   ```
-
-11. **Run the solution** to verify everything works:
+9 **Run the solution** to verify everything works:
    ```bash
    aspire run
    ```
@@ -173,12 +163,6 @@ dotnet build TramTimes.Web.Site/TramTimes.Web.Site.csproj
 dotnet build -c Release
 ```
 
-### Running the Solution
-
-```bash
-aspire run
-```
-
 ### Debugging
 
 - **JetBrains Rider**: Open the solution file and use the built-in debugger
@@ -189,8 +173,7 @@ aspire run
 
 ### .NET Conventions
 
-Follow the
-official [.NET coding conventions](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions):
+Follow the official [.NET coding conventions](https://docs.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions):
 
 #### Naming Conventions
 
@@ -304,7 +287,7 @@ public string BuildStop(string stopId)
 
 ### Commit Message Format
 
-We follow the [Conventional Commits](https://www.conventionalcommits.org/) specification:
+We follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification:
 
 ```
 <type>(<scope>): <subject>
