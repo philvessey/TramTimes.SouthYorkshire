@@ -1,6 +1,7 @@
 // ReSharper disable all
 
 using Azure.Provisioning.AppContainers;
+using TramTimes.Aspire.Host.Extensions;
 using TramTimes.Aspire.Host.Parameters;
 using TramTimes.Aspire.Host.Resources;
 
@@ -152,6 +153,15 @@ public static class DatabaseBuilder
                     job.Configuration.TriggerType = ContainerAppJobTriggerType.Schedule;
                     job.Configuration.ScheduleTriggerConfig.CronExpression = "0 3 * * *";
                 });
+
+        #endregion
+
+        #region add pipeline
+
+        if (builder.ExecutionContext.IsPublishMode)
+            builder.AddPipeline(
+                resourceName: "database-builder",
+                stepName: "database-job");
 
         #endregion
 
