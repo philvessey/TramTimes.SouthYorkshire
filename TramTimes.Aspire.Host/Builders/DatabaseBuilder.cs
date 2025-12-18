@@ -160,6 +160,7 @@ public static class DatabaseBuilder
 
         if (builder.ExecutionContext.IsPublishMode)
             builder.AddPipeline(
+                dependsOnStepName: "deploy-database-builder",
                 resourceName: "database-builder",
                 stepName: "database-job");
 

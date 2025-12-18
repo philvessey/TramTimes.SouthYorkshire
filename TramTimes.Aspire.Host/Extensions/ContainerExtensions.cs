@@ -1,6 +1,7 @@
 using Aspire.Hosting.Pipelines;
 using CliWrap;
 using Microsoft.Extensions.Logging;
+using TramTimes.Aspire.Host.Tools;
 
 namespace TramTimes.Aspire.Host.Extensions;
 
@@ -8,6 +9,7 @@ public static class ContainerExtensions
 {
     public static void AddPipeline(
         this IDistributedApplicationBuilder builder,
+        string? dependsOnStepName,
         string? resourceName,
         string? stepName) {
 
@@ -16,13 +18,15 @@ public static class ContainerExtensions
 
         builder.Pipeline.AddStep(
             name: stepName,
-            dependsOn: WellKnownPipelineSteps.Deploy,
+            dependsOn: dependsOnStepName,
+            requiredBy: WellKnownPipelineSteps.Deploy,
             action: async context =>
             {
                 #region build command
 
                 var command = Cli
-                    .Wrap(targetFilePath: "az")
+                    .Wrap(targetFilePath: ContainerTools.GetTargetFilePath(executable: "az"))
+                    .WithValidation(validation: CommandResultValidation.None)
                     .WithArguments(configure: arguments => arguments
                         .Add(value: "containerapp")
                         .Add(value: "job")
