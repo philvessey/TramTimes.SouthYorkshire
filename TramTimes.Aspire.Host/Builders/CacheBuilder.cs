@@ -29,7 +29,10 @@ public static class CacheBuilder
                 .WithLifetime(lifetime: ContainerLifetime.Persistent)
                 .WithUrlForEndpoint(
                     callback: url => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
-                    endpointName: "tcp");
+                    endpointName: "tcp")
+                .WithUrlForEndpoint(
+                    callback: url => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
+                    endpointName: "secondary");
 
         if (builder.ExecutionContext.IsPublishMode)
             cache.Connection = builder.AddConnectionString(name: "cache");

@@ -32,7 +32,7 @@ A clear and concise description of what actually happens.
 Please complete the following information:
 
 - **.NET Version**: [run `dotnet --version`, e.g., 10.0.0]
-- **Aspire Version**: [run `aspire --version`, e.g., 13.0.2]
+- **Aspire Version**: [run `aspire --version`, e.g., 13.1.0]
 - **Browser Version**: [if applicable, e.g., Chrome 90]
 
 ## 📝 Error Messages / Stack Trace

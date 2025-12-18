@@ -196,7 +196,7 @@ public static class SearchExtensions
                     },
                     cancellationToken: context.CancellationToken);
 
-                if (interaction.Canceled || interaction.Data.Value == string.Empty)
+                if (interaction.Canceled || string.IsNullOrEmpty(value: interaction.Data.Value))
                     return CommandResults.Canceled();
 
                 #endregion

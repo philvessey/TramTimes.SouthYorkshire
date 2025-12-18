@@ -80,7 +80,7 @@ if ($output -match "net\d+\.\d+") {
     $framework = $matches[0]
 
     Write-Host "Building playwright ..."
-    $null = & "TramTimes.Web.Tests/bin/Debug/$framework/playwright.ps1" install 2>&1
+    & "TramTimes.Web.Tests/bin/Debug/$framework/playwright.ps1" install 2>&1 | Out-Null
 }
 
 Clear-Lines -count 2

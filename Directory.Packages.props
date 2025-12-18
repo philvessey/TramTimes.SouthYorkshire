@@ -1,13 +1,13 @@
 <Project>
 
   <PropertyGroup>
-    <AspireVersion>13.0.2</AspireVersion>
+    <AspireVersion>13.1.0</AspireVersion>
     <AspireElasticVersion>13.0.0</AspireElasticVersion>
-    <NextDeparturesVersion>3.9.2</NextDeparturesVersion>
+    <NextDeparturesVersion>3.9.3</NextDeparturesVersion>
   </PropertyGroup>
 
   <PropertyGroup>
-    <AspirePreviewVersion>13.0.2-preview.1.25603.5</AspirePreviewVersion>
+    <AspirePreviewVersion>13.1.0-preview.1.25616.3</AspirePreviewVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -36,12 +36,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0"/>
-    <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="10.0.0"/>
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.0"/>
-    <PackageVersion Include="Microsoft.Extensions.Http.Polly" Version="10.0.0"/>
-    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.0.0"/>
-    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.0.0"/>
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.1"/>
+    <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="10.0.1"/>
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.1"/>
+    <PackageVersion Include="Microsoft.Extensions.Http.Polly" Version="10.0.1"/>
+    <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.1.0"/>
+    <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.1.0"/>
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.0.1"/>
     <PackageVersion Include="Microsoft.Playwright" Version="1.57.0"/>
     <PackageVersion Include="Microsoft.Playwright.Xunit" Version="1.57.0"/>
