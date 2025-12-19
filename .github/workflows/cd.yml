@@ -22,7 +22,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup .NET
+      - name: .NET setup
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
@@ -30,19 +30,17 @@ jobs:
       - name: .NET version
         run: dotnet --version
 
-      - name: Setup nuget
+      - name: .NET nuget
         run: |
           dotnet new nugetconfig
           dotnet nuget add source 'https://nuget.telerik.com/v3/index.json' --name 'telerik' --username 'api-key' --password '${{ secrets.TELERIK_KEY }}' --configfile './nuget.config' --store-password-in-clear-text
           sed -i '/<\/configuration>/e sed "s/^/  /" nuget.xml; echo' ./nuget.config
+          sed 's/ClearTextPassword="[^"]*"/ClearTextPassword="***REDACTED***"/' ./nuget.config
 
-      - name: Output nuget
-        run: sed 's/ClearTextPassword="[^"]*"/ClearTextPassword="***REDACTED***"/' ./nuget.config
-
-      - name: Restore dependencies
+      - name: .NET restore
         run: dotnet restore
 
-      - name: Build solution
+      - name: .NET build
         run: dotnet build --no-restore --configuration Release
         env:
           TELERIK_LICENSE: ${{ secrets.TELERIK_LICENSE }}
