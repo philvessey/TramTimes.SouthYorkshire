@@ -96,4 +96,14 @@ a:visited {
     top: 0;
 }
 
+.k-tooltip {
+    display: flex !important;
+}
+
+@media (hover: none) {
+    .k-tooltip {
+        display: none !important;
+    }
+}
+
 /*#endregion */
