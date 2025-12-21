@@ -29,7 +29,7 @@ jobs:
             --name $REPOSITORY \
             --orderby time_desc \
             --query '[].digest' \
-            --output json)
+            --output json 2>&1 | grep -v "WARNING:")
 
           echo "$MANIFESTS" | jq -r '.[30:][]' | \
           while read digest; do
@@ -48,7 +48,7 @@ jobs:
             --name $REPOSITORY \
             --orderby time_desc \
             --query '[].digest' \
-            --output json)
+            --output json 2>&1 | grep -v "WARNING:")
 
           echo "$MANIFESTS" | jq -r '.[30:][]' | \
           while read digest; do
@@ -67,7 +67,7 @@ jobs:
             --name $REPOSITORY \
             --orderby time_desc \
             --query '[].digest' \
-            --output json)
+            --output json 2>&1 | grep -v "WARNING:")
 
           echo "$MANIFESTS" | jq -r '.[30:][]' | \
           while read digest; do
@@ -86,7 +86,7 @@ jobs:
             --name $REPOSITORY \
             --orderby time_desc \
             --query '[].digest' \
-            --output json)
+            --output json 2>&1 | grep -v "WARNING:")
 
           echo "$MANIFESTS" | jq -r '.[30:][]' | \
           while read digest; do
@@ -105,7 +105,7 @@ jobs:
             --name $REPOSITORY \
             --orderby time_desc \
             --query '[].digest' \
-            --output json)
+            --output json 2>&1 | grep -v "WARNING:")
 
           echo "$MANIFESTS" | jq -r '.[30:][]' | \
           while read digest; do
