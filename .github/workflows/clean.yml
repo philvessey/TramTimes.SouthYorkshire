@@ -25,8 +25,8 @@ jobs:
           REPOSITORY="cache-builder"
           CUTOFF_DATE="30 days ago"
 
-          MANIFESTS=$(az acr repository show-manifests \
-            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+          MANIFESTS=$(az acr manifest list-metadata \
+            --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
             --repository $REPOSITORY \
             --orderby time_desc \
             --query '[].{digest: digest, timestamp: timestamp}' \
@@ -43,8 +43,8 @@ jobs:
           REPOSITORY="database-builder"
           CUTOFF_DATE="30 days ago"
 
-          MANIFESTS=$(az acr repository show-manifests \
-            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+          MANIFESTS=$(az acr manifest list-metadata \
+            --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
             --repository $REPOSITORY \
             --orderby time_desc \
             --query '[].{digest: digest, timestamp: timestamp}' \
@@ -61,8 +61,8 @@ jobs:
           REPOSITORY="search-builder"
           CUTOFF_DATE="30 days ago"
 
-          MANIFESTS=$(az acr repository show-manifests \
-            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+          MANIFESTS=$(az acr manifest list-metadata \
+            --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
             --repository $REPOSITORY \
             --orderby time_desc \
             --query '[].{digest: digest, timestamp: timestamp}' \
@@ -79,8 +79,8 @@ jobs:
           REPOSITORY="web-api"
           CUTOFF_DATE="30 days ago"
 
-          MANIFESTS=$(az acr repository show-manifests \
-            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+          MANIFESTS=$(az acr manifest list-metadata \
+            --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
             --repository $REPOSITORY \
             --orderby time_desc \
             --query '[].{digest: digest, timestamp: timestamp}' \
@@ -97,8 +97,8 @@ jobs:
           REPOSITORY="web-site"
           CUTOFF_DATE="30 days ago"
 
-          MANIFESTS=$(az acr repository show-manifests \
-            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+          MANIFESTS=$(az acr manifest list-metadata \
+            --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
             --repository $REPOSITORY \
             --orderby time_desc \
             --query '[].{digest: digest, timestamp: timestamp}' \
