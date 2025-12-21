@@ -1,0 +1,111 @@
+name: Clean
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Cache builder
+        run: |
+          REPOSITORY="cache-builder"
+          CUTOFF_DATE="30 days ago"
+
+          MANIFESTS=$(az acr repository show-manifests \
+            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --repository $REPOSITORY \
+            --orderby time_desc \
+            --query '[].{digest: digest, timestamp: timestamp}' \
+            --output json)
+
+          echo "$MANIFESTS" | jq -r --arg cutoff "$(date -d "$CUTOFF_DATE" '+%Y-%m-%dT%H:%M:%SZ')" ".[5:][] | select(.timestamp < \$cutoff) | .digest" | \
+          xargs -I {} az acr repository delete \
+          --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+          --image $REPOSITORY@{} \
+          --yes
+
+      - name: Database builder
+        run: |
+          REPOSITORY="database-builder"
+          CUTOFF_DATE="30 days ago"
+
+          MANIFESTS=$(az acr repository show-manifests \
+            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --repository $REPOSITORY \
+            --orderby time_desc \
+            --query '[].{digest: digest, timestamp: timestamp}' \
+            --output json)
+
+          echo "$MANIFESTS" | jq -r --arg cutoff "$(date -d "$CUTOFF_DATE" '+%Y-%m-%dT%H:%M:%SZ')" ".[5:][] | select(.timestamp < \$cutoff) | .digest" | \
+          xargs -I {} az acr repository delete \
+          --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+          --image $REPOSITORY@{} \
+          --yes
+
+      - name: Search builder
+        run: |
+          REPOSITORY="search-builder"
+          CUTOFF_DATE="30 days ago"
+
+          MANIFESTS=$(az acr repository show-manifests \
+            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --repository $REPOSITORY \
+            --orderby time_desc \
+            --query '[].{digest: digest, timestamp: timestamp}' \
+            --output json)
+
+          echo "$MANIFESTS" | jq -r --arg cutoff "$(date -d "$CUTOFF_DATE" '+%Y-%m-%dT%H:%M:%SZ')" ".[5:][] | select(.timestamp < \$cutoff) | .digest" | \
+          xargs -I {} az acr repository delete \
+          --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+          --image $REPOSITORY@{} \
+          --yes
+
+      - name: Web api
+        run: |
+          REPOSITORY="web-api"
+          CUTOFF_DATE="30 days ago"
+
+          MANIFESTS=$(az acr repository show-manifests \
+            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --repository $REPOSITORY \
+            --orderby time_desc \
+            --query '[].{digest: digest, timestamp: timestamp}' \
+            --output json)
+
+          echo "$MANIFESTS" | jq -r --arg cutoff "$(date -d "$CUTOFF_DATE" '+%Y-%m-%dT%H:%M:%SZ')" ".[5:][] | select(.timestamp < \$cutoff) | .digest" | \
+          xargs -I {} az acr repository delete \
+          --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+          --image $REPOSITORY@{} \
+          --yes
+
+      - name: Web site
+        run: |
+          REPOSITORY="web-site"
+          CUTOFF_DATE="30 days ago"
+
+          MANIFESTS=$(az acr repository show-manifests \
+            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --repository $REPOSITORY \
+            --orderby time_desc \
+            --query '[].{digest: digest, timestamp: timestamp}' \
+            --output json)
+
+          echo "$MANIFESTS" | jq -r --arg cutoff "$(date -d "$CUTOFF_DATE" '+%Y-%m-%dT%H:%M:%SZ')" ".[5:][] | select(.timestamp < \$cutoff) | .digest" | \
+          xargs -I {} az acr repository delete \
+          --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+          --image $REPOSITORY@{} \
+          --yes
