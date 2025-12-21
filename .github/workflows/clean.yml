@@ -26,8 +26,8 @@ jobs:
           CUTOFF_DATE="30 days ago"
 
           MANIFESTS=$(az acr manifest list-metadata \
-            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
-            --repository $REPOSITORY \
+            --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --name $REPOSITORY \
             --orderby time_desc \
             --query '[].{digest: digest, timestamp: timestamp}' \
             --output json)
@@ -44,8 +44,8 @@ jobs:
           CUTOFF_DATE="30 days ago"
 
           MANIFESTS=$(az acr manifest list-metadata \
-            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
-            --repository $REPOSITORY \
+            --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --name $REPOSITORY \
             --orderby time_desc \
             --query '[].{digest: digest, timestamp: timestamp}' \
             --output json)
@@ -62,8 +62,8 @@ jobs:
           CUTOFF_DATE="30 days ago"
 
           MANIFESTS=$(az acr manifest list-metadata \
-            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
-            --repository $REPOSITORY \
+            --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --name $REPOSITORY \
             --orderby time_desc \
             --query '[].{digest: digest, timestamp: timestamp}' \
             --output json)
@@ -80,8 +80,8 @@ jobs:
           CUTOFF_DATE="30 days ago"
 
           MANIFESTS=$(az acr manifest list-metadata \
-            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
-            --repository $REPOSITORY \
+            --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --name $REPOSITORY \
             --orderby time_desc \
             --query '[].{digest: digest, timestamp: timestamp}' \
             --output json)
@@ -98,8 +98,8 @@ jobs:
           CUTOFF_DATE="30 days ago"
 
           MANIFESTS=$(az acr manifest list-metadata \
-            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
-            --repository $REPOSITORY \
+            --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --name $REPOSITORY \
             --orderby time_desc \
             --query '[].{digest: digest, timestamp: timestamp}' \
             --output json)
