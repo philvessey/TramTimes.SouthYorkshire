@@ -6,11 +6,13 @@ on:
     paths-ignore:
       - 'LICENSE'
       - '**.md'
+      - '**.yml'
   pull_request:
     branches: [ master ]
     paths-ignore:
       - 'LICENSE'
       - '**.md'
+      - '**.yml'
 
 permissions:
   actions: read

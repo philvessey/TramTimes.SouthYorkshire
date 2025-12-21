@@ -6,10 +6,12 @@ on:
     paths-ignore:
       - 'LICENSE'
       - '**.md'
+      - '**.yml'
   pull_request:
     paths-ignore:
       - 'LICENSE'
       - '**.md'
+      - '**.yml'
 
 permissions:
   contents: read

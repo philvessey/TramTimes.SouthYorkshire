@@ -10,7 +10,7 @@ permissions:
   id-token: write
 
 jobs:
-  stale:
+  clean:
     runs-on: ubuntu-latest
     steps:
       - name: Azure login
@@ -26,7 +26,7 @@ jobs:
           CUTOFF_DATE="30 days ago"
 
           MANIFESTS=$(az acr manifest list-metadata \
-            --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
             --repository $REPOSITORY \
             --orderby time_desc \
             --query '[].{digest: digest, timestamp: timestamp}' \
@@ -44,7 +44,7 @@ jobs:
           CUTOFF_DATE="30 days ago"
 
           MANIFESTS=$(az acr manifest list-metadata \
-            --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
             --repository $REPOSITORY \
             --orderby time_desc \
             --query '[].{digest: digest, timestamp: timestamp}' \
@@ -62,7 +62,7 @@ jobs:
           CUTOFF_DATE="30 days ago"
 
           MANIFESTS=$(az acr manifest list-metadata \
-            --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
             --repository $REPOSITORY \
             --orderby time_desc \
             --query '[].{digest: digest, timestamp: timestamp}' \
@@ -80,7 +80,7 @@ jobs:
           CUTOFF_DATE="30 days ago"
 
           MANIFESTS=$(az acr manifest list-metadata \
-            --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
             --repository $REPOSITORY \
             --orderby time_desc \
             --query '[].{digest: digest, timestamp: timestamp}' \
@@ -98,7 +98,7 @@ jobs:
           CUTOFF_DATE="30 days ago"
 
           MANIFESTS=$(az acr manifest list-metadata \
-            --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
             --repository $REPOSITORY \
             --orderby time_desc \
             --query '[].{digest: digest, timestamp: timestamp}' \
