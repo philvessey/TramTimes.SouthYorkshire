@@ -32,10 +32,12 @@ jobs:
             --output json)
 
           echo "$MANIFESTS" | jq -r '.[30:][]' | \
-          xargs -I {} az acr repository delete \
-          --name ${{ secrets.AZURE_REGISTRY_NAME }} \
-          --image $REPOSITORY@{} \
-          --yes 2>/dev/null || true
+          while read digest; do
+            [ -n "$digest" ] && az acr repository delete \
+            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --image $REPOSITORY@$digest \
+            --yes 2>&1 | grep -v "WARNING:" || true
+          done
 
       - name: Database builder
         run: |
@@ -49,10 +51,12 @@ jobs:
             --output json)
 
           echo "$MANIFESTS" | jq -r '.[30:][]' | \
-          xargs -I {} az acr repository delete \
-          --name ${{ secrets.AZURE_REGISTRY_NAME }} \
-          --image $REPOSITORY@{} \
-          --yes 2>/dev/null || true
+          while read digest; do
+            [ -n "$digest" ] && az acr repository delete \
+            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --image $REPOSITORY@$digest \
+            --yes 2>&1 | grep -v "WARNING:" || true
+          done
 
       - name: Search builder
         run: |
@@ -66,10 +70,12 @@ jobs:
             --output json)
 
           echo "$MANIFESTS" | jq -r '.[30:][]' | \
-          xargs -I {} az acr repository delete \
-          --name ${{ secrets.AZURE_REGISTRY_NAME }} \
-          --image $REPOSITORY@{} \
-          --yes 2>/dev/null || true
+          while read digest; do
+            [ -n "$digest" ] && az acr repository delete \
+            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --image $REPOSITORY@$digest \
+            --yes 2>&1 | grep -v "WARNING:" || true
+          done
 
       - name: Web api
         run: |
@@ -83,10 +89,12 @@ jobs:
             --output json)
 
           echo "$MANIFESTS" | jq -r '.[30:][]' | \
-          xargs -I {} az acr repository delete \
-          --name ${{ secrets.AZURE_REGISTRY_NAME }} \
-          --image $REPOSITORY@{} \
-          --yes 2>/dev/null || true
+          while read digest; do
+            [ -n "$digest" ] && az acr repository delete \
+            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --image $REPOSITORY@$digest \
+            --yes 2>&1 | grep -v "WARNING:" || true
+          done
 
       - name: Web site
         run: |
@@ -100,7 +108,9 @@ jobs:
             --output json)
 
           echo "$MANIFESTS" | jq -r '.[30:][]' | \
-          xargs -I {} az acr repository delete \
-          --name ${{ secrets.AZURE_REGISTRY_NAME }} \
-          --image $REPOSITORY@{} \
-          --yes 2>/dev/null || true
+          while read digest; do
+            [ -n "$digest" ] && az acr repository delete \
+            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
+            --image $REPOSITORY@$digest \
+            --yes 2>&1 | grep -v "WARNING:" || true
+          done
