@@ -2,7 +2,7 @@ name: Clean
 
 on:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: '0 0 * * 0'
   workflow_dispatch:
 
 permissions:
@@ -23,89 +23,84 @@ jobs:
       - name: Cache builder
         run: |
           REPOSITORY="cache-builder"
-          CUTOFF_DATE="30 days ago"
 
           MANIFESTS=$(az acr manifest list-metadata \
             --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
             --name $REPOSITORY \
             --orderby time_desc \
-            --query '[].{digest: digest, timestamp: timestamp}' \
+            --query '[].digest' \
             --output json)
 
-          echo "$MANIFESTS" | jq -r --arg cutoff "$(date -d "$CUTOFF_DATE" '+%Y-%m-%dT%H:%M:%SZ')" ".[5:][] | select(.timestamp < \$cutoff) | .digest" | \
+          echo "$MANIFESTS" | jq -r '.[30:][]' | \
           xargs -I {} az acr repository delete \
           --name ${{ secrets.AZURE_REGISTRY_NAME }} \
           --image $REPOSITORY@{} \
-          --yes
+          --yes 2>/dev/null || true
 
       - name: Database builder
         run: |
           REPOSITORY="database-builder"
-          CUTOFF_DATE="30 days ago"
 
           MANIFESTS=$(az acr manifest list-metadata \
             --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
             --name $REPOSITORY \
             --orderby time_desc \
-            --query '[].{digest: digest, timestamp: timestamp}' \
+            --query '[].digest' \
             --output json)
 
-          echo "$MANIFESTS" | jq -r --arg cutoff "$(date -d "$CUTOFF_DATE" '+%Y-%m-%dT%H:%M:%SZ')" ".[5:][] | select(.timestamp < \$cutoff) | .digest" | \
+          echo "$MANIFESTS" | jq -r '.[30:][]' | \
           xargs -I {} az acr repository delete \
           --name ${{ secrets.AZURE_REGISTRY_NAME }} \
           --image $REPOSITORY@{} \
-          --yes
+          --yes 2>/dev/null || true
 
       - name: Search builder
         run: |
           REPOSITORY="search-builder"
-          CUTOFF_DATE="30 days ago"
 
           MANIFESTS=$(az acr manifest list-metadata \
             --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
             --name $REPOSITORY \
             --orderby time_desc \
-            --query '[].{digest: digest, timestamp: timestamp}' \
+            --query '[].digest' \
             --output json)
 
-          echo "$MANIFESTS" | jq -r --arg cutoff "$(date -d "$CUTOFF_DATE" '+%Y-%m-%dT%H:%M:%SZ')" ".[5:][] | select(.timestamp < \$cutoff) | .digest" | \
+          echo "$MANIFESTS" | jq -r '.[30:][]' | \
           xargs -I {} az acr repository delete \
           --name ${{ secrets.AZURE_REGISTRY_NAME }} \
           --image $REPOSITORY@{} \
-          --yes
+          --yes 2>/dev/null || true
 
       - name: Web api
         run: |
           REPOSITORY="web-api"
-          CUTOFF_DATE="30 days ago"
 
           MANIFESTS=$(az acr manifest list-metadata \
             --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
             --name $REPOSITORY \
             --orderby time_desc \
-            --query '[].{digest: digest, timestamp: timestamp}' \
+            --query '[].digest' \
             --output json)
 
-          echo "$MANIFESTS" | jq -r --arg cutoff "$(date -d "$CUTOFF_DATE" '+%Y-%m-%dT%H:%M:%SZ')" ".[5:][] | select(.timestamp < \$cutoff) | .digest" | \
+          echo "$MANIFESTS" | jq -r '.[30:][]' | \
           xargs -I {} az acr repository delete \
           --name ${{ secrets.AZURE_REGISTRY_NAME }} \
           --image $REPOSITORY@{} \
-          --yes
+          --yes 2>/dev/null || true
 
       - name: Web site
         run: |
           REPOSITORY="web-site"
-          CUTOFF_DATE="30 days ago"
 
           MANIFESTS=$(az acr manifest list-metadata \
             --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
             --name $REPOSITORY \
             --orderby time_desc \
-            --query '[].{digest: digest, timestamp: timestamp}' \
+            --query '[].digest' \
             --output json)
 
-          echo "$MANIFESTS" | jq -r --arg cutoff "$(date -d "$CUTOFF_DATE" '+%Y-%m-%dT%H:%M:%SZ')" ".[5:][] | select(.timestamp < \$cutoff) | .digest" | \
+          echo "$MANIFESTS" | jq -r '.[30:][]' | \
           xargs -I {} az acr repository delete \
           --name ${{ secrets.AZURE_REGISTRY_NAME }} \
           --image $REPOSITORY@{} \
-          --yes
+          --yes 2>/dev/null || true
