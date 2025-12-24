@@ -30,20 +30,21 @@ jobs:
       - name: Clean repository
         run: |
           REPOSITORY="${{ matrix.repository }}"
+          set -e
 
           MANIFESTS=$(az acr manifest list-metadata \
             --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
             --name $REPOSITORY \
             --orderby time_desc \
             --query '[].digest' \
-            --output json | grep -v "WARNING:")
+            --output json 2>/dev/null)
 
           echo "$MANIFESTS" | jq -r '.[30:][]' | \
           while read digest; do
             [ -n "$digest" ] && az acr repository delete \
             --name ${{ secrets.AZURE_REGISTRY_NAME }} \
             --image $REPOSITORY@$digest \
-            --yes 2>&1 | grep -v "WARNING:" || true
+            --yes 2>/dev/null || true
           done
 
   database:
@@ -63,20 +64,21 @@ jobs:
       - name: Clean repository
         run: |
           REPOSITORY="${{ matrix.repository }}"
+          set -e
 
           MANIFESTS=$(az acr manifest list-metadata \
             --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
             --name $REPOSITORY \
             --orderby time_desc \
             --query '[].digest' \
-            --output json | grep -v "WARNING:")
+            --output json 2>/dev/null)
 
           echo "$MANIFESTS" | jq -r '.[30:][]' | \
           while read digest; do
             [ -n "$digest" ] && az acr repository delete \
             --name ${{ secrets.AZURE_REGISTRY_NAME }} \
             --image $REPOSITORY@$digest \
-            --yes 2>&1 | grep -v "WARNING:" || true
+            --yes 2>/dev/null || true
           done
 
   search:
@@ -99,20 +101,21 @@ jobs:
       - name: Clean repository
         run: |
           REPOSITORY="${{ matrix.repository }}"
+          set -e
 
           MANIFESTS=$(az acr manifest list-metadata \
             --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
             --name $REPOSITORY \
             --orderby time_desc \
             --query '[].digest' \
-            --output json | grep -v "WARNING:")
+            --output json 2>/dev/null)
 
           echo "$MANIFESTS" | jq -r '.[30:][]' | \
           while read digest; do
             [ -n "$digest" ] && az acr repository delete \
             --name ${{ secrets.AZURE_REGISTRY_NAME }} \
             --image $REPOSITORY@$digest \
-            --yes 2>&1 | grep -v "WARNING:" || true
+            --yes 2>/dev/null || true
           done
 
   web:
@@ -133,18 +136,19 @@ jobs:
       - name: Clean repository
         run: |
           REPOSITORY="${{ matrix.repository }}"
+          set -e
 
           MANIFESTS=$(az acr manifest list-metadata \
             --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
             --name $REPOSITORY \
             --orderby time_desc \
             --query '[].digest' \
-            --output json | grep -v "WARNING:")
+            --output json 2>/dev/null)
 
           echo "$MANIFESTS" | jq -r '.[30:][]' | \
           while read digest; do
             [ -n "$digest" ] && az acr repository delete \
             --name ${{ secrets.AZURE_REGISTRY_NAME }} \
             --image $REPOSITORY@$digest \
-            --yes 2>&1 | grep -v "WARNING:" || true
+            --yes 2>/dev/null || true
           done
