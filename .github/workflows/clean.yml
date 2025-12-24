@@ -10,19 +10,33 @@ permissions:
   id-token: write
 
 jobs:
-  clean:
+  login:
     runs-on: ubuntu-latest
+    outputs:
+      token: ${{ steps.login.outputs.token }}
     steps:
       - name: Azure login
+        id: login
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Cache builder
+  cache:
+    needs: login
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repository:
+          - cache-builder-peak
+          - cache-builder-offpeak
+          - cache-builder-weekend
+          - cache-builder-night
+    steps:
+      - name: Clean repository
         run: |
-          REPOSITORY="cache-builder"
+          REPOSITORY="${{ matrix.repository }}"
 
           MANIFESTS=$(az acr manifest list-metadata \
             --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
@@ -39,9 +53,17 @@ jobs:
             --yes 2>&1 | grep -v "WARNING:" || true
           done
 
-      - name: Database builder
+  database:
+    needs: login
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repository:
+          - database-builder
+    steps:
+      - name: Clean repository
         run: |
-          REPOSITORY="database-builder"
+          REPOSITORY="${{ matrix.repository }}"
 
           MANIFESTS=$(az acr manifest list-metadata \
             --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
@@ -58,9 +80,20 @@ jobs:
             --yes 2>&1 | grep -v "WARNING:" || true
           done
 
-      - name: Search builder
+  search:
+    needs: login
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repository:
+          - search-builder-peak
+          - search-builder-offpeak
+          - search-builder-weekend
+          - search-builder-night
+    steps:
+      - name: Clean repository
         run: |
-          REPOSITORY="search-builder"
+          REPOSITORY="${{ matrix.repository }}"
 
           MANIFESTS=$(az acr manifest list-metadata \
             --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
@@ -77,28 +110,18 @@ jobs:
             --yes 2>&1 | grep -v "WARNING:" || true
           done
 
-      - name: Web api
+  web:
+    needs: login
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repository:
+          - web-api
+          - web-site
+    steps:
+      - name: Clean repository
         run: |
-          REPOSITORY="web-api"
-
-          MANIFESTS=$(az acr manifest list-metadata \
-            --registry ${{ secrets.AZURE_REGISTRY_NAME }} \
-            --name $REPOSITORY \
-            --orderby time_desc \
-            --query '[].digest' \
-            --output json 2>&1 | grep -v "WARNING:")
-
-          echo "$MANIFESTS" | jq -r '.[30:][]' | \
-          while read digest; do
-            [ -n "$digest" ] && az acr repository delete \
-            --name ${{ secrets.AZURE_REGISTRY_NAME }} \
-            --image $REPOSITORY@$digest \
-            --yes 2>&1 | grep -v "WARNING:" || true
-          done
-
-      - name: Web site
-        run: |
-          REPOSITORY="web-site"
+          REPOSITORY="${{ matrix.repository }}"
 
           MANIFESTS=$(az acr manifest list-metadata \
             --registry ${{ secrets.AZURE_REGISTRY_NAME }} \

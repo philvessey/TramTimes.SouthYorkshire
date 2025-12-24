@@ -41,19 +41,21 @@ public static class ContainerExtensions
 
                 #region build output
 
-                command.WithStandardOutputPipe(target: PipeTarget.ToDelegate(handleLine: line =>
-                    context.Logger.LogInformation(
-                        message: "{output}",
-                        args: line)));
+                if (context.Logger.IsEnabled(logLevel: LogLevel.Information))
+                    command.WithStandardOutputPipe(target: PipeTarget.ToDelegate(handleLine: line =>
+                        context.Logger.LogInformation(
+                            message: "{output}",
+                            args: line)));
 
                 #endregion
 
                 #region build error
 
-                command.WithStandardErrorPipe(target: PipeTarget.ToDelegate(handleLine: line =>
-                    context.Logger.LogError(
-                        message: "{error}",
-                        args: line)));
+                if (context.Logger.IsEnabled(logLevel: LogLevel.Error))
+                    command.WithStandardErrorPipe(target: PipeTarget.ToDelegate(handleLine: line =>
+                        context.Logger.LogError(
+                            message: "{error}",
+                            args: line)));
 
                 #endregion
 

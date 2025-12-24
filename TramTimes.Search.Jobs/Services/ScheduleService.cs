@@ -21,21 +21,44 @@ public static class ScheduleService
 
             #region build index
 
-            if (_context is "Production")
+            switch (_context)
             {
-                var clean = new JobKey(name: "clean");
+                case "Development":
+                {
+                    var development = new JobKey(name: "development");
 
-                quartz
-                    .AddJob<Production>(jobKey: clean, configure: job =>
-                    {
-                        job.WithDescription(description: "Cleans old entries from the index.");
-                    })
-                    .AddTrigger(configure: trigger =>
-                    {
-                        trigger.ForJob(jobKey: clean);
-                        trigger.WithIdentity(name: "clean-trigger");
-                        trigger.WithCronSchedule(cronExpression: "0 0 3 ? * *");
-                    });
+                    quartz
+                        .AddJob<Development>(jobKey: development, configure: job =>
+                        {
+                            job.WithDescription(description: "Development job to build the index.");
+                        })
+                        .AddTrigger(configure: trigger =>
+                        {
+                            trigger.ForJob(jobKey: development);
+                            trigger.WithIdentity(name: "development-trigger");
+                            trigger.StartNow();
+                        });
+
+                    break;
+                }
+                case "Testing":
+                {
+                    var testing = new JobKey(name: "testing");
+
+                    quartz
+                        .AddJob<Testing>(jobKey: testing, configure: job =>
+                        {
+                            job.WithDescription(description: "Testing job to build the index.");
+                        })
+                        .AddTrigger(configure: trigger =>
+                        {
+                            trigger.ForJob(jobKey: testing);
+                            trigger.WithIdentity(name: "testing-trigger");
+                            trigger.StartNow();
+                        });
+
+                    break;
+                }
             }
 
             #endregion

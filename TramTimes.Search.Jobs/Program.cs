@@ -1,6 +1,13 @@
+using TramTimes.Search.Jobs.Extensions;
 using TramTimes.Search.Jobs.Services;
 
 var builder = Host.CreateApplicationBuilder(args: args);
+
+#region get context
+
+var context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
+
+#endregion
 
 #region inject defaults
 
@@ -20,7 +27,8 @@ builder.AddElasticsearchClient(connectionName: "search");
 
 #region configure services
 
-builder.Services.AddHostedService<SearchService>();
+if (context is "Production")
+    builder.Services.AddHostedJobs();
 
 #endregion
 

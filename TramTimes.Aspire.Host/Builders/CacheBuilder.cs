@@ -1,5 +1,6 @@
 // ReSharper disable all
 
+using Azure.Provisioning.AppContainers;
 using TramTimes.Aspire.Host.Resources;
 
 namespace TramTimes.Aspire.Host.Builders;
@@ -54,16 +55,16 @@ public static class CacheBuilder
 
         if (builder.ExecutionContext.IsPublishMode)
             cache.Builder = builder
-                .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder")
+                .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder-peak")
                 .WaitFor(dependency: cache.Connection ?? throw new InvalidOperationException(message: "Cache connection is not available."))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
                     value: "Production")
                 .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WithReference(source: cache.Connection)
-                .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
+                .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>
                 {
-                    var container = app.Template.Containers.Single().Value;
+                    var container = job.Template.Containers.Single().Value;
 
                     if (container is not null)
                     {
@@ -71,8 +72,77 @@ public static class CacheBuilder
                         container.Resources.Memory = "0.5Gi";
                     }
 
-                    app.Template.Scale.MinReplicas = 1;
-                    app.Template.Scale.MaxReplicas = 1;
+                    job.Configuration.TriggerType = ContainerAppJobTriggerType.Schedule;
+                    job.Configuration.ScheduleTriggerConfig.CronExpression = "0/10 6-9,16-19 * * 1,2,3,4,5";
+                });
+
+        if (builder.ExecutionContext.IsPublishMode)
+            cache.Builder = builder
+                .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder-offpeak")
+                .WaitFor(dependency: cache.Connection ?? throw new InvalidOperationException(message: "Cache connection is not available."))
+                .WithEnvironment(
+                    name: "ASPIRE_CONTEXT",
+                    value: "Production")
+                .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
+                .WithReference(source: cache.Connection)
+                .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>
+                {
+                    var container = job.Template.Containers.Single().Value;
+
+                    if (container is not null)
+                    {
+                        container.Resources.Cpu = 0.25;
+                        container.Resources.Memory = "0.5Gi";
+                    }
+
+                    job.Configuration.TriggerType = ContainerAppJobTriggerType.Schedule;
+                    job.Configuration.ScheduleTriggerConfig.CronExpression = "0/20 10-15,20-23 * * 1,2,3,4,5";
+                });
+
+        if (builder.ExecutionContext.IsPublishMode)
+            cache.Builder = builder
+                .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder-weekend")
+                .WaitFor(dependency: cache.Connection ?? throw new InvalidOperationException(message: "Cache connection is not available."))
+                .WithEnvironment(
+                    name: "ASPIRE_CONTEXT",
+                    value: "Production")
+                .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
+                .WithReference(source: cache.Connection)
+                .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>
+                {
+                    var container = job.Template.Containers.Single().Value;
+
+                    if (container is not null)
+                    {
+                        container.Resources.Cpu = 0.25;
+                        container.Resources.Memory = "0.5Gi";
+                    }
+
+                    job.Configuration.TriggerType = ContainerAppJobTriggerType.Schedule;
+                    job.Configuration.ScheduleTriggerConfig.CronExpression = "0/30 6-23 * * 6,0";
+                });
+
+        if (builder.ExecutionContext.IsPublishMode)
+            cache.Builder = builder
+                .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder-night")
+                .WaitFor(dependency: cache.Connection ?? throw new InvalidOperationException(message: "Cache connection is not available."))
+                .WithEnvironment(
+                    name: "ASPIRE_CONTEXT",
+                    value: "Production")
+                .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
+                .WithReference(source: cache.Connection)
+                .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>
+                {
+                    var container = job.Template.Containers.Single().Value;
+
+                    if (container is not null)
+                    {
+                        container.Resources.Cpu = 0.25;
+                        container.Resources.Memory = "0.5Gi";
+                    }
+
+                    job.Configuration.TriggerType = ContainerAppJobTriggerType.Schedule;
+                    job.Configuration.ScheduleTriggerConfig.CronExpression = "0/30 0-1,4-5 * * *";
                 });
 
         #endregion

@@ -5,9 +5,9 @@ using Quartz;
 
 namespace TramTimes.Search.Jobs.Workers;
 
-public class Production(
+public class Development(
     ElasticsearchClient searchService,
-    ILogger<Production> logger) : IJob {
+    ILogger<Development> logger) : IJob {
 
     public async Task Execute(IJobExecutionContext context)
     {

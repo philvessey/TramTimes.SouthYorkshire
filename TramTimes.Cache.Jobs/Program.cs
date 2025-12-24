@@ -1,6 +1,13 @@
+using TramTimes.Cache.Jobs.Extensions;
 using TramTimes.Cache.Jobs.Services;
 
 var builder = Host.CreateApplicationBuilder(args: args);
+
+#region get context
+
+var context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
+
+#endregion
 
 #region inject defaults
 
@@ -20,7 +27,8 @@ builder.AddRedisClient(connectionName: "cache");
 
 #region configure services
 
-builder.Services.AddHostedService<CacheService>();
+if (context is "Production")
+    builder.Services.AddHostedJobs();
 
 #endregion
 

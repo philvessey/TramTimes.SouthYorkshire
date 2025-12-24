@@ -3,9 +3,9 @@ using StackExchange.Redis;
 
 namespace TramTimes.Cache.Jobs.Workers;
 
-public class Production(
+public class Development(
     IConnectionMultiplexer cacheService,
-    ILogger<Production> logger) : IJob {
+    ILogger<Development> logger) : IJob {
 
     public async Task Execute(IJobExecutionContext context)
     {

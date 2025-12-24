@@ -1,5 +1,6 @@
 // ReSharper disable all
 
+using Azure.Provisioning.AppContainers;
 using TramTimes.Aspire.Host.Extensions;
 using TramTimes.Aspire.Host.Resources;
 
@@ -58,16 +59,16 @@ public static class SearchBuilder
 
         if (builder.ExecutionContext.IsPublishMode)
             search.Builder = builder
-                .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder")
+                .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder-peak")
                 .WaitFor(dependency: search.Connection ?? throw new InvalidOperationException(message: "Search connection is not available."))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
                     value: "Production")
                 .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WithReference(source: search.Connection)
-                .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
+                .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>
                 {
-                    var container = app.Template.Containers.Single().Value;
+                    var container = job.Template.Containers.Single().Value;
 
                     if (container is not null)
                     {
@@ -75,8 +76,77 @@ public static class SearchBuilder
                         container.Resources.Memory = "0.5Gi";
                     }
 
-                    app.Template.Scale.MinReplicas = 1;
-                    app.Template.Scale.MaxReplicas = 1;
+                    job.Configuration.TriggerType = ContainerAppJobTriggerType.Schedule;
+                    job.Configuration.ScheduleTriggerConfig.CronExpression = "5/10 6-9,16-19 * * 1,2,3,4,5";
+                });
+
+        if (builder.ExecutionContext.IsPublishMode)
+            search.Builder = builder
+                .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder-offpeak")
+                .WaitFor(dependency: search.Connection ?? throw new InvalidOperationException(message: "Search connection is not available."))
+                .WithEnvironment(
+                    name: "ASPIRE_CONTEXT",
+                    value: "Production")
+                .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
+                .WithReference(source: search.Connection)
+                .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>
+                {
+                    var container = job.Template.Containers.Single().Value;
+
+                    if (container is not null)
+                    {
+                        container.Resources.Cpu = 0.25;
+                        container.Resources.Memory = "0.5Gi";
+                    }
+
+                    job.Configuration.TriggerType = ContainerAppJobTriggerType.Schedule;
+                    job.Configuration.ScheduleTriggerConfig.CronExpression = "10/20 10-15,20-23 * * 1,2,3,4,5";
+                });
+
+        if (builder.ExecutionContext.IsPublishMode)
+            search.Builder = builder
+                .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder-weekend")
+                .WaitFor(dependency: search.Connection ?? throw new InvalidOperationException(message: "Search connection is not available."))
+                .WithEnvironment(
+                    name: "ASPIRE_CONTEXT",
+                    value: "Production")
+                .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
+                .WithReference(source: search.Connection)
+                .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>
+                {
+                    var container = job.Template.Containers.Single().Value;
+
+                    if (container is not null)
+                    {
+                        container.Resources.Cpu = 0.25;
+                        container.Resources.Memory = "0.5Gi";
+                    }
+
+                    job.Configuration.TriggerType = ContainerAppJobTriggerType.Schedule;
+                    job.Configuration.ScheduleTriggerConfig.CronExpression = "15/30 6-23 * * 6,0";
+                });
+
+        if (builder.ExecutionContext.IsPublishMode)
+            search.Builder = builder
+                .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder-night")
+                .WaitFor(dependency: search.Connection ?? throw new InvalidOperationException(message: "Search connection is not available."))
+                .WithEnvironment(
+                    name: "ASPIRE_CONTEXT",
+                    value: "Production")
+                .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
+                .WithReference(source: search.Connection)
+                .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>
+                {
+                    var container = job.Template.Containers.Single().Value;
+
+                    if (container is not null)
+                    {
+                        container.Resources.Cpu = 0.25;
+                        container.Resources.Memory = "0.5Gi";
+                    }
+
+                    job.Configuration.TriggerType = ContainerAppJobTriggerType.Schedule;
+                    job.Configuration.ScheduleTriggerConfig.CronExpression = "15/30 0-1,4-5 * * *";
                 });
 
         #endregion
