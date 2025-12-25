@@ -23,9 +23,9 @@ updates:
       - "/TramTimes.Web.Utilities"
     registries:
       - nuget.org
+      - telerik.com
     schedule:
       interval: "weekly"
-      day: "monday"
       time: "09:00"
     open-pull-requests-limit: 10
     reviewers:
@@ -44,8 +44,7 @@ updates:
     registries:
       - telerik.com
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: "monthly"
       time: "09:00"
     open-pull-requests-limit: 10
     reviewers:
