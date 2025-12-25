@@ -1,11 +1,14 @@
 version: 2
 
 registries:
-  telerik:
+  nuget.org:
+    type: nuget-feed
+    url: "https://api.nuget.org/v3/index.json"
+  telerik.com:
     type: nuget-feed
     url: "https://nuget.telerik.com/v3/index.json"
     username: "api-key"
-    password: "${{secrets.TELERIK_KEY}}"
+    password: "${{ secrets.TELERIK_KEY }}"
 
 updates:
   - package-ecosystem: "nuget"
@@ -16,9 +19,10 @@ updates:
       - "/TramTimes.Database.Jobs"
       - "/TramTimes.Search.Jobs"
       - "/TramTimes.Web.Api"
-      - "/TramTimes.Web.Site"
       - "/TramTimes.Web.Tests"
       - "/TramTimes.Web.Utilities"
+    registries:
+      - nuget.org
     schedule:
       interval: "weekly"
       day: "monday"
@@ -28,17 +32,16 @@ updates:
       - "philvessey"
     labels:
       - "dependencies"
-      - "nuget"
     commit-message:
       prefix: "chore"
       include: "scope"
-    ignore:
-      - dependency-name: "Telerik.UI.for.Blazor"
 
   - package-ecosystem: "nuget"
-    directory: "/TramTimes.Web.Site"
+    directories:
+      - "/TramTimes.Web.Site"
     registries:
-      - telerik
+      - nuget.org
+      - telerik.com
     schedule:
       interval: "weekly"
       day: "monday"
@@ -48,9 +51,6 @@ updates:
       - "philvessey"
     labels:
       - "dependencies"
-      - "telerik"
     commit-message:
       prefix: "chore"
       include: "scope"
-    allow:
-      - dependency-name: "Telerik.UI.for.Blazor"
