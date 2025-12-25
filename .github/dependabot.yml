@@ -35,12 +35,13 @@ updates:
     commit-message:
       prefix: "chore"
       include: "scope"
+    ignore:
+      - dependency-name: "Telerik.UI.for.Blazor"
 
   - package-ecosystem: "nuget"
     directories:
       - "/TramTimes.Web.Site"
     registries:
-      - nuget.org
       - telerik.com
     schedule:
       interval: "weekly"
@@ -54,3 +55,5 @@ updates:
     commit-message:
       prefix: "chore"
       include: "scope"
+    allow:
+      - dependency-name: "Telerik.UI.for.Blazor"
