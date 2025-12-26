@@ -2,19 +2,11 @@ name: CD
 
 on:
   push:
-    branches: [ master ]
-    paths-ignore:
-      - 'LICENSE'
-      - '**.md'
-      - '**.yml'
+    tags: [ '*' ]
 
 permissions:
   contents: read
   id-token: write
-
-concurrency:
-  group: cd-${{ github.ref }}
-  cancel-in-progress: false
 
 jobs:
   deploy:
