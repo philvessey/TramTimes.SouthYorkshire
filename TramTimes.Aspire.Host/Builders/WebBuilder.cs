@@ -75,12 +75,12 @@ public static class WebBuilder
                 .WithReference(source: cache.Service ?? throw new InvalidOperationException(message: "Cache service is not available."))
                 .WithReference(source: search.Service ?? throw new InvalidOperationException(message: "Search service is not available."))
                 .WithUrlForEndpoint(
-                    callback: url => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
+                    callback: (ResourceUrlAnnotation url) => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
                     endpointName: "https")
                 .WithUrlForEndpoint(
-                    callback: url => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
+                    callback: (ResourceUrlAnnotation url) => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
                     endpointName: "http")
-                .WithUrls(callback =>
+                .WithUrls(callback: callback =>
                 {
                     callback.Urls.Add(item: new ResourceUrlAnnotation
                     {
@@ -221,10 +221,10 @@ public static class WebBuilder
                 .WithExternalHttpEndpoints()
                 .WithHttpHealthCheck(path: "/healthz")
                 .WithUrlForEndpoint(
-                    callback: url => url.DisplayText = "Primary",
+                    callback: (ResourceUrlAnnotation url) => url.DisplayText = "Primary",
                     endpointName: "https")
                 .WithUrlForEndpoint(
-                    callback: url => url.DisplayText = "Secondary",
+                    callback: (ResourceUrlAnnotation url) => url.DisplayText = "Secondary",
                     endpointName: "http");
 
         if (builder.ExecutionContext.IsPublishMode)

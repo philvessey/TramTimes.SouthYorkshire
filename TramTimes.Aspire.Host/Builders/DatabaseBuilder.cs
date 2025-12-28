@@ -33,7 +33,7 @@ public static class DatabaseBuilder
                 .WithImageTag(tag: "17.6")
                 .WithLifetime(lifetime: ContainerLifetime.Persistent)
                 .WithUrlForEndpoint(
-                    callback: url => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
+                    callback: (ResourceUrlAnnotation url) => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
                     endpointName: "tcp");
 
         #endregion
@@ -185,7 +185,7 @@ public static class DatabaseBuilder
                         resource.WithLifetime(lifetime: ContainerLifetime.Session);
                         resource.WithParentRelationship(parent: database.Service);
                         resource.WithUrlForEndpoint(
-                            callback: url => url.DisplayText = "Administration",
+                            callback: (ResourceUrlAnnotation url) => url.DisplayText = "Administration",
                             endpointName: "http");
                     })
                 .WithPgWeb(
@@ -196,7 +196,7 @@ public static class DatabaseBuilder
                         resource.WithLifetime(lifetime: ContainerLifetime.Session);
                         resource.WithParentRelationship(parent: database.Service);
                         resource.WithUrlForEndpoint(
-                            callback: url => url.DisplayText = "Administration",
+                            callback: (ResourceUrlAnnotation url) => url.DisplayText = "Administration",
                             endpointName: "http");
                     });
 

@@ -29,10 +29,10 @@ public static class CacheBuilder
                 .WithImageTag(tag: "8.2")
                 .WithLifetime(lifetime: ContainerLifetime.Persistent)
                 .WithUrlForEndpoint(
-                    callback: url => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
+                    callback: (ResourceUrlAnnotation url) => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
                     endpointName: "tcp")
                 .WithUrlForEndpoint(
-                    callback: url => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
+                    callback: (ResourceUrlAnnotation url) => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
                     endpointName: "secondary");
 
         if (builder.ExecutionContext.IsPublishMode)
@@ -166,7 +166,7 @@ public static class CacheBuilder
                         resource.WithLifetime(lifetime: ContainerLifetime.Session);
                         resource.WithParentRelationship(parent: cache.Service);
                         resource.WithUrlForEndpoint(
-                            callback: url => url.DisplayText = "Administration",
+                            callback: (ResourceUrlAnnotation url) => url.DisplayText = "Administration",
                             endpointName: "http");
                     })
                 .WithRedisInsight(
@@ -177,7 +177,7 @@ public static class CacheBuilder
                         resource.WithLifetime(lifetime: ContainerLifetime.Session);
                         resource.WithParentRelationship(parent: cache.Service);
                         resource.WithUrlForEndpoint(
-                            callback: url => url.DisplayText = "Administration",
+                            callback: (ResourceUrlAnnotation url) => url.DisplayText = "Administration",
                             endpointName: "http");
                     });
 

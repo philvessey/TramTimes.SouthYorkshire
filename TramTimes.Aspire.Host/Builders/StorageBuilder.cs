@@ -22,13 +22,13 @@ public static class StorageBuilder
             storage.Service = builder
                 .AddAzureStorage(name: "storage")
                 .WithUrlForEndpoint(
-                    callback: url => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
+                    callback: (ResourceUrlAnnotation url) => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
                     endpointName: "blob")
                 .WithUrlForEndpoint(
-                    callback: url => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
+                    callback: (ResourceUrlAnnotation url) => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
                     endpointName: "queue")
                 .WithUrlForEndpoint(
-                    callback: url => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
+                    callback: (ResourceUrlAnnotation url) => url.DisplayLocation = UrlDisplayLocation.DetailsOnly,
                     endpointName: "table")
                 .RunAsEmulator(configureContainer: resource =>
                 {
