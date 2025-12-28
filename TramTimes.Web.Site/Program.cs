@@ -1,6 +1,7 @@
 using System.Net;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Http.Resilience;
 using Polly;
 using Polly.Timeout;
 using TramTimes.Web.Site.Components;
@@ -22,29 +23,11 @@ builder
 
 #endregion
 
-#region configure defaults
-
-var retry = Policy
-    .Handle<HttpRequestException>()
-    .OrResult<HttpResponseMessage>(response => response.StatusCode is
-        HttpStatusCode.InternalServerError or
-        HttpStatusCode.NotImplemented or
-        HttpStatusCode.BadGateway or
-        HttpStatusCode.ServiceUnavailable or
-        HttpStatusCode.GatewayTimeout)
-    .RetryAsync(retryCount: 10);
-
-var timeout = Policy.TimeoutAsync<HttpResponseMessage>(
-    timeout: TimeSpan.FromSeconds(seconds: 10),
-    timeoutStrategy: TimeoutStrategy.Pessimistic);
-
-#endregion
-
 #region inject services
 
 builder.Services
     .AddHttpClient(name: "api")
-    .AddPolicyHandler(policy: Policy.WrapAsync(policies: [retry, timeout]));
+    .AddStandardResilienceHandler();
 
 builder.Services
     .AddBlazoredLocalStorage()
@@ -62,10 +45,31 @@ builder.Services.Configure<CookiePolicyOptions>(configureOptions: options =>
     options.Secure = CookieSecurePolicy.SameAsRequest;
 });
 
+builder.Services.Configure<HttpStandardResilienceOptions>(name: "api", configureOptions: options =>
+{
+    options.AttemptTimeout.Timeout = TimeSpan.FromSeconds(seconds: 10);
+    options.TotalRequestTimeout.Timeout = TimeSpan.FromMinutes(minutes: 5);
+    options.Retry.BackoffType = DelayBackoffType.Exponential;
+    options.Retry.MaxRetryAttempts = 9;
+    options.Retry.UseJitter = true;
+    options.Retry.ShouldHandle = arguments => ValueTask.FromResult(result:
+        arguments.Outcome.Exception is TimeoutException ||
+        arguments.Outcome.Exception is TimeoutRejectedException ||
+        arguments.Outcome.Result?.StatusCode is
+            HttpStatusCode.RequestTimeout or
+            HttpStatusCode.TooManyRequests or
+            HttpStatusCode.InternalServerError or
+            HttpStatusCode.BadGateway or
+            HttpStatusCode.ServiceUnavailable or
+            HttpStatusCode.GatewayTimeout);
+});
+
 builder.Services.Configure<HubOptions>(configureOptions: options =>
 {
     options.MaximumReceiveMessageSize = 1024 * 1024;
 });
+
+builder.Services.AddHostedService<ResilienceService>();
 
 #endregion
 

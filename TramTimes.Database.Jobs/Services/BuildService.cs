@@ -53,10 +53,10 @@ public class BuildService : IHostedService
         _result = Policy
             .Handle<Exception>()
             .WaitAndRetryAsync(
-                retryCount: 5,
-                sleepDurationProvider: i => TimeSpan.FromSeconds(value: Math.Pow(
-                    x: 5,
-                    y: i)));
+                sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(value: Math.Pow(
+                    x: retryAttempt,
+                    y: 2)),
+                retryCount: 4);
 
         #endregion
     }
