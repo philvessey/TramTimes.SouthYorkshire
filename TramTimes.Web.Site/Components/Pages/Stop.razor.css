@@ -406,3 +406,51 @@
 }
 
 /*#endregion */
+
+/*#region telerik-skeleton */
+
+#stop-telerik-skeleton {
+    grid-area: 1 / 2 / 2 / 3;
+    height: 100%;
+    width: 100%;
+}
+
+@media (max-width: 576px) {
+    #stop-telerik-skeleton {
+        grid-area: 2 / 1 / 3 / 2;
+    }
+}
+
+#stop-telerik-skeleton__result {
+    box-sizing: border-box;
+    column-gap: 8px;
+    cursor: default;
+    display: grid;
+    grid-template-columns: 1fr 0.67fr;
+    grid-template-rows: 1fr 1fr;
+    padding: 4px;
+    width: 100%;
+}
+
+#stop-telerik-skeleton__result .name {
+    align-items: center;
+    cursor: default;
+    display: flex;
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+#stop-telerik-skeleton__result .direction {
+    align-items: center;
+    cursor: default;
+    display: flex;
+    grid-area: 2 / 1 / 3 / 2;
+}
+
+#stop-telerik-skeleton__result .services {
+    align-items: center;
+    cursor: default;
+    display: flex;
+    grid-area: 1 / 2 / 3 / 3;
+}
+
+/*#endregion */

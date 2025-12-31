@@ -217,6 +217,33 @@
 
     <!-- #endregion -->
 
+    <!-- #region telerik-skeleton -->
+
+    <div id="home-telerik-skeleton"
+         hidden="@Hidden">
+
+        @{
+            for (var i = 0; i < TelerikSkeletonDefaults.Placeholders; i++)
+            {
+                <div id="home-telerik-skeleton__result">
+                    <div class="name">
+                        <TelerikSkeleton Width="100%"/>
+                    </div>
+
+                    <div class="direction">
+                        <TelerikSkeleton Width="100%"/>
+                    </div>
+
+                    <div class="services">
+                        <TelerikSkeleton Width="100%"/>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+    <!-- #endregion -->
+
     <!-- #region telerik-auto-complete -->
 
     <div id="home-telerik-auto-complete"

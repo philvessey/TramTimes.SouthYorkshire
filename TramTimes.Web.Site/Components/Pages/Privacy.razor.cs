@@ -26,6 +26,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
     private bool? Disposed { get; set; }
     private string? Query { get; set; }
     private string? Title { get; set; }
+    private bool? Hidden { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -49,11 +50,23 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         Title ??= "TramTimes - South Yorkshire";
 
         #endregion
+
+        #region set default hidden
+
+        Hidden ??= false;
+
+        #endregion
     }
 
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
+
+        #region set hidden toggle
+
+        Hidden = false;
+
+        #endregion
 
         #region get storage consent
 
@@ -115,6 +128,18 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #endregion
 
+        #region clear map data
+
+        MapData = [];
+
+        #endregion
+
+        #region rebind list view
+
+        ListManager?.Rebind();
+
+        #endregion
+
         #region get local time
 
         var currentDateTime = new DateTime(
@@ -139,7 +164,6 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         if (consent)
             cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
 
-        MapData = [];
         MapData.AddRange(collection: cache);
 
         foreach (var item in MapData)
@@ -255,6 +279,12 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
                     .OrderBy(keySelector: stop => stop.Id));
 
         #endregion
+
+        #region set hidden toggle
+
+        Hidden = true;
+
+        #endregion
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -298,9 +328,14 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
     private async Task OnListReadAsync(ListViewReadEventArgs readEventArgs)
     {
-        #region get local storage
+        #region clear list data
 
         ListData = [];
+
+        #endregion
+
+        #region get local storage
+
         ListData.AddRange(collection: MapData);
 
         #endregion
@@ -620,6 +655,12 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #endregion
 
+        #region clear search data
+
+        SearchData = [];
+
+        #endregion
+
         #region get local time
 
         var currentDateTime = new DateTime(
@@ -644,7 +685,6 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         if (consent)
             cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
 
-        SearchData = [];
         SearchData.AddRange(collection: cache);
 
         foreach (var item in SearchData)

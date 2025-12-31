@@ -28,6 +28,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
     private bool? Disposed { get; set; }
     private string? Query { get; set; }
     private string? Title { get; set; }
+    private bool? Hidden { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -49,6 +50,12 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         #region set default title
 
         Title ??= "TramTimes - South Yorkshire";
+
+        #endregion
+
+        #region set default hidden
+
+        Hidden ??= false;
 
         #endregion
     }
@@ -138,6 +145,22 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #endregion
 
+        #region clear map data
+
+        MapData = [];
+
+        #endregion
+
+        #region rebind list view
+
+        if (LastStop is { Id: not null } && NextStop is { Id: not null })
+            if (LastStop.Id != NextStop.Id)
+                ListManager?.Rebind();
+
+        LastStop = NextStop;
+
+        #endregion
+
         #region get local time
 
         var currentDateTime = new DateTime(
@@ -157,7 +180,6 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #region get local storage
 
-        MapData = [];
         MapData.AddRange(collection: cache);
 
         foreach (var item in MapData)
@@ -232,16 +254,6 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         MapData = MapData
             .OrderBy(keySelector: stop => stop.Distance)
             .ToList();
-
-        #endregion
-
-        #region rebind list view
-
-        if (LastStop is { Id: not null } && NextStop is { Id: not null })
-            if (LastStop.Id != NextStop.Id)
-                ListManager?.Rebind();
-
-        LastStop = NextStop;
 
         #endregion
 
@@ -320,6 +332,18 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
     private async Task OnListReadAsync(ListViewReadEventArgs readEventArgs)
     {
+        #region set hidden toggle
+
+        Hidden = false;
+
+        #endregion
+
+        #region clear list data
+
+        ListData = [];
+
+        #endregion
+
         #region get local time
 
         var currentDateTime = new DateTime(
@@ -359,7 +383,6 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         if (response.IsSuccessStatusCode)
             data = await response.Content.ReadFromJsonAsync<List<WebStopPoint>>() ?? [];
 
-        ListData = [];
         ListData = MapperService.Map<List<TelerikStopPoint>>(source: data);
 
         ListData.RemoveAll(match: point => point.DepartureDateTime < currentDateTime);
@@ -382,6 +405,12 @@ public partial class Trip : ComponentBase, IAsyncDisposable
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
                 args: $"trip: list read {TripId}/{NextStop.Id ?? StopId}");
+
+        #endregion
+
+        #region set hidden toggle
+
+        Hidden = true;
 
         #endregion
     }
@@ -675,6 +704,12 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #endregion
 
+        #region clear search data
+
+        SearchData = [];
+
+        #endregion
+
         #region get local time
 
         var currentDateTime = new DateTime(
@@ -699,7 +734,6 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         if (consent)
             cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
 
-        SearchData = [];
         SearchData.AddRange(collection: cache);
 
         foreach (var item in SearchData)
