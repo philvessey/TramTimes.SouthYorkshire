@@ -71,7 +71,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageVersion Include="AutoMapper" Version="[14.0.0,15.0.0)"/>
+    <PackageVersion Include="AutoMapper" Version="15.1.0"/>
     <PackageVersion Include="Blazored.LocalStorage" Version="4.5.0"/>
     <PackageVersion Include="CliWrap" Version="3.10.0"/>
     <PackageVersion Include="CsvHelper" Version="33.1.0"/>
