@@ -37,6 +37,10 @@ updates:
       include: "scope"
     ignore:
       - dependency-name: "Telerik.UI.for.Blazor"
+      - dependency-name: "AutoMapper"
+        versions:
+          - "15.*"
+          - "16.*"
 
   - package-ecosystem: "nuget"
     directories:
