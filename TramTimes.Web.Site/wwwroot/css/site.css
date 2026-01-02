@@ -55,6 +55,10 @@ a:visited {
 
 /*#region kendo */
 
+.k-input {
+    font-size: 16px !important;
+}
+
 .k-list-item {
     color: initial !important;
     font-weight: initial !important;
@@ -81,19 +85,19 @@ a:visited {
 }
 
 .k-pos-bottom {
-    bottom: 0;
+    bottom: 0 !important;
 }
 
 .k-pos-left {
-    left: 0;
+    left: 0 !important;
 }
 
 .k-pos-right {
-    right: 0;
+    right: 0 !important;
 }
 
 .k-pos-top {
-    top: 0;
+    top: 0 !important;
 }
 
 .k-tooltip {
