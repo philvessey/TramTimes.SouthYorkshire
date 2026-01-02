@@ -36,7 +36,7 @@ updates:
       prefix: "chore"
       include: "scope"
     ignore:
-      - dependency-name: "Telerik.UI.for.Blazor"
+      - dependency-name: "Telerik.*"
       - dependency-name: "AutoMapper"
         versions:
           - "15.*"
@@ -46,6 +46,7 @@ updates:
     directories:
       - "/TramTimes.Web.Site"
     registries:
+      - nuget.org
       - telerik.com
     schedule:
       interval: "monthly"
@@ -58,5 +59,7 @@ updates:
     commit-message:
       prefix: "chore"
       include: "scope"
+    ignore:
+      - dependency-name: "*"
     allow:
-      - dependency-name: "Telerik.UI.for.Blazor"
+      - dependency-name: "Telerik.*"
