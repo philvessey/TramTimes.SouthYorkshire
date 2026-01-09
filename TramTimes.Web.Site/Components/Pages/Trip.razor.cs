@@ -392,6 +392,12 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #endregion
 
+        #region set hidden toggle
+
+        Hidden = true;
+
+        #endregion
+
         # region check component disposed
 
         if (Disposed.HasValue && Disposed.Value)
@@ -405,12 +411,6 @@ public partial class Trip : ComponentBase, IAsyncDisposable
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
                 args: $"trip: list read {TripId}/{NextStop.Id ?? StopId}");
-
-        #endregion
-
-        #region set hidden toggle
-
-        Hidden = true;
 
         #endregion
     }

@@ -1,9 +1,17 @@
 /*#region global */
 
 html, body {
-    background-color: #d7d0ca;
+    background-color: #0078c8;
     font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
-    margin: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-left: env(safe-area-inset-left, 0px);
+    padding-right: env(safe-area-inset-right, 0px);
+    padding-top: env(safe-area-inset-top, 0px);
+    position: relative;
 }
 
 a {
@@ -75,7 +83,10 @@ a:visited {
     font-weight: bold;
     height: 40px;
     justify-content: center;
-    padding: 4px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
     width: 40px;
 }
 

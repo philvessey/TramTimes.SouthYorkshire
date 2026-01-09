@@ -392,6 +392,12 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #endregion
 
+        #region set hidden toggle
+
+        Hidden = true;
+
+        #endregion
+
         # region check component disposed
 
         if (Disposed.HasValue && Disposed.Value)
@@ -405,12 +411,6 @@ public partial class Stop : ComponentBase, IAsyncDisposable
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
                 args: $"stop: list read {NextStop.Id ?? StopId}");
-
-        #endregion
-
-        #region set hidden toggle
-
-        Hidden = true;
 
         #endregion
     }

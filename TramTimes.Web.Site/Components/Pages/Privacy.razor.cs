@@ -256,6 +256,12 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #endregion
 
+        #region set hidden toggle
+
+        Hidden = true;
+
+        #endregion
+
         #region clear local storage
 
         await StorageService.ClearAsync();
@@ -277,12 +283,6 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
                     .Concat(second: cache)
                     .DistinctBy(keySelector: stop => stop.Id)
                     .OrderBy(keySelector: stop => stop.Id));
-
-        #endregion
-
-        #region set hidden toggle
-
-        Hidden = true;
 
         #endregion
     }
