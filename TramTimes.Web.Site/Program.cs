@@ -1,5 +1,4 @@
 using System.Net;
-using Blazored.LocalStorage;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Http.Resilience;
 using Polly;
@@ -29,9 +28,7 @@ builder.Services
     .AddHttpClient(name: "api")
     .AddStandardResilienceHandler();
 
-builder.Services
-    .AddBlazoredLocalStorage()
-    .AddTelerikBlazor();
+builder.Services.AddTelerikBlazor();
 
 #endregion
 
