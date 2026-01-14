@@ -99,18 +99,25 @@ public partial class Home : ComponentBase, IAsyncDisposable
             Zoom = TelerikMapDefaults.Zoom;
         }
 
+        double[] location = [];
+
         if (consent)
         {
-            var location = await StorageService.GetItemAsync<double[]>(key: "location") ?? [];
+            var storage = await StorageService.GetAsync<double[]>(key: "location");
 
-            if (!location.IsNullOrEmpty() && !Latitude.HasValue && !Longitude.HasValue)
+            if (storage.Success)
             {
-                Center =
-                [
-                    location.ElementAt(index: 0),
-                    location.ElementAt(index: 1)
-                ];
+                location = storage.Value ?? [];
             }
+        }
+
+        if (!location.IsNullOrEmpty() && !Latitude.HasValue && !Longitude.HasValue)
+        {
+            Center =
+            [
+                location.ElementAt(index: 0),
+                location.ElementAt(index: 1)
+            ];
         }
 
         #endregion
@@ -162,7 +169,14 @@ public partial class Home : ComponentBase, IAsyncDisposable
         List<TelerikStop> cache = [];
 
         if (consent)
-            cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
+        {
+            var storage = await StorageService.GetAsync<List<TelerikStop>>(key: "cache");
+
+            if (storage.Success)
+            {
+                cache = storage.Value ?? [];
+            }
+        }
 
         MapData.AddRange(collection: cache);
 
@@ -264,21 +278,22 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         #region clear local storage
 
-        await StorageService.ClearAsync();
+        await StorageService.DeleteAsync(key: "cache");
+        await StorageService.DeleteAsync(key: "location");
 
         #endregion
 
         #region save local storage
 
         if (consent)
-            await StorageService.SetItemAsync(
+            await StorageService.SetAsync(
                 key: "location",
-                data: Center);
+                value: Center);
 
         if (consent)
-            await StorageService.SetItemAsync(
+            await StorageService.SetAsync(
                 key: "cache",
-                data: MapperService
+                value: MapperService
                     .Map<List<TelerikStop>>(source: data)
                     .Concat(second: cache)
                     .DistinctBy(keySelector: stop => stop.Id)
@@ -687,7 +702,14 @@ public partial class Home : ComponentBase, IAsyncDisposable
         List<TelerikStop> cache = [];
 
         if (consent)
-            cache = await StorageService.GetItemAsync<List<TelerikStop>>(key: "cache") ?? [];
+        {
+            var storage = await StorageService.GetAsync<List<TelerikStop>>(key: "cache");
+
+            if (storage.Success)
+            {
+                cache = storage.Value ?? [];
+            }
+        }
 
         SearchData.AddRange(collection: cache);
 
@@ -775,21 +797,22 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         #region clear local storage
 
-        await StorageService.ClearAsync();
+        await StorageService.DeleteAsync(key: "cache");
+        await StorageService.DeleteAsync(key: "location");
 
         #endregion
 
         #region save local storage
 
         if (consent)
-            await StorageService.SetItemAsync(
+            await StorageService.SetAsync(
                 key: "location",
-                data: Center);
+                value: Center);
 
         if (consent)
-            await StorageService.SetItemAsync(
+            await StorageService.SetAsync(
                 key: "cache",
-                data: MapperService
+                value: MapperService
                     .Map<List<TelerikStop>>(source: data)
                     .Concat(second: cache)
                     .DistinctBy(keySelector: stop => stop.Id)
