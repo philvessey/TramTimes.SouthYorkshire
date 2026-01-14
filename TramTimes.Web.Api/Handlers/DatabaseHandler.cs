@@ -25,7 +25,8 @@ public static class DatabaseHandler
             target: DateTime.Now,
             offset: TimeSpan.FromMinutes(minutes: -60),
             comparison: ComparisonType.Exact,
-            tolerance: TimeSpan.FromHours(value: 4));
+            tolerance: TimeSpan.FromHours(value: 12),
+            results: 250);
 
         if (request.IsNullOrEmpty())
             return Results.NotFound();
@@ -57,7 +58,8 @@ public static class DatabaseHandler
             target: DateTime.Now,
             offset: TimeSpan.FromMinutes(minutes: -60),
             comparison: ComparisonType.Exact,
-            tolerance: TimeSpan.FromHours(value: 4));
+            tolerance: TimeSpan.FromHours(value: 12),
+            results: 250);
 
         if (request.IsNullOrEmpty())
             return Results.NotFound();
@@ -105,7 +107,8 @@ public static class DatabaseHandler
                         target: DateTime.Now,
                         offset: TimeSpan.FromMinutes(minutes: -60),
                         comparison: ComparisonType.Exact,
-                        tolerance: TimeSpan.FromHours(value: 4))));
+                        tolerance: TimeSpan.FromHours(value: 12),
+                        results: 250)));
 
         #endregion
 
@@ -142,7 +145,8 @@ public static class DatabaseHandler
                         target: DateTime.Now,
                         offset: TimeSpan.FromMinutes(minutes: -60),
                         comparison: ComparisonType.Exact,
-                        tolerance: TimeSpan.FromHours(value: 4))));
+                        tolerance: TimeSpan.FromHours(value: 12),
+                        results: 250)));
 
         #endregion
 
@@ -179,7 +183,8 @@ public static class DatabaseHandler
                         target: DateTime.Now,
                         offset: TimeSpan.FromMinutes(minutes: -60),
                         comparison: ComparisonType.Exact,
-                        tolerance: TimeSpan.FromHours(value: 4))));
+                        tolerance: TimeSpan.FromHours(value: 12),
+                        results: 250)));
 
         #endregion
 
@@ -222,7 +227,8 @@ public static class DatabaseHandler
                         target: DateTime.Now,
                         offset: TimeSpan.FromMinutes(minutes: -60),
                         comparison: ComparisonType.Exact,
-                        tolerance: TimeSpan.FromHours(value: 4))));
+                        tolerance: TimeSpan.FromHours(value: 12),
+                        results: 250)));
 
         #endregion
 
@@ -262,7 +268,8 @@ public static class DatabaseHandler
                         target: DateTime.Now,
                         offset: TimeSpan.FromMinutes(minutes: -60),
                         comparison: ComparisonType.Exact,
-                        tolerance: TimeSpan.FromHours(value: 4))));
+                        tolerance: TimeSpan.FromHours(value: 12),
+                        results: 250)));
 
         #endregion
 
