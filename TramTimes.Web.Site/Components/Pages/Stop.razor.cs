@@ -391,6 +391,12 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #endregion
 
+        #region set hidden toggle
+
+        Hidden = true;
+
+        #endregion
+
         #region build results data
 
         List<WebStopPoint> data = [];
@@ -404,12 +410,6 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         ListData.RemoveAll(match: point => point.DepartureDateTime > offsetDateTime);
 
         readEventArgs.Data = ListData;
-
-        #endregion
-
-        #region set hidden toggle
-
-        Hidden = true;
 
         #endregion
 

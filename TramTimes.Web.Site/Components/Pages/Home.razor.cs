@@ -220,6 +220,12 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         #endregion
 
+        #region set hidden toggle
+
+        Hidden = true;
+
+        #endregion
+
         #region build results data
 
         List<WebStop> data = [];
@@ -267,12 +273,6 @@ public partial class Home : ComponentBase, IAsyncDisposable
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "focusElement",
                 args: ListElement);
-
-        #endregion
-
-        #region set hidden toggle
-
-        Hidden = true;
 
         #endregion
 
