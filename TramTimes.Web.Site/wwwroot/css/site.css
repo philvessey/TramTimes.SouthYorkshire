@@ -1,3 +1,15 @@
+/*#region variables */
+
+:root {
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-width: 400px;
+}
+
+/*#endregion */
+
 /*#region global */
 
 html, body {
@@ -7,10 +19,6 @@ html, body {
     margin-left: 0;
     margin-right: 0;
     margin-top: 0;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    padding-left: env(safe-area-inset-left, 0px);
-    padding-right: env(safe-area-inset-right, 0px);
-    padding-top: env(safe-area-inset-top, 0px);
     position: relative;
 }
 

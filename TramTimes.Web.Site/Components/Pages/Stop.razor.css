@@ -1,9 +1,9 @@
 #stop {
     display: grid;
-    grid-template-columns: 1fr 296px;
+    grid-template-columns: 1fr calc(var(--safe-right) + 296px);
     grid-template-rows: 100%;
     height: 100dvh;
-    width: 100dvw;
+    width: 100%;
 }
 
 @media (max-width: 576px) {
@@ -18,10 +18,10 @@
 #stop-telerik-auto-complete {
     grid-area: 1 / 1 / 2 / 2;
     margin-bottom: 0;
-    margin-left: 15px;
+    margin-left: max(var(--safe-left), 15px);
     margin-right: 0;
-    margin-top: 15px;
-    width: min(calc(100% - 30px), 420px);
+    margin-top: max(var(--safe-top), 15px);
+    width: min(calc(100% - max(var(--safe-left), 15px) - max(var(--safe-left), 15px)), var(--safe-width));
 }
 
 #stop-telerik-auto-complete__result {
@@ -190,6 +190,7 @@
 /*#region telerik-map */
 
 #stop-telerik-map {
+    background-color: #d7d0ca;
     grid-area: 1 / 1 / 2 / 2;
     height: 100%;
     width: 100%;
@@ -340,8 +341,14 @@
 /*#region telerik-list-view */
 
 #stop-telerik-list-view {
+    background-color: white;
+    box-sizing: border-box;
     grid-area: 1 / 2 / 2 / 3;
     height: 100%;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: var(--safe-right);
+    padding-top: 0;
     width: 100%;
 }
 
@@ -498,8 +505,14 @@
 /*#region telerik-skeleton */
 
 #stop-telerik-skeleton {
+    background-color: white;
+    box-sizing: border-box;
     grid-area: 1 / 2 / 2 / 3;
     height: 100%;
+    padding-bottom: 0;
+    padding-left: 0;
+    padding-right: var(--safe-right);
+    padding-top: 0;
     width: 100%;
 }
 

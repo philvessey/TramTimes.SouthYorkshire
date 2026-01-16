@@ -1,12 +1,12 @@
 #source-code-repository {
-    bottom: 15px;
-    left: 70px;
+    bottom: max(var(--safe-bottom), 15px);
+    left: calc(max(var(--safe-left), 15px) + 55px);
     position: absolute;
 }
 
 @media (max-width: 576px) {
     #source-code-repository {
-        bottom: calc(296px + 15px);
+        bottom: calc(max(var(--safe-bottom), 15px) + 296px);
     }
 }
 
