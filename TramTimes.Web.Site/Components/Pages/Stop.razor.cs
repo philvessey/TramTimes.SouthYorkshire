@@ -2,6 +2,7 @@ using Geolocation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.JSInterop;
+using Polly.Timeout;
 using Telerik.Blazor.Components;
 using Telerik.DataSource;
 using TramTimes.Web.Site.Builders;
@@ -223,16 +224,32 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #region build query data
 
-        var client = HttpService.CreateClient(name: "api");
+        HttpResponseMessage? response = null;
 
-        var response = await client.GetAsync(requestUri: QueryBuilder.GetStopsFromSearch(
-            type: QueryType.StopPoint,
-            value: Center));
+        try
+        {
+            var client = HttpService.CreateClient(name: "search");
 
-        if (!response.IsSuccessStatusCode)
+            response = await client.GetAsync(requestUri: QueryBuilder.GetStopsFromSearch(
+                type: QueryType.StopPoint,
+                value: Center));
+        }
+        catch (TimeoutRejectedException)
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: "stop: api timeout");
+        }
+
+        if (response?.IsSuccessStatusCode is not true)
+        {
+            var client = HttpService.CreateClient(name: "database");
+
             response = await client.GetAsync(requestUri: QueryBuilder.GetStopsFromDatabase(
                 type: QueryType.StopPoint,
                 value: Center));
+        }
 
         #endregion
 
@@ -378,16 +395,32 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #region build query data
 
-        var client = HttpService.CreateClient(name: "api");
+        HttpResponseMessage? response = null;
 
-        var response = await client.GetAsync(requestUri: QueryBuilder.GetServicesFromCache(
-            type: QueryType.StopId,
-            value: NextStop.Id ?? StopId));
+        try
+        {
+            var client = HttpService.CreateClient(name: "cache");
 
-        if (!response.IsSuccessStatusCode)
+            response = await client.GetAsync(requestUri: QueryBuilder.GetServicesFromCache(
+                type: QueryType.StopId,
+                value: NextStop.Id ?? StopId));
+        }
+        catch (TimeoutRejectedException)
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: "stop: api timeout");
+        }
+
+        if (response?.IsSuccessStatusCode is not true)
+        {
+            var client = HttpService.CreateClient(name: "database");
+
             response = await client.GetAsync(requestUri: QueryBuilder.GetServicesFromDatabase(
                 type: QueryType.StopId,
                 value: NextStop.Id ?? StopId));
+        }
 
         #endregion
 
@@ -783,16 +816,32 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #region build query data
 
-        var client = HttpService.CreateClient(name: "api");
+        HttpResponseMessage? response = null;
 
-        var response = await client.GetAsync(requestUri: QueryBuilder.GetStopsFromSearch(
-            type: QueryType.StopName,
-            value: name));
+        try
+        {
+            var client = HttpService.CreateClient(name: "search");
 
-        if (!response.IsSuccessStatusCode)
+            response = await client.GetAsync(requestUri: QueryBuilder.GetStopsFromSearch(
+                type: QueryType.StopName,
+                value: name));
+        }
+        catch (TimeoutRejectedException)
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: "stop: api timeout");
+        }
+
+        if (response?.IsSuccessStatusCode is not true)
+        {
+            var client = HttpService.CreateClient(name: "database");
+
             response = await client.GetAsync(requestUri: QueryBuilder.GetStopsFromDatabase(
                 type: QueryType.StopName,
                 value: name));
+        }
 
         #endregion
 

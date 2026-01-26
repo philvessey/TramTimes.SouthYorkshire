@@ -1,6 +1,5 @@
 using System.Net;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Http.Resilience;
 using Polly;
 using Polly.Timeout;
 using TramTimes.Web.Site.Components;
@@ -25,8 +24,82 @@ builder
 #region inject services
 
 builder.Services
-    .AddHttpClient(name: "api")
-    .AddStandardResilienceHandler();
+    .AddHttpClient(name: "cache")
+    .AddStandardResilienceHandler(configure: options =>
+    {
+        options.AttemptTimeout.Timeout = TimeSpan.FromSeconds(seconds: 2);
+        options.TotalRequestTimeout.Timeout = TimeSpan.FromSeconds(seconds: 5);
+        options.CircuitBreaker.BreakDuration = TimeSpan.FromSeconds(seconds: 30);
+        options.CircuitBreaker.FailureRatio = 0.50;
+        options.CircuitBreaker.MinimumThroughput = 10;
+        options.CircuitBreaker.SamplingDuration = TimeSpan.FromSeconds(seconds: 30);
+        options.Retry.BackoffType = DelayBackoffType.Constant;
+        options.Retry.Delay = TimeSpan.FromMilliseconds(milliseconds: 50);
+        options.Retry.MaxRetryAttempts = 1;
+        options.Retry.UseJitter = false;
+        options.Retry.ShouldHandle = arguments => ValueTask.FromResult(result:
+            arguments.Outcome.Exception is TimeoutException ||
+            arguments.Outcome.Exception is TimeoutRejectedException ||
+            arguments.Outcome.Result?.StatusCode is
+                HttpStatusCode.RequestTimeout or
+                HttpStatusCode.TooManyRequests or
+                HttpStatusCode.InternalServerError or
+                HttpStatusCode.BadGateway or
+                HttpStatusCode.ServiceUnavailable or
+                HttpStatusCode.GatewayTimeout);
+    });
+
+builder.Services
+    .AddHttpClient(name: "database")
+    .AddStandardResilienceHandler(configure: options =>
+    {
+        options.AttemptTimeout.Timeout = TimeSpan.FromSeconds(seconds: 10);
+        options.TotalRequestTimeout.Timeout = TimeSpan.FromSeconds(seconds: 115);
+        options.CircuitBreaker.BreakDuration = TimeSpan.FromSeconds(seconds: 60);
+        options.CircuitBreaker.FailureRatio = 0.75;
+        options.CircuitBreaker.MinimumThroughput = 5;
+        options.CircuitBreaker.SamplingDuration = TimeSpan.FromSeconds(seconds: 60);
+        options.Retry.BackoffType = DelayBackoffType.Exponential;
+        options.Retry.Delay = TimeSpan.FromMilliseconds(milliseconds: 1000);
+        options.Retry.MaxRetryAttempts = 4;
+        options.Retry.UseJitter = true;
+        options.Retry.ShouldHandle = arguments => ValueTask.FromResult(result:
+            arguments.Outcome.Exception is TimeoutException ||
+            arguments.Outcome.Exception is TimeoutRejectedException ||
+            arguments.Outcome.Result?.StatusCode is
+                HttpStatusCode.RequestTimeout or
+                HttpStatusCode.TooManyRequests or
+                HttpStatusCode.InternalServerError or
+                HttpStatusCode.BadGateway or
+                HttpStatusCode.ServiceUnavailable or
+                HttpStatusCode.GatewayTimeout);
+    });
+
+builder.Services
+    .AddHttpClient(name: "search")
+    .AddStandardResilienceHandler(configure: options =>
+    {
+        options.AttemptTimeout.Timeout = TimeSpan.FromSeconds(seconds: 2);
+        options.TotalRequestTimeout.Timeout = TimeSpan.FromSeconds(seconds: 5);
+        options.CircuitBreaker.BreakDuration = TimeSpan.FromSeconds(seconds: 30);
+        options.CircuitBreaker.FailureRatio = 0.50;
+        options.CircuitBreaker.MinimumThroughput = 10;
+        options.CircuitBreaker.SamplingDuration = TimeSpan.FromSeconds(seconds: 30);
+        options.Retry.BackoffType = DelayBackoffType.Constant;
+        options.Retry.Delay = TimeSpan.FromMilliseconds(milliseconds: 50);
+        options.Retry.MaxRetryAttempts = 1;
+        options.Retry.UseJitter = false;
+        options.Retry.ShouldHandle = arguments => ValueTask.FromResult(result:
+            arguments.Outcome.Exception is TimeoutException ||
+            arguments.Outcome.Exception is TimeoutRejectedException ||
+            arguments.Outcome.Result?.StatusCode is
+                HttpStatusCode.RequestTimeout or
+                HttpStatusCode.TooManyRequests or
+                HttpStatusCode.InternalServerError or
+                HttpStatusCode.BadGateway or
+                HttpStatusCode.ServiceUnavailable or
+                HttpStatusCode.GatewayTimeout);
+    });
 
 builder.Services.AddTelerikBlazor();
 
@@ -42,31 +115,10 @@ builder.Services.Configure<CookiePolicyOptions>(configureOptions: options =>
     options.Secure = CookieSecurePolicy.SameAsRequest;
 });
 
-builder.Services.Configure<HttpStandardResilienceOptions>(name: "api", configureOptions: options =>
-{
-    options.AttemptTimeout.Timeout = TimeSpan.FromSeconds(seconds: 10);
-    options.TotalRequestTimeout.Timeout = TimeSpan.FromMinutes(minutes: 5);
-    options.Retry.BackoffType = DelayBackoffType.Exponential;
-    options.Retry.MaxRetryAttempts = 9;
-    options.Retry.UseJitter = true;
-    options.Retry.ShouldHandle = arguments => ValueTask.FromResult(result:
-        arguments.Outcome.Exception is TimeoutException ||
-        arguments.Outcome.Exception is TimeoutRejectedException ||
-        arguments.Outcome.Result?.StatusCode is
-            HttpStatusCode.RequestTimeout or
-            HttpStatusCode.TooManyRequests or
-            HttpStatusCode.InternalServerError or
-            HttpStatusCode.BadGateway or
-            HttpStatusCode.ServiceUnavailable or
-            HttpStatusCode.GatewayTimeout);
-});
-
 builder.Services.Configure<HubOptions>(configureOptions: options =>
 {
     options.MaximumReceiveMessageSize = 1024 * 1024;
 });
-
-builder.Services.AddHostedService<ResilienceService>();
 
 #endregion
 

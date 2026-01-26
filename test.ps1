@@ -80,7 +80,19 @@ if ($output -match "net\d+\.\d+") {
     $framework = $matches[0]
 
     Write-Host "Building playwright ..."
-    & "TramTimes.Web.Tests/bin/Debug/$framework/playwright.ps1" install 2>&1 | Out-Null
+
+    $startInfo = New-Object System.Diagnostics.ProcessStartInfo
+    $startInfo.FileName = "pwsh"
+    $startInfo.Arguments = "-File `"TramTimes.Web.Tests/bin/Debug/$framework/playwright.ps1`" install"
+    $startInfo.CreateNoWindow = $true
+    $startInfo.RedirectStandardError = $true
+    $startInfo.RedirectStandardOutput = $true
+    $startInfo.UseShellExecute = $false
+
+    $process = New-Object System.Diagnostics.Process
+    $process.StartInfo = $startInfo
+    $process.Start() | Out-Null
+    $process.WaitForExit()
 }
 
 Clear-Lines -count 2
