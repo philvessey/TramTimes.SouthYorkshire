@@ -444,6 +444,9 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         readEventArgs.Data = ListData;
 
+        if (ListData.IsNullOrEmpty())
+            return;
+
         #endregion
 
         # region check component disposed

@@ -376,6 +376,9 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         readEventArgs.Data = ListData.OrderBy(keySelector: stop => stop.Distance);
 
+        if (ListData.IsNullOrEmpty())
+            return;
+
         #endregion
 
         # region check component disposed
