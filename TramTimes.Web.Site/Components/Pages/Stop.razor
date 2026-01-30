@@ -133,11 +133,14 @@
 
     <!-- #region banner-horizontal -->
 
-    <div id="stop-banner-horizontal">
+    <div id="stop-banner-horizontal"
+         data-testid="banner-horizontal">
+
         @{
             if (context is not "Production")
             {
                 <img src="https://placehold.co/468x60/0078c8/ffffff?text=Banner"
+                     data-testid="banner-horizontal-placeholder"
                      alt="Banner"/>
             }
         }
@@ -147,11 +150,14 @@
 
     <!-- #region banner-vertical -->
 
-    <div id="stop-banner-vertical">
+    <div id="stop-banner-vertical"
+         data-testid="banner-vertical">
+
         @{
             if (context is not "Production")
             {
                 <img src="https://placehold.co/120x600/0078c8/ffffff?text=Banner"
+                     data-testid="banner-vertical-placeholder"
                      alt="Banner"/>
             }
         }
