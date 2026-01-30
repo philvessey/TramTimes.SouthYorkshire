@@ -1,15 +1,16 @@
 #privacy {
     display: grid;
-    grid-template-columns: 1fr calc(var(--safe-right) + 296px);
+    grid-template-columns: 1fr 120px calc(var(--safe-right) + 296px);
     grid-template-rows: 100%;
     height: 100dvh;
+    overflow: hidden;
     width: 100%;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
     #privacy {
         grid-template-columns: 100%;
-        grid-template-rows: 1fr 296px;
+        grid-template-rows: 1fr 60px 296px;
     }
 }
 
@@ -164,12 +165,52 @@
 
 /*#endregion */
 
+/*#region banner-horizontal */
+
+#privacy-banner-horizontal {
+    align-items: center;
+    background-color: #0078c8;
+    display: flex;
+    grid-area: 2 / 1 / 3 / 2;
+    height: 60px;
+    justify-content: center;
+    width: 100%;
+}
+
+@media (min-width: 769px) {
+    #privacy-banner-horizontal {
+        display: none;
+    }
+}
+
+/*#endregion */
+
+/*#region banner-vertical */
+
+#privacy-banner-vertical {
+    align-items: center;
+    background-color: #0078c8;
+    display: flex;
+    grid-area: 1 / 2 / 2 / 3;
+    height: 100%;
+    justify-content: center;
+    width: 120px;
+}
+
+@media (max-width: 768px) {
+    #privacy-banner-vertical {
+        display: none;
+    }
+}
+
+/*#endregion */
+
 /*#region telerik-list-view */
 
 #privacy-telerik-list-view {
     background-color: white;
     box-sizing: border-box;
-    grid-area: 1 / 2 / 2 / 3;
+    grid-area: 1 / 3 / 2 / 4;
     height: 100%;
     padding-bottom: 0;
     padding-left: 0;
@@ -178,10 +219,14 @@
     width: 100%;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
     #privacy-telerik-list-view {
-        grid-area: 2 / 1 / 3 / 2;
+        grid-area: 3 / 1 / 4 / 2;
     }
+}
+
+#privacy-telerik-list-view:focus {
+    outline: none;
 }
 
 #privacy-telerik-list-view__result {
@@ -333,7 +378,7 @@
 #privacy-telerik-skeleton {
     background-color: white;
     box-sizing: border-box;
-    grid-area: 1 / 2 / 2 / 3;
+    grid-area: 1 / 3 / 2 / 4;
     height: 100%;
     padding-bottom: 0;
     padding-left: 0;
@@ -342,9 +387,9 @@
     width: 100%;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 768px) {
     #privacy-telerik-skeleton {
-        grid-area: 2 / 1 / 3 / 2;
+        grid-area: 3 / 1 / 4 / 2;
     }
 }
 

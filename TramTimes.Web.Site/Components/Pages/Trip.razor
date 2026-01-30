@@ -11,6 +11,16 @@
 
 <PageTitle>@Title</PageTitle>
 
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Columns"
+                   OnChange="@(match => TelerikLayout.Columns = match)"/>
+
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Rows"
+                   OnChange="@(match => TelerikLayout.Rows = match)"/>
+
+@{
+    var context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
+}
+
 <div id="trip">
 
     <!-- #region telerik-map -->
@@ -78,7 +88,7 @@
                                         <ul>
                                             @{
                                                 var points = stop.Points?
-                                                    .Take(count: 3)
+                                                    .Take(count: TelerikLayout.Columns is true ? 5 : 3)
                                                     .Select(selector: point => point)
                                                     .ToList() ?? [];
 
@@ -117,6 +127,34 @@
                 </MapLayer>
             </MapLayers>
         </TelerikMap>
+    </div>
+
+    <!-- #endregion -->
+
+    <!-- #region banner-horizontal -->
+
+    <div id="trip-banner-horizontal">
+        @{
+            if (context is not "Production")
+            {
+                <img src="https://placehold.co/468x60/0078c8/ffffff?text=Banner"
+                     alt="Banner"/>
+            }
+        }
+    </div>
+
+    <!-- #endregion -->
+
+    <!-- #region banner-vertical -->
+
+    <div id="trip-banner-vertical">
+        @{
+            if (context is not "Production")
+            {
+                <img src="https://placehold.co/120x600/0078c8/ffffff?text=Banner"
+                     alt="Banner"/>
+            }
+        }
     </div>
 
     <!-- #endregion -->
