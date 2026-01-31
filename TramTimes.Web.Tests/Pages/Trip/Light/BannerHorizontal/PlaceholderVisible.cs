@@ -109,7 +109,7 @@ public class PlaceholderVisible(AspireManager aspireManager) : BaseTest(aspireMa
                     .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
 
-                var child = page.GetByTestId(testId: "banner-horizontal-placeholder");
+                var child = page.GetByTestId(testId: "placeholder");
 
                 await Assertions
                     .Expect(locator: child).Not
@@ -240,7 +240,7 @@ public class PlaceholderVisible(AspireManager aspireManager) : BaseTest(aspireMa
                     .Expect(locator: parent)
                     .ToBeInViewportAsync();
 
-                var child = page.GetByTestId(testId: "banner-horizontal-placeholder");
+                var child = page.GetByTestId(testId: "placeholder");
 
                 await Assertions
                     .Expect(locator: child)
