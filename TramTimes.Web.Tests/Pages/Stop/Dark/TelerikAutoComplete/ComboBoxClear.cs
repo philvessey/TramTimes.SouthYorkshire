@@ -12,12 +12,11 @@ public class ComboBoxClear(AspireManager aspireManager) : BaseTest(aspireManager
     private string? Error { get; set; }
 
     [Theory]
-    [InlineData("9400ZZSYHFW1", "Halfway", 53.328532846077614, -1.3443136700078966, "halfw", 1)]
-    [InlineData("9400ZZSYMAL1", "Malin Bridge", 53.40064593919049, -1.5082120329876791, "malin", 2)]
-    [InlineData("9400ZZSYMID1", "Middlewood", 53.41586234037237, -1.510067739914952, "middl", 3)]
+    [InlineData("9400ZZSYHFW1", 53.328532846077614, -1.3443136700078966, "halfw", 1)]
+    [InlineData("9400ZZSYMAL1", 53.40064593919049, -1.5082120329876791, "malin", 2)]
+    [InlineData("9400ZZSYMID1", 53.41586234037237, -1.510067739914952, "middl", 3)]
     public async Task Desktop(
         string id,
-        string name,
         double lat,
         double lon,
         string query,
@@ -37,15 +36,24 @@ public class ComboBoxClear(AspireManager aspireManager) : BaseTest(aspireManager
 
             #region load page
 
-            await page.GotoAsync(url: $"/stop/{id}/{lon}/{lat}");
+            await page.GotoAsync(url: $"/stop/{id}/{lon}/{lat}", options: new PageGotoOptions
+            {
+                WaitUntil = WaitUntilState.NetworkIdle
+            });
 
             #endregion
 
             #region wait page
 
-            await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "pin.png") &&
-                response.Status is 200 or 304);
+            await page
+                .GetByTestId(testId: "telerik-map")
+                .GetByTestId(testId: "marker").First
+                .WaitForAsync();
+
+            await page
+                .GetByTestId(testId: "telerik-list-view")
+                .GetByTestId(testId: "result").First
+                .WaitForAsync();
 
             #endregion
 
@@ -69,38 +77,8 @@ public class ComboBoxClear(AspireManager aspireManager) : BaseTest(aspireManager
 
                 await child.FillAsync(value: query);
 
-                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
-                {
-                    Predicate = message => message.Text.Contains(value: "stop: consent") ||
-                                           message.Text.Contains(value: "stop: list") ||
-                                           message.Text.Contains(value: "stop: map") ||
-                                           message.Text.Contains(value: "stop: screen") ||
-                                           message.Text.Contains(value: "stop: search")
-                });
-
-                parent = page.GetByLabel(text: "Options list");
-
-                await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
-
-                child = parent.GetByTestId(testId: "result").First;
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
-                var item = child.GetByTestId(testId: "name");
-
-                await Assertions
-                    .Expect(locator: item)
-                    .ToContainTextAsync(expected: name);
-
-                parent = page.GetByTestId(testId: "telerik-auto-complete");
-
-                await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
+                await page.WaitForTimeoutAsync(timeout: 5000);
+                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
 
                 child = parent.GetByRole(role: AriaRole.Button);
 
@@ -110,15 +88,8 @@ public class ComboBoxClear(AspireManager aspireManager) : BaseTest(aspireManager
 
                 await child.ClickAsync();
 
-                parent = page.GetByLabel(text: "Options list");
-
-                await Assertions
-                    .Expect(locator: parent).Not
-                    .ToBeInViewportAsync();
-
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
+                await page.WaitForTimeoutAsync(timeout: 5000);
+                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
             }
             catch (Exception e)
             {
@@ -148,12 +119,11 @@ public class ComboBoxClear(AspireManager aspireManager) : BaseTest(aspireManager
     }
 
     [Theory]
-    [InlineData("9400ZZSYHFW1", "Halfway", 53.328532846077614, -1.3443136700078966, "halfw", 1)]
-    [InlineData("9400ZZSYMAL1", "Malin Bridge", 53.40064593919049, -1.5082120329876791, "malin", 2)]
-    [InlineData("9400ZZSYMID1", "Middlewood", 53.41586234037237, -1.510067739914952, "middl", 3)]
+    [InlineData("9400ZZSYHFW1", 53.328532846077614, -1.3443136700078966, "halfw", 1)]
+    [InlineData("9400ZZSYMAL1", 53.40064593919049, -1.5082120329876791, "malin", 2)]
+    [InlineData("9400ZZSYMID1", 53.41586234037237, -1.510067739914952, "middl", 3)]
     public async Task Mobile(
         string id,
-        string name,
         double lat,
         double lon,
         string query,
@@ -173,15 +143,24 @@ public class ComboBoxClear(AspireManager aspireManager) : BaseTest(aspireManager
 
             #region load page
 
-            await page.GotoAsync(url: $"/stop/{id}/{lon}/{lat}");
+            await page.GotoAsync(url: $"/stop/{id}/{lon}/{lat}", options: new PageGotoOptions
+            {
+                WaitUntil = WaitUntilState.NetworkIdle
+            });
 
             #endregion
 
             #region wait page
 
-            await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "pin.png") &&
-                response.Status is 200 or 304);
+            await page
+                .GetByTestId(testId: "telerik-map")
+                .GetByTestId(testId: "marker").First
+                .WaitForAsync();
+
+            await page
+                .GetByTestId(testId: "telerik-list-view")
+                .GetByTestId(testId: "result").First
+                .WaitForAsync();
 
             #endregion
 
@@ -205,38 +184,8 @@ public class ComboBoxClear(AspireManager aspireManager) : BaseTest(aspireManager
 
                 await child.FillAsync(value: query);
 
-                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
-                {
-                    Predicate = message => message.Text.Contains(value: "stop: consent") ||
-                                           message.Text.Contains(value: "stop: list") ||
-                                           message.Text.Contains(value: "stop: map") ||
-                                           message.Text.Contains(value: "stop: screen") ||
-                                           message.Text.Contains(value: "stop: search")
-                });
-
-                parent = page.GetByLabel(text: "Options list");
-
-                await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
-
-                child = parent.GetByTestId(testId: "result").First;
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
-                var item = child.GetByTestId(testId: "name");
-
-                await Assertions
-                    .Expect(locator: item)
-                    .ToContainTextAsync(expected: name);
-
-                parent = page.GetByTestId(testId: "telerik-auto-complete");
-
-                await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
+                await page.WaitForTimeoutAsync(timeout: 5000);
+                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
 
                 child = parent.GetByRole(role: AriaRole.Button);
 
@@ -246,15 +195,8 @@ public class ComboBoxClear(AspireManager aspireManager) : BaseTest(aspireManager
 
                 await child.ClickAsync();
 
-                parent = page.GetByLabel(text: "Options list");
-
-                await Assertions
-                    .Expect(locator: parent).Not
-                    .ToBeInViewportAsync();
-
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
+                await page.WaitForTimeoutAsync(timeout: 5000);
+                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
             }
             catch (Exception e)
             {

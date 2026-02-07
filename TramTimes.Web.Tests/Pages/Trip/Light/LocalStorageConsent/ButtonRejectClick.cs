@@ -1,9 +1,9 @@
-using System.Text.RegularExpressions;
 using Microsoft.Playwright;
 using TramTimes.Web.Tests.Cookies;
 using TramTimes.Web.Tests.Managers;
 using TramTimes.Web.Tests.Models;
 using TramTimes.Web.Tests.Services;
+using TramTimes.Web.Utilities.Builders;
 using TramTimes.Web.Utilities.Extensions;
 using Xunit;
 using Xunit.Sdk;
@@ -43,9 +43,7 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
 
         #region query test
 
-        var results = await QueryTestAsync(
-            id: id,
-            type: "stop");
+        var results = await QueryTestAsync(id: id);
 
         if (results.IsNullOrEmpty())
             throw new XunitException(userMessage: "Invalid data from api query.");
@@ -86,15 +84,24 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
 
             #region load page
 
-            await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}");
+            await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}", options: new PageGotoOptions
+            {
+                WaitUntil = WaitUntilState.NetworkIdle
+            });
 
             #endregion
 
             #region wait page
 
-            await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "pin.png") &&
-                response.Status is 200 or 304);
+            await page
+                .GetByTestId(testId: "telerik-map")
+                .GetByTestId(testId: "marker").First
+                .WaitForAsync();
+
+            await page
+                .GetByTestId(testId: "telerik-list-view")
+                .GetByTestId(testId: "result").First
+                .WaitForAsync();
 
             #endregion
 
@@ -118,52 +125,28 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
 
                 await child.ClickAsync();
 
-                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
-                {
-                    Predicate = message => message.Text.Contains(value: "trip: consent") ||
-                                           message.Text.Contains(value: "trip: list") ||
-                                           message.Text.Contains(value: "trip: map") ||
-                                           message.Text.Contains(value: "trip: screen") ||
-                                           message.Text.Contains(value: "trip: search")
-                });
+                await page.WaitForTimeoutAsync(timeout: 5000);
+                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
 
                 await Assertions
                     .Expect(page: page)
-                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/{lon}/{lat}"));
+                    .ToHaveURLAsync(urlOrRegExp: RegexBuilder.GetUrl());
 
-                parent = page.GetByTestId(testId: "telerik-map");
+                await page
+                    .GetByTestId(testId: "telerik-map")
+                    .GetByTestId(testId: "marker").First
+                    .WaitForAsync();
 
-                await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
+                await page
+                    .GetByTestId(testId: "telerik-list-view")
+                    .GetByTestId(testId: "result").First
+                    .WaitForAsync();
 
-                child = parent.GetByTestId(testId: "marker").First;
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
-                parent = page.GetByTestId(testId: "telerik-list-view");
-
-                await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
-
-                child = parent.GetByTestId(testId: "result").First;
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
-                parent = page.GetByLabel(text: "Options list");
+                parent = page.GetByTestId(testId: "local-storage-consent__outline");
 
                 await Assertions
                     .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
-
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {
@@ -219,9 +202,7 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
 
         #region query test
 
-        var results = await QueryTestAsync(
-            id: id,
-            type: "stop");
+        var results = await QueryTestAsync(id: id);
 
         if (results.IsNullOrEmpty())
             throw new XunitException(userMessage: "Invalid data from api query.");
@@ -262,15 +243,24 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
 
             #region load page
 
-            await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}");
+            await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}", options: new PageGotoOptions
+            {
+                WaitUntil = WaitUntilState.NetworkIdle
+            });
 
             #endregion
 
             #region wait page
 
-            await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "pin.png") &&
-                response.Status is 200 or 304);
+            await page
+                .GetByTestId(testId: "telerik-map")
+                .GetByTestId(testId: "marker").First
+                .WaitForAsync();
+
+            await page
+                .GetByTestId(testId: "telerik-list-view")
+                .GetByTestId(testId: "result").First
+                .WaitForAsync();
 
             #endregion
 
@@ -294,52 +284,28 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
 
                 await child.ClickAsync();
 
-                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
-                {
-                    Predicate = message => message.Text.Contains(value: "trip: consent") ||
-                                           message.Text.Contains(value: "trip: list") ||
-                                           message.Text.Contains(value: "trip: map") ||
-                                           message.Text.Contains(value: "trip: screen") ||
-                                           message.Text.Contains(value: "trip: search")
-                });
+                await page.WaitForTimeoutAsync(timeout: 5000);
+                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
 
                 await Assertions
                     .Expect(page: page)
-                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/{lon}/{lat}"));
+                    .ToHaveURLAsync(urlOrRegExp: RegexBuilder.GetUrl());
 
-                parent = page.GetByTestId(testId: "telerik-map");
+                await page
+                    .GetByTestId(testId: "telerik-map")
+                    .GetByTestId(testId: "marker").First
+                    .WaitForAsync();
 
-                await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
+                await page
+                    .GetByTestId(testId: "telerik-list-view")
+                    .GetByTestId(testId: "result").First
+                    .WaitForAsync();
 
-                child = parent.GetByTestId(testId: "marker").First;
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
-                parent = page.GetByTestId(testId: "telerik-list-view");
-
-                await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
-
-                child = parent.GetByTestId(testId: "result").First;
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
-                parent = page.GetByLabel(text: "Options list");
+                parent = page.GetByTestId(testId: "local-storage-consent__outline");
 
                 await Assertions
                     .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
-
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {

@@ -36,15 +36,24 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
 
             #region load page
 
-            await page.GotoAsync(url: $"/privacy/{lon}/{lat}");
+            await page.GotoAsync(url: $"/privacy/{lon}/{lat}", options: new PageGotoOptions
+            {
+                WaitUntil = WaitUntilState.NetworkIdle
+            });
 
             #endregion
 
             #region wait page
 
-            await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "pin.png") &&
-                response.Status is 200 or 304);
+            await page
+                .GetByTestId(testId: "telerik-map")
+                .GetByTestId(testId: "marker").First
+                .WaitForAsync();
+
+            await page
+                .GetByTestId(testId: "telerik-list-view")
+                .GetByTestId(testId: "result").First
+                .WaitForAsync();
 
             #endregion
 
@@ -68,14 +77,8 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
 
                 await child.FillAsync(value: query);
 
-                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
-                {
-                    Predicate = message => message.Text.Contains(value: "privacy: consent") ||
-                                           message.Text.Contains(value: "privacy: list") ||
-                                           message.Text.Contains(value: "privacy: map") ||
-                                           message.Text.Contains(value: "privacy: screen") ||
-                                           message.Text.Contains(value: "privacy: search")
-                });
+                await page.WaitForTimeoutAsync(timeout: 5000);
+                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
 
                 parent = page.GetByLabel(text: "Options list");
 
@@ -94,10 +97,6 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
                 await Assertions
                     .Expect(locator: item)
                     .ToContainTextAsync(expected: name);
-
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {
@@ -151,15 +150,24 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
 
             #region load page
 
-            await page.GotoAsync(url: $"/privacy/{lon}/{lat}");
+            await page.GotoAsync(url: $"/privacy/{lon}/{lat}", options: new PageGotoOptions
+            {
+                WaitUntil = WaitUntilState.NetworkIdle
+            });
 
             #endregion
 
             #region wait page
 
-            await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "pin.png") &&
-                response.Status is 200 or 304);
+            await page
+                .GetByTestId(testId: "telerik-map")
+                .GetByTestId(testId: "marker").First
+                .WaitForAsync();
+
+            await page
+                .GetByTestId(testId: "telerik-list-view")
+                .GetByTestId(testId: "result").First
+                .WaitForAsync();
 
             #endregion
 
@@ -183,14 +191,8 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
 
                 await child.FillAsync(value: query);
 
-                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
-                {
-                    Predicate = message => message.Text.Contains(value: "privacy: consent") ||
-                                           message.Text.Contains(value: "privacy: list") ||
-                                           message.Text.Contains(value: "privacy: map") ||
-                                           message.Text.Contains(value: "privacy: screen") ||
-                                           message.Text.Contains(value: "privacy: search")
-                });
+                await page.WaitForTimeoutAsync(timeout: 5000);
+                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
 
                 parent = page.GetByLabel(text: "Options list");
 
@@ -209,10 +211,6 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
                 await Assertions
                     .Expect(locator: item)
                     .ToContainTextAsync(expected: name);
-
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {

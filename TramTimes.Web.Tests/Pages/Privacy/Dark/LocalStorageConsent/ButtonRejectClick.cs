@@ -1,7 +1,7 @@
-using System.Text.RegularExpressions;
 using Microsoft.Playwright;
 using TramTimes.Web.Tests.Cookies;
 using TramTimes.Web.Tests.Managers;
+using TramTimes.Web.Utilities.Builders;
 using Xunit;
 
 namespace TramTimes.Web.Tests.Pages.Privacy.Dark.LocalStorageConsent;
@@ -35,15 +35,24 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
 
             #region load page
 
-            await page.GotoAsync(url: $"/privacy/{lon}/{lat}");
+            await page.GotoAsync(url: $"/privacy/{lon}/{lat}", options: new PageGotoOptions
+            {
+                WaitUntil = WaitUntilState.NetworkIdle
+            });
 
             #endregion
 
             #region wait page
 
-            await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "pin.png") &&
-                response.Status is 200 or 304);
+            await page
+                .GetByTestId(testId: "telerik-map")
+                .GetByTestId(testId: "marker").First
+                .WaitForAsync();
+
+            await page
+                .GetByTestId(testId: "telerik-list-view")
+                .GetByTestId(testId: "result").First
+                .WaitForAsync();
 
             #endregion
 
@@ -67,52 +76,28 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
 
                 await child.ClickAsync();
 
-                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
-                {
-                    Predicate = message => message.Text.Contains(value: "privacy: consent") ||
-                                           message.Text.Contains(value: "privacy: list") ||
-                                           message.Text.Contains(value: "privacy: map") ||
-                                           message.Text.Contains(value: "privacy: screen") ||
-                                           message.Text.Contains(value: "privacy: search")
-                });
+                await page.WaitForTimeoutAsync(timeout: 5000);
+                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
 
                 await Assertions
                     .Expect(page: page)
-                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/{lon}/{lat}"));
+                    .ToHaveURLAsync(urlOrRegExp: RegexBuilder.GetUrl());
 
-                parent = page.GetByTestId(testId: "telerik-map");
+                await page
+                    .GetByTestId(testId: "telerik-map")
+                    .GetByTestId(testId: "marker").First
+                    .WaitForAsync();
 
-                await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
+                await page
+                    .GetByTestId(testId: "telerik-list-view")
+                    .GetByTestId(testId: "result").First
+                    .WaitForAsync();
 
-                child = parent.GetByTestId(testId: "marker").First;
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
-                parent = page.GetByTestId(testId: "telerik-list-view");
-
-                await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
-
-                child = parent.GetByTestId(testId: "result").First;
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
-                parent = page.GetByLabel(text: "Options list");
+                parent = page.GetByTestId(testId: "local-storage-consent__outline");
 
                 await Assertions
                     .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
-
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {
@@ -164,15 +149,24 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
 
             #region load page
 
-            await page.GotoAsync(url: $"/privacy/{lon}/{lat}");
+            await page.GotoAsync(url: $"/privacy/{lon}/{lat}", options: new PageGotoOptions
+            {
+                WaitUntil = WaitUntilState.NetworkIdle
+            });
 
             #endregion
 
             #region wait page
 
-            await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "pin.png") &&
-                response.Status is 200 or 304);
+            await page
+                .GetByTestId(testId: "telerik-map")
+                .GetByTestId(testId: "marker").First
+                .WaitForAsync();
+
+            await page
+                .GetByTestId(testId: "telerik-list-view")
+                .GetByTestId(testId: "result").First
+                .WaitForAsync();
 
             #endregion
 
@@ -196,52 +190,28 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
 
                 await child.ClickAsync();
 
-                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
-                {
-                    Predicate = message => message.Text.Contains(value: "privacy: consent") ||
-                                           message.Text.Contains(value: "privacy: list") ||
-                                           message.Text.Contains(value: "privacy: map") ||
-                                           message.Text.Contains(value: "privacy: screen") ||
-                                           message.Text.Contains(value: "privacy: search")
-                });
+                await page.WaitForTimeoutAsync(timeout: 5000);
+                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
 
                 await Assertions
                     .Expect(page: page)
-                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/{lon}/{lat}"));
+                    .ToHaveURLAsync(urlOrRegExp: RegexBuilder.GetUrl());
 
-                parent = page.GetByTestId(testId: "telerik-map");
+                await page
+                    .GetByTestId(testId: "telerik-map")
+                    .GetByTestId(testId: "marker").First
+                    .WaitForAsync();
 
-                await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
+                await page
+                    .GetByTestId(testId: "telerik-list-view")
+                    .GetByTestId(testId: "result").First
+                    .WaitForAsync();
 
-                child = parent.GetByTestId(testId: "marker").First;
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
-                parent = page.GetByTestId(testId: "telerik-list-view");
-
-                await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
-
-                child = parent.GetByTestId(testId: "result").First;
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
-                parent = page.GetByLabel(text: "Options list");
+                parent = page.GetByTestId(testId: "local-storage-consent__outline");
 
                 await Assertions
                     .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
-
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {

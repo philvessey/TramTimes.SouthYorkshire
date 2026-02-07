@@ -43,9 +43,7 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
 
         #region query test
 
-        var results = await QueryTestAsync(
-            id: id,
-            type: "stop");
+        var results = await QueryTestAsync(id: id);
 
         if (results.IsNullOrEmpty())
             throw new XunitException(userMessage: "Invalid data from api query.");
@@ -72,6 +70,8 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
         if (string.IsNullOrEmpty(value: tripId))
             throw new XunitException(userMessage: "Invalid data from api query.");
 
+        var stopId = id;
+
         #endregion
 
         await RunTestAsync(cookie: ConsentCookies.True, scheme: ColorScheme.Light, test: async page =>
@@ -86,15 +86,24 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
 
             #region load page
 
-            await page.GotoAsync(url: $"/stop/{id}/{lon}/{lat}");
+            await page.GotoAsync(url: $"/stop/{id}/{lon}/{lat}", options: new PageGotoOptions
+            {
+                WaitUntil = WaitUntilState.NetworkIdle
+            });
 
             #endregion
 
             #region wait page
 
-            await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "pin.png") &&
-                response.Status is 200 or 304);
+            await page
+                .GetByTestId(testId: "telerik-map")
+                .GetByTestId(testId: "marker").First
+                .WaitForAsync();
+
+            await page
+                .GetByTestId(testId: "telerik-list-view")
+                .GetByTestId(testId: "result").First
+                .WaitForAsync();
 
             #endregion
 
@@ -110,7 +119,9 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
                     .Expect(locator: parent)
                     .ToBeInViewportAsync();
 
-                var child = parent.GetByTestId(testId: "result").Nth(index: 2);
+                var child = parent
+                    .GetByTestId(testId: "result")
+                    .Nth(index: 2);
 
                 await Assertions
                     .Expect(locator: child)
@@ -124,52 +135,22 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
 
                 await item.ClickAsync();
 
-                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
-                {
-                    Predicate = message => message.Text.Contains(value: "trip: consent") ||
-                                           message.Text.Contains(value: "trip: list") ||
-                                           message.Text.Contains(value: "trip: map") ||
-                                           message.Text.Contains(value: "trip: screen") ||
-                                           message.Text.Contains(value: "trip: search")
-                });
+                await page.WaitForTimeoutAsync(timeout: 5000);
+                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
 
                 await Assertions
                     .Expect(page: page)
-                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/{tripId}/{id}"));
+                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/trip/{tripId}/{stopId}"));
 
-                parent = page.GetByTestId(testId: "telerik-map");
+                await page
+                    .GetByTestId(testId: "telerik-map")
+                    .GetByTestId(testId: "marker").First
+                    .WaitForAsync();
 
-                await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
-
-                child = parent.GetByTestId(testId: "marker").First;
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
-                parent = page.GetByTestId(testId: "telerik-list-view");
-
-                await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
-
-                child = parent.GetByTestId(testId: "result").First;
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
-                parent = page.GetByLabel(text: "Options list");
-
-                await Assertions
-                    .Expect(locator: parent).Not
-                    .ToBeInViewportAsync();
-
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
+                await page
+                    .GetByTestId(testId: "telerik-list-view")
+                    .GetByTestId(testId: "result").First
+                    .WaitForAsync();
             }
             catch (Exception e)
             {
@@ -225,9 +206,7 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
 
         #region query test
 
-        var results = await QueryTestAsync(
-            id: id,
-            type: "stop");
+        var results = await QueryTestAsync(id: id);
 
         if (results.IsNullOrEmpty())
             throw new XunitException(userMessage: "Invalid data from api query.");
@@ -254,6 +233,8 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
         if (string.IsNullOrEmpty(value: tripId))
             throw new XunitException(userMessage: "Invalid data from api query.");
 
+        var stopId = id;
+
         #endregion
 
         await RunTestAsync(cookie: ConsentCookies.False, scheme: ColorScheme.Light, test: async page =>
@@ -268,15 +249,24 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
 
             #region load page
 
-            await page.GotoAsync(url: $"/stop/{id}/{lon}/{lat}");
+            await page.GotoAsync(url: $"/stop/{id}/{lon}/{lat}", options: new PageGotoOptions
+            {
+                WaitUntil = WaitUntilState.NetworkIdle
+            });
 
             #endregion
 
             #region wait page
 
-            await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "pin.png") &&
-                response.Status is 200 or 304);
+            await page
+                .GetByTestId(testId: "telerik-map")
+                .GetByTestId(testId: "marker").First
+                .WaitForAsync();
+
+            await page
+                .GetByTestId(testId: "telerik-list-view")
+                .GetByTestId(testId: "result").First
+                .WaitForAsync();
 
             #endregion
 
@@ -292,7 +282,9 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
                     .Expect(locator: parent)
                     .ToBeInViewportAsync();
 
-                var child = parent.GetByTestId(testId: "result").Nth(index: 2);
+                var child = parent
+                    .GetByTestId(testId: "result")
+                    .Nth(index: 2);
 
                 await Assertions
                     .Expect(locator: child)
@@ -306,52 +298,22 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
 
                 await item.ClickAsync();
 
-                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
-                {
-                    Predicate = message => message.Text.Contains(value: "trip: consent") ||
-                                           message.Text.Contains(value: "trip: list") ||
-                                           message.Text.Contains(value: "trip: map") ||
-                                           message.Text.Contains(value: "trip: screen") ||
-                                           message.Text.Contains(value: "trip: search")
-                });
+                await page.WaitForTimeoutAsync(timeout: 5000);
+                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
 
                 await Assertions
                     .Expect(page: page)
-                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/{tripId}/{id}"));
+                    .ToHaveURLAsync(urlOrRegExp: new Regex(pattern: $"/trip/{tripId}/{stopId}"));
 
-                parent = page.GetByTestId(testId: "telerik-map");
+                await page
+                    .GetByTestId(testId: "telerik-map")
+                    .GetByTestId(testId: "marker").First
+                    .WaitForAsync();
 
-                await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
-
-                child = parent.GetByTestId(testId: "marker").First;
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
-                parent = page.GetByTestId(testId: "telerik-list-view");
-
-                await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
-
-                child = parent.GetByTestId(testId: "result").First;
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
-                parent = page.GetByLabel(text: "Options list");
-
-                await Assertions
-                    .Expect(locator: parent).Not
-                    .ToBeInViewportAsync();
-
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
+                await page
+                    .GetByTestId(testId: "telerik-list-view")
+                    .GetByTestId(testId: "result").First
+                    .WaitForAsync();
             }
             catch (Exception e)
             {

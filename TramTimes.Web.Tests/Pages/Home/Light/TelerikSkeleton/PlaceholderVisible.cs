@@ -34,15 +34,24 @@ public class PlaceholderVisible(AspireManager aspireManager) : BaseTest(aspireMa
 
             #region load page
 
-            await page.GotoAsync(url: $"/{lon}/{lat}");
+            await page.GotoAsync(url: $"/{lon}/{lat}", options: new PageGotoOptions
+            {
+                WaitUntil = WaitUntilState.NetworkIdle
+            });
 
             #endregion
 
             #region wait page
 
-            await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "pin.png") &&
-                response.Status is 200 or 304);
+            await page
+                .GetByTestId(testId: "telerik-map")
+                .GetByTestId(testId: "marker").First
+                .WaitForAsync();
+
+            await page
+                .GetByTestId(testId: "telerik-list-view")
+                .GetByTestId(testId: "result").First
+                .WaitForAsync();
 
             #endregion
 
@@ -57,10 +66,6 @@ public class PlaceholderVisible(AspireManager aspireManager) : BaseTest(aspireMa
                 await Assertions
                     .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
-
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {
@@ -112,15 +117,24 @@ public class PlaceholderVisible(AspireManager aspireManager) : BaseTest(aspireMa
 
             #region load page
 
-            await page.GotoAsync(url: $"/{lon}/{lat}");
+            await page.GotoAsync(url: $"/{lon}/{lat}", options: new PageGotoOptions
+            {
+                WaitUntil = WaitUntilState.NetworkIdle
+            });
 
             #endregion
 
             #region wait page
 
-            await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "pin.png") &&
-                response.Status is 200 or 304);
+            await page
+                .GetByTestId(testId: "telerik-map")
+                .GetByTestId(testId: "marker").First
+                .WaitForAsync();
+
+            await page
+                .GetByTestId(testId: "telerik-list-view")
+                .GetByTestId(testId: "result").First
+                .WaitForAsync();
 
             #endregion
 
@@ -135,10 +149,6 @@ public class PlaceholderVisible(AspireManager aspireManager) : BaseTest(aspireMa
                 await Assertions
                     .Expect(locator: parent).Not
                     .ToBeInViewportAsync();
-
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {

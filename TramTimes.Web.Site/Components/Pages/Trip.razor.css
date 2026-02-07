@@ -23,6 +23,10 @@
     width: 100%;
 }
 
+#trip-telerik-map:focus {
+    outline: none;
+}
+
 #trip-telerik-map__tooltip {
     padding-bottom: 2px;
     padding-left: 0;

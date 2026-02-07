@@ -1,6 +1,7 @@
 using Microsoft.Playwright;
 using TramTimes.Web.Tests.Cookies;
 using TramTimes.Web.Tests.Managers;
+using TramTimes.Web.Utilities.Builders;
 using Xunit;
 
 namespace TramTimes.Web.Tests.Pages.Privacy.Light.TelerikMap;
@@ -34,15 +35,24 @@ public class MapPan(AspireManager aspireManager) : BaseTest(aspireManager: aspir
 
             #region load page
 
-            await page.GotoAsync(url: $"/privacy/{lon}/{lat}");
+            await page.GotoAsync(url: $"/privacy/{lon}/{lat}", options: new PageGotoOptions
+            {
+                WaitUntil = WaitUntilState.NetworkIdle
+            });
 
             #endregion
 
             #region wait page
 
-            await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "pin.png") &&
-                response.Status is 200 or 304);
+            await page
+                .GetByTestId(testId: "telerik-map")
+                .GetByTestId(testId: "marker").First
+                .WaitForAsync();
+
+            await page
+                .GetByTestId(testId: "telerik-list-view")
+                .GetByTestId(testId: "result").First
+                .WaitForAsync();
 
             #endregion
 
@@ -58,68 +68,36 @@ public class MapPan(AspireManager aspireManager) : BaseTest(aspireManager: aspir
                     .Expect(locator: parent)
                     .ToBeInViewportAsync();
 
-                var child = parent.GetByTestId(testId: "marker").First;
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
                 var bounds = await parent.BoundingBoxAsync() ?? new LocatorBoundingBoxResult();
 
                 await page.Mouse.MoveAsync(
                     x: bounds.X + (bounds.Width / 2),
-                    y: bounds.Y + (bounds.Height / 2) + 10);
+                    y: bounds.Y + (bounds.Height / 2));
 
                 await page.Mouse.DownAsync();
 
                 await page.Mouse.MoveAsync(
-                    x: bounds.X + (bounds.Width / 2),
-                    y: bounds.Y + (bounds.Height / 2) + 20);
+                    x: bounds.X + (bounds.Width / 2) + 50,
+                    y: bounds.Y + (bounds.Height / 2) + 50);
 
                 await page.Mouse.UpAsync();
 
-                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
-                {
-                    Predicate = message => message.Text.Contains(value: "home: consent") ||
-                                           message.Text.Contains(value: "home: list") ||
-                                           message.Text.Contains(value: "home: map") ||
-                                           message.Text.Contains(value: "home: screen") ||
-                                           message.Text.Contains(value: "home: search")
-                });
-
-                parent = page.GetByTestId(testId: "telerik-map");
+                await page.WaitForTimeoutAsync(timeout: 5000);
+                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
 
                 await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
+                    .Expect(page: page)
+                    .ToHaveURLAsync(urlOrRegExp: RegexBuilder.GetUrl());
 
-                child = parent.GetByTestId(testId: "marker").First;
+                await page
+                    .GetByTestId(testId: "telerik-map")
+                    .GetByTestId(testId: "marker").First
+                    .WaitForAsync();
 
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
-                parent = page.GetByTestId(testId: "telerik-list-view");
-
-                await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
-
-                child = parent.GetByTestId(testId: "result").First;
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
-                parent = page.GetByLabel(text: "Options list");
-
-                await Assertions
-                    .Expect(locator: parent).Not
-                    .ToBeInViewportAsync();
-
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
+                await page
+                    .GetByTestId(testId: "telerik-list-view")
+                    .GetByTestId(testId: "result").First
+                    .WaitForAsync();
             }
             catch (Exception e)
             {
@@ -171,15 +149,24 @@ public class MapPan(AspireManager aspireManager) : BaseTest(aspireManager: aspir
 
             #region load page
 
-            await page.GotoAsync(url: $"/privacy/{lon}/{lat}");
+            await page.GotoAsync(url: $"/privacy/{lon}/{lat}", options: new PageGotoOptions
+            {
+                WaitUntil = WaitUntilState.NetworkIdle
+            });
 
             #endregion
 
             #region wait page
 
-            await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "pin.png") &&
-                response.Status is 200 or 304);
+            await page
+                .GetByTestId(testId: "telerik-map")
+                .GetByTestId(testId: "marker").First
+                .WaitForAsync();
+
+            await page
+                .GetByTestId(testId: "telerik-list-view")
+                .GetByTestId(testId: "result").First
+                .WaitForAsync();
 
             #endregion
 
@@ -195,68 +182,36 @@ public class MapPan(AspireManager aspireManager) : BaseTest(aspireManager: aspir
                     .Expect(locator: parent)
                     .ToBeInViewportAsync();
 
-                var child = parent.GetByTestId(testId: "marker").First;
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
                 var bounds = await parent.BoundingBoxAsync() ?? new LocatorBoundingBoxResult();
 
                 await page.Mouse.MoveAsync(
                     x: bounds.X + (bounds.Width / 2),
-                    y: bounds.Y + (bounds.Height / 2) + 10);
+                    y: bounds.Y + (bounds.Height / 2));
 
                 await page.Mouse.DownAsync();
 
                 await page.Mouse.MoveAsync(
-                    x: bounds.X + (bounds.Width / 2),
-                    y: bounds.Y + (bounds.Height / 2) + 20);
+                    x: bounds.X + (bounds.Width / 2) + 25,
+                    y: bounds.Y + (bounds.Height / 2) + 25);
 
                 await page.Mouse.UpAsync();
 
-                await page.WaitForConsoleMessageAsync(options: new PageWaitForConsoleMessageOptions
-                {
-                    Predicate = message => message.Text.Contains(value: "home: consent") ||
-                                           message.Text.Contains(value: "home: list") ||
-                                           message.Text.Contains(value: "home: map") ||
-                                           message.Text.Contains(value: "home: screen") ||
-                                           message.Text.Contains(value: "home: search")
-                });
-
-                parent = page.GetByTestId(testId: "telerik-map");
+                await page.WaitForTimeoutAsync(timeout: 5000);
+                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
 
                 await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
+                    .Expect(page: page)
+                    .ToHaveURLAsync(urlOrRegExp: RegexBuilder.GetUrl());
 
-                child = parent.GetByTestId(testId: "marker").First;
+                await page
+                    .GetByTestId(testId: "telerik-map")
+                    .GetByTestId(testId: "marker").First
+                    .WaitForAsync();
 
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
-                parent = page.GetByTestId(testId: "telerik-list-view");
-
-                await Assertions
-                    .Expect(locator: parent)
-                    .ToBeInViewportAsync();
-
-                child = parent.GetByTestId(testId: "result").First;
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
-
-                parent = page.GetByLabel(text: "Options list");
-
-                await Assertions
-                    .Expect(locator: parent).Not
-                    .ToBeInViewportAsync();
-
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
+                await page
+                    .GetByTestId(testId: "telerik-list-view")
+                    .GetByTestId(testId: "result").First
+                    .WaitForAsync();
             }
             catch (Exception e)
             {

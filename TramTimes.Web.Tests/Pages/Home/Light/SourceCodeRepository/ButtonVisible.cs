@@ -3,27 +3,26 @@ using TramTimes.Web.Tests.Cookies;
 using TramTimes.Web.Tests.Managers;
 using Xunit;
 
-namespace TramTimes.Web.Tests.Pages.Stop.Dark.SourceCodeRepository;
+namespace TramTimes.Web.Tests.Pages.Home.Light.SourceCodeRepository;
 
-public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: aspireManager)
+public class ButtonVisible(AspireManager aspireManager) : BaseTest(aspireManager: aspireManager)
 {
     private AspireManager AspireManager { get; } = aspireManager ?? throw new ArgumentNullException(paramName: nameof(aspireManager));
     private byte[]? Screenshot { get; set; }
     private string? Error { get; set; }
 
     [Theory]
-    [InlineData("9400ZZSYHFW1", 53.328532846077614, -1.3443136700078966, 1)]
-    [InlineData("9400ZZSYMAL1", 53.40064593919049, -1.5082120329876791, 2)]
-    [InlineData("9400ZZSYMID1", 53.41586234037237, -1.510067739914952, 3)]
+    [InlineData(53.328532846077614, -1.3443136700078966, 1)]
+    [InlineData(53.40064593919049, -1.5082120329876791, 2)]
+    [InlineData(53.41586234037237, -1.510067739914952, 3)]
     public async Task Desktop(
-        string id,
         double lat,
         double lon,
         int run) {
 
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
 
-        await RunTestAsync(cookie: ConsentCookies.True, scheme: ColorScheme.Dark, test: async page =>
+        await RunTestAsync(cookie: ConsentCookies.True, scheme: ColorScheme.Light, test: async page =>
         {
             #region configure page
 
@@ -35,15 +34,24 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
 
             #region load page
 
-            await page.GotoAsync(url: $"/stop/{id}/{lon}/{lat}");
+            await page.GotoAsync(url: $"/{lon}/{lat}", options: new PageGotoOptions
+            {
+                WaitUntil = WaitUntilState.NetworkIdle
+            });
 
             #endregion
 
             #region wait page
 
-            await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "pin.png") &&
-                response.Status is 200 or 304);
+            await page
+                .GetByTestId(testId: "telerik-map")
+                .GetByTestId(testId: "marker").First
+                .WaitForAsync();
+
+            await page
+                .GetByTestId(testId: "telerik-list-view")
+                .GetByTestId(testId: "result").First
+                .WaitForAsync();
 
             #endregion
 
@@ -64,26 +72,6 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
                 await Assertions
                     .Expect(locator: child)
                     .ToBeInViewportAsync();
-
-                var task = page.Context.WaitForPageAsync();
-
-                await child.ClickAsync(options: new LocatorClickOptions
-                {
-                    Delay = 250,
-                    Timeout = 60000
-                });
-
-                var newPage = await task;
-
-                await Assertions
-                    .Expect(page: newPage)
-                    .ToHaveURLAsync(urlOrRegExp: "https://github.com/philvessey/TramTimes.SouthYorkshire");
-
-                await newPage.CloseAsync();
-
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {
@@ -101,7 +89,7 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"stop|dark|source-code-repository|button-click|run{run}|desktop.png"),
+                    path2: $"home|light|source-code-repository|button-visible|run{run}|desktop.png"),
                 bytes: Screenshot ?? []);
 
             await UploadTestAsync();
@@ -113,18 +101,17 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
     }
 
     [Theory]
-    [InlineData("9400ZZSYHFW1", 53.328532846077614, -1.3443136700078966, 1)]
-    [InlineData("9400ZZSYMAL1", 53.40064593919049, -1.5082120329876791, 2)]
-    [InlineData("9400ZZSYMID1", 53.41586234037237, -1.510067739914952, 3)]
+    [InlineData(53.328532846077614, -1.3443136700078966, 1)]
+    [InlineData(53.40064593919049, -1.5082120329876791, 2)]
+    [InlineData(53.41586234037237, -1.510067739914952, 3)]
     public async Task Mobile(
-        string id,
         double lat,
         double lon,
         int run) {
 
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
 
-        await RunTestAsync(cookie: ConsentCookies.False, scheme: ColorScheme.Dark, test: async page =>
+        await RunTestAsync(cookie: ConsentCookies.False, scheme: ColorScheme.Light, test: async page =>
         {
             #region configure page
 
@@ -136,15 +123,24 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
 
             #region load page
 
-            await page.GotoAsync(url: $"/stop/{id}/{lon}/{lat}");
+            await page.GotoAsync(url: $"/{lon}/{lat}", options: new PageGotoOptions
+            {
+                WaitUntil = WaitUntilState.NetworkIdle
+            });
 
             #endregion
 
             #region wait page
 
-            await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "pin.png") &&
-                response.Status is 200 or 304);
+            await page
+                .GetByTestId(testId: "telerik-map")
+                .GetByTestId(testId: "marker").First
+                .WaitForAsync();
+
+            await page
+                .GetByTestId(testId: "telerik-list-view")
+                .GetByTestId(testId: "result").First
+                .WaitForAsync();
 
             #endregion
 
@@ -165,26 +161,6 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
                 await Assertions
                     .Expect(locator: child)
                     .ToBeInViewportAsync();
-
-                var task = page.Context.WaitForPageAsync();
-
-                await child.ClickAsync(options: new LocatorClickOptions
-                {
-                    Delay = 250,
-                    Timeout = 60000
-                });
-
-                var newPage = await task;
-
-                await Assertions
-                    .Expect(page: newPage)
-                    .ToHaveURLAsync(urlOrRegExp: "https://github.com/philvessey/TramTimes.SouthYorkshire");
-
-                await newPage.CloseAsync();
-
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {
@@ -202,7 +178,7 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
             await File.WriteAllBytesAsync(
                 path: Path.Combine(
                     path1: AspireManager.Storage!.FullName,
-                    path2: $"stop|dark|source-code-repository|button-click|run{run}|mobile.png"),
+                    path2: $"home|light|source-code-repository|button-visible|run{run}|mobile.png"),
                 bytes: Screenshot ?? []);
 
             await UploadTestAsync();

@@ -42,9 +42,7 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
 
         #region query test
 
-        var results = await QueryTestAsync(
-            id: id,
-            type: "stop");
+        var results = await QueryTestAsync(id: id);
 
         if (results.IsNullOrEmpty())
             throw new XunitException(userMessage: "Invalid data from api query.");
@@ -85,15 +83,24 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
 
             #region load page
 
-            await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}");
+            await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}", options: new PageGotoOptions
+            {
+                WaitUntil = WaitUntilState.NetworkIdle
+            });
 
             #endregion
 
             #region wait page
 
-            await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "pin.png") &&
-                response.Status is 200 or 304);
+            await page
+                .GetByTestId(testId: "telerik-map")
+                .GetByTestId(testId: "marker").First
+                .WaitForAsync();
+
+            await page
+                .GetByTestId(testId: "telerik-list-view")
+                .GetByTestId(testId: "result").First
+                .WaitForAsync();
 
             #endregion
 
@@ -117,15 +124,14 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
 
                 await child.ClickAsync();
 
+                await page.WaitForTimeoutAsync(timeout: 5000);
+                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+
                 parent = page.GetByTestId(testId: "local-storage-consent__policy");
 
                 await Assertions
                     .Expect(locator: parent)
                     .ToBeInViewportAsync();
-
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {
@@ -181,9 +187,7 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
 
         #region query test
 
-        var results = await QueryTestAsync(
-            id: id,
-            type: "stop");
+        var results = await QueryTestAsync(id: id);
 
         if (results.IsNullOrEmpty())
             throw new XunitException(userMessage: "Invalid data from api query.");
@@ -224,15 +228,24 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
 
             #region load page
 
-            await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}");
+            await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}", options: new PageGotoOptions
+            {
+                WaitUntil = WaitUntilState.NetworkIdle
+            });
 
             #endregion
 
             #region wait page
 
-            await page.WaitForResponseAsync(urlOrPredicate: response =>
-                response.Url.Contains(value: "pin.png") &&
-                response.Status is 200 or 304);
+            await page
+                .GetByTestId(testId: "telerik-map")
+                .GetByTestId(testId: "marker").First
+                .WaitForAsync();
+
+            await page
+                .GetByTestId(testId: "telerik-list-view")
+                .GetByTestId(testId: "result").First
+                .WaitForAsync();
 
             #endregion
 
@@ -256,15 +269,14 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
 
                 await child.ClickAsync();
 
+                await page.WaitForTimeoutAsync(timeout: 5000);
+                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+
                 parent = page.GetByTestId(testId: "local-storage-consent__policy");
 
                 await Assertions
                     .Expect(locator: parent)
                     .ToBeInViewportAsync();
-
-                await page.Mouse.MoveAsync(
-                    x: 0,
-                    y: 0);
             }
             catch (Exception e)
             {
