@@ -15,7 +15,7 @@ public partial class SourceCodeRepository : ComponentBase, IAsyncDisposable
     {
         await base.OnAfterRenderAsync(firstRender: firstRender);
 
-        # region check disposed
+        #region check disposed
 
         if (Disposed)
             return;
@@ -36,7 +36,7 @@ public partial class SourceCodeRepository : ComponentBase, IAsyncDisposable
 
     private async Task NavigateToAsync()
     {
-        # region check disposed
+        #region check disposed
 
         if (Disposed)
             return;
@@ -55,7 +55,7 @@ public partial class SourceCodeRepository : ComponentBase, IAsyncDisposable
 
     async ValueTask IAsyncDisposable.DisposeAsync()
     {
-        # region set disposed
+        #region set disposed
 
         Disposed = true;
 

@@ -43,7 +43,7 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
     {
         await base.OnAfterRenderAsync(firstRender: firstRender);
 
-        # region check disposed
+        #region check disposed
 
         if (Disposed)
             return;
@@ -103,7 +103,7 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
 
     private async Task AcceptPrivacyPolicyAsync()
     {
-        # region check disposed
+        #region check disposed
 
         if (Disposed)
             return;
@@ -137,7 +137,7 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
 
     private async Task RejectPrivacyPolicyAsync()
     {
-        # region check disposed
+        #region check disposed
 
         if (Disposed)
             return;
@@ -171,7 +171,7 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
 
     async ValueTask IAsyncDisposable.DisposeAsync()
     {
-        # region set disposed
+        #region set disposed
 
         Disposed = true;
 

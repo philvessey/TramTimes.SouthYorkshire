@@ -17,16 +17,19 @@ namespace TramTimes.Web.Site.Components.Pages;
 public partial class Stop : ComponentBase, IAsyncDisposable
 {
     private List<TelerikStopPoint> ListData { get; set; } = [];
+    private CancellationTokenSource? ListSource { get; set; }
     private List<TelerikStop> MapData { get; set; } = [];
+    private CancellationTokenSource? MapSource { get; set; }
     private List<TelerikStop> SearchData { get; set; } = [];
+    private CancellationTokenSource? SearchSource { get; set; }
     private TelerikStop LastStop { get; set; } = new();
     private TelerikStop NextStop { get; set; } = new();
-    private double[] Center { get; set; } = [];
     private IJSObjectReference? JavascriptManager { get; set; }
     private ElementReference? ListElement { get; set; }
     private TelerikListView<TelerikStopPoint>? ListManager { get; set; }
     private TelerikMap? MapManager { get; set; }
     private bool? Disposed { get; set; }
+    private double[] Center { get; set; } = [];
     private string? Query { get; set; }
     private string? Title { get; set; }
     private bool? Hidden { get; set; }
@@ -119,7 +122,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        # region get local storage
+        #region get local storage
 
         List<TelerikStop> cache = [];
 
@@ -226,29 +229,62 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         HttpResponseMessage? response = null;
 
+        if (MapSource is not null)
+            await MapSource.CancelAsync();
+
+        MapSource = new CancellationTokenSource();
+
         try
         {
             var client = HttpService.CreateClient(name: "search");
 
-            response = await client.GetAsync(requestUri: QueryBuilder.GetStopsFromSearch(
-                type: QueryType.StopPoint,
-                value: Center));
+            response = await client.GetAsync(
+                requestUri: QueryBuilder.GetStopsFromSearch(
+                    type: QueryType.StopPoint,
+                    value: Center),
+                cancellationToken: MapSource.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: "stop: search cancel");
         }
         catch (TimeoutRejectedException)
         {
             if (JavascriptManager is not null)
                 await JavascriptManager.InvokeVoidAsync(
                     identifier: "writeConsole",
-                    args: "stop: api timeout");
+                    args: "stop: search timeout");
         }
 
         if (response?.IsSuccessStatusCode is not true)
         {
-            var client = HttpService.CreateClient(name: "database");
+            try
+            {
+                var client = HttpService.CreateClient(name: "database");
 
-            response = await client.GetAsync(requestUri: QueryBuilder.GetStopsFromDatabase(
-                type: QueryType.StopPoint,
-                value: Center));
+                response = await client.GetAsync(
+                    requestUri: QueryBuilder.GetStopsFromDatabase(
+                        type: QueryType.StopPoint,
+                        value: Center),
+                    cancellationToken: MapSource.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                if (JavascriptManager is not null)
+                    await JavascriptManager.InvokeVoidAsync(
+                        identifier: "writeConsole",
+                        args: "stop: database cancel");
+            }
+            catch (TimeoutRejectedException)
+            {
+                if (JavascriptManager is not null)
+                    await JavascriptManager.InvokeVoidAsync(
+                        identifier: "writeConsole",
+                        args: "stop: database timeout");
+            }
         }
 
         #endregion
@@ -257,7 +293,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         List<WebStop> data = [];
 
-        if (response.IsSuccessStatusCode)
+        if (response?.IsSuccessStatusCode is true)
             data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
 
         MapData.RemoveAll(match: stop => data.Any(predicate: item => stop.Id == item.Id));
@@ -327,7 +363,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
     {
         await base.OnAfterRenderAsync(firstRender: firstRender);
 
-        # region check component disposed
+        #region check component disposed
 
         if (Disposed.HasValue && Disposed.Value)
             return;
@@ -397,29 +433,62 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         HttpResponseMessage? response = null;
 
+        if (ListSource is not null)
+            await ListSource.CancelAsync();
+
+        ListSource = new CancellationTokenSource();
+
         try
         {
             var client = HttpService.CreateClient(name: "cache");
 
-            response = await client.GetAsync(requestUri: QueryBuilder.GetServicesFromCache(
-                type: QueryType.StopId,
-                value: NextStop.Id ?? StopId));
+            response = await client.GetAsync(
+                requestUri: QueryBuilder.GetServicesFromCache(
+                    type: QueryType.StopId,
+                    value: NextStop.Id ?? StopId),
+                cancellationToken: ListSource.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: "stop: cache cancel");
         }
         catch (TimeoutRejectedException)
         {
             if (JavascriptManager is not null)
                 await JavascriptManager.InvokeVoidAsync(
                     identifier: "writeConsole",
-                    args: "stop: api timeout");
+                    args: "stop: cache timeout");
         }
 
         if (response?.IsSuccessStatusCode is not true)
         {
-            var client = HttpService.CreateClient(name: "database");
+            try
+            {
+                var client = HttpService.CreateClient(name: "database");
 
-            response = await client.GetAsync(requestUri: QueryBuilder.GetServicesFromDatabase(
-                type: QueryType.StopId,
-                value: NextStop.Id ?? StopId));
+                response = await client.GetAsync(
+                    requestUri: QueryBuilder.GetServicesFromDatabase(
+                        type: QueryType.StopId,
+                        value: NextStop.Id ?? StopId),
+                    cancellationToken: ListSource.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                if (JavascriptManager is not null)
+                    await JavascriptManager.InvokeVoidAsync(
+                        identifier: "writeConsole",
+                        args: "stop: database cancel");
+            }
+            catch (TimeoutRejectedException)
+            {
+                if (JavascriptManager is not null)
+                    await JavascriptManager.InvokeVoidAsync(
+                        identifier: "writeConsole",
+                        args: "stop: database timeout");
+            }
         }
 
         #endregion
@@ -434,7 +503,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         List<WebStopPoint> data = [];
 
-        if (response.IsSuccessStatusCode)
+        if (response?.IsSuccessStatusCode is true)
             data = await response.Content.ReadFromJsonAsync<List<WebStopPoint>>() ?? [];
 
         ListData = MapperService.Map<List<TelerikStopPoint>>(source: data);
@@ -449,7 +518,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        # region check component disposed
+        #region check component disposed
 
         if (Disposed.HasValue && Disposed.Value)
             return;
@@ -470,7 +539,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         string? tripId,
         string? stopId) {
 
-        # region check component disposed
+        #region check component disposed
 
         if (Disposed.HasValue && Disposed.Value)
             return;
@@ -510,7 +579,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        # region check component disposed
+        #region check component disposed
 
         if (Disposed.HasValue && Disposed.Value)
             return;
@@ -546,7 +615,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        # region check component disposed
+        #region check component disposed
 
         if (Disposed.HasValue && Disposed.Value)
             return;
@@ -578,7 +647,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        # region check component disposed
+        #region check component disposed
 
         if (Disposed.HasValue && Disposed.Value)
             return;
@@ -610,7 +679,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        # region check component disposed
+        #region check component disposed
 
         if (Disposed.HasValue && Disposed.Value)
             return;
@@ -629,7 +698,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
     private async Task OnSearchBlurAsync()
     {
-        # region check component disposed
+        #region check component disposed
 
         if (Disposed.HasValue && Disposed.Value)
             return;
@@ -662,7 +731,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        # region check component disposed
+        #region check component disposed
 
         if (Disposed.HasValue && Disposed.Value)
             return;
@@ -692,7 +761,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
     private async Task OnSearchCloseAsync()
     {
-        # region check component disposed
+        #region check component disposed
 
         if (Disposed.HasValue && Disposed.Value)
             return;
@@ -711,7 +780,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
     private async Task OnSearchOpenAsync()
     {
-        # region check component disposed
+        #region check component disposed
 
         if (Disposed.HasValue && Disposed.Value)
             return;
@@ -821,29 +890,62 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         HttpResponseMessage? response = null;
 
+        if (SearchSource is not null)
+            await SearchSource.CancelAsync();
+
+        SearchSource = new CancellationTokenSource();
+
         try
         {
             var client = HttpService.CreateClient(name: "search");
 
-            response = await client.GetAsync(requestUri: QueryBuilder.GetStopsFromSearch(
-                type: QueryType.StopName,
-                value: name));
+            response = await client.GetAsync(
+                requestUri: QueryBuilder.GetStopsFromSearch(
+                    type: QueryType.StopName,
+                    value: name),
+                cancellationToken: SearchSource.Token);
+        }
+        catch (OperationCanceledException)
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: "stop: search cancel");
         }
         catch (TimeoutRejectedException)
         {
             if (JavascriptManager is not null)
                 await JavascriptManager.InvokeVoidAsync(
                     identifier: "writeConsole",
-                    args: "stop: api timeout");
+                    args: "stop: search timeout");
         }
 
         if (response?.IsSuccessStatusCode is not true)
         {
-            var client = HttpService.CreateClient(name: "database");
+            try
+            {
+                var client = HttpService.CreateClient(name: "database");
 
-            response = await client.GetAsync(requestUri: QueryBuilder.GetStopsFromDatabase(
-                type: QueryType.StopName,
-                value: name));
+                response = await client.GetAsync(
+                    requestUri: QueryBuilder.GetStopsFromDatabase(
+                        type: QueryType.StopName,
+                        value: name),
+                    cancellationToken: SearchSource.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                if (JavascriptManager is not null)
+                    await JavascriptManager.InvokeVoidAsync(
+                        identifier: "writeConsole",
+                        args: "stop: database cancel");
+            }
+            catch (TimeoutRejectedException)
+            {
+                if (JavascriptManager is not null)
+                    await JavascriptManager.InvokeVoidAsync(
+                        identifier: "writeConsole",
+                        args: "stop: database timeout");
+            }
         }
 
         #endregion
@@ -852,7 +954,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         List<WebStop> data = [];
 
-        if (response.IsSuccessStatusCode)
+        if (response?.IsSuccessStatusCode is true)
             data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
 
         SearchData.RemoveAll(match: stop => data.Any(predicate: item => stop.Id == item.Id));
@@ -910,7 +1012,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        # region check component disposed
+        #region check component disposed
 
         if (Disposed.HasValue && Disposed.Value)
             return;
@@ -929,7 +1031,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
     async ValueTask IAsyncDisposable.DisposeAsync()
     {
-        # region set component disposed
+        #region set component disposed
 
         Disposed = true;
 
@@ -938,6 +1040,27 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         #region suppress object finalizer
 
         GC.SuppressFinalize(obj: this);
+
+        #endregion
+
+        #region cancel pending requests
+
+        if (ListSource is not null)
+            await ListSource.CancelAsync();
+
+        if (MapSource is not null)
+            await MapSource.CancelAsync();
+
+        if (SearchSource is not null)
+            await SearchSource.CancelAsync();
+
+        #endregion
+
+        #region dispose token sources
+
+        ListSource?.Dispose();
+        MapSource?.Dispose();
+        SearchSource?.Dispose();
 
         #endregion
 
