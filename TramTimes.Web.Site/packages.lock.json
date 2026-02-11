@@ -1,0 +1,383 @@
+{
+  "version": 2,
+  "dependencies": {
+    "net10.0": {
+      "AutoMapper": {
+        "type": "Direct",
+        "requested": "[14.0.0, 15.0.0)",
+        "resolved": "14.0.0",
+        "contentHash": "OC+1neAPM4oCCqQj3g2GJ2shziNNhOkxmNB9cVS8jtx4JbgmRzLcUOxB9Tsz6cVPHugdkHgCaCrTjjSI0Z5sCQ=="
+      },
+      "Geolocation": {
+        "type": "Direct",
+        "requested": "[1.2.1, )",
+        "resolved": "1.2.1",
+        "contentHash": "qvdjGKWydk4hKmyGvIExkpNhJ0qoAk88f+wTsuQ6Bdb6Zl2MJccmQRKF2DLtAuuGSkeF9N99BbO2eKk4F932Mw=="
+      },
+      "Microsoft.AspNetCore.App.Internal.Assets": {
+        "type": "Direct",
+        "requested": "[10.0.3, )",
+        "resolved": "10.0.3",
+        "contentHash": "mr3Zn+ht8lijYvlMIasftw9opU9hsLKDdnOgQMmYI3RjWPJLOF9l8+YHDseRkTs97wOrULmJgo/NDCmzL/EGDg=="
+      },
+      "Microsoft.Extensions.Http.Polly": {
+        "type": "Direct",
+        "requested": "[10.0.3, )",
+        "resolved": "10.0.3",
+        "contentHash": "Dl3wUj5Fdk6AuPDCDBBcpnAW/mYfmfr+48g3fE4JCQiVSIjLGqjg1tyw5/dZnLHlC+tgzr6rntD7bBgigpZBhw==",
+        "dependencies": {
+          "Polly": "7.2.4",
+          "Polly.Extensions.Http": "3.0.0"
+        }
+      },
+      "Telerik.UI.for.Blazor": {
+        "type": "Direct",
+        "requested": "[12.3.0, )",
+        "resolved": "12.3.0",
+        "contentHash": "sZYfqUfMpQ5O+6FuipkaCqY9Cx5AwhFJx2Ly6+WqOiZuTIZgU964ocUx5ptbkzM2dCA/tH1v/2qragWCnvsMjA==",
+        "dependencies": {
+          "Microsoft.Extensions.AI.Abstractions": "9.5.0",
+          "Telerik.AI.SmartComponents.Extensions": "2.0.0",
+          "Telerik.DataSource": "4.0.1",
+          "Telerik.Documents.Spreadsheet": "2025.4.1216",
+          "Telerik.Documents.Spreadsheet.FormatProviders.Pdf": "2025.4.1216",
+          "Telerik.Documents.SpreadsheetStreaming": "2025.4.1216",
+          "Telerik.FontIcons": "4.4.0",
+          "Telerik.Licensing": "[1.6.35, 2.0.0)",
+          "Telerik.Pivot.Core": "0.1.7",
+          "Telerik.Pivot.DataProviders.Xmla": "0.1.8",
+          "Telerik.Recurrence": "0.2.7",
+          "Telerik.SvgIcons": "4.4.0",
+          "Telerik.Zip": "2025.4.1216"
+        }
+      },
+      "Microsoft.Extensions.AI": {
+        "type": "Transitive",
+        "resolved": "9.5.0",
+        "contentHash": "RBq/TspXI7UScO5+fHXIrnlDvX8pnvFcHWag3OPPivJgjqmI/RF70dpTPmMIly9dG+z+86kLP2KGkA2UiZ9tVQ==",
+        "dependencies": {
+          "Microsoft.Extensions.AI.Abstractions": "9.5.0"
+        }
+      },
+      "Microsoft.Extensions.AI.Abstractions": {
+        "type": "Transitive",
+        "resolved": "9.5.0",
+        "contentHash": "Y46j1S4zOPtLAHCUzhHIm1IhCMr7764754bLYupyc1JZcvLNXjUk+VC7H3Bou20S2hHgDJnfox7X/H/3BYEvzA=="
+      },
+      "Microsoft.Extensions.AmbientMetadata.Application": {
+        "type": "Transitive",
+        "resolved": "10.3.0",
+        "contentHash": "Oh/FQJrTZqiqZuFktqDCwLFgxIUnNATZx46AwUTf5A/+FmK/TzPf/iwSqMK85QlioLD9ehOxWe0NBfsCSkp5pw=="
+      },
+      "Microsoft.Extensions.Compliance.Abstractions": {
+        "type": "Transitive",
+        "resolved": "10.3.0",
+        "contentHash": "b3gmxtyX0n8bQFuZ679f8QiOWqjeZKFc6XXPUsYNFzMcWi0Q44Ej3pB41N/QQ0maX380kmOMF36bLSBHNThXAg=="
+      },
+      "Microsoft.Extensions.DependencyInjection.AutoActivation": {
+        "type": "Transitive",
+        "resolved": "10.3.0",
+        "contentHash": "g6/S5rhP1XNBqeDa9zKXri/uDKe6gjzSqGsocuySb1OdVm8fz/M9YcWTJsCw5RHF8xIb/B3NgsfBPQF9Emjk3Q=="
+      },
+      "Microsoft.Extensions.Diagnostics.ExceptionSummarization": {
+        "type": "Transitive",
+        "resolved": "10.3.0",
+        "contentHash": "TZAZsAFThNQDqCnWaGxV/X7OPSA7b+kY7wNTPNvPvSWa0jcTbmGVyzIY/feF4OgyAUUdzSnnLW6ri2Q+4keM4A=="
+      },
+      "Microsoft.Extensions.Http.Diagnostics": {
+        "type": "Transitive",
+        "resolved": "10.3.0",
+        "contentHash": "/xuNWNxI4WLVatiTvaqfLd5ijFhQ/qvE14bOyWxeEWmXJkjh/g2G/5TdzMfoe0afq16OdWLGbrD9gWHo178hbg==",
+        "dependencies": {
+          "Microsoft.Extensions.Telemetry": "10.3.0"
+        }
+      },
+      "Microsoft.Extensions.Resilience": {
+        "type": "Transitive",
+        "resolved": "10.3.0",
+        "contentHash": "xc0dZuPkBaVIdMlODDppmNY/dxE27wIQ46gTzStoFXO4/yVcOMKlPmtr9vTP4edyXBRizGxPtcAFmqxZ5gPTkQ==",
+        "dependencies": {
+          "Microsoft.Extensions.Diagnostics.ExceptionSummarization": "10.3.0",
+          "Microsoft.Extensions.Telemetry.Abstractions": "10.3.0",
+          "Polly.Extensions": "8.4.2",
+          "Polly.RateLimiting": "8.4.2"
+        }
+      },
+      "Microsoft.Extensions.ServiceDiscovery.Abstractions": {
+        "type": "Transitive",
+        "resolved": "10.3.0",
+        "contentHash": "2j3SdFGgqFQFP6xQpkbqxt9SdzsT4/FK47RQ7MoCAZnKZiZEDuLDq9PfKLqON8HbGc09jHZ02x0tHIjleVab2A=="
+      },
+      "Microsoft.Extensions.Telemetry": {
+        "type": "Transitive",
+        "resolved": "10.3.0",
+        "contentHash": "M1esrIGmwU2JBY0JpwdlUTXTNBXSBFEs+41bYBd59+9/vCaXw+vGhtYcCL+JXeGmxTLUHmuXcKbX/uVCSFcuzA==",
+        "dependencies": {
+          "Microsoft.Extensions.AmbientMetadata.Application": "10.3.0",
+          "Microsoft.Extensions.DependencyInjection.AutoActivation": "10.3.0",
+          "Microsoft.Extensions.Telemetry.Abstractions": "10.3.0"
+        }
+      },
+      "Microsoft.Extensions.Telemetry.Abstractions": {
+        "type": "Transitive",
+        "resolved": "10.3.0",
+        "contentHash": "aKxH6ZsGAewGF8uSXyx1WkjqItwZA+hd1hhQ/4i7o5injCWSdr9vIZ3R3djJfy8OG3xaWK+LZY/+slVvlnwEHw==",
+        "dependencies": {
+          "Microsoft.Extensions.Compliance.Abstractions": "10.3.0"
+        }
+      },
+      "OpenTelemetry": {
+        "type": "Transitive",
+        "resolved": "1.15.0",
+        "contentHash": "7mS/oZFF8S6xyqGQfMU1btp0nXJQUPWV535Vp/XMLYwRAUv36xQN+U4vufWBF1+z4HnRTOwuFHtUSGnHbyN6FQ==",
+        "dependencies": {
+          "OpenTelemetry.Api.ProviderBuilderExtensions": "1.15.0"
+        }
+      },
+      "OpenTelemetry.Api": {
+        "type": "Transitive",
+        "resolved": "1.15.0",
+        "contentHash": "vk5OGdf6K9kQScCWo3bRjhDWCv6Pqw92IpX4dlARZ8B1WL7/2NGTDtCkkw42eQf7UdwyoHKzVvMH/PtL8d6z7w=="
+      },
+      "OpenTelemetry.Api.ProviderBuilderExtensions": {
+        "type": "Transitive",
+        "resolved": "1.15.0",
+        "contentHash": "OnuSUlRpGvowkOzGFQfy+KZFu0cITfKfh2IYJJiZskxVJiOuexwOOuvfDAgpJdmTzVWAHjYdz2shcHZaJ06UjQ==",
+        "dependencies": {
+          "OpenTelemetry.Api": "1.15.0"
+        }
+      },
+      "Polly.Core": {
+        "type": "Transitive",
+        "resolved": "8.6.5",
+        "contentHash": "t+sUVrIwvo7UmsgHGgOG9F0GDZSRIm47u2ylH17Gvcv1q5hNEwgD5GoBlFyc0kh/pebmPyrAgvGsR/65ZBaXlg=="
+      },
+      "Polly.Extensions": {
+        "type": "Transitive",
+        "resolved": "8.4.2",
+        "contentHash": "GZ9vRVmR0jV2JtZavt+pGUsQ1O1cuRKG7R7VOZI6ZDy9y6RNPvRvXK1tuS4ffUrv8L0FTea59oEuQzgS0R7zSA==",
+        "dependencies": {
+          "Polly.Core": "8.4.2"
+        }
+      },
+      "Polly.Extensions.Http": {
+        "type": "Transitive",
+        "resolved": "3.0.0",
+        "contentHash": "drrG+hB3pYFY7w1c3BD+lSGYvH2oIclH8GRSehgfyP5kjnFnHKQuuBhuHLv+PWyFuaTDyk/vfRpnxOzd11+J8g==",
+        "dependencies": {
+          "Polly": "7.1.0"
+        }
+      },
+      "Polly.RateLimiting": {
+        "type": "Transitive",
+        "resolved": "8.4.2",
+        "contentHash": "ehTImQ/eUyO07VYW2WvwSmU9rRH200SKJ/3jku9rOkyWE0A2JxNFmAVms8dSn49QLSjmjFRRSgfNyOgr/2PSmA==",
+        "dependencies": {
+          "Polly.Core": "8.4.2"
+        }
+      },
+      "System.Security.Cryptography.Pkcs": {
+        "type": "Transitive",
+        "resolved": "9.0.9",
+        "contentHash": "Y7/wY5lqrzJOu53yLFLPGaeKBcdWNw193udOFRB2joFDVpXLkmfPpfgks7dEIJYPIrW4k3onwR+4nQz6vIaaqA=="
+      },
+      "Telerik.AI.SmartComponents.Extensions": {
+        "type": "Transitive",
+        "resolved": "2.0.0",
+        "contentHash": "QwOAK/ypBJRyXRf+zMjhSss+E7NbIIhxw7oXt+fIpmI55e91uzyIgalPa2l8zVlqRnZYBUOVyBHdD0XR0bwGlA==",
+        "dependencies": {
+          "Microsoft.Extensions.AI": "9.5.0"
+        }
+      },
+      "Telerik.DataSource": {
+        "type": "Transitive",
+        "resolved": "4.0.1",
+        "contentHash": "YhQc+uVcLYViURMzZClABE1T6FfOdJUjT6/Bc24OcHbmQSzaXTXN77q5fhPpvERXA4kJyLnzEfLR8I8nzrg/ZQ=="
+      },
+      "Telerik.Documents.Core": {
+        "type": "Transitive",
+        "resolved": "2025.4.1216",
+        "contentHash": "KA4+K9nzwOHAWMowZ0kmHmm9jK5COXvW/4vV990K0P4ETppJGKRLjTEtzXN7k3QSOmuRF3/TjvfLzbugQcx9rg==",
+        "dependencies": {
+          "Telerik.Licensing": "[1.6.35, 2.0.0)"
+        }
+      },
+      "Telerik.Documents.Fixed": {
+        "type": "Transitive",
+        "resolved": "2025.4.1216",
+        "contentHash": "yLWAr3IWIpdegh+x5jpzOZTl7Fgf2rUPrhJnAmHXm1kofQGPRvuBJ9m0q+HOV09QJtbgyeO1UIiZtDLTu2Zqtg==",
+        "dependencies": {
+          "System.Security.Cryptography.Pkcs": "9.0.9",
+          "Telerik.Documents.Core": "[2025.4.1216]",
+          "Telerik.Licensing": "[1.6.35, 2.0.0)"
+        }
+      },
+      "Telerik.Documents.Spreadsheet": {
+        "type": "Transitive",
+        "resolved": "2025.4.1216",
+        "contentHash": "EeAbXPp1pHepbo5xonQJq4KccU6KEBVKTj6RtOR8XfZNm/hUcGMXA3r3cAOS8iRIlnzGmh+HES0HyDcJkgUrqg==",
+        "dependencies": {
+          "Telerik.Documents.Core": "[2025.4.1216]",
+          "Telerik.Licensing": "[1.6.35, 2.0.0)"
+        }
+      },
+      "Telerik.Documents.Spreadsheet.FormatProviders.Pdf": {
+        "type": "Transitive",
+        "resolved": "2025.4.1216",
+        "contentHash": "IU6FFoFaa1utJs9fw9cg/nGLWy/TygApcsfwH8mqkSVEfAb78LKRzUBGzoYLalS+k3cOdmcnlcXiimn1nv2K4A==",
+        "dependencies": {
+          "Telerik.Documents.Core": "[2025.4.1216]",
+          "Telerik.Documents.Fixed": "[2025.4.1216]",
+          "Telerik.Documents.Spreadsheet": "[2025.4.1216]",
+          "Telerik.Licensing": "[1.6.35, 2.0.0)"
+        }
+      },
+      "Telerik.Documents.SpreadsheetStreaming": {
+        "type": "Transitive",
+        "resolved": "2025.4.1216",
+        "contentHash": "Z0emRMGZ4PAo+YOEjbDsIlLDTCYOiXe6BXNzNAO4stxh9g/VY4947RaKNkb9yiZvkpIXXRRwW9RDPb4sZCTCTA==",
+        "dependencies": {
+          "Telerik.Licensing": "[1.6.35, 2.0.0)"
+        }
+      },
+      "Telerik.FontIcons": {
+        "type": "Transitive",
+        "resolved": "4.4.0",
+        "contentHash": "4R70aBTLxWM4jI6zoNpnlsQL1XW8cnwamSlF8Vby9PEUIPDOdZ3NwaglkCn6epj7HXse9Szv4chb+ZK9fXxbnQ=="
+      },
+      "Telerik.Licensing": {
+        "type": "Transitive",
+        "resolved": "1.6.35",
+        "contentHash": "WZMvw4xIIK86k3igfdfJ4G2NPDOkEpDSbEnBNkfcEbKfGH6ZfeP2HC0ZEqKE6VrxUIk+6R1olCb/u8JsudxmDw=="
+      },
+      "Telerik.Pivot.Core": {
+        "type": "Transitive",
+        "resolved": "0.1.7",
+        "contentHash": "4LiDUL1GjhaMvt8AfSMgVOMmrh1G7lli0AXuw7e3qTsXFYDBvPSYSPDk0F4Vokd6EPNfizdplrgO5talWqI5Bw=="
+      },
+      "Telerik.Pivot.DataProviders.Xmla": {
+        "type": "Transitive",
+        "resolved": "0.1.8",
+        "contentHash": "X0uhDnLT3cHt5dN4OEKhqW2hvsBA4LQkWxtfsVIaXfWCWzfHmDyluRJ7p2Z3rSeqU22lyVE0nfQdmpo5UYL9/Q==",
+        "dependencies": {
+          "Telerik.Pivot.Core": "0.1.7"
+        }
+      },
+      "Telerik.Recurrence": {
+        "type": "Transitive",
+        "resolved": "0.2.7",
+        "contentHash": "RZNtBRKtd2V8VU7oxO+39doBwXKD+W3KZ15j40PEB9R3lzkOpbYk6dWPAFv5d+dV2MAt4J7wUcpe2Ql9DPjeVA=="
+      },
+      "Telerik.SvgIcons": {
+        "type": "Transitive",
+        "resolved": "4.4.0",
+        "contentHash": "FHWq1OMiyw3n7melKHvuJCIKfwfPgbjsqT0SiR+hzeLRHylzvb6I4ZT2P4O08P+YXivd+9aVs5vfAaqAItU54w=="
+      },
+      "Telerik.Zip": {
+        "type": "Transitive",
+        "resolved": "2025.4.1216",
+        "contentHash": "QBZ3J5GPSN9lFEWDNhNR3HtQp4GJFXiykwe3ByiXkIJ5RpcRxOwHxkeprmzKRXQntPvVW51ewOFcCy7ARHRSyA==",
+        "dependencies": {
+          "Telerik.Licensing": "[1.6.35, 2.0.0)"
+        }
+      },
+      "tramtimes.aspire.services": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Extensions.Http.Resilience": "[10.3.0, )",
+          "Microsoft.Extensions.ServiceDiscovery": "[10.3.0, )",
+          "OpenTelemetry.Exporter.OpenTelemetryProtocol": "[1.15.0, )",
+          "OpenTelemetry.Extensions.Hosting": "[1.15.0, )",
+          "OpenTelemetry.Instrumentation.AspNetCore": "[1.15.0, )",
+          "OpenTelemetry.Instrumentation.Http": "[1.15.0, )",
+          "OpenTelemetry.Instrumentation.Runtime": "[1.15.0, )"
+        }
+      },
+      "tramtimes.web.utilities": {
+        "type": "Project",
+        "dependencies": {
+          "JetBrains.Annotations": "[2025.2.4, )"
+        }
+      },
+      "JetBrains.Annotations": {
+        "type": "CentralTransitive",
+        "requested": "[2025.2.4, )",
+        "resolved": "2025.2.4",
+        "contentHash": "TwbgxAkXxY+vNEhNVx/QXjJ4vqxmepOjsgRvvImQPbHkHMMb4W+ahL3laMsxXKtNT7iMy+E1B3xkqao2hf1n3A=="
+      },
+      "Microsoft.Extensions.Http.Resilience": {
+        "type": "CentralTransitive",
+        "requested": "[10.3.0, )",
+        "resolved": "10.3.0",
+        "contentHash": "P4+s/eUH3dZdn1HnivSL2dh6/Jb0ndLt2l88oQPZ9BYdyb4tSRAsnz4QkJHGfPA9lS/XblI5QYsxEdfkurPvIg==",
+        "dependencies": {
+          "Microsoft.Extensions.Http.Diagnostics": "10.3.0",
+          "Microsoft.Extensions.Resilience": "10.3.0"
+        }
+      },
+      "Microsoft.Extensions.ServiceDiscovery": {
+        "type": "CentralTransitive",
+        "requested": "[10.3.0, )",
+        "resolved": "10.3.0",
+        "contentHash": "C7onh6YDQKbZjKmAWEef1RDosjxPxA3PZdLob5lhS1AQuKgw0vTHnCKUA1KAhNlzhyfOPVP6tc0cLIPCDoBvoA==",
+        "dependencies": {
+          "Microsoft.Extensions.ServiceDiscovery.Abstractions": "10.3.0"
+        }
+      },
+      "OpenTelemetry.Exporter.OpenTelemetryProtocol": {
+        "type": "CentralTransitive",
+        "requested": "[1.15.0, )",
+        "resolved": "1.15.0",
+        "contentHash": "VH8ANc/js9IRvfYt0Q2UaAxNCOWm+IU+vWrtoH7pfx4oWPVdISUt+9uWfBCFMWZg5WzQip5dhslyDjeyZXXfSQ==",
+        "dependencies": {
+          "OpenTelemetry": "1.15.0"
+        }
+      },
+      "OpenTelemetry.Extensions.Hosting": {
+        "type": "CentralTransitive",
+        "requested": "[1.15.0, )",
+        "resolved": "1.15.0",
+        "contentHash": "RixjKyB1pbYGhWdvPto4KJs+exdQknJsnjUO9WszdLles5Vcd0EYzxPNJdwmLjYfP+Jfbr4B5nktM4ZgeHSWtg==",
+        "dependencies": {
+          "OpenTelemetry": "1.15.0"
+        }
+      },
+      "OpenTelemetry.Instrumentation.AspNetCore": {
+        "type": "CentralTransitive",
+        "requested": "[1.15.0, )",
+        "resolved": "1.15.0",
+        "contentHash": "mte1nRYefxjed2syXgVWq3UCfMKO7MkebvTZmf0O1aLgVgCktLsVjQ6mftyjIbWGBBCHN0wg+Glxj8BSFS70pQ==",
+        "dependencies": {
+          "OpenTelemetry.Api.ProviderBuilderExtensions": "[1.15.0, 2.0.0)"
+        }
+      },
+      "OpenTelemetry.Instrumentation.Http": {
+        "type": "CentralTransitive",
+        "requested": "[1.15.0, )",
+        "resolved": "1.15.0",
+        "contentHash": "uToc7bUp8IEdb0ny9mKsL6FrrYelINPzxxiSShJgOf4XmQc4Azww6S5RjRj24YhsOn2a1MABOrxfVTZXtDk4Eg==",
+        "dependencies": {
+          "OpenTelemetry.Api.ProviderBuilderExtensions": "[1.15.0, 2.0.0)"
+        }
+      },
+      "OpenTelemetry.Instrumentation.Runtime": {
+        "type": "CentralTransitive",
+        "requested": "[1.15.0, )",
+        "resolved": "1.15.0",
+        "contentHash": "OOvpqR/j2Pb6+tWhHNODIbSJ53Or/MDtTiXEyrsWI02K2lLAgvBFcxUOrHggS/8015cYR3AdSaXv6NZrkz5yQA==",
+        "dependencies": {
+          "OpenTelemetry.Api": "[1.15.0, 2.0.0)"
+        }
+      },
+      "Polly": {
+        "type": "CentralTransitive",
+        "requested": "[8.6.5, )",
+        "resolved": "8.6.5",
+        "contentHash": "VqtW2ZE/ALvQMAH1cQY3qZ2cF2OXa3oe/HKMdOv6Q02HCoEW0rsFNfcBONXlHBe1TnjWW1vdRxBEkPeq0/2FHA==",
+        "dependencies": {
+          "Polly.Core": "8.6.5"
+        }
+      }
+    }
+  }
+}
