@@ -122,6 +122,7 @@ public static class WebBuilder
                         container.Resources.Memory = "1.0Gi";
                     }
 
+                    app.Template.Scale.CooldownPeriod = 900;
                     app.Template.Scale.MinReplicas = 0;
                     app.Template.Scale.MaxReplicas = 5;
 
@@ -250,6 +251,7 @@ public static class WebBuilder
                         container.Resources.Memory = "2.0Gi";
                     }
 
+                    app.Template.Scale.CooldownPeriod = 900;
                     app.Template.Scale.MinReplicas = 0;
                     app.Template.Scale.MaxReplicas = 5;
 

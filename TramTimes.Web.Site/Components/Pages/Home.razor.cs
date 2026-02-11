@@ -65,12 +65,6 @@ public partial class Home : ComponentBase, IAsyncDisposable
     {
         await base.OnParametersSetAsync();
 
-        #region set hidden toggle
-
-        Hidden = false;
-
-        #endregion
-
         #region get storage consent
 
         var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
@@ -135,6 +129,12 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
             return;
         }
+
+        #endregion
+
+        #region set hidden toggle
+
+        Hidden = false;
 
         #endregion
 
