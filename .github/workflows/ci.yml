@@ -41,6 +41,14 @@ jobs:
           sed -i '/<\/configuration>/e sed "s/^/  /" nuget.xml; echo' ./nuget.config
           sed 's/ClearTextPassword="[^"]*"/ClearTextPassword="***REDACTED***"/' ./nuget.config
 
+      - name: .NET cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
+
       - name: .NET restore
         run: dotnet restore
 
