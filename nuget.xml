@@ -1,6 +1,7 @@
 ﻿<packageSourceMapping>
   <packageSource key="nuget">
     <package pattern="*" />
+    <package pattern="Telerik.AI.*" />
     <package pattern="Telerik.Licensing" />
     <package pattern="Telerik.FontIcons" />
     <package pattern="Telerik.SvgIcons" />
