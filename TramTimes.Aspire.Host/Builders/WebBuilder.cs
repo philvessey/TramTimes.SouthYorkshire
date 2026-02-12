@@ -177,8 +177,8 @@ public static class WebBuilder
                                 Metadata = new BicepDictionary<string>
                                 {
                                     { "timezone", "UTC" },
-                                    { "start", "0 6 * * 1,2,3,4,5" },
-                                    { "end", "0 10 * * 1,2,3,4,5" },
+                                    { "start", "0 7 * * 1,2,3,4,5" },
+                                    { "end", "0 9 * * 1,2,3,4,5" },
                                     { "desiredReplicas", "1" }
                                 }
                             }
@@ -195,7 +195,7 @@ public static class WebBuilder
                                 {
                                     { "timezone", "UTC" },
                                     { "start", "0 16 * * 1,2,3,4,5" },
-                                    { "end", "0 20 * * 1,2,3,4,5" },
+                                    { "end", "0 18 * * 1,2,3,4,5" },
                                     { "desiredReplicas", "1" }
                                 }
                             }
@@ -292,6 +292,40 @@ public static class WebBuilder
                                 {
                                     { "type", "Utilization" },
                                     { "value", "75" }
+                                }
+                            }
+                        }));
+
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(
+                        literal: new ContainerAppScaleRule
+                        {
+                            Name = "prewarm-am",
+                            Custom = new ContainerAppCustomScaleRule
+                            {
+                                CustomScaleRuleType = "cron",
+                                Metadata = new BicepDictionary<string>
+                                {
+                                    { "timezone", "UTC" },
+                                    { "start", "0 7 * * 1,2,3,4,5" },
+                                    { "end", "0 9 * * 1,2,3,4,5" },
+                                    { "desiredReplicas", "1" }
+                                }
+                            }
+                        }));
+
+                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(
+                        literal: new ContainerAppScaleRule
+                        {
+                            Name = "prewarm-pm",
+                            Custom = new ContainerAppCustomScaleRule
+                            {
+                                CustomScaleRuleType = "cron",
+                                Metadata = new BicepDictionary<string>
+                                {
+                                    { "timezone", "UTC" },
+                                    { "start", "0 16 * * 1,2,3,4,5" },
+                                    { "end", "0 18 * * 1,2,3,4,5" },
+                                    { "desiredReplicas", "1" }
                                 }
                             }
                         }));

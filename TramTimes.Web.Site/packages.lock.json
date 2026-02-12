@@ -378,6 +378,13 @@
           "Polly.Core": "8.6.5"
         }
       }
+    },
+    "net10.0/linux-x64": {
+      "System.Security.Cryptography.Pkcs": {
+        "type": "Transitive",
+        "resolved": "9.0.9",
+        "contentHash": "Y7/wY5lqrzJOu53yLFLPGaeKBcdWNw193udOFRB2joFDVpXLkmfPpfgks7dEIJYPIrW4k3onwR+4nQz6vIaaqA=="
+      }
     }
   }
 }

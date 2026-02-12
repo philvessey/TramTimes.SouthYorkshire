@@ -735,6 +735,13 @@
           "OpenTelemetry.Api": "[1.15.0, 2.0.0)"
         }
       }
+    },
+    "net10.0/linux-x64": {
+      "System.Diagnostics.EventLog": {
+        "type": "Transitive",
+        "resolved": "10.0.3",
+        "contentHash": "+bZnyzt0/vt4g3QSllhsRNGTpa09p7Juy5K8spcK73cOTOefu4+HoY89hZOgIOmzB5A4hqPyEDKnzra7KKnhZw=="
+      }
     }
   }
 }

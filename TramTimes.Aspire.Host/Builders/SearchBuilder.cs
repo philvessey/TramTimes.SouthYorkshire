@@ -77,7 +77,7 @@ public static class SearchBuilder
                     }
 
                     job.Configuration.TriggerType = ContainerAppJobTriggerType.Schedule;
-                    job.Configuration.ScheduleTriggerConfig.CronExpression = "5/10 6-9,16-19 * * 1,2,3,4,5";
+                    job.Configuration.ScheduleTriggerConfig.CronExpression = "5/10 7-8,16-17 * * 1,2,3,4,5";
                 });
 
         if (builder.ExecutionContext.IsPublishMode)
@@ -100,7 +100,7 @@ public static class SearchBuilder
                     }
 
                     job.Configuration.TriggerType = ContainerAppJobTriggerType.Schedule;
-                    job.Configuration.ScheduleTriggerConfig.CronExpression = "10/20 10-15,20-23 * * 1,2,3,4,5";
+                    job.Configuration.ScheduleTriggerConfig.CronExpression = "10/20 9-15,18-23 * * 1,2,3,4,5";
                 });
 
         if (builder.ExecutionContext.IsPublishMode)
@@ -123,7 +123,7 @@ public static class SearchBuilder
                     }
 
                     job.Configuration.TriggerType = ContainerAppJobTriggerType.Schedule;
-                    job.Configuration.ScheduleTriggerConfig.CronExpression = "15/30 6-23 * * 6,0";
+                    job.Configuration.ScheduleTriggerConfig.CronExpression = "15/30 7-23 * * 6,0";
                 });
 
         if (builder.ExecutionContext.IsPublishMode)
@@ -146,7 +146,7 @@ public static class SearchBuilder
                     }
 
                     job.Configuration.TriggerType = ContainerAppJobTriggerType.Schedule;
-                    job.Configuration.ScheduleTriggerConfig.CronExpression = "15/30 0-1,4-5 * * *";
+                    job.Configuration.ScheduleTriggerConfig.CronExpression = "15/30 0-1,4-6 * * *";
                 });
 
         #endregion

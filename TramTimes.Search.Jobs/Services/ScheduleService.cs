@@ -95,28 +95,28 @@ public static class ScheduleService
                         trigger.ForJob(jobKey: jobKey);
                         trigger.WithIdentity(name: $"{item}-trigger-peak");
                         trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
-                        trigger.WithCronSchedule(cronExpression: "0 5/10 6-9,16-19 ? * 1-5");
+                        trigger.WithCronSchedule(cronExpression: "0 5/10 7-8,16-17 ? * 1-5");
                     })
                     .AddTrigger(configure: trigger =>
                     {
                         trigger.ForJob(jobKey: jobKey);
                         trigger.WithIdentity(name: $"{item}-trigger-offpeak");
                         trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
-                        trigger.WithCronSchedule(cronExpression: "0 10/20 10-15,20-23 ? * 1-5");
+                        trigger.WithCronSchedule(cronExpression: "0 10/20 9-15,18-23 ? * 1-5");
                     })
                     .AddTrigger(configure: trigger =>
                     {
                         trigger.ForJob(jobKey: jobKey);
                         trigger.WithIdentity(name: $"{item}-trigger-weekend");
                         trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
-                        trigger.WithCronSchedule(cronExpression: "0 15/30 6-23 ? * 6-7");
+                        trigger.WithCronSchedule(cronExpression: "0 15/30 7-23 ? * 6-7");
                     })
                     .AddTrigger(configure: trigger =>
                     {
                         trigger.ForJob(jobKey: jobKey);
                         trigger.WithIdentity(name: $"{item}-trigger-night");
                         trigger.StartAt(startTimeUtc: DateTimeOffset.UtcNow.AddMinutes(minutes: 5));
-                        trigger.WithCronSchedule(cronExpression: "0 15/30 0-1,4-5 ? * *");
+                        trigger.WithCronSchedule(cronExpression: "0 15/30 0-1,4-6 ? * *");
                     });
             }
 
