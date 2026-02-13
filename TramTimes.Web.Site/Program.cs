@@ -1,7 +1,9 @@
 using System.Net;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.SignalR;
 using Polly;
 using Polly.Timeout;
+using StackExchange.Redis;
 using TramTimes.Web.Site.Components;
 using TramTimes.Web.Site.Services;
 
@@ -22,6 +24,21 @@ builder
 #endregion
 
 #region inject services
+
+var cache = builder.Configuration.GetConnectionString(name: "cache");
+
+if (!string.IsNullOrEmpty(value: cache))
+    builder.Services
+        .AddDataProtection()
+        .PersistKeysToStackExchangeRedis(
+            connectionMultiplexer: ConnectionMultiplexer.Connect(configuration: cache),
+            key: "browser:southyorkshire")
+        .SetApplicationName(applicationName: "web-site");
+
+if (string.IsNullOrEmpty(value: cache))
+    builder.Services
+        .AddDataProtection()
+        .SetApplicationName(applicationName: "web-site");
 
 builder.Services
     .AddHttpClient(name: "cache")

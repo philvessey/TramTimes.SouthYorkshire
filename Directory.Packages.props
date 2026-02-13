@@ -1,13 +1,13 @@
 <Project>
 
   <PropertyGroup>
-    <AspireVersion>13.1.0</AspireVersion>
+    <AspireVersion>13.1.1</AspireVersion>
     <AspireElasticVersion>13.1.0</AspireElasticVersion>
-    <NextDeparturesVersion>3.9.3</NextDeparturesVersion>
+    <NextDeparturesVersion>3.9.4</NextDeparturesVersion>
   </PropertyGroup>
 
   <PropertyGroup>
-    <AspirePreviewVersion>13.1.0-preview.1.25616.3</AspirePreviewVersion>
+    <AspirePreviewVersion>13.1.1-preview.1.26105.8</AspirePreviewVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -36,6 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageVersion Include="Microsoft.AspNetCore.DataProtection.StackExchangeRedis" Version="10.0.3"/>
     <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="10.0.3"/>
     <PackageVersion Include="Microsoft.AspNetCore.TestHost" Version="10.0.3"/>
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.3"/>

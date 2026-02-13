@@ -220,6 +220,7 @@ public static class WebBuilder
                     value: _context)
                 .WithExternalHttpEndpoints()
                 .WithHttpHealthCheck(path: "/healthz")
+                .WithReference(source: cache.Service ?? throw new InvalidOperationException(message: "Cache service is not available."))
                 .WithUrlForEndpoint(
                     callback: (ResourceUrlAnnotation url) => url.DisplayText = "Primary",
                     endpointName: "https")
@@ -241,6 +242,7 @@ public static class WebBuilder
                     value: "Production")
                 .WithExternalHttpEndpoints()
                 .WithHttpHealthCheck(path: "/healthz")
+                .WithReference(source: cache.Connection ?? throw new InvalidOperationException(message: "Cache connection is not available."))
                 .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
                 {
                     var container = app.Template.Containers.Single().Value;
