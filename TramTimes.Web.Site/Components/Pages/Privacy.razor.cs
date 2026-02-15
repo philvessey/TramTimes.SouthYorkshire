@@ -181,7 +181,19 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
             }
         }
 
-        MapData.AddRange(collection: cache);
+        MapData.AddRange(collection: cache.Select(selector: stop => new TelerikStop
+        {
+            Id = stop.Id,
+            Code = stop.Code,
+            Name = stop.Name,
+            Latitude = stop.Latitude,
+            Longitude = stop.Longitude,
+            Platform =  stop.Platform,
+            Direction = stop.Direction,
+            Distance = stop.Distance,
+            Location =  stop.Location?.ToArray(),
+            Points = stop.Points?.ToList()
+        }));
 
         foreach (var item in MapData)
         {
@@ -403,7 +415,19 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #region get local storage
 
-        ListData.AddRange(collection: MapData);
+        ListData.AddRange(collection: MapData.Select(selector: stop => new TelerikStop
+        {
+            Id = stop.Id,
+            Code = stop.Code,
+            Name = stop.Name,
+            Latitude = stop.Latitude,
+            Longitude = stop.Longitude,
+            Platform =  stop.Platform,
+            Direction = stop.Direction,
+            Distance = stop.Distance,
+            Location =  stop.Location?.ToArray(),
+            Points = stop.Points?.ToList()
+        }));
 
         #endregion
 
@@ -762,7 +786,19 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
             }
         }
 
-        SearchData.AddRange(collection: cache);
+        SearchData.AddRange(collection: cache.Select(selector: stop => new TelerikStop
+        {
+            Id = stop.Id,
+            Code = stop.Code,
+            Name = stop.Name,
+            Latitude = stop.Latitude,
+            Longitude = stop.Longitude,
+            Platform =  stop.Platform,
+            Direction = stop.Direction,
+            Distance = stop.Distance,
+            Location =  stop.Location?.ToArray(),
+            Points = stop.Points?.ToList()
+        }));
 
         foreach (var item in SearchData)
         {
