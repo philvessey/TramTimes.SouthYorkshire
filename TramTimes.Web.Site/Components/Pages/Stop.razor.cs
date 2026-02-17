@@ -32,7 +32,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
     private double[] Center { get; set; } = [];
     private string? Query { get; set; }
     private string? Title { get; set; }
-    private bool? Hidden { get; set; }
+    private bool? Loading { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -57,9 +57,9 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region set default hidden
+        #region set default loading
 
-        Hidden ??= false;
+        Loading ??= true;
 
         #endregion
     }
@@ -412,9 +412,9 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
     private async Task OnListReadAsync(ListViewReadEventArgs readEventArgs)
     {
-        #region set hidden toggle
+        #region set loading toggle
 
-        Hidden = false;
+        Loading = true;
 
         #endregion
 
@@ -505,9 +505,9 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region set hidden toggle
+        #region set loading toggle
 
-        Hidden = true;
+        Loading = false;
 
         #endregion
 
@@ -523,9 +523,15 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         ListData.RemoveAll(match: point => point.DepartureDateTime < currentDateTime);
         ListData.RemoveAll(match: point => point.DepartureDateTime > offsetDateTime);
 
+        if (ListData.IsNullOrEmpty() && Loading == false)
+            ListData.Add(item: TelerikStopPointBuilder.Build());
+
         readEventArgs.Data = ListData;
 
-        if (ListData.IsNullOrEmpty())
+        if (ListData.FirstOrDefault()?.TripId is null)
+            return;
+
+        if (ListData.FirstOrDefault()?.StopId is null)
             return;
 
         #endregion
@@ -550,6 +556,13 @@ public partial class Stop : ComponentBase, IAsyncDisposable
     private async Task OnListChangeAsync(
         string? tripId,
         string? stopId) {
+
+        #region get context data
+
+        if (tripId is null || stopId is null)
+            return;
+
+        #endregion
 
         #region check component disposed
 
@@ -729,14 +742,21 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
     private async Task OnSearchChangeAsync(object? stopId)
     {
+        #region get context data
+
+        Query = string.Empty;
+
+        if (stopId is null)
+            return;
+
+        #endregion
+
         #region get stop data
 
         var stop = new TelerikStop();
 
         if (SearchData.Any(predicate: item => item.Id!.Equals(value: stopId as string)))
             stop = SearchData.First(predicate: item => item.Id!.Equals(value: stopId as string));
-
-        Query = string.Empty;
 
         if (stop.Id is null)
             return;

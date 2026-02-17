@@ -29,7 +29,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
     private double[] Center { get; set; } = [];
     private string? Query { get; set; }
     private string? Title { get; set; }
-    private bool? Hidden { get; set; }
+    private bool? Loading { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -54,9 +54,9 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region set default hidden
+        #region set default loading
 
-        Hidden ??= false;
+        Loading ??= true;
 
         #endregion
     }
@@ -132,9 +132,9 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region set hidden toggle
+        #region set loading toggle
 
-        Hidden = false;
+        Loading = true;
 
         #endregion
 
@@ -284,9 +284,9 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region set hidden toggle
+        #region set loading toggle
 
-        Hidden = true;
+        Loading = false;
 
         #endregion
 
@@ -433,9 +433,12 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         #region build results data
 
+        if (ListData.IsNullOrEmpty() && Loading == false)
+            ListData.Add(item: TelerikStopBuilder.Build());
+
         readEventArgs.Data = ListData.OrderBy(keySelector: stop => stop.Distance);
 
-        if (ListData.IsNullOrEmpty())
+        if (ListData.FirstOrDefault()?.Id is null)
             return;
 
         #endregion
@@ -459,6 +462,13 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
     private async Task OnListChangeAsync(string? stopId)
     {
+        #region get context data
+
+        if (stopId is null)
+            return;
+
+        #endregion
+
         #region get stop data
 
         var stop = new TelerikStop();
@@ -653,14 +663,21 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
     private async Task OnSearchChangeAsync(object? stopId)
     {
+        #region get context data
+
+        Query = string.Empty;
+
+        if (stopId is null)
+            return;
+
+        #endregion
+
         #region get stop data
 
         var stop = new TelerikStop();
 
         if (SearchData.Any(predicate: item => item.Id!.Equals(value: stopId as string)))
             stop = SearchData.First(predicate: item => item.Id!.Equals(value: stopId as string));
-
-        Query = string.Empty;
 
         if (stop.Id is null)
             return;

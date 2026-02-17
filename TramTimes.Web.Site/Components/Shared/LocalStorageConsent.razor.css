@@ -123,6 +123,7 @@
     padding-top: 13px;
     transition-duration: 0.15s;
     transition-property: filter;
+    user-select: none;
     width: 48%;
 }
 
@@ -230,6 +231,7 @@
     padding-top: 13px;
     transition-duration: 0.15s;
     transition-property: filter;
+    user-select: none;
     width: 48%;
 }
 
