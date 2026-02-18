@@ -78,5 +78,10 @@ jobs:
           ConnectionStrings__database: ${{ secrets.DATABASE_CONNECTION_STRING }}
           ConnectionStrings__search: ${{ secrets.SEARCH_CONNECTION_STRING }}
           Parameters__frontend-certificate: ${{ secrets.FRONTEND_CERTIFICATE }}
+          Parameters__revenue-160x300: ${{ secrets.REVENUE_160X300 }}
+          Parameters__revenue-160x600: ${{ secrets.REVENUE_160X600 }}
+          Parameters__revenue-320x50: ${{ secrets.REVENUE_320X50 }}
+          Parameters__revenue-468x60: ${{ secrets.REVENUE_468X60 }}
+          Parameters__revenue-728x90: ${{ secrets.REVENUE_728X90 }}
           Parameters__transxchange-username: ${{ secrets.TRANSXCHANGE_USERNAME }}
           Parameters__transxchange-userpass: ${{ secrets.TRANSXCHANGE_USERPASS }}

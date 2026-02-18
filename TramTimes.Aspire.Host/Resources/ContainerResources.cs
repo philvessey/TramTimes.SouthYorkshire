@@ -7,6 +7,5 @@ namespace TramTimes.Aspire.Host.Resources;
 public class ContainerResources
 {
     [UsedImplicitly] public IResourceBuilder<AzureContainerRegistryResource>? Service { get; set; }
-
     [UsedImplicitly] public IResourceBuilder<AzureContainerAppEnvironmentResource>? Resource { get; set; }
 }

@@ -386,6 +386,16 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
                 args: "./Components/Pages/Privacy.razor.js");
 
             await JavascriptManager.InvokeVoidAsync(
+                identifier: "registerBanner",
+                args: [
+                    Environment.GetEnvironmentVariable(variable: "BANNER_160X300"),
+                    Environment.GetEnvironmentVariable(variable: "BANNER_160X600"),
+                    Environment.GetEnvironmentVariable(variable: "BANNER_320X50"),
+                    Environment.GetEnvironmentVariable(variable: "BANNER_468X60"),
+                    Environment.GetEnvironmentVariable(variable: "BANNER_728X90")
+                ]);
+
+            await JavascriptManager.InvokeVoidAsync(
                 identifier: "registerResize",
                 args: DotNetObjectReference.Create(value: this));
 

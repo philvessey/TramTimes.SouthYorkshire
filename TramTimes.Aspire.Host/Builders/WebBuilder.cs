@@ -16,7 +16,8 @@ public static class WebBuilder
         StorageResources storage,
         DatabaseResources database,
         CacheResources cache,
-        SearchResources search) {
+        SearchResources search,
+        RevenueResources revenue) {
 
         #region build resources
 
@@ -231,6 +232,11 @@ public static class WebBuilder
         if (builder.ExecutionContext.IsPublishMode)
             web.Frontend = builder
                 .AddProject<Projects.TramTimes_Web_Site>(name: "web-site")
+                .WaitFor(dependency: revenue.Parameters?._160x300 ?? throw new InvalidOperationException(message: "Revenue parameter is not available."))
+                .WaitFor(dependency: revenue.Parameters?._160x600 ?? throw new InvalidOperationException(message: "Revenue parameter is not available."))
+                .WaitFor(dependency: revenue.Parameters?._320x50 ?? throw new InvalidOperationException(message: "Revenue parameter is not available."))
+                .WaitFor(dependency: revenue.Parameters?._468x60 ?? throw new InvalidOperationException(message: "Revenue parameter is not available."))
+                .WaitFor(dependency: revenue.Parameters?._728x90 ?? throw new InvalidOperationException(message: "Revenue parameter is not available."))
                 .WaitFor(dependency: web.Backend ?? throw new InvalidOperationException(message: "Web backend is not available."))
                 .WithEnvironment(
                     name: "API_ENDPOINT",
@@ -240,6 +246,21 @@ public static class WebBuilder
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
                     value: "Production")
+                .WithEnvironment(
+                    name: "BANNER_160X300",
+                    parameter: revenue.Parameters._160x300)
+                .WithEnvironment(
+                    name: "BANNER_160X600",
+                    parameter: revenue.Parameters._160x600)
+                .WithEnvironment(
+                    name: "BANNER_320X50",
+                    parameter: revenue.Parameters._320x50)
+                .WithEnvironment(
+                    name: "BANNER_468X60",
+                    parameter: revenue.Parameters._468x60)
+                .WithEnvironment(
+                    name: "BANNER_728X90",
+                    parameter: revenue.Parameters._728x90)
                 .WithExternalHttpEndpoints()
                 .WithHttpHealthCheck(path: "/healthz")
                 .WithReference(source: cache.Connection ?? throw new InvalidOperationException(message: "Cache connection is not available."))

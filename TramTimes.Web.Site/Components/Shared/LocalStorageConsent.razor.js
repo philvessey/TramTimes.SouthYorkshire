@@ -1,16 +1,14 @@
 // noinspection all
 
 export function getCookie(value) {
-    const name = value + "=";
-
     const cookie = decodeURIComponent(document.cookie);
     const cookies = cookie.split(';');
 
     for (let i = 0; i < cookies.length; i++) {
-        let cookie = cookies[i].trim();
+        let item = cookies[i].trim();
 
-        if (cookie.indexOf(name) === 0) {
-            return cookie.substring(name.length, cookie.length);
+        if (item.startsWith(value + "=")) {
+            return item.substring(value.length + 1);
         }
     }
 

@@ -6,7 +6,7 @@
 
 @media (max-width: 768px) {
     #source-code-repository {
-        bottom: calc(max(var(--safe-bottom), 15px) + 296px + 60px);
+        bottom: calc(max(var(--safe-bottom), 15px) + 296px + 90px);
     }
 }
 

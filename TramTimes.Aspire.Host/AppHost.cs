@@ -32,13 +32,20 @@ var search = builder.BuildSearch(database: database);
 
 #endregion
 
+#region build revenue
+
+var revenue = builder.BuildRevenue();
+
+#endregion
+
 #region build web
 
 builder.BuildWeb(
     storage: storage,
     database: database,
     cache: cache,
-    search: search);
+    search: search,
+    revenue: revenue);
 
 #endregion
 
