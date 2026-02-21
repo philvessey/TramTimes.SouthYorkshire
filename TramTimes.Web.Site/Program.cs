@@ -139,6 +139,12 @@ builder.Services.Configure<HubOptions>(configureOptions: options =>
 
 #endregion
 
+#region add scoped
+
+builder.Services.AddScoped<StorageService>();
+
+#endregion
+
 #region add checks
 
 builder.Services.AddHealthChecks();

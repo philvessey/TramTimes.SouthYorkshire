@@ -7,6 +7,7 @@ using Telerik.Blazor.Components;
 using Telerik.DataSource;
 using TramTimes.Web.Site.Builders;
 using TramTimes.Web.Site.Defaults;
+using TramTimes.Web.Site.Extensions;
 using TramTimes.Web.Site.Models;
 using TramTimes.Web.Site.Types;
 using TramTimes.Web.Utilities.Extensions;
@@ -100,11 +101,16 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         if (consent)
         {
-            var storage = await StorageService.GetAsync<double[]>(key: "location");
-
-            if (storage.Success)
+            try
             {
-                location = storage.Value ?? [];
+                var storage = await StorageService.GetAsync<double[]>(key: "location");
+
+                if (storage is { Success: true, Value.Length: > 0 })
+                    location = storage.Value;
+            }
+            catch (Exception)
+            {
+                location = [];
             }
         }
 
@@ -173,11 +179,16 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         if (consent)
         {
-            var storage = await StorageService.GetAsync<List<TelerikStop>>(key: "cache");
-
-            if (storage.Success)
+            try
             {
-                cache = storage.Value ?? [];
+                var storage = await StorageService.GetAsync<List<TelerikStop>>(key: "cache");
+
+                if (storage is { Success: true, Value.Count: > 0 })
+                    cache = storage.Value.All(predicate: stop => stop.HasAllProperties()) ? storage.Value : [];
+            }
+            catch (Exception)
+            {
+                cache = [];
             }
         }
 
@@ -190,7 +201,6 @@ public partial class Home : ComponentBase, IAsyncDisposable
             Longitude = stop.Longitude,
             Platform =  stop.Platform,
             Direction = stop.Direction,
-            Distance = stop.Distance,
             Location =  stop.Location?.ToArray(),
             Points = stop.Points?.ToList()
         }));
@@ -342,26 +352,95 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         #region clear local storage
 
-        await StorageService.DeleteAsync(key: "cache");
-        await StorageService.DeleteAsync(key: "location");
+        try
+        {
+            var storage = await StorageService.DeleteAsync(key: "cache");
+
+            if (storage is { Success: false })
+                if (JavascriptManager is not null)
+                    await JavascriptManager.InvokeVoidAsync(
+                        identifier: "writeConsole",
+                        args: "home: cache failed");
+        }
+        catch (Exception)
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: "home: cache failed");
+        }
+
+        try
+        {
+            var storage = await StorageService.DeleteAsync(key: "location");
+
+            if (storage is { Success: false })
+                if (JavascriptManager is not null)
+                    await JavascriptManager.InvokeVoidAsync(
+                        identifier: "writeConsole",
+                        args: "home: location failed");
+        }
+        catch (Exception)
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: "home: location failed");
+        }
 
         #endregion
 
         #region save local storage
 
         if (consent)
-            await StorageService.SetAsync(
-                key: "location",
-                value: Center);
+        {
+            try
+            {
+                var storage = await StorageService.SetAsync(
+                    key: "location",
+                    value: Center);
+
+                if (storage is { Success: false })
+                    if (JavascriptManager is not null)
+                        await JavascriptManager.InvokeVoidAsync(
+                            identifier: "writeConsole",
+                            args: "home: location failed");
+            }
+            catch (Exception)
+            {
+                if (JavascriptManager is not null)
+                    await JavascriptManager.InvokeVoidAsync(
+                        identifier: "writeConsole",
+                        args: "home: location failed");
+            }
+        }
 
         if (consent)
-            await StorageService.SetAsync(
-                key: "cache",
-                value: MapperService
-                    .Map<List<TelerikStop>>(source: data)
-                    .Concat(second: cache)
-                    .DistinctBy(keySelector: stop => stop.Id)
-                    .OrderBy(keySelector: stop => stop.Id));
+        {
+            try
+            {
+                var storage = await StorageService.SetAsync(
+                    key: "cache",
+                    value: MapperService
+                        .Map<List<TelerikStop>>(source: data)
+                        .Concat(second: cache)
+                        .DistinctBy(keySelector: stop => stop.Id)
+                        .OrderBy(keySelector: stop => stop.Id));
+
+                if (storage is { Success: false })
+                    if (JavascriptManager is not null)
+                        await JavascriptManager.InvokeVoidAsync(
+                            identifier: "writeConsole",
+                            args: "home: cache failed");
+            }
+            catch (Exception)
+            {
+                if (JavascriptManager is not null)
+                    await JavascriptManager.InvokeVoidAsync(
+                        identifier: "writeConsole",
+                        args: "home: cache failed");
+            }
+        }
 
         #endregion
     }
@@ -425,19 +504,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         #region get local storage
 
-        ListData.AddRange(collection: MapData.Select(selector: stop => new TelerikStop
-        {
-            Id = stop.Id,
-            Code = stop.Code,
-            Name = stop.Name,
-            Latitude = stop.Latitude,
-            Longitude = stop.Longitude,
-            Platform =  stop.Platform,
-            Direction = stop.Direction,
-            Distance = stop.Distance,
-            Location =  stop.Location?.ToArray(),
-            Points = stop.Points?.ToList()
-        }));
+        ListData.AddRange(collection: MapData.Select(selector: stop => stop));
 
         #endregion
 
@@ -809,11 +876,16 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         if (consent)
         {
-            var storage = await StorageService.GetAsync<List<TelerikStop>>(key: "cache");
-
-            if (storage.Success)
+            try
             {
-                cache = storage.Value ?? [];
+                var storage = await StorageService.GetAsync<List<TelerikStop>>(key: "cache");
+
+                if (storage is { Success: true, Value.Count: > 0 })
+                    cache = storage.Value.All(predicate: stop => stop.HasAllProperties()) ? storage.Value : [];
+            }
+            catch (Exception)
+            {
+                cache = [];
             }
         }
 
@@ -826,7 +898,6 @@ public partial class Home : ComponentBase, IAsyncDisposable
             Longitude = stop.Longitude,
             Platform =  stop.Platform,
             Direction = stop.Direction,
-            Distance = stop.Distance,
             Location =  stop.Location?.ToArray(),
             Points = stop.Points?.ToList()
         }));
@@ -964,26 +1035,95 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         #region clear local storage
 
-        await StorageService.DeleteAsync(key: "cache");
-        await StorageService.DeleteAsync(key: "location");
+        try
+        {
+            var storage = await StorageService.DeleteAsync(key: "cache");
+
+            if (storage is { Success: false })
+                if (JavascriptManager is not null)
+                    await JavascriptManager.InvokeVoidAsync(
+                        identifier: "writeConsole",
+                        args: "home: cache failed");
+        }
+        catch (Exception)
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: "home: cache failed");
+        }
+
+        try
+        {
+            var storage = await StorageService.DeleteAsync(key: "location");
+
+            if (storage is { Success: false })
+                if (JavascriptManager is not null)
+                    await JavascriptManager.InvokeVoidAsync(
+                        identifier: "writeConsole",
+                        args: "home: location failed");
+        }
+        catch (Exception)
+        {
+            if (JavascriptManager is not null)
+                await JavascriptManager.InvokeVoidAsync(
+                    identifier: "writeConsole",
+                    args: "home: location failed");
+        }
 
         #endregion
 
         #region save local storage
 
         if (consent)
-            await StorageService.SetAsync(
-                key: "location",
-                value: Center);
+        {
+            try
+            {
+                var storage = await StorageService.SetAsync(
+                    key: "location",
+                    value: Center);
+
+                if (storage is { Success: false })
+                    if (JavascriptManager is not null)
+                        await JavascriptManager.InvokeVoidAsync(
+                            identifier: "writeConsole",
+                            args: "home: location failed");
+            }
+            catch (Exception)
+            {
+                if (JavascriptManager is not null)
+                    await JavascriptManager.InvokeVoidAsync(
+                        identifier: "writeConsole",
+                        args: "home: location failed");
+            }
+        }
 
         if (consent)
-            await StorageService.SetAsync(
-                key: "cache",
-                value: MapperService
-                    .Map<List<TelerikStop>>(source: data)
-                    .Concat(second: cache)
-                    .DistinctBy(keySelector: stop => stop.Id)
-                    .OrderBy(keySelector: stop => stop.Id));
+        {
+            try
+            {
+                var storage = await StorageService.SetAsync(
+                    key: "cache",
+                    value: MapperService
+                        .Map<List<TelerikStop>>(source: data)
+                        .Concat(second: cache)
+                        .DistinctBy(keySelector: stop => stop.Id)
+                        .OrderBy(keySelector: stop => stop.Id));
+
+                if (storage is { Success: false })
+                    if (JavascriptManager is not null)
+                        await JavascriptManager.InvokeVoidAsync(
+                            identifier: "writeConsole",
+                            args: "home: cache failed");
+            }
+            catch (Exception)
+            {
+                if (JavascriptManager is not null)
+                    await JavascriptManager.InvokeVoidAsync(
+                        identifier: "writeConsole",
+                        args: "home: cache failed");
+            }
+        }
 
         #endregion
 

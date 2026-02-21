@@ -8,7 +8,7 @@ namespace TramTimes.Search.Jobs.Extensions;
 
 public static class QuartzExtensions
 {
-    public static IServiceCollection AddHostedJobs(this IServiceCollection services)
+    public static IServiceCollection AddHostedJobs(this IServiceCollection baseCollection)
     {
         #region build results
 
@@ -20,12 +20,12 @@ public static class QuartzExtensions
         #region build services
 
         foreach (var item in results)
-            services.AddScoped(serviceType: item);
+            baseCollection.AddScoped(serviceType: item);
 
-        services.AddHostedService<UpdateService>();
+        baseCollection.AddHostedService<UpdateService>();
 
         #endregion
 
-        return services;
+        return baseCollection;
     }
 }
