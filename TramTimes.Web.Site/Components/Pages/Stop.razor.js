@@ -6,7 +6,7 @@ export function focusElement(element) {
     element?.focus();
 }
 
-export function registerBanner(_160x300, _160x600, _320x50, _468x60, _728x90) {
+export function registerBanner(_160x300, _160x600, _320x50, _468x60, _728x90, consent) {
     const innerWidth = window.innerWidth;
     const innerHeight = window.innerHeight;
 
@@ -15,7 +15,8 @@ export function registerBanner(_160x300, _160x600, _320x50, _468x60, _728x90) {
         _key160x600: _160x600,
         _key320x50: _320x50,
         _key468x60: _468x60,
-        _key728x90: _728x90
+        _key728x90: _728x90,
+        _consent: consent
     };
 
     Object.assign(globalThis, keys);
@@ -57,7 +58,7 @@ export function registerBanner(_160x300, _160x600, _320x50, _468x60, _728x90) {
         }
     }
 
-    if (!bannerTarget || !bannerKey || !bannerWidth || !bannerHeight) return;
+    if (!bannerTarget || !bannerKey || !bannerWidth || !bannerHeight || !consent) return;
 
     const config = document.createElement("script");
     config.innerHTML = `
@@ -85,7 +86,7 @@ export function registerResize(helper) {
         _timeout = setTimeout(() => {
             helper.invokeMethodAsync('OnScreenResizedAsync');
 
-            if (!_key160x300 || !_key160x600 || !_key320x50 || !_key468x60 || !_key728x90) return;
+            if (!_key160x300 || !_key160x600 || !_key320x50 || !_key468x60 || !_key728x90 || !_consent) return;
 
             ['#stop-banner-horizontal', '#stop-banner-vertical'].forEach(selector => {
                 ['_160x300', '_160x600', '_320x50', '_468x60', '_728x90'].forEach(className => {
@@ -98,7 +99,7 @@ export function registerResize(helper) {
                 });
             });
 
-            registerBanner(_key160x300, _key160x600, _key320x50, _key468x60, _key728x90);
+            registerBanner(_key160x300, _key160x600, _key320x50, _key468x60, _key728x90, _consent);
         }, 500);
     };
 

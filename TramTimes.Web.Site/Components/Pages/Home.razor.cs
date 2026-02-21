@@ -30,6 +30,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
     private double[] Center { get; set; } = [];
     private string? Query { get; set; }
     private string? Title { get; set; }
+    private bool? Consent { get; set; }
     private bool? Loading { get; set; }
 
     protected override async Task OnInitializedAsync()
@@ -55,6 +56,13 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         #endregion
 
+        #region set default consent
+
+        var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
+        Consent = feature?.CanTrack ?? false;
+
+        #endregion
+
         #region set default loading
 
         Loading ??= true;
@@ -65,13 +73,6 @@ public partial class Home : ComponentBase, IAsyncDisposable
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
-
-        #region get storage consent
-
-        var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
-        var consent = feature?.CanTrack ?? false;
-
-        #endregion
 
         #region get map location
 
@@ -99,7 +100,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         double[] location = [];
 
-        if (consent)
+        if (Consent is true)
         {
             try
             {
@@ -177,7 +178,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         List<TelerikStop> cache = [];
 
-        if (consent)
+        if (Consent is true)
         {
             try
             {
@@ -220,9 +221,9 @@ public partial class Home : ComponentBase, IAsyncDisposable
                 .ToList();
         }
 
-        MapData.RemoveAll(match: stop => stop.Points?.IsNullOrEmpty() == true);
-        MapData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime < currentDateTime) == true);
-        MapData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime > offsetDateTime) == true);
+        MapData.RemoveAll(match: stop => stop.Points?.IsNullOrEmpty() is true);
+        MapData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime < currentDateTime) is true);
+        MapData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime > offsetDateTime) is true);
 
         MapData = MapData
             .OrderBy(keySelector: stop => stop.Distance)
@@ -325,9 +326,9 @@ public partial class Home : ComponentBase, IAsyncDisposable
                 .ToList();
         }
 
-        MapData.RemoveAll(match: stop => stop.Points?.IsNullOrEmpty() == true);
-        MapData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime < currentDateTime) == true);
-        MapData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime > offsetDateTime) == true);
+        MapData.RemoveAll(match: stop => stop.Points?.IsNullOrEmpty() is true);
+        MapData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime < currentDateTime) is true);
+        MapData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime > offsetDateTime) is true);
 
         MapData = MapData
             .OrderBy(keySelector: stop => stop.Distance)
@@ -392,7 +393,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         #region save local storage
 
-        if (consent)
+        if (Consent is true)
         {
             try
             {
@@ -415,7 +416,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
             }
         }
 
-        if (consent)
+        if (Consent is true)
         {
             try
             {
@@ -471,24 +472,17 @@ public partial class Home : ComponentBase, IAsyncDisposable
                     Environment.GetEnvironmentVariable(variable: "BANNER_160X600"),
                     Environment.GetEnvironmentVariable(variable: "BANNER_320X50"),
                     Environment.GetEnvironmentVariable(variable: "BANNER_468X60"),
-                    Environment.GetEnvironmentVariable(variable: "BANNER_728X90")
+                    Environment.GetEnvironmentVariable(variable: "BANNER_728X90"),
+                    Consent
                 ]);
 
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "registerResize",
                 args: DotNetObjectReference.Create(value: this));
 
-            var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
-            var consent = "unknown";
-
-            if (feature is not null)
-                consent = feature.CanTrack
-                    ? "accept"
-                    : "reject";
-
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"home: consent {consent}");
+                args: $"home: consent {(Consent is true ? "accept" : "reject")}");
         }
 
         #endregion
@@ -510,7 +504,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         #region build results data
 
-        if (ListData.IsNullOrEmpty() && Loading == false)
+        if (ListData.IsNullOrEmpty() && Loading is false)
             ListData.Add(item: TelerikStopBuilder.Build());
 
         readEventArgs.Data = ListData.OrderBy(keySelector: stop => stop.Distance);
@@ -840,13 +834,6 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region get storage consent
-
-        var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
-        var consent = feature?.CanTrack ?? false;
-
-        #endregion
-
         #region clear search data
 
         SearchData = [];
@@ -874,7 +861,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         List<TelerikStop> cache = [];
 
-        if (consent)
+        if (Consent is true)
         {
             try
             {
@@ -917,9 +904,9 @@ public partial class Home : ComponentBase, IAsyncDisposable
                 .ToList();
         }
 
-        SearchData.RemoveAll(match: stop => stop.Points?.IsNullOrEmpty() == true);
-        SearchData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime < currentDateTime) == true);
-        SearchData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime > offsetDateTime) == true);
+        SearchData.RemoveAll(match: stop => stop.Points?.IsNullOrEmpty() is true);
+        SearchData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime < currentDateTime) is true);
+        SearchData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime > offsetDateTime) is true);
 
         readEventArgs.Data = SearchData
             .OrderByDescending(keySelector: stop => stop.Name.ContainsIgnoreCase(value: name))
@@ -1021,9 +1008,9 @@ public partial class Home : ComponentBase, IAsyncDisposable
                 .ToList();
         }
 
-        SearchData.RemoveAll(match: stop => stop.Points?.IsNullOrEmpty() == true);
-        SearchData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime < currentDateTime) == true);
-        SearchData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime > offsetDateTime) == true);
+        SearchData.RemoveAll(match: stop => stop.Points?.IsNullOrEmpty() is true);
+        SearchData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime < currentDateTime) is true);
+        SearchData.RemoveAll(match: stop => stop.Points?.All(predicate: point => point.DepartureDateTime > offsetDateTime) is true);
 
         readEventArgs.Data = SearchData
             .OrderByDescending(keySelector: stop => stop.Name.ContainsIgnoreCase(value: name))
@@ -1075,7 +1062,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         #region save local storage
 
-        if (consent)
+        if (Consent is true)
         {
             try
             {
@@ -1098,7 +1085,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
             }
         }
 
-        if (consent)
+        if (Consent is true)
         {
             try
             {
