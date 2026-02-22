@@ -13,10 +13,8 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
     private bool ShowPolicy { get; set; }
     private bool Disposed { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        await base.OnInitializedAsync();
-
         #region get feature
 
         var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
@@ -37,12 +35,8 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
         #endregion
     }
 
-    protected override async Task OnParametersSetAsync() => await base.OnParametersSetAsync();
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender: firstRender);
-
         #region check disposed
 
         if (Disposed)

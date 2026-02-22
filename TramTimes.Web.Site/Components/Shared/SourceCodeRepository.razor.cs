@@ -8,13 +8,8 @@ public partial class SourceCodeRepository : ComponentBase, IAsyncDisposable
     private IJSObjectReference? Manager { get; set; }
     private bool Disposed { get; set; }
 
-    protected override async Task OnInitializedAsync() => await base.OnInitializedAsync();
-    protected override async Task OnParametersSetAsync() => await base.OnParametersSetAsync();
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender: firstRender);
-
         #region check disposed
 
         if (Disposed)

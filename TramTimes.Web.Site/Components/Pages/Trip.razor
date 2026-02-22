@@ -28,7 +28,7 @@
     <div id="trip-telerik-map"
          data-testid="telerik-map">
 
-        <TelerikMap Center="@Center"
+        <TelerikMap Center="@MapCenter"
                     Height="100%"
                     MaxZoom="@TelerikMapDefaults.MaxZoom"
                     MinZoom="@TelerikMapDefaults.MinZoom"
@@ -402,8 +402,8 @@
 
     <!-- #region local-storage-consent -->
 
-    <LocalStorageConsent Longitude="Center.ElementAt(index: 1)"
-                         Latitude="Center.ElementAt(index: 0)"
+    <LocalStorageConsent Longitude="MapCenter.ElementAt(index: 1)"
+                         Latitude="MapCenter.ElementAt(index: 0)"
                          Zoom="Zoom"/>
 
     <!-- #endregion -->

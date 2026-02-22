@@ -18,32 +18,23 @@ namespace TramTimes.Web.Site.Components.Pages;
 public partial class Privacy : ComponentBase, IAsyncDisposable
 {
     private List<TelerikStop> ListData { get; set; } = [];
+    private ElementReference? ListElement { get; set; }
+    private double[] MapCenter { get; set; } = TelerikMapDefaults.Center;
     private List<TelerikStop> MapData { get; set; } = [];
     private CancellationTokenSource? MapSource { get; set; }
     private List<TelerikStop> SearchData { get; set; } = [];
     private CancellationTokenSource? SearchSource { get; set; }
     private IJSObjectReference? JavascriptManager { get; set; }
-    private ElementReference? ListElement { get; set; }
     private TelerikListView<TelerikStop>? ListManager { get; set; }
     private TelerikMap? MapManager { get; set; }
     private bool? Disposed { get; set; }
-    private double[] Center { get; set; } = [];
     private string? Query { get; set; }
     private string? Title { get; set; }
     private bool? Consent { get; set; }
     private bool? Loading { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        await base.OnInitializedAsync();
-
-        #region set default center
-
-        if (Center.IsNullOrEmpty())
-            Center = TelerikMapDefaults.Center;
-
-        #endregion
-
         #region set default query
 
         Query ??= string.Empty;
@@ -72,13 +63,11 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
     protected override async Task OnParametersSetAsync()
     {
-        await base.OnParametersSetAsync();
-
         #region get map location
 
         if (Latitude.HasValue && Longitude.HasValue)
         {
-            Center =
+            MapCenter =
             [
                 Latitude.Value,
                 Longitude.Value
@@ -117,7 +106,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         if (!location.IsNullOrEmpty() && !Latitude.HasValue && !Longitude.HasValue)
         {
-            Center =
+            MapCenter =
             [
                 location.ElementAt(index: 0),
                 location.ElementAt(index: 1)
@@ -131,7 +120,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         if (NavigationService.Uri.Equals(value: NavigationService.BaseUri + "privacy"))
         {
             NavigationService.NavigateTo(
-                uri: $"/privacy/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{Zoom}",
+                uri: $"/privacy/{MapCenter.ElementAt(index: 1)}/{MapCenter.ElementAt(index: 0)}/{Zoom}",
                 replace: true);
 
             return;
@@ -211,8 +200,8 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
             item.Distance = GeoCalculator.GetDistance(
                 originLatitude: item.Latitude ?? 0,
                 originLongitude: item.Longitude ?? 0,
-                destinationLatitude: Center.ElementAt(index: 0),
-                destinationLongitude: Center.ElementAt(index: 1),
+                destinationLatitude: MapCenter.ElementAt(index: 0),
+                destinationLongitude: MapCenter.ElementAt(index: 1),
                 distanceUnit: DistanceUnit.Meters);
 
             item.Points = item.Points?
@@ -247,7 +236,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
             response = await client.GetAsync(
                 requestUri: QueryBuilder.GetStopsFromSearch(
                     type: QueryType.StopPoint,
-                    value: Center),
+                    value: MapCenter),
                 cancellationToken: MapSource.Token);
         }
         catch (OperationCanceledException)
@@ -274,7 +263,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
                 response = await client.GetAsync(
                     requestUri: QueryBuilder.GetStopsFromDatabase(
                         type: QueryType.StopPoint,
-                        value: Center),
+                        value: MapCenter),
                     cancellationToken: MapSource.Token);
             }
             catch (OperationCanceledException)
@@ -316,8 +305,8 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
             item.Distance = GeoCalculator.GetDistance(
                 originLatitude: item.Latitude ?? 0,
                 originLongitude: item.Longitude ?? 0,
-                destinationLatitude: Center.ElementAt(index: 0),
-                destinationLongitude: Center.ElementAt(index: 1),
+                destinationLatitude: MapCenter.ElementAt(index: 0),
+                destinationLongitude: MapCenter.ElementAt(index: 1),
                 distanceUnit: DistanceUnit.Meters);
 
             item.Points = item.Points?
@@ -399,7 +388,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
             {
                 var storage = await StorageService.SetAsync(
                     key: "location",
-                    value: Center);
+                    value: MapCenter);
 
                 if (storage is { Success: false })
                     if (JavascriptManager is not null)
@@ -448,8 +437,6 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await base.OnAfterRenderAsync(firstRender: firstRender);
-
         #region check component disposed
 
         if (Disposed.HasValue && Disposed.Value)
@@ -526,7 +513,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         if (JavascriptManager is not null)
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"privacy: list read {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+                args: $"privacy: list read {MapCenter.ElementAt(index: 1)}/{MapCenter.ElementAt(index: 0)}");
 
         #endregion
     }
@@ -575,7 +562,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
             ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
-            : $"/stop/{stop.Id}/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{TelerikMapDefaults.Zoom}");
+            : $"/stop/{stop.Id}/{MapCenter.ElementAt(index: 1)}/{MapCenter.ElementAt(index: 0)}/{TelerikMapDefaults.Zoom}");
 
         #endregion
     }
@@ -615,7 +602,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
             ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
-            : $"/stop/{stop.Id}/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{TelerikMapDefaults.Zoom}");
+            : $"/stop/{stop.Id}/{MapCenter.ElementAt(index: 1)}/{MapCenter.ElementAt(index: 0)}/{TelerikMapDefaults.Zoom}");
 
         #endregion
     }
@@ -624,7 +611,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
     {
         #region get map location
 
-        Center = args.Center;
+        MapCenter = args.Center;
 
         #endregion
 
@@ -640,13 +627,13 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         if (JavascriptManager is not null)
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"privacy: map pan {Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}");
+                args: $"privacy: map pan {MapCenter.ElementAt(index: 1)}/{MapCenter.ElementAt(index: 0)}");
 
         #endregion
 
         #region navigate to home
 
-        NavigationService.NavigateTo(uri: $"/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{Zoom}");
+        NavigationService.NavigateTo(uri: $"/{MapCenter.ElementAt(index: 1)}/{MapCenter.ElementAt(index: 0)}/{Zoom}");
 
         #endregion
     }
@@ -655,7 +642,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
     {
         #region get map location
 
-        Center = args.Center;
+        MapCenter = args.Center;
         Zoom = args.Zoom;
 
         #endregion
@@ -678,7 +665,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #region navigate to home
 
-        NavigationService.NavigateTo(uri: $"/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{Zoom}");
+        NavigationService.NavigateTo(uri: $"/{MapCenter.ElementAt(index: 1)}/{MapCenter.ElementAt(index: 0)}/{Zoom}");
 
         #endregion
     }
@@ -774,7 +761,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
             ? $"/stop/{stop.Id}/{stop.Longitude}/{stop.Latitude}/{TelerikMapDefaults.Zoom}"
-            : $"/stop/{stop.Id}/{Center.ElementAt(index: 1)}/{Center.ElementAt(index: 0)}/{TelerikMapDefaults.Zoom}");
+            : $"/stop/{stop.Id}/{MapCenter.ElementAt(index: 1)}/{MapCenter.ElementAt(index: 0)}/{TelerikMapDefaults.Zoom}");
 
         #endregion
     }
@@ -890,8 +877,8 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
             item.Distance = GeoCalculator.GetDistance(
                 originLatitude: item.Latitude ?? 0,
                 originLongitude: item.Longitude ?? 0,
-                destinationLatitude: Center.ElementAt(index: 0),
-                destinationLongitude: Center.ElementAt(index: 1),
+                destinationLatitude: MapCenter.ElementAt(index: 0),
+                destinationLongitude: MapCenter.ElementAt(index: 1),
                 distanceUnit: DistanceUnit.Meters);
 
             item.Points = item.Points?
@@ -994,8 +981,8 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
             item.Distance = GeoCalculator.GetDistance(
                 originLatitude: item.Latitude ?? 0,
                 originLongitude: item.Longitude ?? 0,
-                destinationLatitude: Center.ElementAt(index: 0),
-                destinationLongitude: Center.ElementAt(index: 1),
+                destinationLatitude: MapCenter.ElementAt(index: 0),
+                destinationLongitude: MapCenter.ElementAt(index: 1),
                 distanceUnit: DistanceUnit.Meters);
 
             item.Points = item.Points?
@@ -1064,7 +1051,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
             {
                 var storage = await StorageService.SetAsync(
                     key: "location",
-                    value: Center);
+                    value: MapCenter);
 
                 if (storage is { Success: false })
                     if (JavascriptManager is not null)
