@@ -1,16 +1,4 @@
 #source-code-repository {
-    bottom: max(var(--safe-bottom), 15px);
-    left: calc(max(var(--safe-left), 15px) + 55px);
-    position: absolute;
-}
-
-@media (max-width: 768px) {
-    #source-code-repository {
-        bottom: calc(max(var(--safe-bottom), 15px) + 296px + 90px);
-    }
-}
-
-#source-code-repository button {
     align-items: center;
     background-color: white;
     border-color: #ebebeb;
@@ -29,14 +17,13 @@
     transition-duration: 0.15s;
     transition-property: filter;
     width: 40px;
-    z-index: 9999;
 }
 
-#source-code-repository button:hover {
+#source-code-repository:hover {
     filter: contrast(85%);
 }
 
-#source-code-repository button .icon {
+#source-code-repository .icon {
     height: 32px;
     margin-bottom: 0;
     margin-left: 0;

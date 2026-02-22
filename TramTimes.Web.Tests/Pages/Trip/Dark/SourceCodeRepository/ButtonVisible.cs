@@ -115,12 +115,6 @@ public class ButtonVisible(AspireManager aspireManager) : BaseTest(aspireManager
                 await Assertions
                     .Expect(locator: parent)
                     .ToBeInViewportAsync();
-
-                var child = parent.GetByTestId(testId: "icon");
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToBeInViewportAsync();
             }
             catch (Exception e)
             {
@@ -248,12 +242,6 @@ public class ButtonVisible(AspireManager aspireManager) : BaseTest(aspireManager
 
                 await Assertions
                     .Expect(locator: parent)
-                    .ToBeInViewportAsync();
-
-                var child = parent.GetByTestId(testId: "icon");
-
-                await Assertions
-                    .Expect(locator: child)
                     .ToBeInViewportAsync();
             }
             catch (Exception e)

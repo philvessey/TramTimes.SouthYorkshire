@@ -480,6 +480,7 @@
 /*#region telerik-auto-complete */
 
 #trip-telerik-auto-complete {
+    align-self: start;
     grid-area: 1 / 1 / 2 / 2;
     margin-bottom: 0;
     margin-left: max(var(--safe-left), 15px);
@@ -656,6 +657,36 @@
     text-overflow: ellipsis;
     user-select: none;
     white-space: nowrap;
+}
+
+/*#endregion */
+
+/*#region local-storage-consent */
+
+#trip-local-storage-consent {
+    align-self: end;
+    grid-area: 1 / 1 / 2 / 2;
+    margin-bottom: max(var(--safe-bottom), 15px);
+    margin-left: max(var(--safe-left), 15px);
+    margin-right: 0;
+    margin-top: 0;
+    width: fit-content;
+    z-index: 2;
+}
+
+/*#endregion */
+
+/*#region source-code-repository */
+
+#trip-source-code-repository {
+    align-self: end;
+    grid-area: 1 / 1 / 2 / 2;
+    margin-bottom: max(var(--safe-bottom), 15px);
+    margin-left: calc(max(var(--safe-left), 15px) + 55px);
+    margin-right: 0;
+    margin-top: 0;
+    width: fit-content;
+    z-index: 1;
 }
 
 /*#endregion */

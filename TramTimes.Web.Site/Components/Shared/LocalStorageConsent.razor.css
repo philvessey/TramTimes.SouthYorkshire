@@ -1,16 +1,4 @@
 #local-storage-consent {
-    bottom: max(var(--safe-bottom), 15px);
-    left: max(var(--safe-left), 15px);
-    position: absolute;
-}
-
-@media (max-width: 768px) {
-    #local-storage-consent {
-        bottom: calc(max(var(--safe-bottom), 15px) + 296px + 90px);
-    }
-}
-
-#local-storage-consent button {
     align-items: center;
     background-color: white;
     border-color: #ebebeb;
@@ -29,14 +17,13 @@
     transition-duration: 0.15s;
     transition-property: filter;
     width: 40px;
-    z-index: 9999;
 }
 
-#local-storage-consent button:hover {
+#local-storage-consent:hover {
     filter: contrast(85%);
 }
 
-#local-storage-consent button .icon {
+#local-storage-consent .icon {
     height: 24px;
     margin-bottom: 0;
     margin-left: 0;
@@ -64,7 +51,6 @@
     padding-right: 25px;
     padding-top: 20px;
     position: absolute;
-    z-index: 9999;
 }
 
 @media (min-width: 992px) {
@@ -166,7 +152,6 @@
     padding-right: 25px;
     padding-top: 20px;
     position: absolute;
-    z-index: 9999;
 }
 
 @media (min-width: 992px) {
