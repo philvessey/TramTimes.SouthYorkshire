@@ -1,4 +1,6 @@
-#trip {
+/*#region trip */
+
+#trip.accepted {
     display: grid;
     grid-template-columns: 1fr 160px calc(var(--safe-right) + 296px);
     grid-template-rows: 100%;
@@ -8,11 +10,29 @@
 }
 
 @media (max-width: 768px) {
-    #trip {
+    #trip.accepted {
         grid-template-columns: 100%;
         grid-template-rows: 1fr 90px 296px;
     }
 }
+
+#trip.rejected {
+    display: grid;
+    grid-template-columns: 1fr calc(var(--safe-right) + 296px);
+    grid-template-rows: 100%;
+    height: 100dvh;
+    overflow: hidden;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    #trip.rejected {
+        grid-template-columns: 100%;
+        grid-template-rows: 1fr 296px;
+    }
+}
+
+/*#endregion */
 
 /*#region telerik-map */
 
@@ -193,6 +213,10 @@
     }
 }
 
+#trip.rejected #trip-banner-horizontal {
+    display: none;
+}
+
 #trip-banner-horizontal ._320x50 {
     display: none;
     height: 50px;
@@ -231,6 +255,10 @@
     }
 }
 
+#trip.rejected #trip-banner-vertical {
+    display: none;
+}
+
 #trip-banner-vertical ._160x300 {
     display: none;
     height: 300px;
@@ -262,6 +290,16 @@
 @media (max-width: 768px) {
     #trip-telerik-list-view {
         grid-area: 3 / 1 / 4 / 2;
+    }
+}
+
+#trip.rejected #trip-telerik-list-view {
+    grid-area: 1 / 2 / 2 / 3;
+}
+
+@media (max-width: 768px) {
+    #trip.rejected #trip-telerik-list-view {
+        grid-area: 2 / 1 / 3 / 2;
     }
 }
 
@@ -437,6 +475,16 @@
 @media (max-width: 768px) {
     #trip-telerik-skeleton {
         grid-area: 3 / 1 / 4 / 2;
+    }
+}
+
+#trip.rejected #trip-telerik-skeleton {
+    grid-area: 1 / 2 / 2 / 3;
+}
+
+@media (max-width: 768px) {
+    #trip.rejected #trip-telerik-skeleton {
+        grid-area: 2 / 1 / 3 / 2;
     }
 }
 

@@ -63,11 +63,11 @@ export function registerBanner(_160x300, _160x600, _320x50, _468x60, _728x90, co
     const config = document.createElement("script");
     config.innerHTML = `
         atOptions = {
-            'key' : '${bannerKey}',
-            'format' : 'iframe',
-            'height' : ${bannerHeight},
-            'width' : ${bannerWidth},
-            'params' : {}
+            "key" : "${bannerKey}",
+            "format" : "iframe",
+            "height" : ${bannerHeight},
+            "width" : ${bannerWidth},
+            "params" : {}
         };
     `;
 
@@ -84,17 +84,17 @@ export function registerResize(helper) {
         clearTimeout(_timeout);
 
         _timeout = setTimeout(() => {
-            helper.invokeMethodAsync('OnScreenResizedAsync');
+            helper.invokeMethodAsync("OnScreenResizedAsync");
 
             if (!_key160x300 || !_key160x600 || !_key320x50 || !_key468x60 || !_key728x90 || !_consent) return;
 
-            ['#trip-banner-horizontal', '#trip-banner-vertical'].forEach(selector => {
-                ['_160x300', '_160x600', '_320x50', '_468x60', '_728x90'].forEach(className => {
+            ["#trip-banner-horizontal", "#trip-banner-vertical"].forEach(selector => {
+                ["_160x300", "_160x600", "_320x50", "_468x60", "_728x90"].forEach(className => {
                     const element = document.querySelector(`${selector} .${className}`);
 
                     if (element) {
-                        element.innerHTML = '';
-                        element.style.display = 'none';
+                        element.innerHTML = "";
+                        element.style.display = "none";
                     }
                 });
             });
@@ -103,7 +103,7 @@ export function registerResize(helper) {
         }, 500);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 }
 
 export function writeConsole(message) {

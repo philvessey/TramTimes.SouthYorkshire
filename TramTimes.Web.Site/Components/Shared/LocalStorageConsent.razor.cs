@@ -1,7 +1,11 @@
+// ReSharper disable all
+
 using System.Globalization;
+using System.Text.Json;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.JSInterop;
+using TramTimes.Web.Utilities.Extensions;
 
 namespace TramTimes.Web.Site.Components.Shared;
 
@@ -12,6 +16,11 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
     private bool ShowOutline { get; set; }
     private bool ShowPolicy { get; set; }
     private bool Disposed { get; set; }
+
+    private sealed record Metadata(string Timestamp, string Version)
+    {
+        public const string CurrentVersion = "2026-01";
+    }
 
     protected override void OnInitialized()
     {
@@ -52,11 +61,34 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
                 identifier: "import",
                 args: "./Components/Shared/LocalStorageConsent.razor.js");
 
-            var consent = await Manager.InvokeAsync<string>(
-                identifier: "getCookie",
-                args: ".AspNet.Consent");
+            var showPrompt = false;
 
-            if (string.IsNullOrEmpty(value: consent))
+            var consent = string.Empty;
+            var metadata = string.Empty;
+
+            if (!showPrompt)
+                consent = await Manager.InvokeAsync<string>(
+                    identifier: "getCookie",
+                    args: ".AspNet.Consent");
+
+            if (!showPrompt)
+                if (string.IsNullOrEmpty(value: consent))
+                    showPrompt = true;
+
+            if (!showPrompt)
+                metadata = await Manager.InvokeAsync<string>(
+                    identifier: "getCookie",
+                    args: ".AspNet.Consent.Metadata");
+
+            if (!showPrompt)
+                if (string.IsNullOrEmpty(value: metadata))
+                    showPrompt = true;
+
+            if (!showPrompt)
+                if (!metadata.Contains(value: Metadata.CurrentVersion))
+                    showPrompt = true;
+
+            if (showPrompt)
                 ShowPrivacyOutline();
         }
 
@@ -104,7 +136,7 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region set cookie
+        #region set cookies
 
         ConsentCookie = ConsentCookie?.Replace(
             oldValue: "false",
@@ -114,6 +146,21 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
             await Manager.InvokeVoidAsync(
                 identifier: "setCookie",
                 args: [ConsentCookie, DateTime.UtcNow
+                    .AddDays(value: 365)
+                    .ToString(provider: CultureInfo.InvariantCulture)]);
+
+        var metadata = JsonSerializer.Serialize(value: new Metadata(
+            Timestamp: DateTime.UtcNow.ToString(format: "yyyy-MM-dd"),
+            Version: Metadata.CurrentVersion));
+
+        var cookie = NavigationService.Uri.StartsWithIgnoreCase(value: "https")
+            ? $".AspNet.Consent.Metadata={metadata}; SameSite=Strict; Secure"
+            : $".AspNet.Consent.Metadata={metadata}; SameSite=Strict";
+
+        if (Manager is not null)
+            await Manager.InvokeVoidAsync(
+                identifier: "setCookie",
+                args: [cookie, DateTime.UtcNow
                     .AddDays(value: 365)
                     .ToString(provider: CultureInfo.InvariantCulture)]);
 
@@ -138,7 +185,7 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region set cookie
+        #region set cookies
 
         ConsentCookie = ConsentCookie?.Replace(
             oldValue: "true",
@@ -150,6 +197,28 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
                 args: [ConsentCookie, DateTime.UtcNow
                     .AddDays(value: 365)
                     .ToString(provider: CultureInfo.InvariantCulture)]);
+
+        var metadata = JsonSerializer.Serialize(value: new Metadata(
+            Timestamp: DateTime.UtcNow.ToString(format: "yyyy-MM-dd"),
+            Version: Metadata.CurrentVersion));
+
+        var cookie = NavigationService.Uri.StartsWithIgnoreCase(value: "https")
+            ? $".AspNet.Consent.Metadata={metadata}; SameSite=Strict; Secure"
+            : $".AspNet.Consent.Metadata={metadata}; SameSite=Strict";
+
+        if (Manager is not null)
+            await Manager.InvokeVoidAsync(
+                identifier: "setCookie",
+                args: [cookie, DateTime.UtcNow
+                    .AddDays(value: 365)
+                    .ToString(provider: CultureInfo.InvariantCulture)]);
+
+        #endregion
+
+        #region delete cookies
+
+        if (Manager is not null)
+            await Manager.InvokeVoidAsync(identifier: "deleteCookie");
 
         #endregion
 
