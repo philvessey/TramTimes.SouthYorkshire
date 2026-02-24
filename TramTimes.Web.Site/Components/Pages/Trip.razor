@@ -400,12 +400,11 @@
 
     <!-- #endregion -->
 
-    <!-- #region local-storage-consent -->
+    <!-- #region navigate-to-location -->
 
-    <div id="trip-local-storage-consent">
-        <LocalStorageConsent Longitude="MapCenter.ElementAt(index: 1)"
-                             Latitude="MapCenter.ElementAt(index: 0)"
-                             Zoom="Zoom"/>
+    <div id="trip-navigate-to-location">
+        <NavigateToLocation Longitude="MapCenter.ElementAt(index: 1)"
+                            Latitude="MapCenter.ElementAt(index: 0)"/>
     </div>
 
     <!-- #endregion -->
@@ -414,6 +413,16 @@
 
     <div id="trip-source-code-repository">
         <SourceCodeRepository Url="https://github.com/philvessey/TramTimes.SouthYorkshire"/>
+    </div>
+
+    <!-- #endregion -->
+
+    <!-- #region local-storage-consent -->
+
+    <div id="trip-local-storage-consent">
+        <LocalStorageConsent Longitude="MapCenter.ElementAt(index: 1)"
+                             Latitude="MapCenter.ElementAt(index: 0)"
+                             Zoom="Zoom"/>
     </div>
 
     <!-- #endregion -->

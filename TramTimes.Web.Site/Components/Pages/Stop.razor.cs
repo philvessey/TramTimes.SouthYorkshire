@@ -143,7 +143,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #region navigate to stop
 
-        if (NavigationService.Uri.Equals(value: NavigationService.BaseUri + $"stop/{StopId}"))
+        if (NavigationService.Uri.EqualsIgnoreCase(value: NavigationService.BaseUri + $"stop/{StopId}"))
         {
             if (NextStop is { Id: not null, Latitude: not null, Longitude: not null })
             {
@@ -652,7 +652,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #region navigate to trip
 
-        if (NavigationService.Uri.Contains(value: $"/trip/{tripId}/{stopId}"))
+        if (NavigationService.Uri.ContainsIgnoreCase(value: $"/trip/{tripId}/{stopId}"))
             return;
 
         NavigationService.NavigateTo(uri: NextStop is { Latitude: not null, Longitude: not null }
@@ -692,7 +692,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #region navigate to stop
 
-        if (NavigationService.Uri.Contains(value: $"/stop/{stop.Id}"))
+        if (NavigationService.Uri.ContainsIgnoreCase(value: $"/stop/{stop.Id}"))
             return;
 
         NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
@@ -851,7 +851,7 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #region navigate to stop
 
-        if (NavigationService.Uri.Contains(value: $"/stop/{stop.Id}"))
+        if (NavigationService.Uri.ContainsIgnoreCase(value: $"/stop/{stop.Id}"))
             return;
 
         NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null

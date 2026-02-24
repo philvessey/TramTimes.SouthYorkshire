@@ -16,8 +16,8 @@ public static class StringExtensions
         #region build result
 
         var result = baseString.Contains(
-            value: value,
-            comparisonType: StringComparison.InvariantCultureIgnoreCase);
+            comparisonType: StringComparison.InvariantCultureIgnoreCase,
+            value: value);
 
         #endregion
 
@@ -38,8 +38,8 @@ public static class StringExtensions
         #region build result
 
         var result = baseString.Contains(
-            value: value,
-            comparisonType: StringComparison.InvariantCulture);
+            comparisonType: StringComparison.InvariantCulture,
+            value: value);
 
         #endregion
 
@@ -60,8 +60,8 @@ public static class StringExtensions
         #region build result
 
         var result = baseString.EndsWith(
-            value: value,
-            comparisonType: StringComparison.InvariantCultureIgnoreCase);
+            comparisonType: StringComparison.InvariantCultureIgnoreCase,
+            value: value);
 
         #endregion
 
@@ -82,8 +82,52 @@ public static class StringExtensions
         #region build result
 
         var result = baseString.EndsWith(
-            value: value,
-            comparisonType: StringComparison.InvariantCulture);
+            comparisonType: StringComparison.InvariantCulture,
+            value: value);
+
+        #endregion
+
+        return result;
+    }
+
+    public static bool EqualsIgnoreCase(
+        this string? baseString,
+        string value) {
+
+        #region check valid input
+
+        if (baseString is null)
+            return false;
+
+        #endregion
+
+        #region build result
+
+        var result = baseString.Equals(
+            comparisonType: StringComparison.InvariantCultureIgnoreCase,
+            value: value);
+
+        #endregion
+
+        return result;
+    }
+
+    public static bool EqualsRespectCase(
+        this string? baseString,
+        string value) {
+
+        #region check valid input
+
+        if (baseString is null)
+            return false;
+
+        #endregion
+
+        #region build result
+
+        var result = baseString.Equals(
+            comparisonType: StringComparison.InvariantCulture,
+            value: value);
 
         #endregion
 
@@ -104,8 +148,8 @@ public static class StringExtensions
         #region build result
 
         var result = baseString.StartsWith(
-            value: value,
-            comparisonType: StringComparison.InvariantCultureIgnoreCase);
+            comparisonType: StringComparison.InvariantCultureIgnoreCase,
+            value: value);
 
         #endregion
 
@@ -126,8 +170,8 @@ public static class StringExtensions
         #region build result
 
         var result = baseString.StartsWith(
-            value: value,
-            comparisonType: StringComparison.InvariantCulture);
+            comparisonType: StringComparison.InvariantCulture,
+            value: value);
 
         #endregion
 

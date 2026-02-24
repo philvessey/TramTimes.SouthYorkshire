@@ -117,7 +117,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #region navigate to privacy
 
-        if (NavigationService.Uri.Equals(value: NavigationService.BaseUri + "privacy"))
+        if (NavigationService.Uri.EqualsIgnoreCase(value: NavigationService.BaseUri + "privacy"))
         {
             NavigationService.NavigateTo(
                 uri: $"/privacy/{MapCenter.ElementAt(index: 1)}/{MapCenter.ElementAt(index: 0)}/{Zoom}",
@@ -557,7 +557,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #region navigate to stop
 
-        if (NavigationService.Uri.Contains(value: $"/stop/{stop.Id}"))
+        if (NavigationService.Uri.ContainsIgnoreCase(value: $"/stop/{stop.Id}"))
             return;
 
         NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
@@ -597,7 +597,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #region navigate to stop
 
-        if (NavigationService.Uri.Contains(value: $"/stop/{stop.Id}"))
+        if (NavigationService.Uri.ContainsIgnoreCase(value: $"/stop/{stop.Id}"))
             return;
 
         NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null
@@ -756,7 +756,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #region navigate to stop
 
-        if (NavigationService.Uri.Contains(value: $"/stop/{stop.Id}"))
+        if (NavigationService.Uri.ContainsIgnoreCase(value: $"/stop/{stop.Id}"))
             return;
 
         NavigationService.NavigateTo(uri: stop.Longitude is not null && stop.Latitude is not null

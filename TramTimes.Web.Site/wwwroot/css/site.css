@@ -72,6 +72,7 @@ a:visited {
 
 .k-input {
     font-size: 16px !important;
+    min-height: 40px !important;
 }
 
 .k-list-item {

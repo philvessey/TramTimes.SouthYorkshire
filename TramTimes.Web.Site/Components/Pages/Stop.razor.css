@@ -530,11 +530,12 @@
 #stop-telerik-auto-complete {
     align-self: start;
     grid-area: 1 / 1 / 2 / 2;
+    justify-self: start;
     margin-bottom: 0;
     margin-left: max(var(--safe-left), 15px);
     margin-right: 0;
     margin-top: max(var(--safe-top), 15px);
-    width: min(calc(100% - max(var(--safe-left), 15px) - max(var(--safe-left), 15px)), 400px);
+    width: min(calc(100% - max(var(--safe-left), 15px) - max(var(--safe-right), 15px) - 55px), 400px);
 }
 
 #stop-telerik-auto-complete__result {
@@ -709,17 +710,18 @@
 
 /*#endregion */
 
-/*#region local-storage-consent */
+/*#region navigate-to-location */
 
-#stop-local-storage-consent {
-    align-self: end;
+#stop-navigate-to-location {
+    align-self: start;
     grid-area: 1 / 1 / 2 / 2;
-    margin-bottom: max(var(--safe-bottom), 15px);
-    margin-left: max(var(--safe-left), 15px);
-    margin-right: 0;
-    margin-top: 0;
+    justify-self: end;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: max(var(--safe-right), 15px);
+    margin-top: max(var(--safe-top), 15px);
     width: fit-content;
-    z-index: 2;
+    z-index: 1;
 }
 
 /*#endregion */
@@ -729,12 +731,29 @@
 #stop-source-code-repository {
     align-self: end;
     grid-area: 1 / 1 / 2 / 2;
+    justify-self: start;
     margin-bottom: max(var(--safe-bottom), 15px);
     margin-left: calc(max(var(--safe-left), 15px) + 55px);
     margin-right: 0;
     margin-top: 0;
     width: fit-content;
-    z-index: 1;
+    z-index: 2;
+}
+
+/*#endregion */
+
+/*#region local-storage-consent */
+
+#stop-local-storage-consent {
+    align-self: end;
+    grid-area: 1 / 1 / 2 / 2;
+    justify-self: start;
+    margin-bottom: max(var(--safe-bottom), 15px);
+    margin-left: max(var(--safe-left), 15px);
+    margin-right: 0;
+    margin-top: 0;
+    width: fit-content;
+    z-index: 3;
 }
 
 /*#endregion */
