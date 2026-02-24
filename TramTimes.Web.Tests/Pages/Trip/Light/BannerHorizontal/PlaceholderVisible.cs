@@ -71,7 +71,7 @@ public class PlaceholderVisible(AspireManager aspireManager) : BaseTest(aspireMa
 
         #endregion
 
-        await RunTestAsync(cookie: ConsentCookies.True, scheme: ColorScheme.Light, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Accepted, scheme: ColorScheme.Light, test: async page =>
         {
             #region configure page
 
@@ -199,7 +199,7 @@ public class PlaceholderVisible(AspireManager aspireManager) : BaseTest(aspireMa
 
         #endregion
 
-        await RunTestAsync(cookie: ConsentCookies.False, scheme: ColorScheme.Light, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Rejected, scheme: ColorScheme.Light, test: async page =>
         {
             #region configure page
 

@@ -23,7 +23,7 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
 
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
 
-        await RunTestAsync(cookie: ConsentCookies.Unknown, scheme: ColorScheme.Light, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Unknown, scheme: ColorScheme.Light, test: async page =>
         {
             #region configure page
 
@@ -124,7 +124,7 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
 
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
 
-        await RunTestAsync(cookie: ConsentCookies.Unknown, scheme: ColorScheme.Light, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Unknown, scheme: ColorScheme.Light, test: async page =>
         {
             #region configure page
 

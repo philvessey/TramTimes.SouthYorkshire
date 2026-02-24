@@ -25,7 +25,7 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
 
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
 
-        await RunTestAsync(cookie: ConsentCookies.True, scheme: ColorScheme.Dark, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Accepted, scheme: ColorScheme.Dark, test: async page =>
         {
             #region configure page
 
@@ -140,7 +140,7 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
 
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
 
-        await RunTestAsync(cookie: ConsentCookies.False, scheme: ColorScheme.Dark, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Rejected, scheme: ColorScheme.Dark, test: async page =>
         {
             #region configure page
 

@@ -23,7 +23,7 @@ public class ButtonVisible(AspireManager aspireManager) : BaseTest(aspireManager
 
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
 
-        await RunTestAsync(cookie: ConsentCookies.True, scheme: ColorScheme.Light, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Accepted, scheme: ColorScheme.Light, test: async page =>
         {
             #region configure page
 
@@ -107,7 +107,7 @@ public class ButtonVisible(AspireManager aspireManager) : BaseTest(aspireManager
 
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
 
-        await RunTestAsync(cookie: ConsentCookies.False, scheme: ColorScheme.Light, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Rejected, scheme: ColorScheme.Light, test: async page =>
         {
             #region configure page
 

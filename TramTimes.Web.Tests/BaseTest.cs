@@ -2,6 +2,7 @@ using System.Net.Http.Json;
 using Aspire.Hosting.Testing;
 using Microsoft.Playwright;
 using TramTimes.Web.Tests.Managers;
+using TramTimes.Web.Utilities.Extensions;
 using TramTimes.Web.Utilities.Models;
 using Xunit;
 
@@ -108,7 +109,7 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
     }
 
     protected async Task RunTestAsync(
-        Cookie cookie,
+        List<Cookie> cookies,
         ColorScheme scheme,
         Func<IPage, Task> test) {
 
@@ -149,15 +150,21 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
         {
             BaseURL = endpoint,
             ColorScheme = scheme,
-            IgnoreHTTPSErrors = true
+            Geolocation = new Geolocation
+            {
+                Latitude = float.Parse(s: "53.381129"),
+                Longitude = float.Parse(s: "-1.470085")
+            },
+            IgnoreHTTPSErrors = true,
+            Permissions = ["geolocation"]
         });
 
         #endregion
 
         #region add cookies
 
-        if (!string.IsNullOrEmpty(value: cookie.Value))
-            await context.AddCookiesAsync(cookies: [cookie]);
+        if (!cookies.IsNullOrEmpty())
+            await context.AddCookiesAsync(cookies: cookies);
 
         #endregion
 

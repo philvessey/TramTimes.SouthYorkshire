@@ -71,7 +71,7 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
 
         #endregion
 
-        await RunTestAsync(cookie: ConsentCookies.Unknown, scheme: ColorScheme.Light, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Unknown, scheme: ColorScheme.Light, test: async page =>
         {
             #region configure page
 
@@ -216,7 +216,7 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
 
         #endregion
 
-        await RunTestAsync(cookie: ConsentCookies.Unknown, scheme: ColorScheme.Light, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Unknown, scheme: ColorScheme.Light, test: async page =>
         {
             #region configure page
 

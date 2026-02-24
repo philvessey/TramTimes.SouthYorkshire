@@ -23,7 +23,7 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
 
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
 
-        await RunTestAsync(cookie: ConsentCookies.Unknown, scheme: ColorScheme.Dark, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Unknown, scheme: ColorScheme.Dark, test: async page =>
         {
             #region configure page
 
@@ -137,7 +137,7 @@ public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireMan
 
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
 
-        await RunTestAsync(cookie: ConsentCookies.Unknown, scheme: ColorScheme.Dark, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Unknown, scheme: ColorScheme.Dark, test: async page =>
         {
             #region configure page
 
