@@ -82,7 +82,7 @@
     <PackageVersion Include="JetBrains.Annotations" Version="2025.2.4"/>
     <PackageVersion Include="Polly" Version="8.6.5"/>
     <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.15.1"/>
-    <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.1.2"/>
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.1.4"/>
     <PackageVersion Include="Telerik.UI.for.Blazor" Version="12.3.0"/>
   </ItemGroup>
 
