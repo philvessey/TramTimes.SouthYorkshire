@@ -4,9 +4,9 @@
     "net10.0": {
       "Aspire.Azure.Data.Tables": {
         "type": "Direct",
-        "requested": "[13.1.1, )",
-        "resolved": "13.1.1",
-        "contentHash": "zM8daOM0QeDFX5CbKXGKZYJ7PT9YdcXZ3ez9OGs5x5kXFJPes1f1YXKfzalPfm546rQcJj9e4BbSzGqKRsvj4w==",
+        "requested": "[13.1.2, )",
+        "resolved": "13.1.2",
+        "contentHash": "IM5Rfy4R9LLXj5kc00YMZed2ywnShis+GcU4Nm1qSs8jPWeJB50I0PWhU/6BcJhZXeScB+H3X+BUrxbO4zbiDA==",
         "dependencies": {
           "AspNetCore.HealthChecks.Azure.Data.Tables": "9.0.0",
           "Azure.Core": "1.50.0",
@@ -26,9 +26,9 @@
       },
       "Aspire.Azure.Storage.Blobs": {
         "type": "Direct",
-        "requested": "[13.1.1, )",
-        "resolved": "13.1.1",
-        "contentHash": "HAvOpxvbyqs1bTzx+jGJO/xO7qqy1hxHamqmkfEjHx00jUNFHfj6XyX3loSLcpEVBWoiXg8Nzqvelod6GN6Z2Q==",
+        "requested": "[13.1.2, )",
+        "resolved": "13.1.2",
+        "contentHash": "loCoB7ESM6PfbgaBYR0pwXI0jG5Ham1+PJhDlBREQCO/cFuMP09wByKNDcXBQf/zanQt+jhu0eUfPbT26GtFcw==",
         "dependencies": {
           "AspNetCore.HealthChecks.Azure.Storage.Blobs": "9.0.0",
           "Azure.Core": "1.50.0",
@@ -49,9 +49,9 @@
       },
       "Aspire.Azure.Storage.Queues": {
         "type": "Direct",
-        "requested": "[13.1.1, )",
-        "resolved": "13.1.1",
-        "contentHash": "Yy04Iux6vPsKEIBEkc9/3AtqYD17s6euHmFpHxWgPbiKMV1gqez2GNORzo5WqeWCJsIRiZzahN86zRlJ2dMSbw==",
+        "requested": "[13.1.2, )",
+        "resolved": "13.1.2",
+        "contentHash": "QEjxah6rpM0tri6TfF7R83CzkdPvRNCUzYLA+8BTi0Fh7C0J5xy2Rqrf8HomVODpWIyaoTDIIiKkNAwV+gVeQw==",
         "dependencies": {
           "AspNetCore.HealthChecks.Azure.Storage.Queues": "9.0.0",
           "Azure.Core": "1.50.0",
@@ -72,9 +72,9 @@
       },
       "Aspire.Npgsql": {
         "type": "Direct",
-        "requested": "[13.1.1, )",
-        "resolved": "13.1.1",
-        "contentHash": "Axx1fkLKaeLr0kSwcIAF3VtMFu2I44FMpCCBPL64u5CYs1tnnmSbMng4xLKUmCx8BdXiCX4G6JQ4BUx+zkAkLw==",
+        "requested": "[13.1.2, )",
+        "resolved": "13.1.2",
+        "contentHash": "pbKsOtBJqGLkr6waj7vHVIhHk2btP5vz4NYOX905kkf0krs9MZ+SmqIO5p8/y+fJK1aA7zo3Hh4KzDY20FP0pQ==",
         "dependencies": {
           "AspNetCore.HealthChecks.NpgSql": "9.0.0",
           "Microsoft.Extensions.Configuration.Abstractions": "10.0.1",
@@ -155,9 +155,9 @@
       },
       "NextDepartures.Standard": {
         "type": "Direct",
-        "requested": "[3.9.4, )",
-        "resolved": "3.9.4",
-        "contentHash": "4gkdCTq6GP+WadvqxY6NT6Rbeoa+Sxf1EC4ck28ZaB+FOlF+/pgLw7bdSOx9lONKOKyMycQWRVuSuL+hUeP6Fg==",
+        "requested": "[3.9.5, )",
+        "resolved": "3.9.5",
+        "contentHash": "Qf8IOiccdwI8p39vNYcUCJAM0k/OgcEUanIeXD8xSPjRnDt754NQt+/aeB3akjjwz+zgeCpb5kR0dg8L/Ypv/g==",
         "dependencies": {
           "GTFS": "3.0.0-pre006",
           "JetBrains.Annotations": "2025.2.4",
@@ -166,12 +166,12 @@
       },
       "NextDepartures.Storage.Postgres.Aspire": {
         "type": "Direct",
-        "requested": "[3.9.4, )",
-        "resolved": "3.9.4",
-        "contentHash": "SBn36I1Cxwj7j3th88Tv+pPvAnTHcPvZVkkaCM+mB0arGC3d1oWP9dAwx27lzAbcCggRBBnvBa2VKcuVjgtGSA==",
+        "requested": "[3.9.5, )",
+        "resolved": "3.9.5",
+        "contentHash": "coVAVKTFEIBc/6Iuo/MQnaAFskqfN9/yPPf3ESDPRLuWqgNDYQrC2an93ekJjesh81AUUwub+VQmyGCFwEfHfg==",
         "dependencies": {
-          "Aspire.Npgsql": "13.1.1",
-          "NextDepartures.Standard": "3.9.4"
+          "Aspire.Npgsql": "13.1.2",
+          "NextDepartures.Standard": "3.9.5"
         }
       },
       "Polly": {

@@ -54,21 +54,6 @@
     width: 200px;
 }
 
-#home-telerik-map__tooltip .name {
-    font-size: smaller;
-    font-weight: bold;
-    overflow: hidden;
-    padding-bottom: 2px;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 0;
-    text-align: center;
-    text-overflow: ellipsis;
-    user-select: none;
-    white-space: nowrap;
-    width: 100%;
-}
-
 #home-telerik-map__tooltip .services {
     overflow: auto;
     width: 100%;
@@ -96,11 +81,10 @@
     margin-right: 0;
     margin-top: 2px;
     overflow: hidden;
-    padding-bottom: 2px;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 2px;
-    text-indent: 2px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
     text-overflow: ellipsis;
     user-select: none;
     white-space: nowrap;
@@ -117,11 +101,10 @@
     margin-right: 0;
     margin-top: 2px;
     overflow: hidden;
-    padding-bottom: 2px;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 2px;
-    text-indent: 2px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
     text-overflow: ellipsis;
     user-select: none;
     white-space: nowrap;
@@ -138,11 +121,10 @@
     margin-right: 0;
     margin-top: 2px;
     overflow: hidden;
-    padding-bottom: 2px;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 2px;
-    text-indent: 2px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
     text-overflow: ellipsis;
     user-select: none;
     white-space: nowrap;
@@ -159,11 +141,10 @@
     margin-right: 0;
     margin-top: 2px;
     overflow: hidden;
-    padding-bottom: 2px;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 2px;
-    text-indent: 2px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
     text-overflow: ellipsis;
     user-select: none;
     white-space: nowrap;
@@ -180,11 +161,10 @@
     margin-right: 0;
     margin-top: 2px;
     overflow: hidden;
-    padding-bottom: 2px;
-    padding-left: 0;
-    padding-right: 0;
-    padding-top: 2px;
-    text-indent: 2px;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
     text-overflow: ellipsis;
     user-select: none;
     white-space: nowrap;
@@ -309,10 +289,10 @@
     display: grid;
     grid-template-columns: 1fr 0.67fr;
     grid-template-rows: 1fr 1fr;
-    padding-bottom: 4px;
-    padding-left: 4px;
-    padding-right: 4px;
-    padding-top: 4px;
+    padding-bottom: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 8px;
     width: 100%;
 }
 
@@ -359,6 +339,9 @@
 
 #home-telerik-list-view__result .services ul li.default {
     background-color: var(--color-base);
+    border-radius: 4px;
+    border-style: none;
+    border-width: 0;
     color: var(--color-base-surface);
     cursor: pointer;
     display: inline-block;
@@ -368,15 +351,18 @@
     margin-left: 2px;
     margin-right: 2px;
     margin-top: 0;
-    padding-bottom: 0;
-    padding-left: 2px;
-    padding-right: 2px;
-    padding-top: 0;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
     user-select: none;
 }
 
 #home-telerik-list-view__result .services ul li.blue {
     background-color: var(--route-blue);
+    border-radius: 4px;
+    border-style: none;
+    border-width: 0;
     color: var(--route-blue-surface);
     cursor: pointer;
     display: inline-block;
@@ -386,15 +372,18 @@
     margin-left: 2px;
     margin-right: 2px;
     margin-top: 0;
-    padding-bottom: 0;
-    padding-left: 2px;
-    padding-right: 2px;
-    padding-top: 0;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
     user-select: none;
 }
 
 #home-telerik-list-view__result .services ul li.purp {
     background-color: var(--route-purp);
+    border-radius: 4px;
+    border-style: none;
+    border-width: 0;
     color: var(--route-purp-surface);
     cursor: pointer;
     display: inline-block;
@@ -404,15 +393,18 @@
     margin-left: 2px;
     margin-right: 2px;
     margin-top: 0;
-    padding-bottom: 0;
-    padding-left: 2px;
-    padding-right: 2px;
-    padding-top: 0;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
     user-select: none;
 }
 
 #home-telerik-list-view__result .services ul li.tt {
     background-color: var(--route-tt);
+    border-radius: 4px;
+    border-style: none;
+    border-width: 0;
     color: var(--route-tt-surface);
     cursor: pointer;
     display: inline-block;
@@ -422,15 +414,18 @@
     margin-left: 2px;
     margin-right: 2px;
     margin-top: 0;
-    padding-bottom: 0;
-    padding-left: 2px;
-    padding-right: 2px;
-    padding-top: 0;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
     user-select: none;
 }
 
 #home-telerik-list-view__result .services ul li.yell {
     background-color: var(--route-yell);
+    border-radius: 4px;
+    border-style: none;
+    border-width: 0;
     color: var(--route-yell-surface);
     cursor: pointer;
     display: inline-block;
@@ -440,10 +435,10 @@
     margin-left: 2px;
     margin-right: 2px;
     margin-top: 0;
-    padding-bottom: 0;
-    padding-left: 2px;
-    padding-right: 2px;
-    padding-top: 0;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
     user-select: none;
 }
 
@@ -485,10 +480,10 @@
     display: grid;
     grid-template-columns: 1fr 0.67fr;
     grid-template-rows: 1fr 1fr;
-    padding-bottom: 4px;
-    padding-left: 4px;
-    padding-right: 4px;
-    padding-top: 4px;
+    padding-bottom: 8px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 8px;
     width: 100%;
 }
 
@@ -581,6 +576,9 @@
 
 #home-telerik-auto-complete__result .services ul li.default {
     background-color: var(--color-base);
+    border-radius: 4px;
+    border-style: none;
+    border-width: 0;
     color: var(--color-base-surface);
     cursor: pointer;
     display: inline-block;
@@ -590,15 +588,18 @@
     margin-left: 2px;
     margin-right: 2px;
     margin-top: 0;
-    padding-bottom: 0;
-    padding-left: 2px;
-    padding-right: 2px;
-    padding-top: 0;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
     user-select: none;
 }
 
 #home-telerik-auto-complete__result .services ul li.blue {
     background-color: var(--route-blue);
+    border-radius: 4px;
+    border-style: none;
+    border-width: 0;
     color: var(--route-blue-surface);
     cursor: pointer;
     display: inline-block;
@@ -608,15 +609,18 @@
     margin-left: 2px;
     margin-right: 2px;
     margin-top: 0;
-    padding-bottom: 0;
-    padding-left: 2px;
-    padding-right: 2px;
-    padding-top: 0;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
     user-select: none;
 }
 
 #home-telerik-auto-complete__result .services ul li.purp {
     background-color: var(--route-purp);
+    border-radius: 4px;
+    border-style: none;
+    border-width: 0;
     color: var(--route-purp-surface);
     cursor: pointer;
     display: inline-block;
@@ -626,15 +630,18 @@
     margin-left: 2px;
     margin-right: 2px;
     margin-top: 0;
-    padding-bottom: 0;
-    padding-left: 2px;
-    padding-right: 2px;
-    padding-top: 0;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
     user-select: none;
 }
 
 #home-telerik-auto-complete__result .services ul li.tt {
     background-color: var(--route-tt);
+    border-radius: 4px;
+    border-style: none;
+    border-width: 0;
     color: var(--route-tt-surface);
     cursor: pointer;
     display: inline-block;
@@ -644,15 +651,18 @@
     margin-left: 2px;
     margin-right: 2px;
     margin-top: 0;
-    padding-bottom: 0;
-    padding-left: 2px;
-    padding-right: 2px;
-    padding-top: 0;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
     user-select: none;
 }
 
 #home-telerik-auto-complete__result .services ul li.yell {
     background-color: var(--route-yell);
+    border-radius: 4px;
+    border-style: none;
+    border-width: 0;
     color: var(--route-yell-surface);
     cursor: pointer;
     display: inline-block;
@@ -662,10 +672,10 @@
     margin-left: 2px;
     margin-right: 2px;
     margin-top: 0;
-    padding-bottom: 0;
-    padding-left: 2px;
-    padding-right: 2px;
-    padding-top: 0;
+    padding-bottom: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
     user-select: none;
 }
 

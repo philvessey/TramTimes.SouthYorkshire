@@ -41,23 +41,23 @@
       },
       "Telerik.UI.for.Blazor": {
         "type": "Direct",
-        "requested": "[12.3.0, )",
-        "resolved": "12.3.0",
-        "contentHash": "sZYfqUfMpQ5O+6FuipkaCqY9Cx5AwhFJx2Ly6+WqOiZuTIZgU964ocUx5ptbkzM2dCA/tH1v/2qragWCnvsMjA==",
+        "requested": "[13.0.0, )",
+        "resolved": "13.0.0",
+        "contentHash": "QCnfxmfz93QehtVbvXv/dPcHsb4nJrtK3PbPvCsaAj7LEKwmqRcG/DkfEUzNLalGsa4ngPvA02mdHRRAp9BPZQ==",
         "dependencies": {
           "Microsoft.Extensions.AI.Abstractions": "9.5.0",
-          "Telerik.AI.SmartComponents.Extensions": "2.0.0",
+          "Telerik.AI.SmartComponents.Extensions": "2.1.0",
           "Telerik.DataSource": "4.0.1",
-          "Telerik.Documents.Spreadsheet": "2025.4.1216",
-          "Telerik.Documents.Spreadsheet.FormatProviders.Pdf": "2025.4.1216",
-          "Telerik.Documents.SpreadsheetStreaming": "2025.4.1216",
-          "Telerik.FontIcons": "4.4.0",
-          "Telerik.Licensing": "[1.6.35, 2.0.0)",
+          "Telerik.Documents.Spreadsheet": "2026.1.210",
+          "Telerik.Documents.Spreadsheet.FormatProviders.Pdf": "2026.1.210",
+          "Telerik.Documents.SpreadsheetStreaming": "2026.1.210",
+          "Telerik.FontIcons": "4.8.0",
+          "Telerik.Licensing": "[1.6.40, 2.0.0)",
           "Telerik.Pivot.Core": "0.1.7",
           "Telerik.Pivot.DataProviders.Xmla": "0.1.8",
           "Telerik.Recurrence": "0.2.7",
-          "Telerik.SvgIcons": "4.4.0",
-          "Telerik.Zip": "2025.4.1216"
+          "Telerik.SvgIcons": "4.8.0",
+          "Telerik.Zip": "2026.1.210"
         }
       },
       "Microsoft.Extensions.AI": {
@@ -205,8 +205,8 @@
       },
       "Telerik.AI.SmartComponents.Extensions": {
         "type": "Transitive",
-        "resolved": "2.0.0",
-        "contentHash": "QwOAK/ypBJRyXRf+zMjhSss+E7NbIIhxw7oXt+fIpmI55e91uzyIgalPa2l8zVlqRnZYBUOVyBHdD0XR0bwGlA==",
+        "resolved": "2.1.0",
+        "contentHash": "yuOYXSkQ3orgryqYki0kodCpkRCFqjxybWI4VG4YTeFN+uWOhkX8g1z8yncYzXQhwBKhVjrhHI16g0VV9zpUdQ==",
         "dependencies": {
           "Microsoft.Extensions.AI": "9.5.0"
         }
@@ -218,59 +218,59 @@
       },
       "Telerik.Documents.Core": {
         "type": "Transitive",
-        "resolved": "2025.4.1216",
-        "contentHash": "KA4+K9nzwOHAWMowZ0kmHmm9jK5COXvW/4vV990K0P4ETppJGKRLjTEtzXN7k3QSOmuRF3/TjvfLzbugQcx9rg==",
+        "resolved": "2026.1.210",
+        "contentHash": "r5gqqeZNBtJq/H3OqIjt+WWyWUgT0X3VRv7fqII6Mr0+qoLCmQZ3F69LBTzKqV59/sPVl/SuAHbmljHHvvI8Aw==",
         "dependencies": {
-          "Telerik.Licensing": "[1.6.35, 2.0.0)"
+          "Telerik.Licensing": "[1.6.40, 2.0.0)"
         }
       },
       "Telerik.Documents.Fixed": {
         "type": "Transitive",
-        "resolved": "2025.4.1216",
-        "contentHash": "yLWAr3IWIpdegh+x5jpzOZTl7Fgf2rUPrhJnAmHXm1kofQGPRvuBJ9m0q+HOV09QJtbgyeO1UIiZtDLTu2Zqtg==",
+        "resolved": "2026.1.210",
+        "contentHash": "VPEOuM4j/fedFt1Z0LCXXZoT0fIueCym4gYT4QKH8fjN5E6mBQfrAaciEV6kIXWBESQ5RZC8sMhbVW2LX6qx8A==",
         "dependencies": {
           "System.Security.Cryptography.Pkcs": "9.0.9",
-          "Telerik.Documents.Core": "[2025.4.1216]",
-          "Telerik.Licensing": "[1.6.35, 2.0.0)"
+          "Telerik.Documents.Core": "[2026.1.210]",
+          "Telerik.Licensing": "[1.6.40, 2.0.0)"
         }
       },
       "Telerik.Documents.Spreadsheet": {
         "type": "Transitive",
-        "resolved": "2025.4.1216",
-        "contentHash": "EeAbXPp1pHepbo5xonQJq4KccU6KEBVKTj6RtOR8XfZNm/hUcGMXA3r3cAOS8iRIlnzGmh+HES0HyDcJkgUrqg==",
+        "resolved": "2026.1.210",
+        "contentHash": "tn93rFt5r1JI+pNLggtzzhrEnUoR0B9w8OSKyYjuOz8wu/Na+19Okr8BymOguCoGQnf5v9MIEMajrBZ5kyHptg==",
         "dependencies": {
-          "Telerik.Documents.Core": "[2025.4.1216]",
-          "Telerik.Licensing": "[1.6.35, 2.0.0)"
+          "Telerik.Documents.Core": "[2026.1.210]",
+          "Telerik.Licensing": "[1.6.40, 2.0.0)"
         }
       },
       "Telerik.Documents.Spreadsheet.FormatProviders.Pdf": {
         "type": "Transitive",
-        "resolved": "2025.4.1216",
-        "contentHash": "IU6FFoFaa1utJs9fw9cg/nGLWy/TygApcsfwH8mqkSVEfAb78LKRzUBGzoYLalS+k3cOdmcnlcXiimn1nv2K4A==",
+        "resolved": "2026.1.210",
+        "contentHash": "Vho1Q1HikoZUshDlAl6dTXy3fPMuH6wu0H2MaSRwTvKlWIrppGWZnvVPY8XCXJIYe3VYIs+tQq/ZDJMsPZCw4Q==",
         "dependencies": {
-          "Telerik.Documents.Core": "[2025.4.1216]",
-          "Telerik.Documents.Fixed": "[2025.4.1216]",
-          "Telerik.Documents.Spreadsheet": "[2025.4.1216]",
-          "Telerik.Licensing": "[1.6.35, 2.0.0)"
+          "Telerik.Documents.Core": "[2026.1.210]",
+          "Telerik.Documents.Fixed": "[2026.1.210]",
+          "Telerik.Documents.Spreadsheet": "[2026.1.210]",
+          "Telerik.Licensing": "[1.6.40, 2.0.0)"
         }
       },
       "Telerik.Documents.SpreadsheetStreaming": {
         "type": "Transitive",
-        "resolved": "2025.4.1216",
-        "contentHash": "Z0emRMGZ4PAo+YOEjbDsIlLDTCYOiXe6BXNzNAO4stxh9g/VY4947RaKNkb9yiZvkpIXXRRwW9RDPb4sZCTCTA==",
+        "resolved": "2026.1.210",
+        "contentHash": "cAtgYKEJT0Dc6aYQ+cGVADwizukIpUenKx5SFR6ujaBe6SHoYauWSUYMtr1wxUe9McfonzGyT+A/FwO97w3oPw==",
         "dependencies": {
-          "Telerik.Licensing": "[1.6.35, 2.0.0)"
+          "Telerik.Licensing": "[1.6.40, 2.0.0)"
         }
       },
       "Telerik.FontIcons": {
         "type": "Transitive",
-        "resolved": "4.4.0",
-        "contentHash": "4R70aBTLxWM4jI6zoNpnlsQL1XW8cnwamSlF8Vby9PEUIPDOdZ3NwaglkCn6epj7HXse9Szv4chb+ZK9fXxbnQ=="
+        "resolved": "4.8.0",
+        "contentHash": "p3sBv3NgyeMwASBzWaTLTFnAaTq24nKXz6ofBC9geqB8r6t6AafIQl3D4T8dtAcB2xqvfTTjAdQIb+sx060BrA=="
       },
       "Telerik.Licensing": {
         "type": "Transitive",
-        "resolved": "1.6.35",
-        "contentHash": "WZMvw4xIIK86k3igfdfJ4G2NPDOkEpDSbEnBNkfcEbKfGH6ZfeP2HC0ZEqKE6VrxUIk+6R1olCb/u8JsudxmDw=="
+        "resolved": "1.6.40",
+        "contentHash": "GMGBM+0vGdMbpM6DW70NwdKq8je+VU9DL8xURHRmP2y79VdUnHsta5CzYoMu5KhawVPNMWWj0YBJGkFGHUGwdg=="
       },
       "Telerik.Pivot.Core": {
         "type": "Transitive",
@@ -292,15 +292,15 @@
       },
       "Telerik.SvgIcons": {
         "type": "Transitive",
-        "resolved": "4.4.0",
-        "contentHash": "FHWq1OMiyw3n7melKHvuJCIKfwfPgbjsqT0SiR+hzeLRHylzvb6I4ZT2P4O08P+YXivd+9aVs5vfAaqAItU54w=="
+        "resolved": "4.8.0",
+        "contentHash": "CAWiJd6SB+AECyfL7bGjDpzxgoElt6gqEf7aDpUzi8KIgrqvQhum0y9lZa1ez7VtcdzLl6fMgpjTAy8Y9Wapjg=="
       },
       "Telerik.Zip": {
         "type": "Transitive",
-        "resolved": "2025.4.1216",
-        "contentHash": "QBZ3J5GPSN9lFEWDNhNR3HtQp4GJFXiykwe3ByiXkIJ5RpcRxOwHxkeprmzKRXQntPvVW51ewOFcCy7ARHRSyA==",
+        "resolved": "2026.1.210",
+        "contentHash": "aTsAQQeO3+a7FHjxd8vWrVeFfoYkQGOywWHMsWubvo/v1b4dPCn+Mp5IruwT2FW+ssaNOBw8kuLDk4slo8Csjw==",
         "dependencies": {
-          "Telerik.Licensing": "[1.6.35, 2.0.0)"
+          "Telerik.Licensing": "[1.6.40, 2.0.0)"
         }
       },
       "tramtimes.aspire.services": {

@@ -69,24 +69,6 @@
                                 <div id="stop-telerik-map__tooltip"
                                      data-testid="tooltip">
 
-                                    <div class="name"
-                                         data-testid="name">
-
-                                        @{
-                                            var name = stop.Name?
-                                                .Split(separator: '-')
-                                                .FirstOrDefault()?
-                                                .Trim();
-
-                                            name = name?
-                                                .Split(separator: '/')
-                                                .FirstOrDefault()?
-                                                .Trim();
-                                        }
-
-                                        @name
-                                    </div>
-
                                     <div class="services">
                                         <ul>
                                             @{
