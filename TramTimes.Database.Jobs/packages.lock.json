@@ -113,9 +113,9 @@
       },
       "IeuanWalker.GeoUK": {
         "type": "Direct",
-        "requested": "[1.3.0, )",
-        "resolved": "1.3.0",
-        "contentHash": "QeHB8fwKmeuhWnYc2i/R2Wuh7dpdhIxLEXyAxVRkERB49Zg7FvTl3Pz02OaLLeIMfHQGWOQPXocT7HWFcjwfFQ=="
+        "requested": "[1.4.0, )",
+        "resolved": "1.4.0",
+        "contentHash": "SfLc/0jFneSeb9vMEqxTpXXs/hlZsfnmWQDNfsuLs+JTZPIZFqS/FWwcvoKQOUPhNwq1ZkZs76NUljAcGWmU4Q=="
       },
       "JetBrains.Annotations": {
         "type": "Direct",
