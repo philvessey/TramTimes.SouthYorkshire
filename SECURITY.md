@@ -140,11 +140,11 @@ valid security issues will be acknowledged in our release notes (unless they pre
 
 ## 📚 Additional Resources
 
-- [OWASP Top 10](https://owasp.org/www-project-top-ten/)
-- [.NET Security Best Practices](https://docs.microsoft.com/en-us/dotnet/standard/security/)
+- [OWASP Top 10](https://owasp.org/www-project-top-ten)
+- [.NET Security Best Practices](https://docs.microsoft.com/en-us/dotnet/standard/security)
 - [GitHub Security Best Practices](https://docs.github.com/en/code-security)
 - [NuGet Package Security](https://docs.microsoft.com/en-us/nuget/concepts/security-best-practices)
 
 ---
 
-**Last Updated**: December 15, 2025
+**Last Updated**: February 27, 2026

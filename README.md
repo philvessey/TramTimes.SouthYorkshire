@@ -130,13 +130,14 @@ Shared utilities, extensions, and helper classes used across web projects.
 ## ✅ Prerequisites
 
 - [Git](https://git-scm.com/downloads)
-- [GitHub CLI](https://cli.github.com/)
+- [GitHub CLI](https://cli.github.com)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 - [.NET SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
-- [Aspire CLI](https://aspire.dev/get-started/install-cli/)
+- [Aspire CLI](https://aspire.dev/get-started/install-cli)
 - [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell)
 - [Telerik UI for Blazor](https://www.telerik.com/blazor-ui)
-- [Traveline Data Set](https://www.travelinedata.org.uk/traveline-open-data/traveline-national-dataset/)
+- [Traveline Data Set](https://www.travelinedata.org.uk/traveline-open-data/traveline-national-dataset)
+- [Adsterra Banners](https://adsterra.com/publishers)
 
 ## 🚀 Getting Started (Local)
 
@@ -263,8 +264,8 @@ aspire deploy
 ### UI & Utilities
 
 - **Telerik UI for Blazor** - UI components
-- **Blazored.LocalStorage** - Local storage
 - **Playwright** - Website end-to-end testing
+- **Adsterra** - Banner advertising integration
 
 ## 📁 Project Structure
 

@@ -48,19 +48,20 @@ our project a harassment-free experience for everyone, regardless of:
 Before you begin, ensure you have the following installed:
 
 - A code editor:
-    - [JetBrains Rider](https://www.jetbrains.com/rider/)
-    - [Visual Studio](https://visualstudio.microsoft.com/)
-    - [Visual Studio Code](https://code.visualstudio.com/)
+    - [JetBrains Rider](https://www.jetbrains.com/rider)
+    - [Visual Studio](https://visualstudio.microsoft.com)
+    - [Visual Studio Code](https://code.visualstudio.com)
 
 
 - [Git](https://git-scm.com/downloads)
-- [GitHub CLI](https://cli.github.com/)
+- [GitHub CLI](https://cli.github.com)
 - [Docker Desktop](https://www.docker.com/products/docker-desktop)
 - [.NET SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
-- [Aspire CLI](https://aspire.dev/get-started/install-cli/)
+- [Aspire CLI](https://aspire.dev/get-started/install-cli)
 - [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell)
 - [Telerik UI for Blazor](https://www.telerik.com/blazor-ui)
-- [Traveline Data Set](https://www.travelinedata.org.uk/traveline-open-data/traveline-national-dataset/)
+- [Traveline Data Set](https://www.travelinedata.org.uk/traveline-open-data/traveline-national-dataset)
+- [Adsterra Banners](https://adsterra.com/publishers)
 
 ### First Time Setup
 
@@ -85,12 +86,12 @@ Before you begin, ensure you have the following installed:
    git remote -v
    ```
 
-5. **Add custom package source**:
+5. **Add custom package source** if you have a Telerik license:
    ```bash
    dotnet new nugetconfig
    ```
 
-6. **Copy telerik-license.txt** to the root of the repository if you have a Telerik license:
+6. **Copy telerik-license.txt** if you have a Telerik license:
    ```bash
    cp /path/to/your/telerik-license.txt TramTimes.SouthYorkshire/telerik-license.txt
    ```
@@ -100,7 +101,7 @@ Before you begin, ensure you have the following installed:
    dotnet nuget add source "https://nuget.telerik.com/v3/index.json" --name "telerik" --username "api-key" --password "<your-api-key>" --configfile "./nuget.config" --store-password-in-clear-text
    ```
 
-8. **Copy nuget.xml** to `./nuget.config` between `<configuration>` tags if you have a Telerik license:
+8. **Copy nuget.xml** if you have a Telerik license:
     ```bash
     sed -i '/<\/configuration>/e sed "s/^/  /" nuget.xml; echo' ./nuget.config
     ```
@@ -287,7 +288,7 @@ public string BuildStop(string stopId)
 
 ### Commit Message Format
 
-We follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification:
+We follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0) specification:
 
 ```
 <type>(<scope>): <subject>
@@ -557,4 +558,4 @@ Thank you for contributing to TramTimes.SouthYorkshire! Your efforts help make t
 
 **Questions?** Feel free to open an issue or start a discussion!
 
-**Last Updated**: December 15, 2025
+**Last Updated**: February 27, 2026
