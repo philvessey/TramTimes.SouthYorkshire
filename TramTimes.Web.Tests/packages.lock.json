@@ -56,12 +56,12 @@
       },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
-        "requested": "[18.0.1, )",
-        "resolved": "18.0.1",
-        "contentHash": "WNpu6vI2rA0pXY4r7NKxCN16XRWl5uHu6qjuyVLoDo6oYEggIQefrMjkRuibQHm/NslIUNCcKftvoWAN80MSAg==",
+        "requested": "[18.3.0, )",
+        "resolved": "18.3.0",
+        "contentHash": "xW3kXuWRQtgoxJp4J+gdhHSQyK+6Wb/AZDSd7lMvuMRYlZ1tnpkojyfZlWilB5G4dmZ0Y0ZxU/M23TlubndNkw==",
         "dependencies": {
-          "Microsoft.CodeCoverage": "18.0.1",
-          "Microsoft.TestPlatform.TestHost": "18.0.1"
+          "Microsoft.CodeCoverage": "18.3.0",
+          "Microsoft.TestPlatform.TestHost": "18.3.0"
         }
       },
       "Microsoft.Playwright": {
@@ -142,10 +142,10 @@
         "resolved": "3.1.5",
         "contentHash": "tKi7dSTwP4m5m9eXPM2Ime4Kn7xNf4x4zT9sdLO/G4hZVnQCRiMTWoSZqI/pYTVeI27oPPqHBKYI/DjJ9GsYgA=="
       },
-      "Aspire.Dashboard.Sdk.osx-arm64": {
+      "Aspire.Dashboard.Sdk.linux-x64": {
         "type": "Transitive",
         "resolved": "13.1.1",
-        "contentHash": "yClFJoL8YLHLt8LBgTrU2Ys686bk9SxjwwcMdwhjCjvfiqRm/qkm/7iUA4PaVj4Ih7WjiMQA0OMdVSr0d8N9Bw=="
+        "contentHash": "WJshmggECTTDg0pm2b60IcfDD5SpEJg8B6DuDRoEHTj+DD4Xnfm+LjAL6x1eajbEtCHIWt5E3v84apJOIPJhiw=="
       },
       "Aspire.Hosting": {
         "type": "Transitive",
@@ -259,10 +259,10 @@
           "System.IO.Hashing": "9.0.10"
         }
       },
-      "Aspire.Hosting.Orchestration.osx-arm64": {
+      "Aspire.Hosting.Orchestration.linux-x64": {
         "type": "Transitive",
         "resolved": "13.1.1",
-        "contentHash": "yGfvlhcoQgcPOZEOX8Jw4hATnJqaoM7na4WB5tERQeqt0+AuAgcU/5WhWcFhaJn+bIjfWMSF+7lgNsgfw/r4ww=="
+        "contentHash": "ilLiV6GuiIWpokfZErdgLKLUb2OvJaymtG7zqvXGW/XTS8zClQcUpOHPOqX5y9OsE2uniM2n0jkq5CKa8FCLFg=="
       },
       "AspNetCore.HealthChecks.Azure.Storage.Blobs": {
         "type": "Transitive",
@@ -595,8 +595,8 @@
       },
       "Microsoft.CodeCoverage": {
         "type": "Transitive",
-        "resolved": "18.0.1",
-        "contentHash": "O+utSr97NAJowIQT/OVp3Lh9QgW/wALVTP4RG1m2AfFP4IyJmJz0ZBmFJUsRQiAPgq6IRC0t8AAzsiPIsaUDEA=="
+        "resolved": "18.3.0",
+        "contentHash": "23BNy/vziREC20Wwhb50K7+kZe0m07KlLWDQv4qjJ9tt3QjpDpDIqJFrhYHmMEo9xDkuSp55U/8h4bMF7MiB+g=="
       },
       "Microsoft.Extensions.AmbientMetadata.Application": {
         "type": "Transitive",
@@ -1000,15 +1000,15 @@
       },
       "Microsoft.TestPlatform.ObjectModel": {
         "type": "Transitive",
-        "resolved": "18.0.1",
-        "contentHash": "qT/mwMcLF9BieRkzOBPL2qCopl8hQu6A1P7JWAoj/FMu5i9vds/7cjbJ/LLtaiwWevWLAeD5v5wjQJ/l6jvhWQ=="
+        "resolved": "18.3.0",
+        "contentHash": "AEIEX2aWdPO9XbtR96eBaJxmXRD9vaI9uQ1T/JbPEKlTAZwYx0ZrMzKyULMdh/HH9Sg03kXCoN7LszQ90o6nPQ=="
       },
       "Microsoft.TestPlatform.TestHost": {
         "type": "Transitive",
-        "resolved": "18.0.1",
-        "contentHash": "uDJKAEjFTaa2wHdWlfo6ektyoh+WD4/Eesrwb4FpBFKsLGehhACVnwwTI4qD3FrIlIEPlxdXg3SyrYRIcO+RRQ==",
+        "resolved": "18.3.0",
+        "contentHash": "twmsoelXnp1uWMU3VGip9f0Jr1mZ0PZqgJdF35CIrdYgYrkHIJMV1m8uKyhcdjLdsQDESHAgkR7KhS9i1qpJag==",
         "dependencies": {
-          "Microsoft.TestPlatform.ObjectModel": "18.0.1",
+          "Microsoft.TestPlatform.ObjectModel": "18.3.0",
           "Newtonsoft.Json": "13.0.3"
         }
       },
@@ -1167,13 +1167,13 @@
       "tramtimes.aspire.host": {
         "type": "Project",
         "dependencies": {
-          "Aspire.Dashboard.Sdk.osx-arm64": "[13.1.1, )",
+          "Aspire.Dashboard.Sdk.linux-x64": "[13.1.1, )",
           "Aspire.Hosting.AppHost": "[13.1.1, )",
           "Aspire.Hosting.Azure.AppContainers": "[13.1.1, )",
           "Aspire.Hosting.Azure.ContainerRegistry": "[13.1.1, )",
           "Aspire.Hosting.Azure.Storage": "[13.1.1, )",
           "Aspire.Hosting.Elasticsearch": "[13.1.0, )",
-          "Aspire.Hosting.Orchestration.osx-arm64": "[13.1.1, )",
+          "Aspire.Hosting.Orchestration.linux-x64": "[13.1.1, )",
           "Aspire.Hosting.PostgreSQL": "[13.1.1, )",
           "Aspire.Hosting.Redis": "[13.1.1, )",
           "CliWrap": "[3.10.0, )",
