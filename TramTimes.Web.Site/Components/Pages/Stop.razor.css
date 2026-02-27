@@ -37,7 +37,6 @@
 /*#region telerik-map */
 
 #stop-telerik-map {
-    background-color: #d7d0ca;
     grid-area: 1 / 1 / 2 / 2;
     height: 100%;
     width: 100%;
@@ -56,7 +55,6 @@
 }
 
 #stop-telerik-map__tooltip .name {
-    color: white;
     font-size: smaller;
     font-weight: bold;
     overflow: hidden;
@@ -89,8 +87,8 @@
 }
 
 #stop-telerik-map__tooltip .services ul li.default {
-    background-color: #0078c8;
-    color: white;
+    background-color: var(--color-base);
+    color: var(--color-base-surface);
     font-size: smaller;
     font-weight: bold;
     margin-bottom: 2px;
@@ -110,8 +108,8 @@
 }
 
 #stop-telerik-map__tooltip .services ul li.blue {
-    background-color: #204f82;
-    color: white;
+    background-color: var(--route-blue);
+    color: var(--route-blue-surface);
     font-size: smaller;
     font-weight: bold;
     margin-bottom: 2px;
@@ -131,8 +129,8 @@
 }
 
 #stop-telerik-map__tooltip .services ul li.purp {
-    background-color: #80276a;
-    color: white;
+    background-color: var(--route-purp);
+    color: var(--route-purp-surface);
     font-size: smaller;
     font-weight: bold;
     margin-bottom: 2px;
@@ -152,8 +150,8 @@
 }
 
 #stop-telerik-map__tooltip .services ul li.tt {
-    background-color: black;
-    color: white;
+    background-color: var(--route-tt);
+    color: var(--route-tt-surface);
     font-size: smaller;
     font-weight: bold;
     margin-bottom: 2px;
@@ -173,8 +171,8 @@
 }
 
 #stop-telerik-map__tooltip .services ul li.yell {
-    background-color: #f1bd40;
-    color: black;
+    background-color: var(--route-yell);
+    color: var(--route-yell-surface);
     font-size: smaller;
     font-weight: bold;
     margin-bottom: 2px;
@@ -199,7 +197,6 @@
 
 #stop-banner-horizontal {
     align-items: center;
-    background-color: #0078c8;
     display: flex;
     grid-area: 2 / 1 / 3 / 2;
     height: 90px;
@@ -241,7 +238,6 @@
 
 #stop-banner-vertical {
     align-items: center;
-    background-color: #0078c8;
     display: flex;
     grid-area: 1 / 2 / 2 / 3;
     height: 100%;
@@ -276,7 +272,6 @@
 /*#region telerik-list-view */
 
 #stop-telerik-list-view {
-    background-color: white;
     box-sizing: border-box;
     grid-area: 1 / 3 / 2 / 4;
     height: 100%;
@@ -321,10 +316,6 @@
     width: 100%;
 }
 
-#stop-telerik-list-view__result:hover {
-    background-color: #ebebeb;
-}
-
 #stop-telerik-list-view__result .name {
     cursor: pointer;
     font-weight: bold;
@@ -367,8 +358,8 @@
 }
 
 #stop-telerik-list-view__result .services ul li.default {
-    background-color: #0078c8;
-    color: white;
+    background-color: var(--color-base);
+    color: var(--color-base-surface);
     cursor: pointer;
     display: inline-block;
     font-size: smaller;
@@ -385,8 +376,8 @@
 }
 
 #stop-telerik-list-view__result .services ul li.blue {
-    background-color: #204f82;
-    color: white;
+    background-color: var(--route-blue);
+    color: var(--route-blue-surface);
     cursor: pointer;
     display: inline-block;
     font-size: smaller;
@@ -403,8 +394,8 @@
 }
 
 #stop-telerik-list-view__result .services ul li.purp {
-    background-color: #80276a;
-    color: white;
+    background-color: var(--route-purp);
+    color: var(--route-purp-surface);
     cursor: pointer;
     display: inline-block;
     font-size: smaller;
@@ -421,8 +412,8 @@
 }
 
 #stop-telerik-list-view__result .services ul li.tt {
-    background-color: black;
-    color: white;
+    background-color: var(--route-tt);
+    color: var(--route-tt-surface);
     cursor: pointer;
     display: inline-block;
     font-size: smaller;
@@ -439,8 +430,8 @@
 }
 
 #stop-telerik-list-view__result .services ul li.yell {
-    background-color: #f1bd40;
-    color: black;
+    background-color: var(--route-yell);
+    color: var(--route-yell-surface);
     cursor: pointer;
     display: inline-block;
     font-size: smaller;
@@ -461,7 +452,6 @@
 /*#region telerik-skeleton */
 
 #stop-telerik-skeleton {
-    background-color: white;
     box-sizing: border-box;
     grid-area: 1 / 3 / 2 / 4;
     height: 100%;
@@ -590,8 +580,8 @@
 }
 
 #stop-telerik-auto-complete__result .services ul li.default {
-    background-color: #0078c8;
-    color: white;
+    background-color: var(--color-base);
+    color: var(--color-base-surface);
     cursor: pointer;
     display: inline-block;
     font-size: smaller;
@@ -608,8 +598,8 @@
 }
 
 #stop-telerik-auto-complete__result .services ul li.blue {
-    background-color: #204f82;
-    color: white;
+    background-color: var(--route-blue);
+    color: var(--route-blue-surface);
     cursor: pointer;
     display: inline-block;
     font-size: smaller;
@@ -626,8 +616,8 @@
 }
 
 #stop-telerik-auto-complete__result .services ul li.purp {
-    background-color: #80276a;
-    color: white;
+    background-color: var(--route-purp);
+    color: var(--route-purp-surface);
     cursor: pointer;
     display: inline-block;
     font-size: smaller;
@@ -644,8 +634,8 @@
 }
 
 #stop-telerik-auto-complete__result .services ul li.tt {
-    background-color: black;
-    color: white;
+    background-color: var(--route-tt);
+    color: var(--route-tt-surface);
     cursor: pointer;
     display: inline-block;
     font-size: smaller;
@@ -662,8 +652,8 @@
 }
 
 #stop-telerik-auto-complete__result .services ul li.yell {
-    background-color: #f1bd40;
-    color: black;
+    background-color: var(--route-yell);
+    color: var(--route-yell-surface);
     cursor: pointer;
     display: inline-block;
     font-size: smaller;

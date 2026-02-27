@@ -1,0 +1,175 @@
+/*#region variables */
+
+:root {
+    --color-base: #0078c8;
+    --color-base-surface: #ffffff;
+    --color-primary: #333333;
+    --color-primary-border: #646464;
+    --color-primary-hover: #424242;
+    --color-primary-surface: #f5f5f5;
+    --color-secondary: #3d3d3d;
+    --color-secondary-border: #3d3d3d;
+    --color-secondary-hover: #3d3d3d;
+    --color-secondary-surface: #ffffff;
+    --color-success: #3d7c1f;
+    --color-success-border: #3d7c1f;
+    --color-success-hover: #3d7c1f;
+    --color-success-surface: #ffffff;
+    --color-warning: #d32f2f;
+    --color-warning-border: #d32f2f;
+    --color-warning-hover: #d32f2f;
+    --color-warning-surface: #ffffff;
+}
+
+:root {
+    --route-blue: #204f82;
+    --route-blue-surface: #ffffff;
+    --route-purp: #80276a;
+    --route-purp-surface: #ffffff;
+    --route-tt: #000000;
+    --route-tt-surface: #ffffff;
+    --route-yell: #f1bd40;
+    --route-yell-surface: #000000;
+}
+
+:root {
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+    --safe-top: env(safe-area-inset-top, 0px);
+}
+
+/*#endregion */
+
+/*#region global */
+
+html, body {
+    background-color: var(--color-base);
+    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    position: relative;
+}
+
+a {
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    font-weight: inherit;
+    outline: none;
+    text-decoration: underline;
+}
+
+a:active {
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    font-weight: inherit;
+    outline: none;
+    text-decoration: underline;
+}
+
+a:focus {
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    font-weight: inherit;
+    outline: none;
+    text-decoration: underline;
+}
+
+a:hover {
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    font-weight: inherit;
+    outline: none;
+    text-decoration: underline;
+}
+
+a:visited {
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    font-weight: inherit;
+    outline: none;
+    text-decoration: underline;
+}
+
+/*#endregion */
+
+/*#region kendo */
+
+.k-input {
+    font-size: 16px !important;
+    min-height: 40px !important;
+}
+
+.k-list-item:hover {
+    background-color: var(--color-primary-hover) !important;
+}
+
+.k-listview-item:hover {
+    background-color: var(--color-primary-hover) !important;
+}
+
+.k-map-marker {
+    align-items: flex-start !important;
+    background-image: url(../img/pin.png) !important;
+    background-repeat: no-repeat !important;
+    background-size: 40px !important;
+    color: var(--color-base-surface) !important;
+    display: flex !important;
+    font-size: small !important;
+    font-weight: bold !important;
+    height: 40px !important;
+    justify-content: center !important;
+    padding-bottom: 4px !important;
+    padding-left: 4px !important;
+    padding-right: 4px !important;
+    padding-top: 4px !important;
+    user-select: none !important;
+    width: 40px !important;
+}
+
+.k-nodata {
+    color: inherit !important;
+    font-weight: inherit !important;
+}
+
+.k-pos-bottom {
+    bottom: 0 !important;
+}
+
+.k-pos-left {
+    left: 0 !important;
+}
+
+.k-pos-right {
+    right: 0 !important;
+}
+
+.k-pos-top {
+    top: 0 !important;
+}
+
+.k-tooltip {
+    background-color: var(--color-secondary) !important;
+    border-color: var(--color-secondary-border) !important;
+    color: var(--color-secondary-surface) !important;
+    display: flex !important;
+}
+
+.k-tooltip:hover {
+    background-color: var(--color-secondary-hover) !important;
+}
+
+@media (hover: none) {
+    .k-tooltip {
+        display: none !important;
+    }
+}
+
+/*#endregion */

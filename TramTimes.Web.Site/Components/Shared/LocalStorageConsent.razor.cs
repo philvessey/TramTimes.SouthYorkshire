@@ -5,6 +5,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.JSInterop;
+using TramTimes.Web.Site.Services;
 using TramTimes.Web.Utilities.Extensions;
 
 namespace TramTimes.Web.Site.Components.Shared;
@@ -85,7 +86,7 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
                     showPrompt = true;
 
             if (!showPrompt)
-                if (!metadata.Contains(value: Metadata.CurrentVersion))
+                if (!metadata.ContainsIgnoreCase(value: Metadata.CurrentVersion))
                     showPrompt = true;
 
             if (showPrompt)
@@ -219,6 +220,14 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
 
         if (Manager is not null)
             await Manager.InvokeVoidAsync(identifier: "deleteCookie");
+
+        #endregion
+
+        #region delete storage
+
+        await StorageService.DeleteAsync(key: "cache");
+        await StorageService.DeleteAsync(key: "location");
+        await StorageService.DeleteAsync(key: "theme");
 
         #endregion
 

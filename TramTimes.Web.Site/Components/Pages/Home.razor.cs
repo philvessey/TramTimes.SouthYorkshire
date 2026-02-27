@@ -340,47 +340,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region clear local storage
-
-        try
-        {
-            var storage = await StorageService.DeleteAsync(key: "cache");
-
-            if (storage is { Success: false })
-                if (JavascriptManager is not null)
-                    await JavascriptManager.InvokeVoidAsync(
-                        identifier: "writeConsole",
-                        args: "home: cache failed");
-        }
-        catch (Exception)
-        {
-            if (JavascriptManager is not null)
-                await JavascriptManager.InvokeVoidAsync(
-                    identifier: "writeConsole",
-                    args: "home: cache failed");
-        }
-
-        try
-        {
-            var storage = await StorageService.DeleteAsync(key: "location");
-
-            if (storage is { Success: false })
-                if (JavascriptManager is not null)
-                    await JavascriptManager.InvokeVoidAsync(
-                        identifier: "writeConsole",
-                        args: "home: location failed");
-        }
-        catch (Exception)
-        {
-            if (JavascriptManager is not null)
-                await JavascriptManager.InvokeVoidAsync(
-                    identifier: "writeConsole",
-                    args: "home: location failed");
-        }
-
-        #endregion
-
-        #region save local storage
+        #region set local storage
 
         if (Consent is true)
         {
@@ -465,6 +425,10 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "registerResize",
+                args: DotNetObjectReference.Create(value: this));
+
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "registerStorage",
                 args: DotNetObjectReference.Create(value: this));
 
             await JavascriptManager.InvokeVoidAsync(
@@ -677,12 +641,6 @@ public partial class Home : ComponentBase, IAsyncDisposable
     [JSInvokable]
     public async Task OnScreenResizedAsync()
     {
-        #region refresh map view
-
-        MapManager?.Refresh();
-
-        #endregion
-
         #region check component disposed
 
         if (Disposed.HasValue && Disposed.Value)
@@ -696,6 +654,12 @@ public partial class Home : ComponentBase, IAsyncDisposable
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
                 args: "home: screen resized");
+
+        #endregion
+
+        #region refresh map view
+
+        MapManager?.Refresh();
 
         #endregion
     }
@@ -1007,47 +971,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region clear local storage
-
-        try
-        {
-            var storage = await StorageService.DeleteAsync(key: "cache");
-
-            if (storage is { Success: false })
-                if (JavascriptManager is not null)
-                    await JavascriptManager.InvokeVoidAsync(
-                        identifier: "writeConsole",
-                        args: "home: cache failed");
-        }
-        catch (Exception)
-        {
-            if (JavascriptManager is not null)
-                await JavascriptManager.InvokeVoidAsync(
-                    identifier: "writeConsole",
-                    args: "home: cache failed");
-        }
-
-        try
-        {
-            var storage = await StorageService.DeleteAsync(key: "location");
-
-            if (storage is { Success: false })
-                if (JavascriptManager is not null)
-                    await JavascriptManager.InvokeVoidAsync(
-                        identifier: "writeConsole",
-                        args: "home: location failed");
-        }
-        catch (Exception)
-        {
-            if (JavascriptManager is not null)
-                await JavascriptManager.InvokeVoidAsync(
-                    identifier: "writeConsole",
-                    args: "home: location failed");
-        }
-
-        #endregion
-
-        #region save local storage
+        #region set local storage
 
         if (Consent is true)
         {
@@ -1114,6 +1038,94 @@ public partial class Home : ComponentBase, IAsyncDisposable
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
                 args: $"home: search read {name}");
+
+        #endregion
+    }
+
+    [JSInvokable]
+    public async Task OnStorageChangedAsync()
+    {
+        #region check component disposed
+
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+
+        #endregion
+
+        #region output console message
+
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: "home: storage changed");
+
+        #endregion
+
+        #region navigate to home
+
+        NavigationService.NavigateTo(
+            uri: NavigationService.Uri,
+            forceLoad: true,
+            replace: true);
+
+        #endregion
+    }
+
+    private async Task OnThemeChangedAsync()
+    {
+        #region get theme context
+
+        if (JavascriptManager is null)
+            return;
+
+        #endregion
+
+        #region get theme state
+
+        var theme = "system";
+
+        if (Consent is true)
+        {
+            try
+            {
+                var storage = await StorageService.GetAsync<string>(key: "theme");
+
+                if (storage is { Success: true, Value.Length: > 0 })
+                    theme = storage.Value;
+            }
+            catch (Exception)
+            {
+                theme = "system";
+            }
+        }
+
+        if (theme is "dark" or "light")
+            return;
+
+        #endregion
+
+        #region check component disposed
+
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+
+        #endregion
+
+        #region output console message
+
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"home: theme changed");
+
+        #endregion
+
+        #region navigate to home
+
+        NavigationService.NavigateTo(
+            uri: NavigationService.Uri,
+            forceLoad: true,
+            replace: true);
 
         #endregion
     }

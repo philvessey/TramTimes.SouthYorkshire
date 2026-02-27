@@ -1,11 +1,11 @@
 #source-code-repository {
     align-items: center;
-    background-color: white;
-    border-color: #ebebeb;
+    background-color: var(--color-primary);
+    border-color: var(--color-primary-border);
     border-radius: 4px;
     border-style: solid;
     border-width: 1px;
-    color: #0078c8;
+    color: var(--color-primary-surface);
     cursor: pointer;
     display: flex;
     height: 40px;
@@ -14,13 +14,14 @@
     padding-left: 4px;
     padding-right: 4px;
     padding-top: 4px;
-    transition-duration: 0.15s;
-    transition-property: filter;
+    transition-duration: 250ms;
+    transition-timing-function: cubic-bezier(0, 0, 0.58, 1);
+    transition-property: background-color;
     width: 40px;
 }
 
 #source-code-repository:hover {
-    filter: contrast(85%);
+    background-color: var(--color-primary-hover);
 }
 
 #source-code-repository .icon {

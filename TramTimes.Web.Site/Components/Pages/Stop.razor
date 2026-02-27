@@ -17,6 +17,9 @@
 <TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Rows"
                    OnChange="@(match => TelerikLayout.Rows = match)"/>
 
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Theme"
+                   OnChange="@(_ => OnThemeChangedAsync())"/>
+
 @{
     var context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
 }

@@ -1,4 +1,40 @@
-﻿@* ReSharper disable all *@
+﻿@inject StorageService StorageService
+@inject IHttpContextAccessor AccessorService
+
+@using System.Reflection
+@using Microsoft.AspNetCore.Http.Features
+
+@{
+    var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
+    var consent = feature?.CanTrack ?? false;
+}
+
+@{
+    var theme = "system";
+
+    if (consent)
+    {
+        try
+        {
+            var storage = StorageService.Get<string>(key: "theme");
+
+            if (storage is { Success: true, Value.Length: > 0 })
+                theme = storage.Value;
+        }
+        catch (Exception)
+        {
+            theme = "system";
+        }
+    }
+}
+
+@{
+    var version = AppDomain.CurrentDomain.GetAssemblies()
+        .FirstOrDefault(predicate: assembly => assembly.GetName().Name == "Telerik.Blazor")?
+        .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
+        .Split(separator: "+")
+        .First() ?? "latest";
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -8,26 +44,45 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
-    <link rel="stylesheet" href="_content/Telerik.UI.for.Blazor/css/kendo-theme-default/all.css"/>
-    <link rel="stylesheet" href="@Assets["css/site.css"]"/>
-    <link rel="stylesheet" href="@Assets["TramTimes.Web.Site.styles.css"]"/>
+    @switch (theme)
+    {
+        case "system":
+            <link rel="stylesheet" href="https://unpkg.com/@@progress/kendo-theme-default@@@(version)/dist/default-main.css" media="(prefers-color-scheme: light)"/>
+            <link rel="stylesheet" href="https://unpkg.com/@@progress/kendo-theme-default@@@(version)/dist/default-main-dark.css" media="(prefers-color-scheme: dark)"/>
+            break;
+        case "light":
+            <link rel="stylesheet" href="https://unpkg.com/@@progress/kendo-theme-default@@@(version)/dist/default-main.css"/>
+            break;
+        case "dark":
+            <link rel="stylesheet" href="https://unpkg.com/@@progress/kendo-theme-default@@@(version)/dist/default-main-dark.css"/>
+            break;
+    }
 
-    <script src="_content/Telerik.UI.for.Blazor/js/telerik-blazor.js" defer></script>
+    @switch (theme)
+    {
+        case "system":
+            <link rel="stylesheet" href="@Assets["css/default-main.css"]" media="(prefers-color-scheme: light)"/>
+            <link rel="stylesheet" href="@Assets["css/default-main-dark.css"]" media="(prefers-color-scheme: dark)"/>
+            break;
+        case "light":
+            <link rel="stylesheet" href="@Assets["css/default-main.css"]"/>
+            break;
+        case "dark":
+            <link rel="stylesheet" href="@Assets["css/default-main-dark.css"]"/>
+            break;
+    }
+
+    <link rel="stylesheet" href="@Assets["TramTimes.Web.Site.styles.css"]"/>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
 
     <HeadOutlet @rendermode="new InteractiveServerRenderMode(prerender: false)"/>
+
+    <script src="_content/Telerik.UI.for.Blazor/js/telerik-blazor.js" defer></script>
+    <script src="_framework/blazor.web.js" defer></script>
 </head>
 
 <body>
-<script src="_framework/blazor.web.js" autostart="false"></script>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        Blazor.start();
-    });
-</script>
-
-<Routes @rendermode="new InteractiveServerRenderMode(prerender: false)"/>
+    <Routes @rendermode="new InteractiveServerRenderMode(prerender: false)"/>
 </body>
 
 </html>

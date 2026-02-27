@@ -106,6 +106,16 @@ export function registerResize(helper) {
     window.addEventListener("resize", handleResize);
 }
 
+export function registerStorage(helper) {
+    const handleStorage = (event) => {
+        if (event.key === "theme") {
+            helper.invokeMethodAsync("OnStorageChangedAsync");
+        }
+    };
+
+    window.addEventListener("storage", handleStorage);
+}
+
 export function writeConsole(message) {
     console.log(message);
 }

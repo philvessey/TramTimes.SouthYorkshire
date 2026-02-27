@@ -7,6 +7,10 @@ namespace TramTimes.Web.Site.Services;
 
 public class StorageService(ProtectedLocalStorage storage)
 {
+    public TelerikStorage<T> Set<T>(string key, T value) where T : class => SetAsync(key: key, value: value).GetAwaiter().GetResult();
+    public TelerikStorage<T> Get<T>(string key) where T : class => GetAsync<T>(key: key).GetAwaiter().GetResult();
+    public TelerikStorage<bool> Delete(string key) => DeleteAsync(key: key).GetAwaiter().GetResult();
+
     public async Task<TelerikStorage<T>> SetAsync<T>(
         string key,
         T value) where T : class {
