@@ -113,12 +113,12 @@
       },
       "Quartz.Extensions.Hosting": {
         "type": "Direct",
-        "requested": "[3.15.1, )",
-        "resolved": "3.15.1",
-        "contentHash": "svqLTEnVLb0VPUcNCd/khRqagwxM/yybUZ2sEOd7HFdPO+5dAOttL+ARtXSyBeaGWPWAaxY4VvU7pJTZzYhORw==",
+        "requested": "[3.16.0, )",
+        "resolved": "3.16.0",
+        "contentHash": "YLTC5ImUjAKcQCSJMdJYAO5TSZYtEDZEhM/CdssUSU+08k/6UKCexdmpZDsezbDV4tySiKCoJxfaUyI9O3mJ7w==",
         "dependencies": {
-          "Microsoft.Extensions.Hosting.Abstractions": "9.0.0",
-          "Quartz.Extensions.DependencyInjection": "3.15.1"
+          "Microsoft.Extensions.Hosting.Abstractions": "10.0.0",
+          "Quartz.Extensions.DependencyInjection": "3.16.0"
         }
       },
       "AspNetCore.HealthChecks.NpgSql": {
@@ -617,20 +617,20 @@
       },
       "Quartz": {
         "type": "Transitive",
-        "resolved": "3.15.1",
-        "contentHash": "XIbhzUAKSm3xdl1ORLPnK7mc5XANP3cuvYQhCtuX/8888IN41e9OXJak4R9OlmAGRnyAMqHE40yojVa89NS1wg==",
+        "resolved": "3.16.0",
+        "contentHash": "t7kQhPD/S3kJElFsxBy3JfQqreimOCu6CUdnCP5JB9zoZsnNeey3ovPZtZAGlw29b2cWGpmuCp8cncXb5myJQA==",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "2.1.1"
         }
       },
       "Quartz.Extensions.DependencyInjection": {
         "type": "Transitive",
-        "resolved": "3.15.1",
-        "contentHash": "LinB9z54aPn49C/DGM1v3OflX2nosrEo4zNz10vfYqcCndFJ8MNU9k++Ap9T7vxeZc355WStPDggpX60TYj1Lg==",
+        "resolved": "3.16.0",
+        "contentHash": "ZjUY92BOW3S8Qv84laYpzqoQOy/2Jy40l1tjPgge771dl8tAKYva8xc/p4K26onncdtJzKeeUj2vfAYce3z/hQ==",
         "dependencies": {
-          "Microsoft.Extensions.Configuration.Abstractions": "9.0.0",
-          "Microsoft.Extensions.Options": "9.0.0",
-          "Quartz": "3.15.1"
+          "Microsoft.Extensions.Configuration.Abstractions": "10.0.0",
+          "Microsoft.Extensions.Options": "10.0.0",
+          "Quartz": "3.16.0"
         }
       },
       "System.Diagnostics.EventLog": {
