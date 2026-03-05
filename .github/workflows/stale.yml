@@ -6,17 +6,27 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: write
   issues: write
   pull-requests: write
 
 jobs:
-  stale:
+  actions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  issues:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/stale@v9
         with:
           days-before-stale: 60
           days-before-close: 14
+          days-before-pr-stale: -1
+          days-before-pr-close: -1
 
           stale-issue-label: 'stale'
           stale-issue-message: |
@@ -36,6 +46,23 @@ jobs:
 
             Thank you for your understanding! 👋
           exempt-issue-labels: 'pinned,security,bug,enhancement,good first issue'
+
+          ascending: false
+          exempt-milestones: true
+          exempt-all-assignees: true
+          operations-per-run: 100
+          remove-stale-when-updated: true
+
+  prs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v9
+        with:
+          days-before-stale: -1
+          days-before-close: -1
+          days-before-pr-stale: 60
+          days-before-pr-close: 14
+
           stale-pr-label: 'stale'
           stale-pr-message: |
             This pull request has been automatically marked as stale because it has not had recent activity.
