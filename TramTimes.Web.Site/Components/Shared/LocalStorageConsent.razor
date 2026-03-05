@@ -1,3 +1,4 @@
+@inject ConsentService ConsentService
 @inject NavigationManager NavigationService
 @inject StorageService StorageService
 @inject IHttpContextAccessor AccessorService
@@ -13,17 +14,17 @@
          width="32"
          xmlns="http://www.w3.org/2000/svg">
 
-        <path d="M510.52 255.82c-69.97-.85-126.47-57.69-126.47-127.86-70.17 0-127-56.49-127.86-126.45-27.26-4.14-55.13.3-79.72 12.82l-69.13 35.22a132.221 132.221 0 0 0-57.79 57.81l-35.1 68.88a132.645 132.645 0 0 0-12.82 80.95l12.08 76.27a132.521 132.521 0 0 0 37.16 72.96l54.77 54.76a132.036 132.036 0 0 0 72.71 37.06l76.71 12.15c27.51 4.36 55.7-.11 80.53-12.76l69.13-35.21a132.273 132.273 0 0 0 57.79-57.81l35.1-68.88c12.56-24.64 17.01-52.58 12.91-79.91zM176 368c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32 32zm32-160c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32 32zm160 128c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32 32z"/>
+        <path d="M510.37 254.79l-12.08-76.26a132.493 132.493 0 0 0-37.16-72.95l-54.76-54.75c-19.73-19.72-45.18-32.7-72.71-37.05l-76.7-12.15c-27.51-4.36-55.69.11-80.52 12.76L107.32 49.6a132.25 132.25 0 0 0-57.79 57.8l-35.1 68.88a132.602 132.602 0 0 0-12.82 80.94l12.08 76.27a132.493 132.493 0 0 0 37.16 72.95l54.76 54.75a132.087 132.087 0 0 0 72.71 37.05l76.7 12.14c27.51 4.36 55.69-.11 80.52-12.75l69.12-35.21a132.302 132.302 0 0 0 57.79-57.8l35.1-68.87c12.71-24.96 17.2-53.3 12.82-80.96zM176 368c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32 32zm32-160c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32 32zm160 128c-17.67 0-32-14.33-32-32s14.33-32 32-32 32 14.33 32 32-14.33 32-32 32z"/>
     </svg>
 </button>
 
-@if (ShowOutline && !ShowPolicy)
+@if (ConsentState == ConsentType.Outline)
 {
     <div id="local-storage-consent__outline"
          data-testid="local-storage-consent__outline">
 
         <h3>We Use Cookies!</h3>
-        <p>We use our own cookies and your browsers local storage to save stop information and your last viewed location. We also use Adsterra to display personalised advertisements. More information about how we use your data can be found in our <a data-testid="policy" @onclick="ShowPrivacyPolicy">privacy policy</a>.</p>
+        <p>We use our own cookies and your browsers local storage to save preferences, stop information and your last viewed location. We also use Adsterra to display personalised advertisements. More information about how we use your data can be found in our <a data-testid="policy" @onclick="ShowPrivacyPolicy">privacy policy</a>.</p>
 
         <div class="submit">
             <button class="accept"
@@ -43,7 +44,7 @@
     </div>
 }
 
-@if (!ShowOutline && ShowPolicy)
+@if (ConsentState == ConsentType.Policy)
 {
     <div id="local-storage-consent__policy"
          data-testid="local-storage-consent__policy">
@@ -52,10 +53,11 @@
 
         <div class="content">
             <p>TramTimes values your privacy. We use cookies and local storage to enhance your experience, and we also use third-party advertising services.</p><br />
+            <p>We use cookies to store your color scheme preference. This allows us to apply your chosen theme when you return to the site. If you reject consent the site will function normally and your theme preference will be set by your browser.</p><br />
             <p>We use your browsers local storage to save information about the stops you view. Saving stop information helps us create a cache for faster access to stops you view the most. If you reject consent the site will function normally but you will have to search for stops, either on the map or search input each time you visit the site.</p><br />
             <p>We use your browsers local storage to save your last viewed location. Saving your last viewed location allows us to quickly return you to the last location you viewed when you return to the site. If you reject consent the site will function normally but you will be returned to the default map location each time you visit the site.</p><br />
             <p>We use Adsterra to display banner advertisements. Adsterra may use cookies and collect data to personalise advertisements and measure advertisement performance. Please review <a href="https://adsterra.com/privacy-policy-managed/" target="_blank">Adsterra's privacy policy</a> for more information about their data practices.</p><br />
-            <p>TramTimes does not share any of your data with third parties beyond what is necessary for advertising services. The data stored in your browsers local storage is only accessible by TramTimes and remains on your device.</p>
+            <p>TramTimes does not share any of your data with third parties beyond what is necessary for advertising services. The data stored in your browsers cookies and local storage is only accessible by TramTimes and remains on your device.</p>
         </div>
 
         <div class="submit">

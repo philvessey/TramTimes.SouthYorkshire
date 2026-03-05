@@ -17,7 +17,7 @@ public partial class SourceCodeRepository : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region create manager
+        #region import javascript
 
         if (firstRender)
         {
@@ -62,7 +62,7 @@ public partial class SourceCodeRepository : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region dispose manager
+        #region dispose javascript
 
         if (Manager is not null)
             await Manager.DisposeAsync();

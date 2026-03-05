@@ -6,4 +6,5 @@ public partial class NavigateToLocation
 {
     [Parameter] public double? Longitude { get; set; }
     [Parameter] public double? Latitude { get; set; }
+    [Parameter] public string? Page { get; set; }
 }

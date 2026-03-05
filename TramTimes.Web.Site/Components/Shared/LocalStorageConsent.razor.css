@@ -122,7 +122,7 @@
 
 #local-storage-consent__outline .submit button.accept:hover {
     background-color: var(--color-success-hover);
-    transform: scale(1.05);
+    transform: scale(105%);
 }
 
 #local-storage-consent__outline .submit button.reject {
@@ -133,7 +133,7 @@
 
 #local-storage-consent__outline .submit button.reject:hover {
     background-color: var(--color-warning-hover);
-    transform: scale(1.05);
+    transform: scale(105%);
 }
 
 #local-storage-consent__policy {
@@ -231,7 +231,7 @@
 
 #local-storage-consent__policy .submit button.accept:hover {
     background-color: var(--color-success-hover);
-    transform: scale(1.05);
+    transform: scale(105%);
 }
 
 #local-storage-consent__policy .submit button.reject {
@@ -242,5 +242,5 @@
 
 #local-storage-consent__policy .submit button.reject:hover {
     background-color: var(--color-warning-hover);
-    transform: scale(1.05);
+    transform: scale(105%);
 }

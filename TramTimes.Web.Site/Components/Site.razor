@@ -1,40 +1,4 @@
-﻿@inject StorageService StorageService
-@inject IHttpContextAccessor AccessorService
-
-@using System.Reflection
-@using Microsoft.AspNetCore.Http.Features
-
-@{
-    var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
-    var consent = feature?.CanTrack ?? false;
-}
-
-@{
-    var theme = "system";
-
-    if (consent)
-    {
-        try
-        {
-            var storage = StorageService.Get<string>(key: "theme");
-
-            if (storage is { Success: true, Value.Length: > 0 })
-                theme = storage.Value;
-        }
-        catch (Exception)
-        {
-            theme = "system";
-        }
-    }
-}
-
-@{
-    var version = AppDomain.CurrentDomain.GetAssemblies()
-        .FirstOrDefault(predicate: assembly => assembly.GetName().Name == "Telerik.Blazor")?
-        .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
-        .Split(separator: "+")
-        .First() ?? "latest";
-}
+﻿@inject IHttpContextAccessor AccessorService
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,38 +8,45 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 
-    @switch (theme)
-    {
-        case "system":
-            <link rel="stylesheet" href="https://unpkg.com/@@progress/kendo-theme-default@@@(version)/dist/default-main.css" media="(prefers-color-scheme: light)"/>
-            <link rel="stylesheet" href="https://unpkg.com/@@progress/kendo-theme-default@@@(version)/dist/default-main-dark.css" media="(prefers-color-scheme: dark)"/>
-            break;
-        case "light":
-            <link rel="stylesheet" href="https://unpkg.com/@@progress/kendo-theme-default@@@(version)/dist/default-main.css"/>
-            break;
-        case "dark":
-            <link rel="stylesheet" href="https://unpkg.com/@@progress/kendo-theme-default@@@(version)/dist/default-main-dark.css"/>
-            break;
-    }
-
-    @switch (theme)
-    {
-        case "system":
-            <link rel="stylesheet" href="@Assets["css/default-main.css"]" media="(prefers-color-scheme: light)"/>
-            <link rel="stylesheet" href="@Assets["css/default-main-dark.css"]" media="(prefers-color-scheme: dark)"/>
-            break;
-        case "light":
-            <link rel="stylesheet" href="@Assets["css/default-main.css"]"/>
-            break;
-        case "dark":
-            <link rel="stylesheet" href="@Assets["css/default-main-dark.css"]"/>
-            break;
-    }
-
-    <link rel="stylesheet" href="@Assets["TramTimes.Web.Site.styles.css"]"/>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+    <link rel="stylesheet" id="kendo-light" href="https://unpkg.com/@@progress/kendo-theme-default@@@(_version)/dist/default-main.css"/>
+    <link rel="stylesheet" id="kendo-dark" href="https://unpkg.com/@@progress/kendo-theme-default@@@(_version)/dist/default-main-dark.css"/>
+    <link rel="stylesheet" id="custom-light" href="@Assets["css/default-main.css"]"/>
+    <link rel="stylesheet" id="custom-dark" href="@Assets["css/default-main-dark.css"]"/>
+    <link rel="stylesheet" id="local-common" href="@Assets["TramTimes.Web.Site.styles.css"]"/>
 
     <HeadOutlet @rendermode="new InteractiveServerRenderMode(prerender: false)"/>
+
+    <script>
+        (function() {
+            let scheme = "@_scheme"
+
+            scheme = (scheme === "system")
+                ? window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+                : scheme;
+
+            setScheme(scheme);
+        })();
+
+        function setScheme(scheme) {
+            const stylesheets = {
+                light: ["kendo-light", "custom-light"],
+                dark: ["kendo-dark", "custom-dark"]
+            };
+
+            const matches = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+            if (scheme === "system") {
+                stylesheets.light.forEach(id => document.getElementById(id).disabled = matches);
+                stylesheets.dark.forEach(id => document.getElementById(id).disabled = !matches);
+            } else {
+                stylesheets.light.forEach(id => document.getElementById(id).disabled = scheme !== "light");
+                stylesheets.dark.forEach(id => document.getElementById(id).disabled = scheme !== "dark");
+            }
+        }
+
+        window.setScheme = setScheme;
+    </script>
 
     <script src="_content/Telerik.UI.for.Blazor/js/telerik-blazor.js" defer></script>
     <script src="_framework/blazor.web.js" defer></script>
@@ -86,3 +57,24 @@
 </body>
 
 </html>
+
+@code {
+    private string _scheme = "system";
+    private string _version = "latest";
+
+    protected override void OnInitialized()
+    {
+        _scheme = _scheme is "system"
+            ? AccessorService.HttpContext?.Request.Cookies[".AspNet.Preference.Scheme"] ?? "system"
+            : _scheme;
+
+        if (_scheme is not "dark" and not "light")
+            _scheme = "system";
+
+        _version = AppDomain.CurrentDomain.GetAssemblies()
+            .FirstOrDefault(predicate: assembly => assembly.GetName().Name == "Telerik.Blazor")?
+            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
+            .Split(separator: "+")
+            .First() ?? "latest";
+    }
+}

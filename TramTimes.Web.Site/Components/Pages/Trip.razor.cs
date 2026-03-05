@@ -1,6 +1,5 @@
 using Geolocation;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.JSInterop;
 using Polly.Timeout;
 using Telerik.Blazor.Components;
@@ -18,7 +17,6 @@ namespace TramTimes.Web.Site.Components.Pages;
 public partial class Trip : ComponentBase, IAsyncDisposable
 {
     private List<TelerikStopPoint> ListData { get; set; } = [];
-    private ElementReference? ListElement { get; set; }
     private CancellationTokenSource? ListSource { get; set; }
     private double[] MapCenter { get; set; } = TelerikMapDefaults.Center;
     private List<TelerikStop> MapData { get; set; } = [];
@@ -33,8 +31,12 @@ public partial class Trip : ComponentBase, IAsyncDisposable
     private bool? Disposed { get; set; }
     private string? Query { get; set; }
     private string? Title { get; set; }
-    private bool? Consent { get; set; }
     private bool? Loading { get; set; }
+
+    private Func<Task>? _onConsentChanged;
+    private Action? _onConsentChangedWrapper;
+    private Func<Task>? _onSchemeChanged;
+    private Action? _onSchemeChangedWrapper;
 
     protected override void OnInitialized()
     {
@@ -50,23 +52,39 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region set default consent
-
-        var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
-        Consent = feature?.CanTrack ?? false;
-
-        #endregion
-
         #region set default loading
 
         Loading ??= true;
+
+        #endregion
+
+        #region register events
+
+        _onConsentChanged = OnConsentChangedAsync;
+        _onConsentChangedWrapper = () => _onConsentChanged.Invoke();
+
+        ConsentService.OnConsentChanged += StateHasChanged;
+        ConsentService.OnConsentChanged += _onConsentChangedWrapper;
+
+        _onSchemeChanged = OnSchemeChangedAsync;
+        _onSchemeChangedWrapper = () => _onSchemeChanged.Invoke();
+
+        SchemeService.OnSchemeChanged += StateHasChanged;
+        SchemeService.OnSchemeChanged += _onSchemeChangedWrapper;
 
         #endregion
     }
 
     protected override async Task OnParametersSetAsync()
     {
-        #region get map location
+        #region check component disposed
+
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+
+        #endregion
+
+        #region get local location
 
         if (Latitude.HasValue && Longitude.HasValue)
         {
@@ -92,19 +110,16 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         double[] location = [];
 
-        if (Consent is true)
+        try
         {
-            try
-            {
-                var storage = await StorageService.GetAsync<double[]>(key: "location");
+            var storage = await StorageService.GetAsync<double[]>(key: "location");
 
-                if (storage is { Success: true, Value.Length: > 0 })
-                    location = storage.Value;
-            }
-            catch (Exception)
-            {
-                location = [];
-            }
+            if (storage is { Success: true, Value.Length: > 0 })
+                location = storage.Value;
+        }
+        catch (Exception)
+        {
+            location = [];
         }
 
         if (!location.IsNullOrEmpty() && !Latitude.HasValue && !Longitude.HasValue)
@@ -118,23 +133,20 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region get local storage
+        #region get local cache
 
         List<TelerikStop> cache = [];
 
-        if (Consent is true)
+        try
         {
-            try
-            {
-                var storage = await StorageService.GetAsync<List<TelerikStop>>(key: "cache");
+            var storage = await StorageService.GetAsync<List<TelerikStop>>(key: "cache");
 
-                if (storage is { Success: true, Value.Count: > 0 })
-                    cache = storage.Value.All(predicate: stop => stop.HasAllProperties()) ? storage.Value : [];
-            }
-            catch (Exception)
-            {
-                cache = [];
-            }
+            if (storage is { Success: true, Value.Count: > 0 })
+                cache = storage.Value.All(predicate: stop => stop.HasAllProperties()) ? storage.Value : [];
+        }
+        catch (Exception)
+        {
+            cache = [];
         }
 
         NextStop = cache.FirstOrDefault(predicate: stop => stop.Id == StopId) ?? new TelerikStop { Id = StopId };
@@ -160,7 +172,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         #region set page title
 
         if (NextStop.Name is not null)
-            Title = $"TramTimes - South Yorkshire - Trip from {NextStop.Name}";
+            Title = $"TramTimes - South Yorkshire - {NextStop.Name}";
 
         #endregion
 
@@ -197,7 +209,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region get local storage
+        #region build local data
 
         MapData.AddRange(collection: cache.Select(selector: stop => new TelerikStop
         {
@@ -336,41 +348,9 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region focus list view
+        #region set local cache
 
-        if (JavascriptManager is not null)
-            await JavascriptManager.InvokeVoidAsync(
-                identifier: "focusElement",
-                args: ListElement);
-
-        #endregion
-
-        #region set local storage
-
-        if (Consent is true)
-        {
-            try
-            {
-                var storage = await StorageService.SetAsync(
-                    key: "location",
-                    value: MapCenter);
-
-                if (storage is { Success: false })
-                    if (JavascriptManager is not null)
-                        await JavascriptManager.InvokeVoidAsync(
-                            identifier: "writeConsole",
-                            args: "trip: location failed");
-            }
-            catch (Exception)
-            {
-                if (JavascriptManager is not null)
-                    await JavascriptManager.InvokeVoidAsync(
-                        identifier: "writeConsole",
-                        args: "trip: location failed");
-            }
-        }
-
-        if (Consent is true)
+        if (ConsentService.Consent is true)
         {
             try
             {
@@ -398,6 +378,33 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         }
 
         #endregion
+
+        #region set local location
+
+        if (ConsentService.Consent is true)
+        {
+            try
+            {
+                var storage = await StorageService.SetAsync(
+                    key: "location",
+                    value: MapCenter);
+
+                if (storage is { Success: false })
+                    if (JavascriptManager is not null)
+                        await JavascriptManager.InvokeVoidAsync(
+                            identifier: "writeConsole",
+                            args: "trip: location failed");
+            }
+            catch (Exception)
+            {
+                if (JavascriptManager is not null)
+                    await JavascriptManager.InvokeVoidAsync(
+                        identifier: "writeConsole",
+                        args: "trip: location failed");
+            }
+        }
+
+        #endregion
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -409,7 +416,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region create javascript manager
+        #region import javascript manager
 
         if (firstRender)
         {
@@ -425,27 +432,74 @@ public partial class Trip : ComponentBase, IAsyncDisposable
                     Environment.GetEnvironmentVariable(variable: "BANNER_320X50"),
                     Environment.GetEnvironmentVariable(variable: "BANNER_468X60"),
                     Environment.GetEnvironmentVariable(variable: "BANNER_728X90"),
-                    Consent
+                    ConsentService.Consent
                 ]);
 
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "registerResize",
                 args: DotNetObjectReference.Create(value: this));
+        }
 
-            await JavascriptManager.InvokeVoidAsync(
-                identifier: "registerStorage",
-                args: DotNetObjectReference.Create(value: this));
+        #endregion
+    }
 
+    private async Task OnConsentChangedAsync()
+    {
+        #region check component disposed
+
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+
+        #endregion
+
+        #region import javascript manager
+
+        JavascriptManager = await JavascriptService.InvokeAsync<IJSObjectReference>(
+            identifier: "import",
+            args: "./Components/Pages/Trip.razor.js");
+
+        await JavascriptManager.InvokeVoidAsync(
+            identifier: "registerBanner",
+            args: [
+                Environment.GetEnvironmentVariable(variable: "BANNER_160X300"),
+                Environment.GetEnvironmentVariable(variable: "BANNER_160X600"),
+                Environment.GetEnvironmentVariable(variable: "BANNER_320X50"),
+                Environment.GetEnvironmentVariable(variable: "BANNER_468X60"),
+                Environment.GetEnvironmentVariable(variable: "BANNER_728X90"),
+                ConsentService.Consent
+            ]);
+
+        await JavascriptManager.InvokeVoidAsync(
+            identifier: "registerResize",
+            args: DotNetObjectReference.Create(value: this));
+
+        #endregion
+
+        #region refresh map view
+
+        MapManager?.Refresh();
+
+        #endregion
+
+        #region output console message
+
+        if (JavascriptManager is not null)
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"trip: consent {(Consent is true ? "accept" : "reject")}");
-        }
+                args: $"trip: consent changed {(ConsentService.Consent is true ? "accepted" : "rejected")}");
 
         #endregion
     }
 
     private async Task OnListReadAsync(ListViewReadEventArgs readEventArgs)
     {
+        #region check component disposed
+
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+
+        #endregion
+
         #region set loading toggle
 
         Loading = true;
@@ -567,13 +621,6 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region check component disposed
-
-        if (Disposed.HasValue && Disposed.Value)
-            return;
-
-        #endregion
-
         #region output console message
 
         if (JavascriptManager is not null)
@@ -586,6 +633,13 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
     private async Task OnListChangeAsync(string? stopId)
     {
+        #region check component disposed
+
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+
+        #endregion
+
         #region get context data
 
         if (stopId is null)
@@ -599,13 +653,6 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         if (MapData.Any(predicate: item => item.Id!.Equals(value: stopId)))
             stop = MapData.First(predicate: item => item.Id!.Equals(value: stopId));
-
-        #endregion
-
-        #region check component disposed
-
-        if (Disposed.HasValue && Disposed.Value)
-            return;
 
         #endregion
 
@@ -632,19 +679,19 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
     private async Task OnMapMarkerClickAsync(MapMarkerClickEventArgs args)
     {
+        #region check component disposed
+
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+
+        #endregion
+
         #region get stop data
 
         if (args.DataItem is not TelerikStop stop)
             return;
 
         if (stop.Id is null)
-            return;
-
-        #endregion
-
-        #region check component disposed
-
-        if (Disposed.HasValue && Disposed.Value)
             return;
 
         #endregion
@@ -672,16 +719,16 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
     private async Task OnMapPanEndAsync(MapPanEndEventArgs args)
     {
-        #region get map location
-
-        MapCenter = args.Center;
-
-        #endregion
-
         #region check component disposed
 
         if (Disposed.HasValue && Disposed.Value)
             return;
+
+        #endregion
+
+        #region get map location
+
+        MapCenter = args.Center;
 
         #endregion
 
@@ -703,17 +750,17 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
     private async Task OnMapZoomEndAsync(MapZoomEndEventArgs args)
     {
-        #region get map location
-
-        MapCenter = args.Center;
-        Zoom = args.Zoom;
-
-        #endregion
-
         #region check component disposed
 
         if (Disposed.HasValue && Disposed.Value)
             return;
+
+        #endregion
+
+        #region get map location
+
+        MapCenter = args.Center;
+        Zoom = args.Zoom;
 
         #endregion
 
@@ -743,18 +790,18 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #endregion
 
+        #region refresh map view
+
+        MapManager?.Refresh();
+
+        #endregion
+
         #region output console message
 
         if (JavascriptManager is not null)
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
                 args: "trip: screen resized");
-
-        #endregion
-
-        #region refresh map view
-
-        MapManager?.Refresh();
 
         #endregion
     }
@@ -780,6 +827,13 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
     private async Task OnSearchChangeAsync(object? stopId)
     {
+        #region check component disposed
+
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+
+        #endregion
+
         #region get context data
 
         Query = string.Empty;
@@ -797,13 +851,6 @@ public partial class Trip : ComponentBase, IAsyncDisposable
             stop = SearchData.First(predicate: item => item.Id!.Equals(value: stopId as string));
 
         if (stop.Id is null)
-            return;
-
-        #endregion
-
-        #region check component disposed
-
-        if (Disposed.HasValue && Disposed.Value)
             return;
 
         #endregion
@@ -869,6 +916,13 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
     private async Task OnSearchReadAsync(AutoCompleteReadEventArgs readEventArgs)
     {
+        #region check component disposed
+
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+
+        #endregion
+
         #region get search input
 
         IList<IFilterDescriptor>? filterDescriptors = readEventArgs.Request.Filters;
@@ -877,6 +931,24 @@ public partial class Trip : ComponentBase, IAsyncDisposable
             return;
 
         var name = filterDescriptor.Value.ToString() ?? string.Empty;
+
+        #endregion
+
+        #region get local cache
+
+        List<TelerikStop> cache = [];
+
+        try
+        {
+            var storage = await StorageService.GetAsync<List<TelerikStop>>(key: "cache");
+
+            if (storage is { Success: true, Value.Count: > 0 })
+                cache = storage.Value.All(predicate: stop => stop.HasAllProperties()) ? storage.Value : [];
+        }
+        catch (Exception)
+        {
+            cache = [];
+        }
 
         #endregion
 
@@ -903,24 +975,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region get local storage
-
-        List<TelerikStop> cache = [];
-
-        if (Consent is true)
-        {
-            try
-            {
-                var storage = await StorageService.GetAsync<List<TelerikStop>>(key: "cache");
-
-                if (storage is { Success: true, Value.Count: > 0 })
-                    cache = storage.Value.All(predicate: stop => stop.HasAllProperties()) ? storage.Value : [];
-            }
-            catch (Exception)
-            {
-                cache = [];
-            }
-        }
+        #region build local data
 
         SearchData.AddRange(collection: cache.Select(selector: stop => new TelerikStop
         {
@@ -1066,32 +1121,9 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region set local storage
+        #region set local cache
 
-        if (Consent is true)
-        {
-            try
-            {
-                var storage = await StorageService.SetAsync(
-                    key: "location",
-                    value: MapCenter);
-
-                if (storage is { Success: false })
-                    if (JavascriptManager is not null)
-                        await JavascriptManager.InvokeVoidAsync(
-                            identifier: "writeConsole",
-                            args: "trip: location failed");
-            }
-            catch (Exception)
-            {
-                if (JavascriptManager is not null)
-                    await JavascriptManager.InvokeVoidAsync(
-                        identifier: "writeConsole",
-                        args: "trip: location failed");
-            }
-        }
-
-        if (Consent is true)
+        if (ConsentService.Consent is true)
         {
             try
             {
@@ -1120,10 +1152,30 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region check component disposed
+        #region set local location
 
-        if (Disposed.HasValue && Disposed.Value)
-            return;
+        if (ConsentService.Consent is true)
+        {
+            try
+            {
+                var storage = await StorageService.SetAsync(
+                    key: "location",
+                    value: MapCenter);
+
+                if (storage is { Success: false })
+                    if (JavascriptManager is not null)
+                        await JavascriptManager.InvokeVoidAsync(
+                            identifier: "writeConsole",
+                            args: "trip: location failed");
+            }
+            catch (Exception)
+            {
+                if (JavascriptManager is not null)
+                    await JavascriptManager.InvokeVoidAsync(
+                        identifier: "writeConsole",
+                        args: "trip: location failed");
+            }
+        }
 
         #endregion
 
@@ -1137,8 +1189,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         #endregion
     }
 
-    [JSInvokable]
-    public async Task OnStorageChangedAsync()
+    private async Task OnSchemeChangedAsync()
     {
         #region check component disposed
 
@@ -1147,80 +1198,64 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #endregion
 
+        #region set component state
+
+        await JavascriptService.InvokeVoidAsync(
+            identifier: "setScheme",
+            args: SchemeService.Scheme);
+
+        #endregion
+
         #region output console message
 
         if (JavascriptManager is not null)
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: "trip: storage changed");
-
-        #endregion
-
-        #region navigate to trip
-
-        NavigationService.NavigateTo(
-            uri: NavigationService.Uri,
-            forceLoad: true,
-            replace: true);
+                args: $"trip: scheme changed {SchemeService.Scheme}");
 
         #endregion
     }
 
-    private async Task OnThemeChangedAsync()
+    private async Task OnSchemeChangedAsync(bool? match)
     {
-        #region get theme context
+        #region check component disposed
+
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+
+        #endregion
+
+        #region get component state
 
         if (JavascriptManager is null)
             return;
 
         #endregion
 
-        #region get theme state
+        #region get context state
 
-        var theme = "system";
-
-        if (Consent is true)
-        {
-            try
-            {
-                var storage = await StorageService.GetAsync<string>(key: "theme");
-
-                if (storage is { Success: true, Value.Length: > 0 })
-                    theme = storage.Value;
-            }
-            catch (Exception)
-            {
-                theme = "system";
-            }
-        }
-
-        if (theme is "dark" or "light")
+        if (match is null)
             return;
 
         #endregion
 
-        #region check component disposed
+        #region get cookie state
 
-        if (Disposed.HasValue && Disposed.Value)
+        var scheme = await JavascriptManager.InvokeAsync<string>(
+            identifier: "getCookie",
+            args: ".AspNet.Preference.Scheme");
+
+        if (scheme is not "dark" and not "light")
+            scheme = "system";
+
+        if (scheme is not "system")
             return;
 
         #endregion
 
-        #region output console message
+        #region set component state
 
-        if (JavascriptManager is not null)
-            await JavascriptManager.InvokeVoidAsync(
-                identifier: "writeConsole",
-                args: $"trip: theme changed");
-
-        #endregion
-
-        #region navigate to trip
-
-        NavigationService.NavigateTo(
-            uri: NavigationService.Uri,
-            forceLoad: true,
-            replace: true);
+        SchemeService.Set(scheme: scheme);
 
         #endregion
     }
@@ -1236,6 +1271,16 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         #region suppress object finalizer
 
         GC.SuppressFinalize(obj: this);
+
+        #endregion
+
+        #region cancel pending events
+
+        ConsentService.OnConsentChanged -= StateHasChanged;
+        ConsentService.OnConsentChanged -= _onConsentChangedWrapper;
+
+        SchemeService.OnSchemeChanged -= StateHasChanged;
+        SchemeService.OnSchemeChanged -= _onSchemeChangedWrapper;
 
         #endregion
 

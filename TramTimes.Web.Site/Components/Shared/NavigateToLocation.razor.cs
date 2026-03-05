@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using TramTimes.Web.Site.Defaults;
-using TramTimes.Web.Utilities.Extensions;
 
 namespace TramTimes.Web.Site.Components.Shared;
 
@@ -19,7 +18,7 @@ public partial class NavigateToLocation : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region create manager
+        #region import javascript
 
         if (firstRender)
         {
@@ -45,7 +44,11 @@ public partial class NavigateToLocation : ComponentBase, IAsyncDisposable
         if (Manager is not null)
             await Manager.InvokeVoidAsync(
                 identifier: "getPosition",
-                args: [DotNetObjectReference.Create(value: this), Longitude, Latitude]);
+                args: [
+                    DotNetObjectReference.Create(value: this),
+                    Longitude,
+                    Latitude
+                ]);
 
         #endregion
     }
@@ -62,19 +65,11 @@ public partial class NavigateToLocation : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region get page
-
-        var privacy = NavigationService.Uri.StartsWithIgnoreCase(value: NavigationService.BaseUri + "privacy");
-        var stop = NavigationService.Uri.StartsWithIgnoreCase(value: NavigationService.BaseUri + "stop");
-        var trip = NavigationService.Uri.StartsWithIgnoreCase(value: NavigationService.BaseUri + "trip");
-
-        #endregion
-
         #region navigate to
 
         NavigationService.NavigateTo(
             uri: $"/{longitude}/{latitude}/{TelerikMapDefaults.Zoom}",
-            replace: !privacy && !stop && !trip);
+            replace: Page is "home");
 
         #endregion
     }
@@ -93,7 +88,7 @@ public partial class NavigateToLocation : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region dispose manager
+        #region dispose javascript
 
         if (Manager is not null)
             await Manager.DisposeAsync();

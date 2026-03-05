@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Components;
 
 namespace TramTimes.Web.Site.Components.Shared;
 
-public partial class LocalStorageConsent
+public partial class PreferredColorScheme
 {
-    [Parameter] public bool? Consent { get; set; }
+    [Parameter] public string? Scheme { get; set; }
     [Parameter] public string? Page { get; set; }
 }

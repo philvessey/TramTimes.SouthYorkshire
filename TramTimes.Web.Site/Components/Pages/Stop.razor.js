@@ -2,10 +2,6 @@
 
 let _timeout;
 
-export function focusElement(element) {
-    element?.focus();
-}
-
 export function registerBanner(_160x300, _160x600, _320x50, _468x60, _728x90, consent) {
     const innerWidth = window.innerWidth;
     const innerHeight = window.innerHeight;
@@ -106,14 +102,19 @@ export function registerResize(helper) {
     window.addEventListener("resize", handleResize);
 }
 
-export function registerStorage(helper) {
-    const handleStorage = (event) => {
-        if (event.key === "theme") {
-            helper.invokeMethodAsync("OnStorageChangedAsync");
-        }
-    };
+export function getCookie(value) {
+    const cookie = decodeURIComponent(document.cookie);
+    const cookies = cookie.split(";");
 
-    window.addEventListener("storage", handleStorage);
+    for (let i = 0; i < cookies.length; i++) {
+        let item = cookies[i].trim();
+
+        if (item.startsWith(value + "=")) {
+            return item.substring(value.length + 1);
+        }
+    }
+
+    return null;
 }
 
 export function writeConsole(message) {

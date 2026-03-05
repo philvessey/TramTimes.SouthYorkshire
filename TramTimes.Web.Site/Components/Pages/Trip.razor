@@ -1,7 +1,8 @@
-﻿@inject NavigationManager NavigationService
+﻿@inject ConsentService ConsentService
+@inject NavigationManager NavigationService
+@inject SchemeService SchemeService
 @inject StorageService StorageService
 @inject IHttpClientFactory HttpService
-@inject IHttpContextAccessor AccessorService
 @inject IJSRuntime JavascriptService
 @inject IMapper MapperService
 
@@ -17,19 +18,20 @@
 <TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Rows"
                    OnChange="@(match => TelerikLayout.Rows = match)"/>
 
-<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Theme"
-                   OnChange="@(_ => OnThemeChangedAsync())"/>
+<TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Scheme"
+                   OnChange="@(match => OnSchemeChangedAsync(match: match))"/>
 
 @{
     var context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? "Development";
 }
 
-<div id="trip" class="@(Consent is true ? "accepted" : "rejected")">
+<div id="trip" class="@(ConsentService.Consent is true ? "accepted" : "rejected")">
 
     <!-- #region telerik-map -->
 
     <div id="trip-telerik-map"
-         data-testid="telerik-map">
+         data-testid="telerik-map"
+         tabindex="-1">
 
         <TelerikMap Center="@MapCenter"
                     Height="100%"
@@ -58,7 +60,7 @@
                           Data="@MapData"
                           LocationField="@nameof(TelerikStop.Location)">
 
-                    <MapLayerMarkerSettings Template="<span class='k-map-marker' data-testid='marker'>#= dataItem.Platform #</span>">
+                    <MapLayerMarkerSettings Template="<span data-testid='marker'>#= dataItem.Platform #</span>">
                         <MapLayerMarkerSettingsTooltip>
                             <Template>
 
@@ -119,17 +121,18 @@
     <!-- #region banner-horizontal -->
 
     <div id="trip-banner-horizontal"
-         data-testid="banner-horizontal">
+         data-testid="banner-horizontal"
+         tabindex="-1">
 
         @{
-            if (Consent is true && context is not "Production")
+            if (ConsentService.Consent is true && context is not "Production")
             {
                 <img src="https://placehold.co/728x90/0078c8/ffffff?text=Banner"
                      data-testid="placeholder"
                      alt="Banner"/>
             }
 
-            if (Consent is true && context is "Production")
+            if (ConsentService.Consent is true && context is "Production")
             {
                 <div class="_320x50"></div>
                 <div class="_468x60"></div>
@@ -143,17 +146,18 @@
     <!-- #region banner-vertical -->
 
     <div id="trip-banner-vertical"
-         data-testid="banner-vertical">
+         data-testid="banner-vertical"
+         tabindex="-1">
 
         @{
-            if (Consent is true && context is not "Production")
+            if (ConsentService.Consent is true && context is not "Production")
             {
                 <img src="https://placehold.co/160x600/0078c8/ffffff?text=Banner"
                      data-testid="placeholder"
                      alt="Banner"/>
             }
 
-            if (Consent is true && context is "Production")
+            if (ConsentService.Consent is true && context is "Production")
             {
                 <div class="_160x300"></div>
                 <div class="_160x600"></div>
@@ -167,8 +171,7 @@
 
     <div id="trip-telerik-list-view"
          data-testid="telerik-list-view"
-         tabindex="-1"
-         @ref="@ListElement">
+         tabindex="-1">
 
         <TelerikListView EnableLoaderContainer="@TelerikListViewDefaults.EnableLoaderContainer"
                          Height="100%"
@@ -255,7 +258,8 @@
 
     <div id="trip-telerik-skeleton"
          data-testid="telerik-skeleton"
-         hidden="@(!Loading)">
+         hidden="@(!Loading)"
+         tabindex="-1">
 
         @{
             for (var i = 0; i < TelerikSkeletonDefaults.Placeholders; i++)
@@ -282,7 +286,8 @@
     <!-- #region telerik-auto-complete -->
 
     <div id="trip-telerik-auto-complete"
-         data-testid="telerik-auto-complete">
+         data-testid="telerik-auto-complete"
+         tabindex="-1">
 
         <TelerikAutoComplete @bind-value="@Query"
                              DebounceDelay="@TelerikAutoCompleteDefaults.DebounceDelay"
@@ -387,27 +392,45 @@
 
     <!-- #region navigate-to-location -->
 
-    <div id="trip-navigate-to-location">
-        <NavigateToLocation Longitude="MapCenter.ElementAt(index: 1)"
-                            Latitude="MapCenter.ElementAt(index: 0)"/>
+    <div id="trip-navigate-to-location"
+         tabindex="-1">
+
+        <NavigateToLocation Longitude="@MapCenter.ElementAt(index: 1)"
+                            Latitude="@MapCenter.ElementAt(index: 0)"
+                            Page="trip"/>
     </div>
 
     <!-- #endregion -->
 
     <!-- #region source-code-repository -->
 
-    <div id="trip-source-code-repository">
-        <SourceCodeRepository Url="https://github.com/philvessey/TramTimes.SouthYorkshire"/>
+    <div id="trip-source-code-repository"
+         tabindex="-1">
+
+        <SourceCodeRepository Url="https://github.com/philvessey/TramTimes.SouthYorkshire"
+                              Page="trip"/>
+    </div>
+
+    <!-- #endregion -->
+
+    <!-- #region preferred-color-scheme -->
+
+    <div id="trip-preferred-color-scheme"
+         tabindex="-1">
+
+        <PreferredColorScheme Scheme="@SchemeService.Scheme"
+                              Page="trip"/>
     </div>
 
     <!-- #endregion -->
 
     <!-- #region local-storage-consent -->
 
-    <div id="trip-local-storage-consent">
-        <LocalStorageConsent Longitude="MapCenter.ElementAt(index: 1)"
-                             Latitude="MapCenter.ElementAt(index: 0)"
-                             Zoom="Zoom"/>
+    <div id="trip-local-storage-consent"
+         tabindex="-1">
+
+        <LocalStorageConsent Consent="@ConsentService.Consent"
+                             Page="trip"/>
     </div>
 
     <!-- #endregion -->

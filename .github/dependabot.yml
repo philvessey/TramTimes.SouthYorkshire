@@ -38,9 +38,8 @@ updates:
     ignore:
       - dependency-name: "Telerik.*"
       - dependency-name: "AutoMapper"
-        versions:
-          - "15.*"
-          - "16.*"
+        update-types:
+          - "version-update:semver-major"
 
   - package-ecosystem: "nuget"
     directories:

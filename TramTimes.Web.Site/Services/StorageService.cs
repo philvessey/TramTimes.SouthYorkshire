@@ -7,10 +7,6 @@ namespace TramTimes.Web.Site.Services;
 
 public class StorageService(ProtectedLocalStorage storage)
 {
-    public TelerikStorage<T> Set<T>(string key, T value) where T : class => SetAsync(key: key, value: value).GetAwaiter().GetResult();
-    public TelerikStorage<T> Get<T>(string key) where T : class => GetAsync<T>(key: key).GetAwaiter().GetResult();
-    public TelerikStorage<bool> Delete(string key) => DeleteAsync(key: key).GetAwaiter().GetResult();
-
     public async Task<TelerikStorage<T>> SetAsync<T>(
         string key,
         T value) where T : class {
@@ -101,27 +97,5 @@ public class StorageService(ProtectedLocalStorage storage)
         }
     }
 
-    public async Task<TelerikStorage<bool>> DeleteAsync(string key)
-    {
-        try
-        {
-            #region Delete value
-
-            await storage.DeleteAsync(key: key);
-
-            #endregion
-
-            return new TelerikStorage<bool>
-            {
-                Success = true,
-                Value = true
-            };
-        }
-        catch (Exception e)
-        {
-            throw new Exception(
-                message: $"Failed to delete value for key: {key}",
-                innerException: e);
-        }
-    }
+    public async Task DeleteAsync(string key) => await storage.DeleteAsync(key: key);
 }

@@ -141,6 +141,8 @@ builder.Services.Configure<HubOptions>(configureOptions: options =>
 
 #region add scoped
 
+builder.Services.AddScoped<ConsentService>();
+builder.Services.AddScoped<SchemeService>();
 builder.Services.AddScoped<StorageService>();
 
 #endregion

@@ -5,7 +5,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.JSInterop;
-using TramTimes.Web.Site.Services;
+using TramTimes.Web.Site.Types;
 using TramTimes.Web.Utilities.Extensions;
 
 namespace TramTimes.Web.Site.Components.Shared;
@@ -13,34 +13,39 @@ namespace TramTimes.Web.Site.Components.Shared;
 public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
 {
     private IJSObjectReference? Manager { get; set; }
+    private ConsentType? ConsentState { get; set; }
     private string? ConsentCookie { get; set; }
-    private bool ShowOutline { get; set; }
-    private bool ShowPolicy { get; set; }
     private bool Disposed { get; set; }
 
     private sealed record Metadata(string Timestamp, string Version)
     {
-        public const string CurrentVersion = "2026-01";
+        public const string CurrentVersion = "2026-02";
     }
 
-    protected override void OnInitialized()
+    protected override void OnParametersSet()
     {
-        #region get feature
+        #region get state
 
-        var feature = AccessorService.HttpContext?.Features.Get<ITrackingConsentFeature>();
-
-        #endregion
-
-        #region create consent
-
-        ConsentCookie = feature?.CreateConsentCookie();
+        var consent = ConsentService.Get();
 
         #endregion
 
-        #region set toggles
+        #region get cookie
 
-        ShowOutline = false;
-        ShowPolicy = false;
+        ConsentCookie = AccessorService.HttpContext?.Features
+            .Get<ITrackingConsentFeature>()?
+            .CreateConsentCookie();
+
+        #endregion
+
+        #region set state
+
+        ConsentState = consent switch
+        {
+            true => ConsentType.Hidden,
+            false => ConsentType.Hidden,
+            _ => ConsentType.Outline
+        };
 
         #endregion
     }
@@ -54,7 +59,7 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region create manager
+        #region import javascript
 
         if (firstRender)
         {
@@ -98,10 +103,9 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
 
     private void ShowPrivacyOutline()
     {
-        #region set toggles
+        #region set state
 
-        ShowOutline = true;
-        ShowPolicy = false;
+        ConsentState = ConsentType.Outline;
 
         #endregion
 
@@ -114,10 +118,9 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
 
     private void ShowPrivacyPolicy()
     {
-        #region set toggles
+        #region set state
 
-        ShowOutline = false;
-        ShowPolicy = true;
+        ConsentState = ConsentType.Policy;
 
         #endregion
 
@@ -137,7 +140,13 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region set cookies
+        #region get state
+
+        var consent = true;
+
+        #endregion
+
+        #region set cookie
 
         ConsentCookie = ConsentCookie?.Replace(
             oldValue: "false",
@@ -146,9 +155,16 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
         if (Manager is not null)
             await Manager.InvokeVoidAsync(
                 identifier: "setCookie",
-                args: [ConsentCookie, DateTime.UtcNow
-                    .AddDays(value: 365)
-                    .ToString(provider: CultureInfo.InvariantCulture)]);
+                args: [
+                    ConsentCookie,
+                    DateTime.UtcNow
+                        .AddDays(value: 365)
+                        .ToString(provider: CultureInfo.InvariantCulture)
+                ]);
+
+        #endregion
+
+        #region set cookie
 
         var metadata = JsonSerializer.Serialize(value: new Metadata(
             Timestamp: DateTime.UtcNow.ToString(format: "yyyy-MM-dd"),
@@ -161,18 +177,30 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
         if (Manager is not null)
             await Manager.InvokeVoidAsync(
                 identifier: "setCookie",
-                args: [cookie, DateTime.UtcNow
-                    .AddDays(value: 365)
-                    .ToString(provider: CultureInfo.InvariantCulture)]);
+                args: [
+                    cookie,
+                    DateTime.UtcNow
+                        .AddDays(value: 365)
+                        .ToString(provider: CultureInfo.InvariantCulture)
+                ]);
 
         #endregion
 
-        #region navigate page
+        #region set state
 
-        NavigationService.NavigateTo(
-            uri: NavigationService.Uri,
-            forceLoad: true,
-            replace: true);
+        ConsentState = ConsentType.Hidden;
+
+        #endregion
+
+        #region change state
+
+        StateHasChanged();
+
+        #endregion
+
+        #region set state
+
+        ConsentService.Set(consent: consent);
 
         #endregion
     }
@@ -186,7 +214,27 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region set cookies
+        #region delete cookie
+
+        if (Manager is not null)
+            await Manager.InvokeVoidAsync(identifier: "deleteCookie");
+
+        #endregion
+
+        #region delete storage
+
+        await StorageService.DeleteAsync(key: "cache");
+        await StorageService.DeleteAsync(key: "location");
+
+        #endregion
+
+        #region get state
+
+        var consent = false;
+
+        #endregion
+
+        #region set cookie
 
         ConsentCookie = ConsentCookie?.Replace(
             oldValue: "true",
@@ -195,9 +243,16 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
         if (Manager is not null)
             await Manager.InvokeVoidAsync(
                 identifier: "setCookie",
-                args: [ConsentCookie, DateTime.UtcNow
-                    .AddDays(value: 365)
-                    .ToString(provider: CultureInfo.InvariantCulture)]);
+                args: [
+                    ConsentCookie,
+                    DateTime.UtcNow
+                        .AddDays(value: 365)
+                        .ToString(provider: CultureInfo.InvariantCulture)
+                ]);
+
+        #endregion
+
+        #region set cookie
 
         var metadata = JsonSerializer.Serialize(value: new Metadata(
             Timestamp: DateTime.UtcNow.ToString(format: "yyyy-MM-dd"),
@@ -210,33 +265,29 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
         if (Manager is not null)
             await Manager.InvokeVoidAsync(
                 identifier: "setCookie",
-                args: [cookie, DateTime.UtcNow
-                    .AddDays(value: 365)
-                    .ToString(provider: CultureInfo.InvariantCulture)]);
+                args: [
+                    cookie,
+                    DateTime.UtcNow
+                        .AddDays(value: 365)
+                        .ToString(provider: CultureInfo.InvariantCulture)]);
 
         #endregion
 
-        #region delete cookies
+        #region set state
 
-        if (Manager is not null)
-            await Manager.InvokeVoidAsync(identifier: "deleteCookie");
-
-        #endregion
-
-        #region delete storage
-
-        await StorageService.DeleteAsync(key: "cache");
-        await StorageService.DeleteAsync(key: "location");
-        await StorageService.DeleteAsync(key: "theme");
+        ConsentState = ConsentType.Hidden;
 
         #endregion
 
-        #region navigate page
+        #region change state
 
-        NavigationService.NavigateTo(
-            uri: NavigationService.Uri,
-            forceLoad: true,
-            replace: true);
+        StateHasChanged();
+
+        #endregion
+
+        #region set state
+
+        ConsentService.Set(consent: consent);
 
         #endregion
     }
@@ -255,7 +306,7 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region dispose manager
+        #region dispose javascript
 
         if (Manager is not null)
             await Manager.DisposeAsync();
