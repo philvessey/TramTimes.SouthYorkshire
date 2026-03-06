@@ -3,10 +3,14 @@
 export function getPosition(helper, longitude, latitude) {
     navigator.geolocation.getCurrentPosition(
         function(position) {
-            helper.invokeMethodAsync("OnPosition", position.coords.longitude, position.coords.latitude);
+            helper.invokeMethodAsync("OnPositionAsync", position.coords.longitude, position.coords.latitude);
         },
         function() {
-            helper.invokeMethodAsync("OnPosition", longitude, latitude);
+            helper.invokeMethodAsync("OnPositionAsync", longitude, latitude);
         }
     );
+}
+
+export function writeConsole(message) {
+    console.log(message);
 }

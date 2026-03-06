@@ -402,6 +402,32 @@
 
     <!-- #endregion -->
 
+    <!-- #region increase-zoom-level -->
+
+    <div id="trip-increase-zoom-level"
+         tabindex="-1">
+
+        <IncreaseZoomLevel Longitude="@MapCenter.ElementAt(index: 1)"
+                           Latitude="@MapCenter.ElementAt(index: 0)"
+                           Zoom="@Zoom"
+                           Page="trip"/>
+    </div>
+
+    <!-- #endregion -->
+
+    <!-- #region decrease-zoom-level -->
+
+    <div id="trip-decrease-zoom-level"
+         tabindex="-1">
+
+        <DecreaseZoomLevel Longitude="@MapCenter.ElementAt(index: 1)"
+                           Latitude="@MapCenter.ElementAt(index: 0)"
+                           Zoom="@Zoom"
+                           Page="trip"/>
+    </div>
+
+    <!-- #endregion -->
+
     <!-- #region source-code-repository -->
 
     <div id="trip-source-code-repository"

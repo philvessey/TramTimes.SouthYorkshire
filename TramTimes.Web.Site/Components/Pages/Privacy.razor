@@ -410,6 +410,32 @@
 
     <!-- #endregion -->
 
+    <!-- #region increase-zoom-level -->
+
+    <div id="privacy-increase-zoom-level"
+         tabindex="-1">
+
+        <IncreaseZoomLevel Longitude="@MapCenter.ElementAt(index: 1)"
+                           Latitude="@MapCenter.ElementAt(index: 0)"
+                           Zoom="@Zoom"
+                           Page="privacy"/>
+    </div>
+
+    <!-- #endregion -->
+
+    <!-- #region decrease-zoom-level -->
+
+    <div id="privacy-decrease-zoom-level"
+         tabindex="-1">
+
+        <DecreaseZoomLevel Longitude="@MapCenter.ElementAt(index: 1)"
+                           Latitude="@MapCenter.ElementAt(index: 0)"
+                           Zoom="@Zoom"
+                           Page="privacy"/>
+    </div>
+
+    <!-- #endregion -->
+
     <!-- #region source-code-repository -->
 
     <div id="privacy-source-code-repository"

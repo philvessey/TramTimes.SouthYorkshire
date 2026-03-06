@@ -4,7 +4,7 @@ using TramTimes.Web.Site.Defaults;
 
 namespace TramTimes.Web.Site.Components.Shared;
 
-public partial class NavigateToLocation : ComponentBase, IAsyncDisposable
+public partial class DecreaseZoomLevel : ComponentBase, IAsyncDisposable
 {
     private IJSObjectReference? Manager { get; set; }
     private bool Disposed { get; set; }
@@ -24,13 +24,13 @@ public partial class NavigateToLocation : ComponentBase, IAsyncDisposable
         {
             Manager = await JavascriptService.InvokeAsync<IJSObjectReference>(
                 identifier: "import",
-                args: "./Components/Shared/NavigateToLocation.razor.js");
+                args: "./Components/Shared/DecreaseZoomLevel.razor.js");
         }
 
         #endregion
     }
 
-    private async Task GetPositionAsync()
+    private async Task ChangeZoomAsync()
     {
         #region check disposed
 
@@ -39,28 +39,16 @@ public partial class NavigateToLocation : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region get position
+        #region get zoom
 
-        if (Manager is not null)
-            await Manager.InvokeVoidAsync(
-                identifier: "getPosition",
-                args: [
-                    DotNetObjectReference.Create(value: this),
-                    Longitude,
-                    Latitude
-                ]);
+        if (!Zoom.HasValue)
+            return;
 
-        #endregion
-    }
+        var zoom = Zoom.Value % 1 is not 0
+            ? Math.Floor(d: Zoom.Value)
+            : Zoom.Value - 1;
 
-    [JSInvokable]
-    public async Task OnPositionAsync(
-        double longitude,
-        double latitude) {
-
-        #region check disposed
-
-        if (Disposed)
+        if (zoom < TelerikMapDefaults.MinZoom)
             return;
 
         #endregion
@@ -70,14 +58,14 @@ public partial class NavigateToLocation : ComponentBase, IAsyncDisposable
         if (Manager is not null)
             await Manager.InvokeVoidAsync(
                 identifier: "writeConsole",
-                args: $"{Page}: map position {longitude}/{latitude}");
+                args: $"{Page}: map zoom {zoom}");
 
         #endregion
 
         #region navigate to
 
         NavigationService.NavigateTo(
-            uri: $"/{longitude}/{latitude}/{TelerikMapDefaults.Zoom}",
+            uri: $"/{Longitude}/{Latitude}/{zoom}",
             replace: Page is "home");
 
         #endregion

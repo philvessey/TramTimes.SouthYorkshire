@@ -1,9 +1,9 @@
 @inject NavigationManager NavigationService
 @inject IJSRuntime JavascriptService
 
-<button id="navigate-to-location"
-        data-testid="navigate-to-location"
-        @onclick="GetPositionAsync">
+<button id="decrease-zoom-level"
+        data-testid="decrease-zoom-level"
+        @onclick="ChangeZoomAsync">
 
     <svg class="icon"
          fill="currentColor"
@@ -13,6 +13,6 @@
          width="32"
          xmlns="http://www.w3.org/2000/svg">
 
-        <path d="M444.52 3.52L28.74 195.42c-47.97 22.39-31.98 92.75 19.19 92.75h175.91v175.91c0 51.17 70.36 67.17 92.75 19.19l191.9-415.78c15.99-38.39-25.59-79.97-63.97-63.97z"/>
+        <path d="M256 512a256 256 0 1 0 0-512 256 256 0 1 0 0 512zM168 232l176 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-176 0c-13.3 0-24-10.7-24-24s10.7-24 24-24z"/>
     </svg>
 </button>
