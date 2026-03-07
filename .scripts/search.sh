@@ -160,20 +160,16 @@ chmod 755 /etc/letsencrypt/archive
 
 mkdir -p /tmp/certbot
 
-EXPIRY=$(openssl x509 -in "/etc/elasticsearch/ca/ca.crt" -noout -enddate | cut -d= -f2)
+docker run --rm -v "/tmp/certbot:/working" docker.elastic.co/elasticsearch/elasticsearch:8.17.3 \
+  bin/elasticsearch-certutil ca -out /working/ca.zip \
+  --pem > /dev/null 2>&1
 
-if [ $(date -d "$EXPIRY" +%s) -lt $(date -d "+365 days" +%s) ]; then
-  docker run --rm -v "/tmp/certbot:/working" docker.elastic.co/elasticsearch/elasticsearch:8.17.3 \
-    bin/elasticsearch-certutil ca -out /working/ca.zip \
-    --pem > /dev/null 2>&1
+unzip -oq /tmp/certbot/ca.zip -d /etc/elasticsearch
 
-  unzip -oq /tmp/certbot/ca.zip -d /etc/elasticsearch
-
-  chmod 644 /etc/elasticsearch/ca/ca.crt
-  chown 1000:1000 /etc/elasticsearch/ca/ca.crt
-  chmod 600 /etc/elasticsearch/ca/ca.key
-  chown 1000:1000 /etc/elasticsearch/ca/ca.key
-fi
+chmod 644 /etc/elasticsearch/ca/ca.crt
+chown 1000:1000 /etc/elasticsearch/ca/ca.crt
+chmod 600 /etc/elasticsearch/ca/ca.key
+chown 1000:1000 /etc/elasticsearch/ca/ca.key
 
 docker run --rm -v "/tmp/certbot:/working" -v "/etc/elasticsearch:/elasticsearch" docker.elastic.co/elasticsearch/elasticsearch:8.17.3 \
   bin/elasticsearch-certutil cert -out /working/certs.zip \

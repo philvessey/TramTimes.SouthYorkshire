@@ -86,27 +86,17 @@ Before you begin, ensure you have the following installed:
    git remote -v
    ```
 
-5. **Add custom package source** if you have a Telerik license:
+5. **Copy nuget.config**:
    ```bash
-   dotnet new nugetconfig
+   cp ./nuget.tmp ./nuget.config # Replace {{ TELERIK_KEY }} with your Telerik API key
    ```
 
-6. **Copy telerik-license.txt** if you have a Telerik license:
+6. **Copy telerik-license.txt**:
    ```bash
-   cp /path/to/your/telerik-license.txt TramTimes.SouthYorkshire/telerik-license.txt
+   cp /path/to/your/telerik-license.txt ./TramTimes.SouthYorkshire/telerik-license.txt
    ```
 
-7. **Add custom telerik source** if you have a Telerik license:
-   ```bash
-   dotnet nuget add source "https://nuget.telerik.com/v3/index.json" --name "telerik" --username "api-key" --password "<your-api-key>" --configfile "./nuget.config" --store-password-in-clear-text
-   ```
-
-8. **Copy nuget.xml** if you have a Telerik license:
-    ```bash
-    sed -i '/<\/configuration>/e sed "s/^/  /" nuget.xml; echo' ./nuget.config
-    ```
-
-9. **Run the solution** to verify everything works:
+7. **Run the solution** to verify everything works:
    ```bash
    aspire run
    ```
@@ -558,4 +548,4 @@ Thank you for contributing to TramTimes.SouthYorkshire! Your efforts help make t
 
 **Questions?** Feel free to open an issue or start a discussion!
 
-**Last Updated**: February 27, 2026
+**Last Updated**: March 7, 2026

@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+# Prompt key
+read -p "Enter public key: " PUBLIC_KEY
+
 # Create admin
 adduser --disabled-password --gecos "" admin
 usermod -aG users,admin admin
@@ -12,7 +15,7 @@ chmod 440 /etc/sudoers.d/admin
 
 # Set SSH
 mkdir -p /home/admin/.ssh
-echo "ssh-rsa {{KEY}}" > /home/admin/.ssh/authorized_keys
+echo "ssh-rsa $PUBLIC_KEY" > /home/admin/.ssh/authorized_keys
 chmod 700 /home/admin/.ssh
 chmod 600 /home/admin/.ssh/authorized_keys
 chown -R admin:admin /home/admin/.ssh

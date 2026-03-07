@@ -36,10 +36,8 @@ jobs:
 
       - name: .NET nuget
         run: |
-          dotnet new nugetconfig
-          dotnet nuget add source 'https://nuget.telerik.com/v3/index.json' --name 'telerik' --username 'api-key' --password '${{ secrets.TELERIK_KEY }}' --configfile './nuget.config' --store-password-in-clear-text
-          sed -i '/<\/configuration>/e sed "s/^/  /" nuget.xml; echo' ./nuget.config
-          sed 's/ClearTextPassword="[^"]*"/ClearTextPassword="***REDACTED***"/' ./nuget.config
+          cp ./nuget.tmp ./nuget.config
+          sed -i 's|{{ TELERIK_KEY }}|${{ secrets.TELERIK_KEY }}|g' ./nuget.config
 
       - name: .NET cache
         uses: actions/cache@v4

@@ -20,6 +20,11 @@ chown 999:999 /etc/letsencrypt/live/server.tramtimes.net/fullchain.pem
 chmod 600 /etc/letsencrypt/live/server.tramtimes.net/privkey.pem
 chown 999:999 /etc/letsencrypt/live/server.tramtimes.net/privkey.pem
 
+# Modify paths
+chmod 755 /etc/letsencrypt
+chmod 755 /etc/letsencrypt/live
+chmod 755 /etc/letsencrypt/archive
+
 # Create directory
 mkdir -p /etc/postgresql
 
@@ -81,6 +86,10 @@ chmod 644 /etc/letsencrypt/live/server.tramtimes.net/fullchain.pem
 chown 999:999 /etc/letsencrypt/live/server.tramtimes.net/fullchain.pem
 chmod 600 /etc/letsencrypt/live/server.tramtimes.net/privkey.pem
 chown 999:999 /etc/letsencrypt/live/server.tramtimes.net/privkey.pem
+
+chmod 755 /etc/letsencrypt
+chmod 755 /etc/letsencrypt/live
+chmod 755 /etc/letsencrypt/archive
 
 docker restart server > /dev/null 2>&1
 EOF

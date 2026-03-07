@@ -148,28 +148,16 @@ git clone https://github.com/philvessey/TramTimes.SouthYorkshire.git
 cd TramTimes.SouthYorkshire
 ```
 
-### Add Custom Package Source
+### Copy NuGet Config
 
 ```bash
-dotnet new nugetconfig
+cp ./nuget.tmp ./nuget.config # Replace {{ TELERIK_KEY }} with your Telerik API key
 ```
 
 ### Copy Telerik License
 
 ```bash
-cp /path/to/your/telerik-license.txt TramTimes.SouthYorkshire/telerik-license.txt
-```
-
-### Add Custom Telerik Source
-
-```bash
-dotnet nuget add source "https://nuget.telerik.com/v3/index.json" --name "telerik" --username "api-key" --password "<your-api-key>" --configfile "./nuget.config" --store-password-in-clear-text
-```
-
-### Update Custom Package Source
-
-```bash
-sed -i '/<\/configuration>/e sed "s/^/  /" nuget.xml; echo' ./nuget.config
+cp /path/to/your/telerik-license.txt ./TramTimes.SouthYorkshire/telerik-license.txt
 ```
 
 ### Run Aspire Host
@@ -189,8 +177,8 @@ ssh -i <public-key> root@<server-address>
 ### Setup Infrastructure
 
 ```bash
-nano setup.sh
-sudo bash setup.sh
+nano setup.sh # Copy file contents from setup.sh
+sudo bash setup.sh # Follow prompts when script completes
 ```
 
 ### Authenticate Infrastructure
@@ -202,25 +190,25 @@ ssh -i <public-key> admin@<server-address>
 ### Build Cache Infrastructure
 
 ```bash
-nano cache.yml
-nano cache.sh
-sudo bash cache.sh
+nano cache.yml # Copy file contents from .docker/cache.yml
+nano cache.sh # Copy file contents from .scripts/cache.sh
+sudo bash cache.sh # Follow prompts when script completes
 ```
 
 ### Build Search Infrastructure
 
 ```bash
-nano search.yml
-nano search.sh
-sudo bash search.sh
+nano search.yml # Copy file contents from .docker/search.yml
+nano search.sh # Copy file contents from .scripts/search.sh
+sudo bash search.sh # Follow prompts when script completes
 ```
 
 ### Build Server Infrastructure
 
 ```bash
-nano server.yml
-nano server.sh
-sudo bash server.sh
+nano server.yml # Copy file contents from .docker/server.yml
+nano server.sh # Copy file contents from .scripts/server.sh
+sudo bash server.sh # Follow prompts when script completes
 ```
 
 ### Deploy Aspire Host

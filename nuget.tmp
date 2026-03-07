@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<configuration>
+
+  <packageSources>
+    <clear/>
+    <add key="nuget.org" value="https://api.nuget.org/v3/index.json"/>
+    <add key="telerik.com" value="https://nuget.telerik.com/v3/index.json"/>
+  </packageSources>
+
+  <packageSourceCredentials>
+    <telerik.com>
+      <add key="Username" value="api-key"/>
+      <add key="ClearTextPassword" value="{{ TELERIK_KEY }}"/>
+    </telerik.com>
+  </packageSourceCredentials>
+
+  <packageSourceMapping>
+    <packageSource key="nuget.org">
+      <package pattern="*"/>
+      <package pattern="Telerik.AI.*"/>
+      <package pattern="Telerik.Licensing"/>
+      <package pattern="Telerik.FontIcons"/>
+      <package pattern="Telerik.SvgIcons"/>
+    </packageSource>
+    <packageSource key="telerik.com">
+      <package pattern="Telerik*"/>
+    </packageSource>
+  </packageSourceMapping>
+
+</configuration>
