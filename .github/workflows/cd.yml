@@ -52,15 +52,13 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Aspire install
-        run: |
-          curl -sSL https://aspire.dev/install.sh | bash
-          echo "$HOME/.aspire/bin" >> "$GITHUB_PATH"
+        run: curl -sSL https://aspire.dev/install.sh | bash
 
       - name: Aspire version
         run: aspire --version
 
       - name: Aspire deploy
-        run: aspire deploy --environment Production
+        run: aspire deploy
         env:
           DOTNET_CLI_TELEMETRY_OPTOUT: 1
           DOTNET_MULTILEVEL_LOOKUP: 0
@@ -69,6 +67,7 @@ jobs:
           DOTNET_GENERATE_ASPNET_CERTIFICATE: false
           DOTNET_NOLOGO: true
           DOTNET_SYSTEM_CONSOLE_ALLOW_ANSI_COLOR_REDIRECTION: true
+          TELERIK_LICENSE: ${{ secrets.TELERIK_LICENSE }}
           Azure__SubscriptionId: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           Azure__Location: ${{ secrets.AZURE_LOCATION || 'uksouth' }}
           Azure__ResourceGroup: ${{ secrets.AZURE_RESOURCE_GROUP || 'tramtimes-southyorkshire' }}
