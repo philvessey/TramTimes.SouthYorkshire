@@ -5,7 +5,7 @@
 *.md @philvessey
 
 # Package configuration files
-/.nuget.xml @philvessey
+/.nuget.tmp @philvessey
 
 # Root configuration files
 /Directory.Build.props @philvessey

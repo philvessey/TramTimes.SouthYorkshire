@@ -50,6 +50,42 @@ public static class TravelineStopBuilder
             AdministrativeAreaCode = stopPoint?.AdministrativeAreaRef
         };
 
+        var commonName = result.CommonName ?? string.Empty;
+
+        commonName = commonName.Replace(
+            oldValue: "(South Yorkshire Supertram)",
+            newValue: string.Empty);
+
+        commonName = commonName.Trim();
+
+        commonName = GeneratedRegexBuilder.GetPlatform().Replace(
+            input: commonName,
+            replacement: string.Empty);
+
+        commonName = commonName.Trim();
+
+        var from = GeneratedRegexBuilder.GetFrom().Match(input: commonName);
+        var to = GeneratedRegexBuilder.GetTo().Match(input: commonName);
+
+        var direction = from.Success ? from.Value : to.Success ? to.Value : result.Indicator;
+
+        commonName = GeneratedRegexBuilder.GetFrom().Replace(
+            input: commonName,
+            replacement: string.Empty);
+
+        commonName = commonName.Trim();
+
+        commonName = GeneratedRegexBuilder.GetTo().Replace(
+            input: commonName,
+            replacement: string.Empty);
+
+        commonName = commonName.Trim();
+
+        commonName = $"{commonName} {direction ?? string.Empty}";
+        commonName = commonName.Trim();
+
+        result.CommonName = commonName;
+
         if (result.Easting is null || result.Northing is null)
             return result;
 
