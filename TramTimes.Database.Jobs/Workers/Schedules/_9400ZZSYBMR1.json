@@ -1,12 +1,7 @@
 {
   "monday": [
     {
-      "departure_time": "12:03:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:15:00",
+      "departure_time": "12:12:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
@@ -16,24 +11,19 @@
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:39:00",
+      "departure_time": "12:42:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:51:00",
+      "departure_time": "12:57:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     }
   ],
   "tuesday": [
     {
-      "departure_time": "12:03:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:15:00",
+      "departure_time": "12:12:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
@@ -43,24 +33,19 @@
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:39:00",
+      "departure_time": "12:42:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:51:00",
+      "departure_time": "12:57:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     }
   ],
   "wednesday": [
     {
-      "departure_time": "12:03:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:15:00",
+      "departure_time": "12:12:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
@@ -70,24 +55,19 @@
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:39:00",
+      "departure_time": "12:42:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:51:00",
+      "departure_time": "12:57:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     }
   ],
   "thursday": [
     {
-      "departure_time": "12:03:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:15:00",
+      "departure_time": "12:12:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
@@ -97,24 +77,19 @@
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:39:00",
+      "departure_time": "12:42:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:51:00",
+      "departure_time": "12:57:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     }
   ],
   "friday": [
     {
-      "departure_time": "12:03:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:15:00",
+      "departure_time": "12:12:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
@@ -124,24 +99,19 @@
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:39:00",
+      "departure_time": "12:42:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:51:00",
+      "departure_time": "12:57:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     }
   ],
   "saturday": [
     {
-      "departure_time": "12:02:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:14:00",
+      "departure_time": "12:11:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
@@ -151,29 +121,29 @@
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:38:00",
+      "departure_time": "12:41:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:50:00",
+      "departure_time": "12:56:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     }
   ],
   "sunday": [
     {
-      "departure_time": "12:07:00",
+      "departure_time": "12:17:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:27:00",
+      "departure_time": "12:37:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:47:00",
+      "departure_time": "12:57:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     }

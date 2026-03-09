@@ -1,22 +1,17 @@
 {
   "monday": [
     {
-      "departure_time": "12:01:00",
-      "destination_name": "Halfway Tram Stop",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:09:00",
+      "departure_time": "12:03:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:13:00",
+      "departure_time": "12:10:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:21:00",
+      "departure_time": "12:18:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
@@ -31,44 +26,34 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:37:00",
+      "departure_time": "12:40:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:45:00",
+      "departure_time": "12:48:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:49:00",
+      "departure_time": "12:55:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:57:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
     }
   ],
   "tuesday": [
     {
-      "departure_time": "12:01:00",
-      "destination_name": "Halfway Tram Stop",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:09:00",
+      "departure_time": "12:03:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:13:00",
+      "departure_time": "12:10:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:21:00",
+      "departure_time": "12:18:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
@@ -83,44 +68,34 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:37:00",
+      "departure_time": "12:40:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:45:00",
+      "departure_time": "12:48:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:49:00",
+      "departure_time": "12:55:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:57:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
     }
   ],
   "wednesday": [
     {
-      "departure_time": "12:01:00",
-      "destination_name": "Halfway Tram Stop",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:09:00",
+      "departure_time": "12:03:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:13:00",
+      "departure_time": "12:10:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:21:00",
+      "departure_time": "12:18:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
@@ -135,44 +110,34 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:37:00",
+      "departure_time": "12:40:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:45:00",
+      "departure_time": "12:48:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:49:00",
+      "departure_time": "12:55:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:57:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
     }
   ],
   "thursday": [
     {
-      "departure_time": "12:01:00",
-      "destination_name": "Halfway Tram Stop",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:09:00",
+      "departure_time": "12:03:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:13:00",
+      "departure_time": "12:10:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:21:00",
+      "departure_time": "12:18:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
@@ -187,44 +152,34 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:37:00",
+      "departure_time": "12:40:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:45:00",
+      "departure_time": "12:48:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:49:00",
+      "departure_time": "12:55:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:57:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
     }
   ],
   "friday": [
     {
-      "departure_time": "12:01:00",
-      "destination_name": "Halfway Tram Stop",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:09:00",
+      "departure_time": "12:03:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:13:00",
+      "departure_time": "12:10:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:21:00",
+      "departure_time": "12:18:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
@@ -239,49 +194,39 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:37:00",
+      "departure_time": "12:40:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:45:00",
+      "departure_time": "12:48:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:49:00",
+      "departure_time": "12:55:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:57:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
     }
   ],
   "saturday": [
     {
-      "departure_time": "12:02:00",
-      "destination_name": "Halfway Tram Stop",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:09:00",
+      "departure_time": "12:03:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:14:00",
+      "departure_time": "12:10:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:21:00",
+      "departure_time": "12:18:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:26:00",
+      "departure_time": "12:25:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
@@ -291,7 +236,39 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:38:00",
+      "departure_time": "12:40:00",
+      "destination_name": "Halfway Tram Stop",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:48:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:55:00",
+      "destination_name": "Halfway Tram Stop",
+      "route_name": "BLUE"
+    }
+  ],
+  "sunday": [
+    {
+      "departure_time": "12:05:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:15:00",
+      "destination_name": "Halfway Tram Stop",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:25:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:35:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
@@ -301,46 +278,9 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:50:00",
+      "departure_time": "12:55:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:57:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    }
-  ],
-  "sunday": [
-    {
-      "departure_time": "12:09:00",
-      "destination_name": "Halfway Tram Stop",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:19:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:29:00",
-      "destination_name": "Halfway Tram Stop",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:39:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:49:00",
-      "destination_name": "Halfway Tram Stop",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:59:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
     }
   ]
 }

@@ -1,234 +1,17 @@
 {
   "monday": [
     {
-      "departure_time": "12:08:00",
-      "destination_name": "Parkgate",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:11:00",
+      "departure_time": "12:02:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
-    {
-      "departure_time": "12:23:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:35:00",
-      "destination_name": "Parkgate",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:35:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:47:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:59:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    }
-  ],
-  "tuesday": [
     {
       "departure_time": "12:08:00",
       "destination_name": "Parkgate",
       "route_name": "TT"
     },
     {
-      "departure_time": "12:11:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:23:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:35:00",
-      "destination_name": "Parkgate",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:35:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:47:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:59:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    }
-  ],
-  "wednesday": [
-    {
-      "departure_time": "12:08:00",
-      "destination_name": "Parkgate",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:11:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:23:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:35:00",
-      "destination_name": "Parkgate",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:35:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:47:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:59:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    }
-  ],
-  "thursday": [
-    {
-      "departure_time": "12:08:00",
-      "destination_name": "Parkgate",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:11:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:23:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:35:00",
-      "destination_name": "Parkgate",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:35:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:47:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:59:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    }
-  ],
-  "friday": [
-    {
-      "departure_time": "12:08:00",
-      "destination_name": "Parkgate",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:11:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:23:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:35:00",
-      "destination_name": "Parkgate",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:35:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:47:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:59:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    }
-  ],
-  "saturday": [
-    {
-      "departure_time": "12:08:00",
-      "destination_name": "Parkgate",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:11:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:23:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:35:00",
-      "destination_name": "Parkgate",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:35:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:47:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:59:00",
-      "destination_name": "Meadowhall",
-      "route_name": "YELL"
-    }
-  ],
-  "sunday": [
-    {
-      "departure_time": "12:09:00",
-      "destination_name": "Parkgate",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:12:00",
+      "departure_time": "12:17:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     },
@@ -238,12 +21,199 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:39:00",
+      "departure_time": "12:35:00",
       "destination_name": "Parkgate",
       "route_name": "TT"
     },
     {
-      "departure_time": "12:52:00",
+      "departure_time": "12:47:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    }
+  ],
+  "tuesday": [
+    {
+      "departure_time": "12:02:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:08:00",
+      "destination_name": "Parkgate",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:17:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:32:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:35:00",
+      "destination_name": "Parkgate",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:47:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    }
+  ],
+  "wednesday": [
+    {
+      "departure_time": "12:02:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:08:00",
+      "destination_name": "Parkgate",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:17:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:32:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:35:00",
+      "destination_name": "Parkgate",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:47:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    }
+  ],
+  "thursday": [
+    {
+      "departure_time": "12:02:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:08:00",
+      "destination_name": "Parkgate",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:17:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:32:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:35:00",
+      "destination_name": "Parkgate",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:47:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    }
+  ],
+  "friday": [
+    {
+      "departure_time": "12:02:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:08:00",
+      "destination_name": "Parkgate",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:17:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:32:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:35:00",
+      "destination_name": "Parkgate",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:47:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    }
+  ],
+  "saturday": [
+    {
+      "departure_time": "12:02:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:08:00",
+      "destination_name": "Parkgate",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:17:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:32:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:35:00",
+      "destination_name": "Parkgate",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:47:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    }
+  ],
+  "sunday": [
+    {
+      "departure_time": "12:08:00",
+      "destination_name": "Parkgate",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:18:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:35:00",
+      "destination_name": "Parkgate",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:38:00",
+      "destination_name": "Meadowhall",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:58:00",
       "destination_name": "Meadowhall",
       "route_name": "YELL"
     }

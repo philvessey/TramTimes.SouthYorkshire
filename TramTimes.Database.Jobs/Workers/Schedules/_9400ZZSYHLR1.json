@@ -43,12 +43,12 @@
   ],
   "sunday": [
     {
-      "departure_time": "12:29:00",
+      "departure_time": "12:00:00",
       "destination_name": "Sheffield Centre",
       "route_name": "PURP"
     },
     {
-      "departure_time": "12:59:00",
+      "departure_time": "12:30:00",
       "destination_name": "Sheffield Centre",
       "route_name": "PURP"
     }

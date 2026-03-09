@@ -1,7 +1,7 @@
 {
   "monday": [
     {
-      "departure_time": "12:03:00",
+      "departure_time": "12:06:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
@@ -9,396 +9,29 @@
       "departure_time": "12:07:00",
       "destination_name": "Sheffield Centre",
       "route_name": "PURP"
-    },
-    {
-      "departure_time": "12:09:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:15:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:21:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:22:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:27:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:33:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:39:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:45:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:51:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:54:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    }
-  ],
-  "tuesday": [
-    {
-      "departure_time": "12:03:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:07:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "PURP"
-    },
-    {
-      "departure_time": "12:09:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:15:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:21:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:22:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:27:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:33:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:39:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:45:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:51:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:54:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    }
-  ],
-  "wednesday": [
-    {
-      "departure_time": "12:03:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:07:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "PURP"
-    },
-    {
-      "departure_time": "12:09:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:15:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:21:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:22:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:27:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:33:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:39:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:45:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:51:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:54:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    }
-  ],
-  "thursday": [
-    {
-      "departure_time": "12:03:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:07:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "PURP"
-    },
-    {
-      "departure_time": "12:09:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:15:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:21:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:22:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:27:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:33:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:39:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:45:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:51:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:54:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    }
-  ],
-  "friday": [
-    {
-      "departure_time": "12:03:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:07:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "PURP"
-    },
-    {
-      "departure_time": "12:09:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:15:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:21:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:22:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:27:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:33:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:39:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:45:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:51:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:54:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    }
-  ],
-  "saturday": [
-    {
-      "departure_time": "12:03:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:07:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "PURP"
-    },
-    {
-      "departure_time": "12:09:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:15:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:21:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:22:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:27:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:33:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:39:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:45:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:51:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:54:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    }
-  ],
-  "sunday": [
-    {
-      "departure_time": "12:02:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
     },
     {
       "departure_time": "12:12:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:18:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "PURP"
-    },
-    {
-      "departure_time": "12:22:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:25:00",
+      "departure_time": "12:21:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:22:00",
       "destination_name": "Sheffield Centre",
       "route_name": "TT"
     },
     {
-      "departure_time": "12:32:00",
+      "departure_time": "12:27:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:36:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
@@ -408,14 +41,351 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:48:00",
+      "departure_time": "12:51:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:55:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:57:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    }
+  ],
+  "tuesday": [
+    {
+      "departure_time": "12:06:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:07:00",
       "destination_name": "Sheffield Centre",
       "route_name": "PURP"
     },
     {
-      "departure_time": "12:52:00",
+      "departure_time": "12:12:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:21:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:22:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:27:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:36:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:42:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:51:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:55:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:57:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    }
+  ],
+  "wednesday": [
+    {
+      "departure_time": "12:06:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:07:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "PURP"
+    },
+    {
+      "departure_time": "12:12:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:21:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:22:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:27:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:36:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:42:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:51:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:55:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:57:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    }
+  ],
+  "thursday": [
+    {
+      "departure_time": "12:06:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:07:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "PURP"
+    },
+    {
+      "departure_time": "12:12:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:21:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:22:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:27:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:36:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:42:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:51:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:55:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:57:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    }
+  ],
+  "friday": [
+    {
+      "departure_time": "12:06:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:07:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "PURP"
+    },
+    {
+      "departure_time": "12:12:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:21:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:22:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:27:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:36:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:42:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:51:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:55:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:57:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    }
+  ],
+  "saturday": [
+    {
+      "departure_time": "12:06:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:07:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "PURP"
+    },
+    {
+      "departure_time": "12:12:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:21:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:22:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:27:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:36:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:42:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:51:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:55:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:57:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    }
+  ],
+  "sunday": [
+    {
+      "departure_time": "12:01:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:11:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:19:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "PURP"
+    },
+    {
+      "departure_time": "12:21:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:22:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:31:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:41:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
+    },
+    {
+      "departure_time": "12:49:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "PURP"
+    },
+    {
+      "departure_time": "12:51:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
     },
     {
       "departure_time": "12:55:00",

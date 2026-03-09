@@ -6,7 +6,7 @@
       "route_name": "TT"
     },
     {
-      "departure_time": "12:34:00",
+      "departure_time": "12:35:00",
       "destination_name": "Sheffield Centre",
       "route_name": "TT"
     }
@@ -18,7 +18,7 @@
       "route_name": "TT"
     },
     {
-      "departure_time": "12:34:00",
+      "departure_time": "12:35:00",
       "destination_name": "Sheffield Centre",
       "route_name": "TT"
     }
@@ -30,7 +30,7 @@
       "route_name": "TT"
     },
     {
-      "departure_time": "12:34:00",
+      "departure_time": "12:35:00",
       "destination_name": "Sheffield Centre",
       "route_name": "TT"
     }
@@ -42,7 +42,7 @@
       "route_name": "TT"
     },
     {
-      "departure_time": "12:34:00",
+      "departure_time": "12:35:00",
       "destination_name": "Sheffield Centre",
       "route_name": "TT"
     }
@@ -54,7 +54,7 @@
       "route_name": "TT"
     },
     {
-      "departure_time": "12:34:00",
+      "departure_time": "12:35:00",
       "destination_name": "Sheffield Centre",
       "route_name": "TT"
     }
@@ -66,14 +66,14 @@
       "route_name": "TT"
     },
     {
-      "departure_time": "12:34:00",
+      "departure_time": "12:35:00",
       "destination_name": "Sheffield Centre",
       "route_name": "TT"
     }
   ],
   "sunday": [
     {
-      "departure_time": "12:05:00",
+      "departure_time": "12:02:00",
       "destination_name": "Sheffield Centre",
       "route_name": "TT"
     },

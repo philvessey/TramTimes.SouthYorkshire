@@ -43,12 +43,12 @@
   ],
   "sunday": [
     {
-      "departure_time": "12:14:00",
+      "departure_time": "12:15:00",
       "destination_name": "Herdings",
       "route_name": "PURP"
     },
     {
-      "departure_time": "12:44:00",
+      "departure_time": "12:45:00",
       "destination_name": "Herdings",
       "route_name": "PURP"
     }

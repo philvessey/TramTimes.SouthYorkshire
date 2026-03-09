@@ -1,7 +1,7 @@
 {
   "monday": [
     {
-      "departure_time": "12:03:00",
+      "departure_time": "12:00:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
@@ -11,24 +11,19 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:27:00",
+      "departure_time": "12:30:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:39:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:51:00",
+      "departure_time": "12:45:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     }
   ],
   "tuesday": [
     {
-      "departure_time": "12:03:00",
+      "departure_time": "12:00:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
@@ -38,24 +33,19 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:27:00",
+      "departure_time": "12:30:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:39:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:51:00",
+      "departure_time": "12:45:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     }
   ],
   "wednesday": [
     {
-      "departure_time": "12:03:00",
+      "departure_time": "12:00:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
@@ -65,24 +55,19 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:27:00",
+      "departure_time": "12:30:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:39:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:51:00",
+      "departure_time": "12:45:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     }
   ],
   "thursday": [
     {
-      "departure_time": "12:03:00",
+      "departure_time": "12:00:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
@@ -92,24 +77,19 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:27:00",
+      "departure_time": "12:30:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:39:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:51:00",
+      "departure_time": "12:45:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     }
   ],
   "friday": [
     {
-      "departure_time": "12:03:00",
+      "departure_time": "12:00:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
@@ -119,24 +99,19 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:27:00",
+      "departure_time": "12:30:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:39:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:51:00",
+      "departure_time": "12:45:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     }
   ],
   "saturday": [
     {
-      "departure_time": "12:03:00",
+      "departure_time": "12:00:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
@@ -146,34 +121,29 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:27:00",
+      "departure_time": "12:30:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:39:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:51:00",
+      "departure_time": "12:45:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     }
   ],
   "sunday": [
     {
-      "departure_time": "12:18:00",
+      "departure_time": "12:09:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:38:00",
+      "departure_time": "12:29:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:58:00",
+      "departure_time": "12:49:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     }

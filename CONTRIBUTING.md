@@ -452,7 +452,7 @@ A clear and concise description of what you expected to happen.
 **Environment:**
 
 - .NET Version: [e.g., 10.0.0]
-- Aspire Version: [e.g., 13.0.2]
+- Aspire Version: [e.g., 13.1.2]
 - Browser Version: [e.g., Chrome 90]
 
 **Additional context**

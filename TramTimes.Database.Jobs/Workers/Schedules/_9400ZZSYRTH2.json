@@ -73,12 +73,12 @@
   ],
   "sunday": [
     {
-      "departure_time": "12:25:00",
+      "departure_time": "12:24:00",
       "destination_name": "Parkgate",
       "route_name": "TT"
     },
     {
-      "departure_time": "12:55:00",
+      "departure_time": "12:51:00",
       "destination_name": "Parkgate",
       "route_name": "TT"
     }

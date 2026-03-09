@@ -1,7 +1,7 @@
 {
   "monday": [
     {
-      "departure_time": "12:09:00",
+      "departure_time": "12:00:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
@@ -11,226 +11,9 @@
       "route_name": "TT"
     },
     {
-      "departure_time": "12:21:00",
+      "departure_time": "12:15:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:33:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:42:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:45:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:57:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    }
-  ],
-  "tuesday": [
-    {
-      "departure_time": "12:09:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:10:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:21:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:33:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:42:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:45:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:57:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    }
-  ],
-  "wednesday": [
-    {
-      "departure_time": "12:09:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:10:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:21:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:33:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:42:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:45:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:57:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    }
-  ],
-  "thursday": [
-    {
-      "departure_time": "12:09:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:10:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:21:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:33:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:42:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:45:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:57:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    }
-  ],
-  "friday": [
-    {
-      "departure_time": "12:09:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:10:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:21:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:33:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:42:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:45:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:57:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    }
-  ],
-  "saturday": [
-    {
-      "departure_time": "12:09:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:10:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:21:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:33:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:42:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
-    },
-    {
-      "departure_time": "12:45:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:57:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    }
-  ],
-  "sunday": [
-    {
-      "departure_time": "12:10:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:14:00",
-      "destination_name": "Sheffield Centre",
-      "route_name": "TT"
     },
     {
       "departure_time": "12:30:00",
@@ -238,14 +21,201 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:44:00",
+      "departure_time": "12:43:00",
       "destination_name": "Sheffield Centre",
       "route_name": "TT"
     },
     {
-      "departure_time": "12:50:00",
+      "departure_time": "12:45:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
+    }
+  ],
+  "tuesday": [
+    {
+      "departure_time": "12:00:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:10:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:15:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:30:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:43:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:45:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    }
+  ],
+  "wednesday": [
+    {
+      "departure_time": "12:00:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:10:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:15:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:30:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:43:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:45:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    }
+  ],
+  "thursday": [
+    {
+      "departure_time": "12:00:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:10:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:15:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:30:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:43:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:45:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    }
+  ],
+  "friday": [
+    {
+      "departure_time": "12:00:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:10:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:15:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:30:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:43:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:45:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    }
+  ],
+  "saturday": [
+    {
+      "departure_time": "12:00:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:10:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:15:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:30:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:43:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:45:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    }
+  ],
+  "sunday": [
+    {
+      "departure_time": "12:00:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:11:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
+    },
+    {
+      "departure_time": "12:20:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:40:00",
+      "destination_name": "Middlewood",
+      "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:44:00",
+      "destination_name": "Sheffield Centre",
+      "route_name": "TT"
     }
   ]
 }

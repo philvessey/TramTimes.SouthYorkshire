@@ -11,42 +11,32 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:17:00",
+      "departure_time": "12:20:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:23:00",
+      "departure_time": "12:26:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:29:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
     },
     {
       "departure_time": "12:35:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
     },
     {
       "departure_time": "12:41:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:47:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:53:00",
+      "departure_time": "12:50:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:59:00",
+      "departure_time": "12:56:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     }
@@ -63,42 +53,32 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:17:00",
+      "departure_time": "12:20:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:23:00",
+      "departure_time": "12:26:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:29:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
     },
     {
       "departure_time": "12:35:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
     },
     {
       "departure_time": "12:41:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:47:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:53:00",
+      "departure_time": "12:50:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:59:00",
+      "departure_time": "12:56:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     }
@@ -115,42 +95,32 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:17:00",
+      "departure_time": "12:20:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:23:00",
+      "departure_time": "12:26:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:29:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
     },
     {
       "departure_time": "12:35:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
     },
     {
       "departure_time": "12:41:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:47:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:53:00",
+      "departure_time": "12:50:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:59:00",
+      "departure_time": "12:56:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     }
@@ -167,42 +137,32 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:17:00",
+      "departure_time": "12:20:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:23:00",
+      "departure_time": "12:26:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:29:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
     },
     {
       "departure_time": "12:35:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
     },
     {
       "departure_time": "12:41:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:47:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:53:00",
+      "departure_time": "12:50:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:59:00",
+      "departure_time": "12:56:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     }
@@ -219,42 +179,32 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:17:00",
+      "departure_time": "12:20:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:23:00",
+      "departure_time": "12:26:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:29:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
     },
     {
       "departure_time": "12:35:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
     },
     {
       "departure_time": "12:41:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:47:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:53:00",
+      "departure_time": "12:50:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:59:00",
+      "departure_time": "12:56:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     }
@@ -271,42 +221,32 @@
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:17:00",
+      "departure_time": "12:20:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:23:00",
+      "departure_time": "12:26:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
-    },
-    {
-      "departure_time": "12:29:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
     },
     {
       "departure_time": "12:35:00",
-      "destination_name": "Middlewood",
-      "route_name": "YELL"
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
     },
     {
       "departure_time": "12:41:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:47:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     },
     {
-      "departure_time": "12:53:00",
+      "departure_time": "12:50:00",
       "destination_name": "Malin Bridge",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:59:00",
+      "departure_time": "12:56:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
     }
@@ -314,33 +254,33 @@
   "sunday": [
     {
       "departure_time": "12:05:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:14:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:15:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
     },
     {
       "departure_time": "12:25:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:34:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:35:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
     },
     {
       "departure_time": "12:45:00",
-      "destination_name": "Malin Bridge",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:54:00",
       "destination_name": "Middlewood",
       "route_name": "YELL"
+    },
+    {
+      "departure_time": "12:55:00",
+      "destination_name": "Malin Bridge",
+      "route_name": "BLUE"
     }
   ]
 }

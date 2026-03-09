@@ -1,12 +1,7 @@
 {
   "monday": [
     {
-      "departure_time": "12:08:00",
-      "destination_name": "Halfway Tram Stop",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:20:00",
+      "departure_time": "12:14:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
@@ -16,7 +11,7 @@
       "route_name": "PURP"
     },
     {
-      "departure_time": "12:32:00",
+      "departure_time": "12:29:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
@@ -26,19 +21,14 @@
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:56:00",
+      "departure_time": "12:59:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     }
   ],
   "tuesday": [
     {
-      "departure_time": "12:08:00",
-      "destination_name": "Halfway Tram Stop",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:20:00",
+      "departure_time": "12:14:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
@@ -48,7 +38,7 @@
       "route_name": "PURP"
     },
     {
-      "departure_time": "12:32:00",
+      "departure_time": "12:29:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
@@ -58,19 +48,14 @@
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:56:00",
+      "departure_time": "12:59:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     }
   ],
   "wednesday": [
     {
-      "departure_time": "12:08:00",
-      "destination_name": "Halfway Tram Stop",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:20:00",
+      "departure_time": "12:14:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
@@ -80,7 +65,7 @@
       "route_name": "PURP"
     },
     {
-      "departure_time": "12:32:00",
+      "departure_time": "12:29:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
@@ -90,19 +75,14 @@
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:56:00",
+      "departure_time": "12:59:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     }
   ],
   "thursday": [
     {
-      "departure_time": "12:08:00",
-      "destination_name": "Halfway Tram Stop",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:20:00",
+      "departure_time": "12:14:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
@@ -112,7 +92,7 @@
       "route_name": "PURP"
     },
     {
-      "departure_time": "12:32:00",
+      "departure_time": "12:29:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
@@ -122,19 +102,14 @@
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:56:00",
+      "departure_time": "12:59:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     }
   ],
   "friday": [
     {
-      "departure_time": "12:08:00",
-      "destination_name": "Halfway Tram Stop",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:20:00",
+      "departure_time": "12:14:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
@@ -144,7 +119,7 @@
       "route_name": "PURP"
     },
     {
-      "departure_time": "12:32:00",
+      "departure_time": "12:29:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
@@ -154,19 +129,14 @@
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:56:00",
+      "departure_time": "12:59:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     }
   ],
   "saturday": [
     {
-      "departure_time": "12:09:00",
-      "destination_name": "Halfway Tram Stop",
-      "route_name": "BLUE"
-    },
-    {
-      "departure_time": "12:21:00",
+      "departure_time": "12:14:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
@@ -176,44 +146,44 @@
       "route_name": "PURP"
     },
     {
-      "departure_time": "12:33:00",
+      "departure_time": "12:29:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:45:00",
+      "departure_time": "12:44:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:57:00",
+      "departure_time": "12:59:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     }
   ],
   "sunday": [
     {
-      "departure_time": "12:04:00",
+      "departure_time": "12:05:00",
       "destination_name": "Herdings",
       "route_name": "PURP"
     },
     {
-      "departure_time": "12:06:00",
+      "departure_time": "12:12:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:26:00",
+      "departure_time": "12:32:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     },
     {
-      "departure_time": "12:34:00",
+      "departure_time": "12:35:00",
       "destination_name": "Herdings",
       "route_name": "PURP"
     },
     {
-      "departure_time": "12:46:00",
+      "departure_time": "12:52:00",
       "destination_name": "Halfway Tram Stop",
       "route_name": "BLUE"
     }
