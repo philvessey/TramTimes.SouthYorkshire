@@ -12,16 +12,7 @@ registries:
 
 updates:
   - package-ecosystem: "nuget"
-    directories:
-      - "/TramTimes.Aspire.Host"
-      - "/TramTimes.Aspire.Services"
-      - "/TramTimes.Cache.Jobs"
-      - "/TramTimes.Database.Jobs"
-      - "/TramTimes.Search.Jobs"
-      - "/TramTimes.Web.Api"
-      - "/TramTimes.Web.Site"
-      - "/TramTimes.Web.Tests"
-      - "/TramTimes.Web.Utilities"
+    directory: "/"
     registries:
       - nuget.org
       - telerik.com
