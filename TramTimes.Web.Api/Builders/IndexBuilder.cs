@@ -29,7 +29,8 @@ public static class IndexBuilder
             target: DateTime.Now,
             offset: TimeSpan.FromMinutes(minutes: -60),
             comparison: ComparisonType.Exact,
-            tolerance: TimeSpan.FromHours(value: 4));
+            tolerance: TimeSpan.FromHours(value: 12),
+            results: 250);
 
         var databaseResults = mapperService.Map<List<SearchStop>>(source: stopResults).FirstOrDefault() ?? new SearchStop();
         databaseResults.Points = mapperService.Map<List<SearchStopPoint>>(source: serviceResults) ?? [];

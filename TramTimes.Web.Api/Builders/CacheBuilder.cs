@@ -26,7 +26,8 @@ public static class CacheBuilder
             target: DateTime.Now,
             offset: TimeSpan.FromMinutes(minutes: -60),
             comparison: ComparisonType.Exact,
-            tolerance: TimeSpan.FromHours(value: 4));
+            tolerance: TimeSpan.FromHours(value: 12),
+            results: 250);
 
         #endregion
 
@@ -37,7 +38,7 @@ public static class CacheBuilder
             .StringSetAsync(
                 key: $"southyorkshire:stop:{id}",
                 value: JsonSerializer.Serialize(value: mapperService.Map<List<WorkerStopPoint>>(source: databaseResults)),
-                expiry: TimeSpan.FromHours(value: 4));
+                expiry: TimeSpan.FromHours(value: 12));
 
         #endregion
 
@@ -58,14 +59,15 @@ public static class CacheBuilder
                 target: DateTime.Now,
                 offset: TimeSpan.FromMinutes(value: -60),
                 comparison: ComparisonType.Exact,
-                tolerance: TimeSpan.FromHours(value: 4));
+                tolerance: TimeSpan.FromHours(value: 12),
+                results: 250);
 
             await cacheService
                 .GetDatabase()
                 .StringSetAsync(
                     key: $"southyorkshire:trip:{item}",
                     value: JsonSerializer.Serialize(value: mapperService.Map<List<WorkerStopPoint>>(source: databaseResults)),
-                    expiry: TimeSpan.FromHours(value: 4));
+                    expiry: TimeSpan.FromHours(value: 12));
         }
 
         #endregion
