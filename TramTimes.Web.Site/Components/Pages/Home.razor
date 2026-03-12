@@ -85,7 +85,15 @@
                                                         format: "HH:mm",
                                                         provider: CultureInfo.InvariantCulture);
 
-                                                    switch (item.RouteName)
+                                                    var routeName = item.RouteName?.Replace(
+                                                        oldValue: "Line",
+                                                        newValue: string.Empty);
+
+                                                    routeName = routeName?
+                                                        .ToUpperInvariant()
+                                                        .Trim();
+
+                                                    switch (routeName)
                                                     {
                                                         case "BLUE":
                                                             <li class="blue">@departureTime @item.DestinationName</li>
@@ -233,7 +241,15 @@
                                         format: "HH:mm",
                                         provider: CultureInfo.InvariantCulture);
 
-                                    switch (item.RouteName)
+                                    var routeName = item.RouteName?.Replace(
+                                        oldValue: "Line",
+                                        newValue: string.Empty);
+
+                                    routeName = routeName?
+                                        .ToUpperInvariant()
+                                        .Trim();
+
+                                    switch (routeName)
                                     {
                                         case "BLUE":
                                             <li class="blue" title="@item.DestinationName">@departureTime</li>
@@ -362,7 +378,15 @@
                                         format: "HH:mm",
                                         provider: CultureInfo.InvariantCulture);
 
-                                    switch (item.RouteName)
+                                    var routeName = item.RouteName?.Replace(
+                                        oldValue: "Line",
+                                        newValue: string.Empty);
+
+                                    routeName = routeName?
+                                        .ToUpperInvariant()
+                                        .Trim();
+
+                                    switch (routeName)
                                     {
                                         case "BLUE":
                                             <li class="blue" title="@item.DestinationName">@departureTime</li>

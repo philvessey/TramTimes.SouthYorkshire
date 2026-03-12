@@ -10,7 +10,7 @@
 
     <text dominant-baseline="middle"
           dy="0"
-          fill="white"
+          fill="#ffffff"
           font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
           font-size="28"
           font-weight="bold"
