@@ -18,12 +18,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Label sync
-        uses: EndBug/label-sync@v2.3.3
+        uses: EndBug/label-sync@v2
         with:
           config-file: .github/labels.yml
           token: ${{ secrets.GITHUB_TOKEN }}
