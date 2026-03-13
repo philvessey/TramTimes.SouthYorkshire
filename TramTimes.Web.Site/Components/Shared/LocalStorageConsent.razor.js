@@ -1,7 +1,7 @@
 // noinspection all
 
-export function setCookie(value, expires) {
-    document.cookie = value + "; expires=" + expires + "; path=/";
+export function setCookie(value) {
+    document.cookie = value;
 }
 
 export function getCookie(value) {
@@ -28,9 +28,9 @@ export function deleteCookie() {
         let name = item.split("=")[0];
 
         if (name && !name.startsWith(".AspNet")) {
-            document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+            document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
         }
     }
 
-    document.cookie = ".AspNet.Preference.Scheme=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+    document.cookie = ".AspNet.Preference.Scheme=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 }

@@ -20,21 +20,27 @@ public static class ConsentCookies
         {
             Domain = "localhost",
             Name = ".AspNet.Consent.Metadata",
-            Path = "/",
-            SameSite = SameSiteAttribute.Strict,
-            Secure = true,
             Value = JsonSerializer.Serialize(value: new Metadata(
                 Timestamp: DateTime.UtcNow.ToString(format: "yyyy-MM-dd"),
-                Version: Metadata.CurrentVersion))
+                Version: Metadata.CurrentVersion)),
+            Expires = DateTimeOffset.UtcNow
+                .AddDays(days: 365)
+                .ToUnixTimeSeconds(),
+            Path = "/",
+            SameSite = SameSiteAttribute.Strict,
+            Secure = true
         },
         new()
         {
             Domain = "localhost",
             Name = ".AspNet.Consent",
+            Value = "true",
+            Expires = DateTimeOffset.UtcNow
+                .AddDays(days: 365)
+                .ToUnixTimeSeconds(),
             Path = "/",
             SameSite = SameSiteAttribute.Strict,
-            Secure = true,
-            Value = "true"
+            Secure = true
         }
     ];
 
@@ -44,21 +50,27 @@ public static class ConsentCookies
         {
             Domain = "localhost",
             Name = ".AspNet.Consent.Metadata",
-            Path = "/",
-            SameSite = SameSiteAttribute.Strict,
-            Secure = true,
             Value = JsonSerializer.Serialize(value: new Metadata(
                 Timestamp: DateTime.UtcNow.ToString(format: "yyyy-MM-dd"),
-                Version: Metadata.CurrentVersion))
+                Version: Metadata.CurrentVersion)),
+            Expires = DateTimeOffset.UtcNow
+                .AddDays(days: 365)
+                .ToUnixTimeSeconds(),
+            Path = "/",
+            SameSite = SameSiteAttribute.Strict,
+            Secure = true
         },
         new()
         {
             Domain = "localhost",
             Name = ".AspNet.Consent",
+            Value = "false",
+            Expires = DateTimeOffset.UtcNow
+                .AddDays(days: 365)
+                .ToUnixTimeSeconds(),
             Path = "/",
             SameSite = SameSiteAttribute.Strict,
-            Secure = true,
-            Value = "false"
+            Secure = true
         }
     ];
 }

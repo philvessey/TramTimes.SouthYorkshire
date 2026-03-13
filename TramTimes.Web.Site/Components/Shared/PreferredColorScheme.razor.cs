@@ -1,6 +1,6 @@
-using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using TramTimes.Web.Site.Builders;
 using TramTimes.Web.Site.Types;
 using TramTimes.Web.Utilities.Extensions;
 
@@ -86,20 +86,15 @@ public partial class PreferredColorScheme : ComponentBase, IAsyncDisposable
 
         #region set cookie
 
-        var cookie = NavigationService.Uri.StartsWithIgnoreCase(value: "https")
-            ? $".AspNet.Preference.Scheme={scheme}; SameSite=Strict; Secure"
-            : $".AspNet.Preference.Scheme={scheme}; SameSite=Strict";
-
         if (ConsentService.Consent is true)
             if (Manager is not null)
                 await Manager.InvokeVoidAsync(
                     identifier: "setCookie",
-                    args: [
-                        cookie,
-                        DateTime.UtcNow
-                            .AddDays(value: 365)
-                            .ToString(provider: CultureInfo.InvariantCulture)
-                    ]);
+                    args: StorageBuilder.Build(
+                        name: ".AspNet.Preference.Scheme",
+                        value: scheme,
+                        expires: DateTime.UtcNow.AddDays(value: 365),
+                        secure: NavigationService.Uri.StartsWithIgnoreCase(value: "https")));
 
         #endregion
 

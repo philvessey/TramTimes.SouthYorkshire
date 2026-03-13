@@ -5,6 +5,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.JSInterop;
+using TramTimes.Web.Site.Builders;
 using TramTimes.Web.Site.Types;
 using TramTimes.Web.Utilities.Extensions;
 
@@ -14,7 +15,6 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
 {
     private IJSObjectReference? Manager { get; set; }
     private ConsentType? ConsentState { get; set; }
-    private string? ConsentCookie { get; set; }
     private bool Disposed { get; set; }
 
     private sealed record Metadata(string Timestamp, string Version)
@@ -27,14 +27,6 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
         #region get state
 
         var consent = ConsentService.Get();
-
-        #endregion
-
-        #region get cookie
-
-        ConsentCookie = AccessorService.HttpContext?.Features
-            .Get<ITrackingConsentFeature>()?
-            .CreateConsentCookie();
 
         #endregion
 
@@ -148,41 +140,29 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
 
         #region set cookie
 
-        ConsentCookie = ConsentCookie?.Replace(
-            oldValue: "false",
-            newValue: "true");
-
         if (Manager is not null)
             await Manager.InvokeVoidAsync(
                 identifier: "setCookie",
-                args: [
-                    ConsentCookie,
-                    DateTime.UtcNow
-                        .AddDays(value: 365)
-                        .ToString(provider: CultureInfo.InvariantCulture)
-                ]);
+                args: StorageBuilder.Build(
+                    name: ".AspNet.Consent",
+                    value: "true",
+                    expires: DateTime.UtcNow.AddDays(value: 365),
+                    secure: NavigationService.Uri.StartsWithIgnoreCase(value: "https")));
 
         #endregion
 
         #region set cookie
 
-        var metadata = JsonSerializer.Serialize(value: new Metadata(
-            Timestamp: DateTime.UtcNow.ToString(format: "yyyy-MM-dd"),
-            Version: Metadata.CurrentVersion));
-
-        var cookie = NavigationService.Uri.StartsWithIgnoreCase(value: "https")
-            ? $".AspNet.Consent.Metadata={metadata}; SameSite=Strict; Secure"
-            : $".AspNet.Consent.Metadata={metadata}; SameSite=Strict";
-
         if (Manager is not null)
             await Manager.InvokeVoidAsync(
                 identifier: "setCookie",
-                args: [
-                    cookie,
-                    DateTime.UtcNow
-                        .AddDays(value: 365)
-                        .ToString(provider: CultureInfo.InvariantCulture)
-                ]);
+                args: StorageBuilder.Build(
+                    name: ".AspNet.Consent.Metadata",
+                    value: JsonSerializer.Serialize(value: new Metadata(
+                        Timestamp: DateTime.UtcNow.ToString(format: "yyyy-MM-dd"),
+                        Version: Metadata.CurrentVersion)),
+                    expires: DateTime.UtcNow.AddDays(value: 365),
+                    secure: NavigationService.Uri.StartsWithIgnoreCase(value: "https")));
 
         #endregion
 
@@ -236,40 +216,29 @@ public partial class LocalStorageConsent : ComponentBase, IAsyncDisposable
 
         #region set cookie
 
-        ConsentCookie = ConsentCookie?.Replace(
-            oldValue: "true",
-            newValue: "false");
-
         if (Manager is not null)
             await Manager.InvokeVoidAsync(
                 identifier: "setCookie",
-                args: [
-                    ConsentCookie,
-                    DateTime.UtcNow
-                        .AddDays(value: 365)
-                        .ToString(provider: CultureInfo.InvariantCulture)
-                ]);
+                args: StorageBuilder.Build(
+                    name: ".AspNet.Consent",
+                    value: "false",
+                    expires: DateTime.UtcNow.AddDays(value: 365),
+                    secure: NavigationService.Uri.StartsWithIgnoreCase(value: "https")));
 
         #endregion
 
         #region set cookie
 
-        var metadata = JsonSerializer.Serialize(value: new Metadata(
-            Timestamp: DateTime.UtcNow.ToString(format: "yyyy-MM-dd"),
-            Version: Metadata.CurrentVersion));
-
-        var cookie = NavigationService.Uri.StartsWithIgnoreCase(value: "https")
-            ? $".AspNet.Consent.Metadata={metadata}; SameSite=Strict; Secure"
-            : $".AspNet.Consent.Metadata={metadata}; SameSite=Strict";
-
         if (Manager is not null)
             await Manager.InvokeVoidAsync(
                 identifier: "setCookie",
-                args: [
-                    cookie,
-                    DateTime.UtcNow
-                        .AddDays(value: 365)
-                        .ToString(provider: CultureInfo.InvariantCulture)]);
+                args: StorageBuilder.Build(
+                    name: ".AspNet.Consent.Metadata",
+                    value: JsonSerializer.Serialize(value: new Metadata(
+                        Timestamp: DateTime.UtcNow.ToString(format: "yyyy-MM-dd"),
+                        Version: Metadata.CurrentVersion)),
+                    expires: DateTime.UtcNow.AddDays(value: 365),
+                    secure: NavigationService.Uri.StartsWithIgnoreCase(value: "https")));
 
         #endregion
 
