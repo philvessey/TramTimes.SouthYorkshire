@@ -27,7 +27,7 @@ export function deleteCookie() {
         let item = cookies[i].trim();
         let name = item.split("=")[0];
 
-        if (!name.startsWith(".AspNet")) {
+        if (name && !name.startsWith(".AspNet")) {
             document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
         }
     }

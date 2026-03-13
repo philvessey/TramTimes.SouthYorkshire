@@ -1,4 +1,5 @@
 ﻿@inject ConsentService ConsentService
+@inject LayoutService LayoutService
 @inject NavigationManager NavigationService
 @inject SchemeService SchemeService
 @inject StorageService StorageService
@@ -13,10 +14,10 @@
 <PageTitle>@Title</PageTitle>
 
 <TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Columns"
-                   OnChange="@(match => TelerikLayout.Columns = match)"/>
+                   OnChange="@(match => LayoutService.SetColumns(match: match))"/>
 
 <TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Rows"
-                   OnChange="@(match => TelerikLayout.Rows = match)"/>
+                   OnChange="@(match => LayoutService.SetRows(match: match))"/>
 
 <TelerikMediaQuery Media="@TelerikMediaQueryDefaults.Scheme"
                    OnChange="@(match => OnSchemeChangedAsync(match: match))"/>
@@ -75,7 +76,7 @@
                                         <ul>
                                             @{
                                                 var points = stop.Points?
-                                                    .Take(count: TelerikLayout.Columns is true ? 5 : 3)
+                                                    .Take(count: LayoutService.Layout is "columns" ? 5 : 3)
                                                     .Select(selector: point => point)
                                                     .ToList() ?? [];
 

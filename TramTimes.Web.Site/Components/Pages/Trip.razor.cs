@@ -35,6 +35,8 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
     private Func<Task>? _onConsentChanged;
     private Action? _onConsentChangedWrapper;
+    private Func<Task>? _onLayoutChanged;
+    private Action? _onLayoutChangedWrapper;
     private Func<Task>? _onSchemeChanged;
     private Action? _onSchemeChangedWrapper;
 
@@ -58,13 +60,19 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region register events
+        #region register event listeners
 
         _onConsentChanged = OnConsentChangedAsync;
         _onConsentChangedWrapper = () => _onConsentChanged.Invoke();
 
         ConsentService.OnConsentChanged += StateHasChanged;
         ConsentService.OnConsentChanged += _onConsentChangedWrapper;
+
+        _onLayoutChanged = OnLayoutChangedAsync;
+        _onLayoutChangedWrapper = () => _onLayoutChanged.Invoke();
+
+        LayoutService.OnLayoutChanged += StateHasChanged;
+        LayoutService.OnLayoutChanged += _onLayoutChangedWrapper;
 
         _onSchemeChanged = OnSchemeChangedAsync;
         _onSchemeChangedWrapper = () => _onSchemeChanged.Invoke();
@@ -487,6 +495,25 @@ public partial class Trip : ComponentBase, IAsyncDisposable
             await JavascriptManager.InvokeVoidAsync(
                 identifier: "writeConsole",
                 args: $"trip: consent changed {(ConsentService.Consent is true ? "accepted" : "rejected")}");
+
+        #endregion
+    }
+
+    private async Task OnLayoutChangedAsync()
+    {
+        #region check component disposed
+
+        if (Disposed.HasValue && Disposed.Value)
+            return;
+
+        #endregion
+
+        #region output console message
+
+        if (JavascriptManager is not null)
+            await JavascriptManager.InvokeVoidAsync(
+                identifier: "writeConsole",
+                args: $"trip: layout changed {LayoutService.Layout}");
 
         #endregion
     }
@@ -1278,6 +1305,9 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         ConsentService.OnConsentChanged -= StateHasChanged;
         ConsentService.OnConsentChanged -= _onConsentChangedWrapper;
+
+        LayoutService.OnLayoutChanged -= StateHasChanged;
+        LayoutService.OnLayoutChanged -= _onLayoutChangedWrapper;
 
         SchemeService.OnSchemeChanged -= StateHasChanged;
         SchemeService.OnSchemeChanged -= _onSchemeChangedWrapper;
