@@ -9,7 +9,7 @@ public static class ConsentCookies
 {
     private sealed record Metadata(string Timestamp, string Version)
     {
-        public const string CurrentVersion = "2026-01";
+        public const string CurrentVersion = "2026-02";
     }
 
     public static List<Cookie> Unknown => [];
