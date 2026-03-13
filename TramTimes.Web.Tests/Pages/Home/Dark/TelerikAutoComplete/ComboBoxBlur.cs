@@ -12,9 +12,9 @@ public class ComboBoxBlur(AspireManager aspireManager) : BaseTest(aspireManager:
     private string? Error { get; set; }
 
     [Theory]
-    [InlineData(53.328532846077614, -1.3443136700078966, "halfw", 1)]
-    [InlineData(53.40064593919049, -1.5082120329876791, "malin", 2)]
-    [InlineData(53.41586234037237, -1.510067739914952, "middl", 3)]
+    [InlineData(53.32853446547, -1.344313639, "halfw", 1)]
+    [InlineData(53.40064755511, -1.50821200817, "malin", 2)]
+    [InlineData(53.41586395553, -1.51006771516, "middl", 3)]
     public async Task Desktop(
         double lat,
         double lon,
@@ -112,9 +112,9 @@ public class ComboBoxBlur(AspireManager aspireManager) : BaseTest(aspireManager:
     }
 
     [Theory]
-    [InlineData(53.328532846077614, -1.3443136700078966, "halfw", 1)]
-    [InlineData(53.40064593919049, -1.5082120329876791, "malin", 2)]
-    [InlineData(53.41586234037237, -1.510067739914952, "middl", 3)]
+    [InlineData(53.32853446547, -1.344313639, "halfw", 1)]
+    [InlineData(53.40064755511, -1.50821200817, "malin", 2)]
+    [InlineData(53.41586395553, -1.51006771516, "middl", 3)]
     public async Task Mobile(
         double lat,
         double lon,

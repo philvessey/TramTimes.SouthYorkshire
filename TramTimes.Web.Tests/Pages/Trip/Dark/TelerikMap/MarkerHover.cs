@@ -16,9 +16,9 @@ public class MarkerHover(AspireManager aspireManager) : BaseTest(aspireManager: 
     private string? Error { get; set; }
 
     [Theory]
-    [InlineData("9400ZZSYHFW1", "Halfway", 53.328532846077614, -1.3443136700078966, 1)]
-    [InlineData("9400ZZSYMAL1", "Malin Bridge", 53.40064593919049, -1.5082120329876791, 2)]
-    [InlineData("9400ZZSYMID1", "Middlewood", 53.41586234037237, -1.510067739914952, 3)]
+    [InlineData("9400ZZSYHFW1", "Halfway", 53.32853446547, -1.344313639, 1)]
+    [InlineData("9400ZZSYMAL1", "Malin Bridge", 53.40064755511, -1.50821200817, 2)]
+    [InlineData("9400ZZSYMID1", "Middlewood", 53.41586395553, -1.51006771516, 3)]
     public async Task Desktop(
         string id,
         string name,
@@ -168,9 +168,9 @@ public class MarkerHover(AspireManager aspireManager) : BaseTest(aspireManager: 
     }
 
     [Theory]
-    [InlineData("9400ZZSYHFW1", "Halfway", 53.328532846077614, -1.3443136700078966, 1)]
-    [InlineData("9400ZZSYMAL1", "Malin Bridge", 53.40064593919049, -1.5082120329876791, 2)]
-    [InlineData("9400ZZSYMID1", "Middlewood", 53.41586234037237, -1.510067739914952, 3)]
+    [InlineData("9400ZZSYHFW1", "Halfway", 53.32853446547, -1.344313639, 1)]
+    [InlineData("9400ZZSYMAL1", "Malin Bridge", 53.40064755511, -1.50821200817, 2)]
+    [InlineData("9400ZZSYMID1", "Middlewood", 53.41586395553, -1.51006771516, 3)]
     public async Task Mobile(
         string id,
         string name,
