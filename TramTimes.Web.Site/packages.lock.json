@@ -22,18 +22,18 @@
       },
       "Microsoft.AspNetCore.DataProtection.StackExchangeRedis": {
         "type": "Direct",
-        "requested": "[10.0.4, )",
-        "resolved": "10.0.4",
-        "contentHash": "tR08+emHhNAT89EHdZYtL/Df9aYtQLX0UaWcH4USYqeUjdcVSbMNhiCnD2hglmu5p4NVGV5KVA3fSXyyvwUAJQ==",
+        "requested": "[10.0.5, )",
+        "resolved": "10.0.5",
+        "contentHash": "a/73LuEjjZZPTVV9xnA1kI8X3Yic8zD1nz3KNcRtykP5W6AMp8ENyG+eiTKW57Nk+HLP3bB4Ac0MMpUZ0vP36w==",
         "dependencies": {
           "StackExchange.Redis": "2.7.27"
         }
       },
       "Microsoft.Extensions.Http.Polly": {
         "type": "Direct",
-        "requested": "[10.0.4, )",
-        "resolved": "10.0.4",
-        "contentHash": "pRCr8CPCuNnO0sIDTiEzegs9jgi1oMZS6Iaxkyq226wjyJJHTb5kLk6Q831pue7gRJMQRY/i7UABjgm0wSybIw==",
+        "requested": "[10.0.5, )",
+        "resolved": "10.0.5",
+        "contentHash": "4VcH+2eVBQw3MtRpo02nrhv/nU54tL/pkcRF0fSSwD+8MoxgE1EjylPKbSIqHEK7iiB17I0iB37Ao8y+q1sV8g==",
         "dependencies": {
           "Polly": "7.2.4",
           "Polly.Extensions.Http": "3.0.0"
