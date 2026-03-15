@@ -44,8 +44,7 @@ jobs:
         with:
           path: ~/.nuget/packages
           key: nuget-${{ hashFiles('**/packages.lock.json') }}
-          restore-keys: |
-            nuget-
+          restore-keys: nuget-
 
       - name: .NET restore
         run: dotnet restore
