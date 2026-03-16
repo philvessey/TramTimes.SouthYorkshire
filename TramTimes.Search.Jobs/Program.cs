@@ -12,7 +12,6 @@ var context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? 
 #region inject defaults
 
 builder
-    .AddMapperDefaults()
     .AddScheduleDefaults()
     .AddServiceDefaults();
 
@@ -26,6 +25,14 @@ builder.AddElasticsearchClient(connectionName: "search");
 #endregion
 
 #region configure services
+
+var licenseKey = Environment.GetEnvironmentVariable(variable: "AUTOMAPPER_LICENSE") ?? string.Empty;
+
+builder.Services.AddAutoMapper(configAction: expression =>
+{
+    expression.LicenseKey = licenseKey;
+    expression.AddProfile<MapperService>();
+});
 
 if (context is "Production")
     builder.Services.AddHostedJobs();

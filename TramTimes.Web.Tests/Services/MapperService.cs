@@ -1,5 +1,6 @@
 using System.Globalization;
 using AutoMapper;
+using Microsoft.Extensions.Logging.Abstractions;
 using TramTimes.Web.Tests.Models;
 using TramTimes.Web.Utilities.Models;
 using TramTimes.Web.Utilities.Tools;
@@ -10,8 +11,12 @@ public static class MapperService
 {
     public static IMapper CreateMapper()
     {
-        var configuration = new MapperConfiguration(configure: expression =>
+        var loggerFactory = new NullLoggerFactory();
+
+        var configuration = new MapperConfiguration(loggerFactory: loggerFactory, configure: expression =>
         {
+            expression.LicenseKey = Environment.GetEnvironmentVariable(variable: "AUTOMAPPER_LICENSE") ?? string.Empty;
+
             #region telerik stop -> web stop
 
             expression.CreateMap<TelerikStop, WebStop>()

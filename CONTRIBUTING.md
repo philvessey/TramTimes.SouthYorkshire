@@ -48,19 +48,20 @@ our project a harassment-free experience for everyone, regardless of:
 Before you begin, ensure you have the following installed:
 
 - A code editor:
-    - [JetBrains Rider](https://www.jetbrains.com/rider)
+    - [JetBrains Rider](https://jetbrains.com/rider)
     - [Visual Studio](https://visualstudio.microsoft.com)
     - [Visual Studio Code](https://code.visualstudio.com)
 
 
 - [Git](https://git-scm.com/downloads)
 - [GitHub CLI](https://cli.github.com)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- [Docker Desktop](https://docker.com/products/docker-desktop)
 - [.NET SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
 - [Aspire CLI](https://aspire.dev/get-started/install-cli)
 - [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell)
-- [Telerik UI for Blazor](https://www.telerik.com/blazor-ui)
-- [Traveline Data Set](https://www.travelinedata.org.uk/traveline-open-data/traveline-national-dataset)
+- [AutoMapper](https://automapper.io)
+- [Telerik UI for Blazor](https://telerik.com/blazor-ui)
+- [Traveline Data Set](https://travelinedata.org.uk/traveline-open-data/traveline-national-dataset)
 - [Adsterra Banners](https://adsterra.com/publishers)
 
 ### First Time Setup
@@ -278,7 +279,7 @@ public string BuildStop(string stopId)
 
 ### Commit Message Format
 
-We follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0) specification:
+We follow the [Conventional Commits](https://conventionalcommits.org/en/v1.0.0) specification:
 
 ```
 <type>(<scope>): <subject>
@@ -548,4 +549,4 @@ Thank you for contributing to TramTimes.SouthYorkshire! Your efforts help make t
 
 **Questions?** Feel free to open an issue or start a discussion!
 
-**Last Updated**: March 7, 2026
+**Last Updated**: March 16, 2026

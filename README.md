@@ -131,12 +131,13 @@ Shared utilities, extensions, and helper classes used across web projects.
 
 - [Git](https://git-scm.com/downloads)
 - [GitHub CLI](https://cli.github.com)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- [Docker Desktop](https://docker.com/products/docker-desktop)
 - [.NET SDK](https://dotnet.microsoft.com/en-us/download/dotnet/10.0)
 - [Aspire CLI](https://aspire.dev/get-started/install-cli)
 - [PowerShell](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell)
-- [Telerik UI for Blazor](https://www.telerik.com/blazor-ui)
-- [Traveline Data Set](https://www.travelinedata.org.uk/traveline-open-data/traveline-national-dataset)
+- [AutoMapper](https://automapper.io)
+- [Telerik UI for Blazor](https://telerik.com/blazor-ui)
+- [Traveline Data Set](https://travelinedata.org.uk/traveline-open-data/traveline-national-dataset)
 - [Adsterra Banners](https://adsterra.com/publishers)
 
 ## 🚀 Getting Started (Local)

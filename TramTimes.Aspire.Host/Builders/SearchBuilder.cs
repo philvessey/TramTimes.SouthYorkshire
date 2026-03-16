@@ -12,6 +12,7 @@ public static class SearchBuilder
 
     public static SearchResources BuildSearch(
         this IDistributedApplicationBuilder builder,
+        LicenseResources license,
         DatabaseResources database) {
 
         #region build resources
@@ -49,10 +50,14 @@ public static class SearchBuilder
         if (builder.ExecutionContext.IsRunMode)
             search.Builder = builder
                 .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder")
+                .WaitFor(dependency: license.Parameters?.Automapper ?? throw new InvalidOperationException(message: "License parameter is not available."))
                 .WaitFor(dependency: search.Service ?? throw new InvalidOperationException(message: "Search service is not available."))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
                     value: _context)
+                .WithEnvironment(
+                    name: "AUTOMAPPER_LICENSE",
+                    parameter: license.Parameters.Automapper)
                 .WithParentRelationship(parent: search.Service)
                 .WithReference(source: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
                 .WithReference(source: search.Service);
@@ -60,10 +65,14 @@ public static class SearchBuilder
         if (builder.ExecutionContext.IsPublishMode)
             search.Builder = builder
                 .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder-peak")
+                .WaitFor(dependency: license.Parameters?.Automapper ?? throw new InvalidOperationException(message: "License parameter is not available."))
                 .WaitFor(dependency: search.Connection ?? throw new InvalidOperationException(message: "Search connection is not available."))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
                     value: "Production")
+                .WithEnvironment(
+                    name: "AUTOMAPPER_LICENSE",
+                    parameter: license.Parameters.Automapper)
                 .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WithReference(source: search.Connection)
                 .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>
@@ -83,10 +92,14 @@ public static class SearchBuilder
         if (builder.ExecutionContext.IsPublishMode)
             search.Builder = builder
                 .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder-offpeak")
+                .WaitFor(dependency: license.Parameters?.Automapper ?? throw new InvalidOperationException(message: "License parameter is not available."))
                 .WaitFor(dependency: search.Connection ?? throw new InvalidOperationException(message: "Search connection is not available."))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
                     value: "Production")
+                .WithEnvironment(
+                    name: "AUTOMAPPER_LICENSE",
+                    parameter: license.Parameters.Automapper)
                 .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WithReference(source: search.Connection)
                 .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>
@@ -106,10 +119,14 @@ public static class SearchBuilder
         if (builder.ExecutionContext.IsPublishMode)
             search.Builder = builder
                 .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder-weekend")
+                .WaitFor(dependency: license.Parameters?.Automapper ?? throw new InvalidOperationException(message: "License parameter is not available."))
                 .WaitFor(dependency: search.Connection ?? throw new InvalidOperationException(message: "Search connection is not available."))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
                     value: "Production")
+                .WithEnvironment(
+                    name: "AUTOMAPPER_LICENSE",
+                    parameter: license.Parameters.Automapper)
                 .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WithReference(source: search.Connection)
                 .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>
@@ -129,10 +146,14 @@ public static class SearchBuilder
         if (builder.ExecutionContext.IsPublishMode)
             search.Builder = builder
                 .AddProject<Projects.TramTimes_Search_Jobs>(name: "search-builder-night")
+                .WaitFor(dependency: license.Parameters?.Automapper ?? throw new InvalidOperationException(message: "License parameter is not available."))
                 .WaitFor(dependency: search.Connection ?? throw new InvalidOperationException(message: "Search connection is not available."))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
                     value: "Production")
+                .WithEnvironment(
+                    name: "AUTOMAPPER_LICENSE",
+                    parameter: license.Parameters.Automapper)
                 .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WithReference(source: search.Connection)
                 .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>

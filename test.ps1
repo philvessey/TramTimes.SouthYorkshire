@@ -20,12 +20,36 @@ function Write-Lines {
 }
 
 Write-Lines -count 1
+Write-Host "Checking settings ..."
+
+if (-not (Test-Path "test.runsettings")) {
+    Write-Lines -count 1
+    Write-Host "Run Settings Missing!" -ForegroundColor Red
+    Write-Host "Please ensure you have a valid test.runsettings file in the repository root." -ForegroundColor Yellow
+    Write-Lines -count 1
+
+    exit 1
+}
+
 Write-Host "Checking nuget ..."
 
 if (-not (Test-Path "nuget.config")) {
     Write-Lines -count 1
     Write-Host "NuGet Configuration Missing!" -ForegroundColor Red
     Write-Host "Please ensure you have a valid nuget.config file in the repository root." -ForegroundColor Yellow
+    Write-Lines -count 1
+
+    exit 1
+}
+
+Write-Host "Checking automapper ..."
+
+[xml]$settings = Get-Content "test.runsettings"
+
+if (-not $settings.RunSettings.RunConfiguration.EnvironmentVariables.AUTOMAPPER_LICENSE) {
+    Write-Lines -count 1
+    Write-Host "Automapper License Missing!" -ForegroundColor Red
+    Write-Host "Please ensure AUTOMAPPER_LICENSE is defined in test.runsettings" -ForegroundColor Yellow
     Write-Lines -count 1
 
     exit 1
@@ -45,6 +69,8 @@ if (-not (Test-Path "telerik-license.txt")) {
 Write-Host "Checking secrets ..."
 
 $requiredSecrets = @(
+    "Parameters:license-automapper",
+    "Parameters:license-telerik",
     "Parameters:transxchange-username",
     "Parameters:transxchange-userpass"
 )
@@ -71,7 +97,7 @@ if ($missingSecrets.Count -gt 0) {
     exit 1
 }
 
-Clear-Lines -count 3
+Clear-Lines -count 5
 Write-Host "Building solution ..."
 
 $output = dotnet build 2>&1 | Out-String

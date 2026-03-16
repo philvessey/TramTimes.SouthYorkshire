@@ -2,6 +2,12 @@ using TramTimes.Aspire.Host.Builders;
 
 var builder = DistributedApplication.CreateBuilder(args: args);
 
+#region build license
+
+var license = builder.BuildLicense();
+
+#endregion
+
 #region build container
 
 builder.BuildContainer();
@@ -22,13 +28,17 @@ var database = builder.BuildDatabase(storage: storage);
 
 #region build cache
 
-var cache = builder.BuildCache(database: database);
+var cache = builder.BuildCache(
+    license: license,
+    database: database);
 
 #endregion
 
 #region build search
 
-var search = builder.BuildSearch(database: database);
+var search = builder.BuildSearch(
+    license: license,
+    database: database);
 
 #endregion
 
@@ -41,6 +51,7 @@ var revenue = builder.BuildRevenue();
 #region build web
 
 builder.BuildWeb(
+    license: license,
     storage: storage,
     database: database,
     cache: cache,

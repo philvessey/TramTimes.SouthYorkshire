@@ -15,9 +15,7 @@ var context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? 
 
 #region inject defaults
 
-builder
-    .AddMapperDefaults()
-    .AddServiceDefaults();
+builder.AddServiceDefaults();
 
 #endregion
 
@@ -39,6 +37,18 @@ if (context is not "Production")
 #endregion
 
 #region configure services
+
+var licenseKey = Environment.GetEnvironmentVariable(variable: "AUTOMAPPER_LICENSE") ?? string.Empty;
+
+builder.Services.AddAutoMapper(configAction: expression =>
+{
+    expression.LicenseKey = licenseKey;
+    expression.AddProfile<MapperService>();
+});
+
+#endregion
+
+#region add singleton
 
 if (context is not "Production")
     builder.Services.AddSingleton(implementationFactory: provider => provider

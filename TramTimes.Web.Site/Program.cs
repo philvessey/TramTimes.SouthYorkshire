@@ -17,25 +17,31 @@ var context = Environment.GetEnvironmentVariable(variable: "ASPIRE_CONTEXT") ?? 
 
 #region inject defaults
 
-builder
-    .AddMapperDefaults()
-    .AddServiceDefaults();
+builder.AddServiceDefaults();
 
 #endregion
 
 #region inject services
 
-var cache = builder.Configuration.GetConnectionString(name: "cache");
+var licenseKey = Environment.GetEnvironmentVariable(variable: "AUTOMAPPER_LICENSE") ?? string.Empty;
 
-if (!string.IsNullOrEmpty(value: cache))
+builder.Services.AddAutoMapper(configAction: expression =>
+{
+    expression.LicenseKey = licenseKey;
+    expression.AddProfile<MapperService>();
+});
+
+var connectionString = builder.Configuration.GetConnectionString(name: "cache") ?? string.Empty;
+
+if (!string.IsNullOrEmpty(value: connectionString))
     builder.Services
         .AddDataProtection()
         .PersistKeysToStackExchangeRedis(
-            connectionMultiplexer: ConnectionMultiplexer.Connect(configuration: cache),
+            connectionMultiplexer: ConnectionMultiplexer.Connect(configuration: connectionString),
             key: "browser:southyorkshire")
         .SetApplicationName(applicationName: "web-site");
 
-if (string.IsNullOrEmpty(value: cache))
+if (string.IsNullOrEmpty(value: connectionString))
     builder.Services
         .AddDataProtection()
         .SetApplicationName(applicationName: "web-site");

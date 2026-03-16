@@ -13,6 +13,7 @@ public static class WebBuilder
 
     public static void BuildWeb(
         this IDistributedApplicationBuilder builder,
+        LicenseResources license,
         StorageResources storage,
         DatabaseResources database,
         CacheResources cache,
@@ -46,11 +47,15 @@ public static class WebBuilder
         if (builder.ExecutionContext.IsRunMode)
             web.Backend = builder
                 .AddProject<Projects.TramTimes_Web_Api>(name: "web-api")
+                .WaitFor(dependency: license.Parameters?.Automapper ?? throw new InvalidOperationException(message: "License parameter is not available."))
                 .WaitFor(dependency: cache.Builder ?? throw new InvalidOperationException(message: "Cache builder is not available."))
                 .WaitFor(dependency: search.Builder ?? throw new InvalidOperationException(message: "Search builder is not available."))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
                     value: _context)
+                .WithEnvironment(
+                    name: "AUTOMAPPER_LICENSE",
+                    parameter: license.Parameters.Automapper)
                 .WithExternalHttpEndpoints()
                 .WithHttpCommand(
                     displayName: "Build cache",
@@ -103,11 +108,15 @@ public static class WebBuilder
         if (builder.ExecutionContext.IsPublishMode)
             web.Backend = builder
                 .AddProject<Projects.TramTimes_Web_Api>(name: "web-api")
+                .WaitFor(dependency: license.Parameters?.Automapper ?? throw new InvalidOperationException(message: "License parameter is not available."))
                 .WaitFor(dependency: cache.Builder ?? throw new InvalidOperationException(message: "Cache builder is not available."))
                 .WaitFor(dependency: search.Builder ?? throw new InvalidOperationException(message: "Search builder is not available."))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
                     value: "Production")
+                .WithEnvironment(
+                    name: "AUTOMAPPER_LICENSE",
+                    parameter: license.Parameters.Automapper)
                 .WithExternalHttpEndpoints()
                 .WithHttpHealthCheck(path: "/healthz")
                 .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
@@ -210,6 +219,8 @@ public static class WebBuilder
         if (builder.ExecutionContext.IsRunMode)
             web.Frontend = builder
                 .AddProject<Projects.TramTimes_Web_Site>(name: "web-site")
+                .WaitFor(dependency: license.Parameters?.Automapper ?? throw new InvalidOperationException(message: "License parameter is not available."))
+                .WaitFor(dependency: license.Parameters?.Telerik ?? throw new InvalidOperationException(message: "License parameter is not available."))
                 .WaitFor(dependency: web.Backend ?? throw new InvalidOperationException(message: "Web backend is not available."))
                 .WithEnvironment(
                     name: "API_ENDPOINT",
@@ -219,6 +230,12 @@ public static class WebBuilder
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
                     value: _context)
+                .WithEnvironment(
+                    name: "AUTOMAPPER_LICENSE",
+                    parameter: license.Parameters.Automapper)
+                .WithEnvironment(
+                    name: "TELERIK_LICENSE",
+                    parameter: license.Parameters.Telerik)
                 .WithExternalHttpEndpoints()
                 .WithHttpHealthCheck(path: "/healthz")
                 .WithReference(source: cache.Service ?? throw new InvalidOperationException(message: "Cache service is not available."))
@@ -232,6 +249,8 @@ public static class WebBuilder
         if (builder.ExecutionContext.IsPublishMode)
             web.Frontend = builder
                 .AddProject<Projects.TramTimes_Web_Site>(name: "web-site")
+                .WaitFor(dependency: license.Parameters?.Automapper ?? throw new InvalidOperationException(message: "License parameter is not available."))
+                .WaitFor(dependency: license.Parameters?.Telerik ?? throw new InvalidOperationException(message: "License parameter is not available."))
                 .WaitFor(dependency: revenue.Parameters?._160x300 ?? throw new InvalidOperationException(message: "Revenue parameter is not available."))
                 .WaitFor(dependency: revenue.Parameters?._160x600 ?? throw new InvalidOperationException(message: "Revenue parameter is not available."))
                 .WaitFor(dependency: revenue.Parameters?._320x50 ?? throw new InvalidOperationException(message: "Revenue parameter is not available."))
@@ -247,6 +266,9 @@ public static class WebBuilder
                     name: "ASPIRE_CONTEXT",
                     value: "Production")
                 .WithEnvironment(
+                    name: "AUTOMAPPER_LICENSE",
+                    parameter: license.Parameters.Automapper)
+                .WithEnvironment(
                     name: "BANNER_160X300",
                     parameter: revenue.Parameters._160x300)
                 .WithEnvironment(
@@ -261,6 +283,9 @@ public static class WebBuilder
                 .WithEnvironment(
                     name: "BANNER_728X90",
                     parameter: revenue.Parameters._728x90)
+                .WithEnvironment(
+                    name: "TELERIK_LICENSE",
+                    parameter: license.Parameters.Telerik)
                 .WithExternalHttpEndpoints()
                 .WithHttpHealthCheck(path: "/healthz")
                 .WithReference(source: cache.Connection ?? throw new InvalidOperationException(message: "Cache connection is not available."))

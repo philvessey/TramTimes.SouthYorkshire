@@ -11,6 +11,7 @@ public static class CacheBuilder
 
     public static CacheResources BuildCache(
         this IDistributedApplicationBuilder builder,
+        LicenseResources license,
         DatabaseResources database) {
 
         #region build resources
@@ -45,10 +46,14 @@ public static class CacheBuilder
         if (builder.ExecutionContext.IsRunMode)
             cache.Builder = builder
                 .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder")
+                .WaitFor(dependency: license.Parameters?.Automapper ?? throw new InvalidOperationException(message: "License parameter is not available."))
                 .WaitFor(dependency: cache.Service ?? throw new InvalidOperationException(message: "Cache service is not available."))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
                     value: _context)
+                .WithEnvironment(
+                    name: "AUTOMAPPER_LICENSE",
+                    parameter: license.Parameters.Automapper)
                 .WithParentRelationship(parent: cache.Service)
                 .WithReference(source: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
                 .WithReference(source: cache.Service);
@@ -56,10 +61,14 @@ public static class CacheBuilder
         if (builder.ExecutionContext.IsPublishMode)
             cache.Builder = builder
                 .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder-peak")
+                .WaitFor(dependency: license.Parameters?.Automapper ?? throw new InvalidOperationException(message: "License parameter is not available."))
                 .WaitFor(dependency: cache.Connection ?? throw new InvalidOperationException(message: "Cache connection is not available."))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
                     value: "Production")
+                .WithEnvironment(
+                    name: "AUTOMAPPER_LICENSE",
+                    parameter: license.Parameters.Automapper)
                 .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WithReference(source: cache.Connection)
                 .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>
@@ -79,10 +88,14 @@ public static class CacheBuilder
         if (builder.ExecutionContext.IsPublishMode)
             cache.Builder = builder
                 .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder-offpeak")
+                .WaitFor(dependency: license.Parameters?.Automapper ?? throw new InvalidOperationException(message: "License parameter is not available."))
                 .WaitFor(dependency: cache.Connection ?? throw new InvalidOperationException(message: "Cache connection is not available."))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
                     value: "Production")
+                .WithEnvironment(
+                    name: "AUTOMAPPER_LICENSE",
+                    parameter: license.Parameters.Automapper)
                 .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WithReference(source: cache.Connection)
                 .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>
@@ -102,10 +115,14 @@ public static class CacheBuilder
         if (builder.ExecutionContext.IsPublishMode)
             cache.Builder = builder
                 .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder-weekend")
+                .WaitFor(dependency: license.Parameters?.Automapper ?? throw new InvalidOperationException(message: "License parameter is not available."))
                 .WaitFor(dependency: cache.Connection ?? throw new InvalidOperationException(message: "Cache connection is not available."))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
                     value: "Production")
+                .WithEnvironment(
+                    name: "AUTOMAPPER_LICENSE",
+                    parameter: license.Parameters.Automapper)
                 .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WithReference(source: cache.Connection)
                 .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>
@@ -125,10 +142,14 @@ public static class CacheBuilder
         if (builder.ExecutionContext.IsPublishMode)
             cache.Builder = builder
                 .AddProject<Projects.TramTimes_Cache_Jobs>(name: "cache-builder-night")
+                .WaitFor(dependency: license.Parameters?.Automapper ?? throw new InvalidOperationException(message: "License parameter is not available."))
                 .WaitFor(dependency: cache.Connection ?? throw new InvalidOperationException(message: "Cache connection is not available."))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
                     value: "Production")
+                .WithEnvironment(
+                    name: "AUTOMAPPER_LICENSE",
+                    parameter: license.Parameters.Automapper)
                 .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WithReference(source: cache.Connection)
                 .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>
