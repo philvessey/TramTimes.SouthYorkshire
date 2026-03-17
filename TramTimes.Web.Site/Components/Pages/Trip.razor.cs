@@ -328,8 +328,36 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         if (response?.IsSuccessStatusCode is true)
             data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
 
-        MapData.RemoveAll(match: stop => data.Any(predicate: item => stop.Id == item.Id));
-        MapData.AddRange(collection: MapperService.Map<List<TelerikStop>>(source: data));
+        var results = MapperService.Map<List<TelerikStop>>(source: data);
+
+        foreach (var item in results)
+        {
+            var stop = MapData.FirstOrDefault(stop => stop.Id == item.Id);
+            stop?.Code = item.Code;
+            stop?.Name = item.Name;
+            stop?.Latitude = item.Latitude;
+            stop?.Longitude = item.Longitude;
+            stop?.Platform = item.Platform;
+            stop?.Direction = item.Direction;
+            stop?.Location = item.Location?.ToArray();
+            stop?.Points = item.Points?.ToList();
+
+            if (stop is not null)
+                continue;
+
+            MapData.Add(item: new TelerikStop
+            {
+                Id = item.Id,
+                Code = item.Code,
+                Name = item.Name,
+                Latitude = item.Latitude,
+                Longitude = item.Longitude,
+                Platform =  item.Platform,
+                Direction = item.Direction,
+                Location =  item.Location?.ToArray(),
+                Points = item.Points?.ToList()
+            });
+        }
 
         foreach (var item in MapData)
         {
@@ -1118,8 +1146,36 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         if (response?.IsSuccessStatusCode is true)
             data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
 
-        SearchData.RemoveAll(match: stop => data.Any(predicate: item => stop.Id == item.Id));
-        SearchData.AddRange(collection: MapperService.Map<List<TelerikStop>>(source: data));
+        var results = MapperService.Map<List<TelerikStop>>(source: data);
+
+        foreach (var item in results)
+        {
+            var stop = SearchData.FirstOrDefault(stop => stop.Id == item.Id);
+            stop?.Code = item.Code;
+            stop?.Name = item.Name;
+            stop?.Latitude = item.Latitude;
+            stop?.Longitude = item.Longitude;
+            stop?.Platform = item.Platform;
+            stop?.Direction = item.Direction;
+            stop?.Location = item.Location?.ToArray();
+            stop?.Points = item.Points?.ToList();
+
+            if (stop is not null)
+                continue;
+
+            SearchData.Add(item: new TelerikStop
+            {
+                Id = item.Id,
+                Code = item.Code,
+                Name = item.Name,
+                Latitude = item.Latitude,
+                Longitude = item.Longitude,
+                Platform =  item.Platform,
+                Direction = item.Direction,
+                Location =  item.Location?.ToArray(),
+                Points = item.Points?.ToList()
+            });
+        }
 
         foreach (var item in SearchData)
         {
