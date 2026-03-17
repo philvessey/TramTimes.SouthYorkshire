@@ -231,6 +231,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
             item.Points = item.Points?
                 .Where(predicate: point => point.DepartureDateTime >= currentDateTime)
                 .Where(predicate: point => point.DepartureDateTime <= offsetDateTime)
+                .Select(selector: point => point)
                 .ToList();
         }
 
@@ -364,6 +365,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
             item.Points = item.Points?
                 .Where(predicate: point => point.DepartureDateTime >= currentDateTime)
                 .Where(predicate: point => point.DepartureDateTime <= offsetDateTime)
+                .Select(selector: point => point)
                 .ToList();
         }
 
@@ -562,14 +564,36 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         #region build local data
 
-        ListData.AddRange(collection: MapData.Select(selector: stop => stop));
+        ListData.AddRange(collection: MapData.Select(selector: stop => new TelerikStop
+        {
+            Id = stop.Id,
+            Code = stop.Code,
+            Name = stop.Name,
+            Latitude = stop.Latitude,
+            Longitude = stop.Longitude,
+            Platform =  stop.Platform,
+            Direction = stop.Direction,
+            Location =  stop.Location?.ToArray(),
+            Points = stop.Points?.ToList()
+        }));
 
         #endregion
 
         #region build remote data
 
-        if (ListData.IsNullOrEmpty() && Loading is false)
-            ListData.Add(item: TelerikStopBuilder.Build());
+        foreach (var item in ListData)
+        {
+            item.Distance = GeoCalculator.GetDistance(
+                originLatitude: item.Latitude ?? 0,
+                originLongitude: item.Longitude ?? 0,
+                destinationLatitude: MapCenter.ElementAt(index: 0),
+                destinationLongitude: MapCenter.ElementAt(index: 1),
+                distanceUnit: DistanceUnit.Meters);
+
+            item.Points = item.Points?
+                .Select(selector: point => point)
+                .ToList();
+        }
 
         readEventArgs.Data = ListData.OrderBy(keySelector: stop => stop.Distance);
 
@@ -966,6 +990,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
             item.Points = item.Points?
                 .Where(predicate: point => point.DepartureDateTime >= currentDateTime)
                 .Where(predicate: point => point.DepartureDateTime <= offsetDateTime)
+                .Select(selector: point => point)
                 .ToList();
         }
 
@@ -1098,6 +1123,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
             item.Points = item.Points?
                 .Where(predicate: point => point.DepartureDateTime >= currentDateTime)
                 .Where(predicate: point => point.DepartureDateTime <= offsetDateTime)
+                .Select(selector: point => point)
                 .ToList();
         }
 

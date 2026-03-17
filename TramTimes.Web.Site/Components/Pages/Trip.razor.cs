@@ -244,6 +244,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
             item.Points = item.Points?
                 .Where(predicate: point => point.DepartureDateTime >= currentDateTime)
                 .Where(predicate: point => point.DepartureDateTime <= offsetDateTime)
+                .Select(selector: point => point)
                 .ToList();
         }
 
@@ -371,6 +372,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
             item.Points = item.Points?
                 .Where(predicate: point => point.DepartureDateTime >= currentDateTime)
                 .Where(predicate: point => point.DepartureDateTime <= offsetDateTime)
+                .Select(selector: point => point)
                 .ToList();
         }
 
@@ -662,12 +664,8 @@ public partial class Trip : ComponentBase, IAsyncDisposable
             data = await response.Content.ReadFromJsonAsync<List<WebStopPoint>>() ?? [];
 
         ListData = MapperService.Map<List<TelerikStopPoint>>(source: data);
-
         ListData.RemoveAll(match: point => point.DepartureDateTime < currentDateTime);
         ListData.RemoveAll(match: point => point.DepartureDateTime > offsetDateTime);
-
-        if (ListData.IsNullOrEmpty() && Loading is false)
-            ListData.Add(item: TelerikStopPointBuilder.Build());
 
         readEventArgs.Data = ListData;
 
@@ -1057,6 +1055,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
             item.Points = item.Points?
                 .Where(predicate: point => point.DepartureDateTime >= currentDateTime)
                 .Where(predicate: point => point.DepartureDateTime <= offsetDateTime)
+                .Select(selector: point => point)
                 .ToList();
         }
 
@@ -1189,6 +1188,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
             item.Points = item.Points?
                 .Where(predicate: point => point.DepartureDateTime >= currentDateTime)
                 .Where(predicate: point => point.DepartureDateTime <= offsetDateTime)
+                .Select(selector: point => point)
                 .ToList();
         }
 
