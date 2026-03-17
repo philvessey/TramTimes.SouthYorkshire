@@ -314,7 +314,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region build results data
+        #region build remote data
 
         List<WebStop> data = [];
 
@@ -355,7 +355,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region set local storage
+        #region set local cache
 
         if (ConsentService.Consent is true)
         {
@@ -386,7 +386,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region set local storage
+        #region set local location
 
         if (ConsentService.Consent is true)
         {
@@ -538,7 +538,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region build results data
+        #region build remote data
 
         if (ListData.IsNullOrEmpty() && Loading is false)
             ListData.Add(item: TelerikStopBuilder.Build());
@@ -1016,7 +1016,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region build results data
+        #region build remote data
 
         List<WebStop> data = [];
 
@@ -1053,7 +1053,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region set local storage
+        #region set local cache
 
         if (ConsentService.Consent is true)
         {
@@ -1079,33 +1079,6 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
                     await JavascriptManager.InvokeVoidAsync(
                         identifier: "writeConsole",
                         args: "privacy: cache failed");
-            }
-        }
-
-        #endregion
-
-        #region set local storage
-
-        if (ConsentService.Consent is true)
-        {
-            try
-            {
-                var storage = await StorageService.SetAsync(
-                    key: "location",
-                    value: MapCenter);
-
-                if (storage is { Success: false })
-                    if (JavascriptManager is not null)
-                        await JavascriptManager.InvokeVoidAsync(
-                            identifier: "writeConsole",
-                            args: "privacy: location failed");
-            }
-            catch (Exception)
-            {
-                if (JavascriptManager is not null)
-                    await JavascriptManager.InvokeVoidAsync(
-                        identifier: "writeConsole",
-                        args: "privacy: location failed");
             }
         }
 

@@ -321,7 +321,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region build results data
+        #region build remote data
 
         List<WebStop> data = [];
 
@@ -626,7 +626,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region build results data
+        #region build remote data
 
         List<WebStopPoint> data = [];
 
@@ -1111,7 +1111,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region build results data
+        #region build remote data
 
         List<WebStop> data = [];
 
@@ -1174,33 +1174,6 @@ public partial class Trip : ComponentBase, IAsyncDisposable
                     await JavascriptManager.InvokeVoidAsync(
                         identifier: "writeConsole",
                         args: "trip: cache failed");
-            }
-        }
-
-        #endregion
-
-        #region set local location
-
-        if (ConsentService.Consent is true)
-        {
-            try
-            {
-                var storage = await StorageService.SetAsync(
-                    key: "location",
-                    value: MapCenter);
-
-                if (storage is { Success: false })
-                    if (JavascriptManager is not null)
-                        await JavascriptManager.InvokeVoidAsync(
-                            identifier: "writeConsole",
-                            args: "trip: location failed");
-            }
-            catch (Exception)
-            {
-                if (JavascriptManager is not null)
-                    await JavascriptManager.InvokeVoidAsync(
-                        identifier: "writeConsole",
-                        args: "trip: location failed");
             }
         }
 

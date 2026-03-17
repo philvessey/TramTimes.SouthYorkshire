@@ -369,7 +369,7 @@
                         <ul>
                             @{
                                 var points = context.Points?
-                                    .Take(count: 3)
+                                    .Take(count: 1)
                                     .Select(selector: point => point)
                                     .ToList() ?? [];
 
