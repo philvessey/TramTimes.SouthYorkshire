@@ -28,10 +28,10 @@ public partial class Stop : ComponentBase, IAsyncDisposable
     private IJSObjectReference? JavascriptManager { get; set; }
     private TelerikListView<TelerikStopPoint>? ListManager { get; set; }
     private TelerikMap? MapManager { get; set; }
+    private ResponseType? Response { get; set; }
     private bool? Disposed { get; set; }
     private string? Query { get; set; }
     private string? Title { get; set; }
-    private bool? Loading { get; set; }
 
     private Func<Task>? _onConsentChanged;
     private Action? _onConsentChangedWrapper;
@@ -42,6 +42,12 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
     protected override void OnInitialized()
     {
+        #region set default response
+
+        Response ??= ResponseType.Idle;
+
+        #endregion
+
         #region set default query
 
         Query ??= string.Empty;
@@ -51,12 +57,6 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         #region set default title
 
         Title ??= "TramTimes - South Yorkshire";
-
-        #endregion
-
-        #region set default loading
-
-        Loading ??= true;
 
         #endregion
 
@@ -557,9 +557,9 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region set loading toggle
+        #region set response state
 
-        Loading = true;
+        Response = ResponseType.Idle;
 
         #endregion
 
@@ -597,6 +597,11 @@ public partial class Stop : ComponentBase, IAsyncDisposable
 
         try
         {
+            Response = ListData.Count > 0 ? ResponseType.Syncing : ResponseType.Loading;
+
+            if (Response is ResponseType.Loading)
+                StateHasChanged();
+
             var client = HttpService.CreateClient(name: "cache");
 
             response = await client.GetAsync(
@@ -604,6 +609,11 @@ public partial class Stop : ComponentBase, IAsyncDisposable
                     type: QueryType.StopId,
                     value: NextStop.Id ?? StopId),
                 cancellationToken: ListSource.Token);
+
+            Response = response.IsSuccessStatusCode ? ResponseType.Success : ResponseType.Failure;
+
+            if (Response is not ResponseType.Idle)
+                StateHasChanged();
         }
         catch (OperationCanceledException)
         {
@@ -611,6 +621,11 @@ public partial class Stop : ComponentBase, IAsyncDisposable
                 await JavascriptManager.InvokeVoidAsync(
                     identifier: "writeConsole",
                     args: "stop: cache cancel");
+
+            Response = ResponseType.Exception;
+
+            if (Response is not ResponseType.Idle)
+                StateHasChanged();
         }
         catch (TimeoutRejectedException)
         {
@@ -618,12 +633,22 @@ public partial class Stop : ComponentBase, IAsyncDisposable
                 await JavascriptManager.InvokeVoidAsync(
                     identifier: "writeConsole",
                     args: "stop: cache timeout");
+
+            Response = ResponseType.Exception;
+
+            if (Response is not ResponseType.Idle)
+                StateHasChanged();
         }
 
         if (response?.IsSuccessStatusCode is not true)
         {
             try
             {
+                Response = ListData.Count > 0 ? ResponseType.Syncing : ResponseType.Loading;
+
+                if (Response is ResponseType.Loading)
+                    StateHasChanged();
+
                 var client = HttpService.CreateClient(name: "database");
 
                 response = await client.GetAsync(
@@ -631,6 +656,11 @@ public partial class Stop : ComponentBase, IAsyncDisposable
                         type: QueryType.StopId,
                         value: NextStop.Id ?? StopId),
                     cancellationToken: ListSource.Token);
+
+                Response = response.IsSuccessStatusCode ? ResponseType.Success : ResponseType.Failure;
+
+                if (Response is not ResponseType.Idle)
+                    StateHasChanged();
             }
             catch (OperationCanceledException)
             {
@@ -638,6 +668,11 @@ public partial class Stop : ComponentBase, IAsyncDisposable
                     await JavascriptManager.InvokeVoidAsync(
                         identifier: "writeConsole",
                         args: "stop: database cancel");
+
+                Response = ResponseType.Exception;
+
+                if (Response is not ResponseType.Idle)
+                    StateHasChanged();
             }
             catch (TimeoutRejectedException)
             {
@@ -645,14 +680,13 @@ public partial class Stop : ComponentBase, IAsyncDisposable
                     await JavascriptManager.InvokeVoidAsync(
                         identifier: "writeConsole",
                         args: "stop: database timeout");
+
+                Response = ResponseType.Exception;
+
+                if (Response is not ResponseType.Idle)
+                    StateHasChanged();
             }
         }
-
-        #endregion
-
-        #region set loading toggle
-
-        Loading = false;
 
         #endregion
 
@@ -666,6 +700,9 @@ public partial class Stop : ComponentBase, IAsyncDisposable
         ListData = MapperService.Map<List<TelerikStopPoint>>(source: data);
         ListData.RemoveAll(match: point => point.DepartureDateTime < currentDateTime);
         ListData.RemoveAll(match: point => point.DepartureDateTime > offsetDateTime);
+
+        if (ListData.IsNullOrEmpty() && Response is not ResponseType.Idle)
+            ListData.Add(item: TelerikStopPointBuilder.Build());
 
         readEventArgs.Data = ListData;
 

@@ -11,10 +11,10 @@ public static class TelerikStopPointBuilder
         var result = new TelerikStopPoint
         {
             DepartureDateTime = DateTime.Now,
-            DestinationName = "No Services Found",
-            DestinationDirection = "Unknown",
-            StopName = "No Services Found",
-            StopDirection = "Unknown"
+            DestinationName = "No Services Were Found",
+            DestinationDirection = "In The Next Two Hours",
+            StopName = "No Services Were Found",
+            StopDirection = "In The Next Two Hours"
         };
 
         #endregion

@@ -25,10 +25,10 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
     private IJSObjectReference? JavascriptManager { get; set; }
     private TelerikListView<TelerikStop>? ListManager { get; set; }
     private TelerikMap? MapManager { get; set; }
+    private ResponseType? Response { get; set; }
     private bool? Disposed { get; set; }
     private string? Query { get; set; }
     private string? Title { get; set; }
-    private bool? Loading { get; set; }
 
     private Func<Task>? _onConsentChanged;
     private Action? _onConsentChangedWrapper;
@@ -39,6 +39,12 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
     protected override void OnInitialized()
     {
+        #region set default response
+
+        Response ??= ResponseType.Idle;
+
+        #endregion
+
         #region set default query
 
         Query ??= string.Empty;
@@ -48,12 +54,6 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
         #region set default title
 
         Title ??= "TramTimes - South Yorkshire";
-
-        #endregion
-
-        #region set default loading
-
-        Loading ??= true;
 
         #endregion
 
@@ -169,9 +169,9 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #endregion
 
-        #region set loading toggle
+        #region set response state
 
-        Loading = true;
+        Response = ResponseType.Idle;
 
         #endregion
 
@@ -245,6 +245,13 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #endregion
 
+        #region rebind list view
+
+        if (MapData.Count > 0)
+            ListManager?.Rebind();
+
+        #endregion
+
         #region build query data
 
         HttpResponseMessage? response = null;
@@ -256,6 +263,11 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         try
         {
+            Response = MapData.Count > 0 ? ResponseType.Syncing : ResponseType.Loading;
+
+            if (Response is ResponseType.Loading)
+                StateHasChanged();
+
             var client = HttpService.CreateClient(name: "search");
 
             response = await client.GetAsync(
@@ -263,6 +275,11 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
                     type: QueryType.StopPoint,
                     value: MapCenter),
                 cancellationToken: MapSource.Token);
+
+            Response = response.IsSuccessStatusCode ? ResponseType.Success : ResponseType.Failure;
+
+            if (Response is not ResponseType.Idle)
+                StateHasChanged();
         }
         catch (OperationCanceledException)
         {
@@ -270,6 +287,11 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
                 await JavascriptManager.InvokeVoidAsync(
                     identifier: "writeConsole",
                     args: "privacy: search cancel");
+
+            Response = ResponseType.Exception;
+
+            if (Response is not ResponseType.Idle)
+                StateHasChanged();
         }
         catch (TimeoutRejectedException)
         {
@@ -277,12 +299,22 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
                 await JavascriptManager.InvokeVoidAsync(
                     identifier: "writeConsole",
                     args: "privacy: search timeout");
+
+            Response = ResponseType.Exception;
+
+            if (Response is not ResponseType.Idle)
+                StateHasChanged();
         }
 
         if (response?.IsSuccessStatusCode is not true)
         {
             try
             {
+                Response = MapData.Count > 0 ? ResponseType.Syncing : ResponseType.Loading;
+
+                if (Response is ResponseType.Loading)
+                    StateHasChanged();
+
                 var client = HttpService.CreateClient(name: "database");
 
                 response = await client.GetAsync(
@@ -290,6 +322,11 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
                         type: QueryType.StopPoint,
                         value: MapCenter),
                     cancellationToken: MapSource.Token);
+
+                Response = response.IsSuccessStatusCode ? ResponseType.Success : ResponseType.Failure;
+
+                if (Response is not ResponseType.Idle)
+                    StateHasChanged();
             }
             catch (OperationCanceledException)
             {
@@ -297,6 +334,11 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
                     await JavascriptManager.InvokeVoidAsync(
                         identifier: "writeConsole",
                         args: "privacy: database cancel");
+
+                Response = ResponseType.Exception;
+
+                if (Response is not ResponseType.Idle)
+                    StateHasChanged();
             }
             catch (TimeoutRejectedException)
             {
@@ -304,14 +346,13 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
                     await JavascriptManager.InvokeVoidAsync(
                         identifier: "writeConsole",
                         args: "privacy: database timeout");
+
+                Response = ResponseType.Exception;
+
+                if (Response is not ResponseType.Idle)
+                    StateHasChanged();
             }
         }
-
-        #endregion
-
-        #region set loading toggle
-
-        Loading = false;
 
         #endregion
 
@@ -594,6 +635,9 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
                 .Select(selector: point => point)
                 .ToList();
         }
+
+        if (ListData.IsNullOrEmpty() && Response is not ResponseType.Idle)
+            ListData.Add(item: TelerikStopBuilder.Build());
 
         readEventArgs.Data = ListData.OrderBy(keySelector: stop => stop.Distance);
 
