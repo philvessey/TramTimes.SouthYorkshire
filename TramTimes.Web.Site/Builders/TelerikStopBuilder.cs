@@ -10,8 +10,8 @@ public static class TelerikStopBuilder
 
         var result = new TelerikStop
         {
-            Name = "No Stops Were Found",
-            Direction = "Adjust Map Position To Search",
+            Name = "No Stops Found",
+            Direction = "Within Search Radius",
             Distance = 0,
             Points = Enumerable
                 .Range(start: 0, count: 5)
