@@ -73,6 +73,15 @@ export function registerBanner(_160x300, _160x600, _320x50, _468x60, _728x90, co
     bannerTarget.appendChild(config);
     bannerTarget.appendChild(invoke);
     bannerTarget.style.display = "block";
+
+    clearTimeout(_timeout);
+
+    _timeout = setTimeout(() => {
+        if (!bannerTarget.querySelector("iframe")) {
+            bannerTarget.innerHTML = `<img src="https://placehold.co/${bannerWidth}x${bannerHeight}/0078c8/ffffff?text=Banner" alt="Banner"/>`;
+            bannerTarget.style.display = "block";
+        }
+    }, 5000);
 }
 
 export function registerResize(helper) {
