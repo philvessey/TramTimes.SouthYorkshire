@@ -367,7 +367,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         foreach (var item in results)
         {
-            var stop = MapData.FirstOrDefault(stop => stop.Id == item.Id);
+            var stop = MapData.FirstOrDefault(predicate: stop => stop.Id == item.Id);
             stop?.Code = item.Code;
             stop?.Name = item.Name;
             stop?.Latitude = item.Latitude;
@@ -1128,7 +1128,7 @@ public partial class Home : ComponentBase, IAsyncDisposable
 
         foreach (var item in results)
         {
-            var stop = SearchData.FirstOrDefault(stop => stop.Id == item.Id);
+            var stop = SearchData.FirstOrDefault(predicate: stop => stop.Id == item.Id);
             stop?.Code = item.Code;
             stop?.Name = item.Name;
             stop?.Latitude = item.Latitude;
