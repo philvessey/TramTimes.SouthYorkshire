@@ -72,14 +72,14 @@ public class MapPan(AspireManager aspireManager) : BaseTest(aspireManager: aspir
                 var bounds = await parent.BoundingBoxAsync() ?? new LocatorBoundingBoxResult();
 
                 await page.Mouse.MoveAsync(
-                    x: bounds.X + (bounds.Width / 2),
-                    y: bounds.Y + (bounds.Height / 2));
+                    x: bounds.X + (bounds.Width / 4),
+                    y: bounds.Y + (bounds.Height / 4));
 
                 await page.Mouse.DownAsync();
 
                 await page.Mouse.MoveAsync(
-                    x: bounds.X + (bounds.Width / 2) + 50,
-                    y: bounds.Y + (bounds.Height / 2) + 50);
+                    x: bounds.X + (bounds.Width / 4) + 10,
+                    y: bounds.Y + (bounds.Height / 4) + 10);
 
                 await page.Mouse.UpAsync();
 
@@ -187,14 +187,14 @@ public class MapPan(AspireManager aspireManager) : BaseTest(aspireManager: aspir
                 var bounds = await parent.BoundingBoxAsync() ?? new LocatorBoundingBoxResult();
 
                 await page.Mouse.MoveAsync(
-                    x: bounds.X + (bounds.Width / 2),
-                    y: bounds.Y + (bounds.Height / 2));
+                    x: bounds.X + (bounds.Width / 4),
+                    y: bounds.Y + (bounds.Height / 4));
 
                 await page.Mouse.DownAsync();
 
                 await page.Mouse.MoveAsync(
-                    x: bounds.X + (bounds.Width / 2) + 25,
-                    y: bounds.Y + (bounds.Height / 2) + 25);
+                    x: bounds.X + (bounds.Width / 4) + 10,
+                    y: bounds.Y + (bounds.Height / 4) + 10);
 
                 await page.Mouse.UpAsync();
 

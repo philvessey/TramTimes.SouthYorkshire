@@ -71,8 +71,8 @@ public class MapZoom(AspireManager aspireManager) : BaseTest(aspireManager: aspi
                 var bounds = await parent.BoundingBoxAsync() ?? new LocatorBoundingBoxResult();
 
                 await page.Mouse.DblClickAsync(
-                    x: bounds.X + (bounds.Width / 2) + 50,
-                    y: bounds.Y + (bounds.Height / 2) + 50);
+                    x: bounds.X + (bounds.Width / 4),
+                    y: bounds.Y + (bounds.Height / 4));
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
                 await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
@@ -177,8 +177,8 @@ public class MapZoom(AspireManager aspireManager) : BaseTest(aspireManager: aspi
                 var bounds = await parent.BoundingBoxAsync() ?? new LocatorBoundingBoxResult();
 
                 await page.Mouse.DblClickAsync(
-                    x: bounds.X + (bounds.Width / 2) + 25,
-                    y: bounds.Y + (bounds.Height / 2) + 25);
+                    x: bounds.X + (bounds.Width / 4),
+                    y: bounds.Y + (bounds.Height / 4));
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
                 await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);

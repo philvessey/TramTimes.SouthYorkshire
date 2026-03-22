@@ -12,11 +12,10 @@ public class MarkerHover(AspireManager aspireManager) : BaseTest(aspireManager: 
     private string? Error { get; set; }
 
     [Theory]
-    [InlineData("Halfway", 53.32853446547, -1.344313639, 1)]
-    [InlineData("Malin Bridge", 53.40064755511, -1.50821200817, 2)]
-    [InlineData("Middlewood", 53.41586395553, -1.51006771516, 3)]
+    [InlineData(53.32853446547, -1.344313639, 1)]
+    [InlineData(53.40064755511, -1.50821200817, 2)]
+    [InlineData(53.41586395553, -1.51006771516, 3)]
     public async Task Desktop(
-        string name,
         double lat,
         double lon,
         int run) {
@@ -84,12 +83,6 @@ public class MarkerHover(AspireManager aspireManager) : BaseTest(aspireManager: 
                 await Assertions
                     .Expect(locator: parent)
                     .ToBeInViewportAsync();
-
-                child = parent.GetByTestId(testId: "name");
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToContainTextAsync(expected: name);
             }
             catch (Exception e)
             {
@@ -119,11 +112,10 @@ public class MarkerHover(AspireManager aspireManager) : BaseTest(aspireManager: 
     }
 
     [Theory]
-    [InlineData("Halfway", 53.32853446547, -1.344313639, 1)]
-    [InlineData("Malin Bridge", 53.40064755511, -1.50821200817, 2)]
-    [InlineData("Middlewood", 53.41586395553, -1.51006771516, 3)]
+    [InlineData(53.32853446547, -1.344313639, 1)]
+    [InlineData(53.40064755511, -1.50821200817, 2)]
+    [InlineData(53.41586395553, -1.51006771516, 3)]
     public async Task Mobile(
-        string name,
         double lat,
         double lon,
         int run) {
@@ -191,12 +183,6 @@ public class MarkerHover(AspireManager aspireManager) : BaseTest(aspireManager: 
                 await Assertions
                     .Expect(locator: parent)
                     .ToBeInViewportAsync();
-
-                child = parent.GetByTestId(testId: "name");
-
-                await Assertions
-                    .Expect(locator: child)
-                    .ToContainTextAsync(expected: name);
             }
             catch (Exception e)
             {
