@@ -1,12 +1,19 @@
 <svg height="64"
+     style="background-color: transparent"
      viewBox="0 0 64 64"
      width="64"
      xmlns="http://www.w3.org/2000/svg">
 
+    <rect fill="none"
+          height="64"
+          width="64"/>
+
     <circle cx="32"
             cy="32"
             fill="#0078c8"
-            r="32"/>
+            r="32"
+            stroke="#ffffff"
+            stroke-width="2"/>
 
     <text dominant-baseline="middle"
           dy="0"
