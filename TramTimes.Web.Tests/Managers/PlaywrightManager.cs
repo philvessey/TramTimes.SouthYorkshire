@@ -11,7 +11,7 @@ public class PlaywrightManager : IAsyncLifetime
     private IPlaywright Manager { get; set; } = null!;
     public IBrowser? Browser { get; set; }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         #region configure manager
 
@@ -32,8 +32,14 @@ public class PlaywrightManager : IAsyncLifetime
         #endregion
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
+        #region suppress finalizer
+
+        GC.SuppressFinalize(obj: this);
+
+        #endregion
+
         #region close browser
 
         await Browser!.CloseAsync();

@@ -5,9 +5,9 @@ using Xunit;
 
 namespace TramTimes.Web.Tests.Pages.Home.Dark.SourceCodeRepository;
 
+[Collection(name: "AspireCollection")]
 public class ButtonVisible(AspireManager aspireManager) : BaseTest(aspireManager: aspireManager)
 {
-    private AspireManager AspireManager { get; } = aspireManager ?? throw new ArgumentNullException(paramName: nameof(aspireManager));
     private byte[]? Screenshot { get; set; }
     private string? Error { get; set; }
 

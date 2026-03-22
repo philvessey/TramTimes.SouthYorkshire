@@ -1,3 +1,5 @@
+// ReSharper disable all
+
 using System.Net.Http.Json;
 using Aspire.Hosting.Testing;
 using Microsoft.Playwright;
@@ -8,10 +10,10 @@ using Xunit;
 
 namespace TramTimes.Web.Tests;
 
-public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager>, IAsyncDisposable
+public class BaseTest(AspireManager aspireManager)
 {
-    private AspireManager AspireManager { get; } = aspireManager ?? throw new ArgumentNullException(paramName: nameof(aspireManager));
-    private PlaywrightManager PlaywrightManager => AspireManager.PlaywrightManager;
+    protected AspireManager AspireManager { get; } = aspireManager ?? throw new ArgumentNullException(paramName: nameof(aspireManager));
+    protected PlaywrightManager PlaywrightManager => AspireManager.PlaywrightManager;
 
     protected async Task ConfigureTestAsync<TEntryPoint>() where TEntryPoint : class
     {
@@ -253,22 +255,6 @@ public class BaseTest(AspireManager aspireManager) : IClassFixture<AspireManager
             if (response.IsSuccessStatusCode)
                 item.Delete();
         }
-
-        #endregion
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        #region suppress finalizer
-
-        GC.SuppressFinalize(obj: this);
-
-        #endregion
-
-        #region dispose managers
-
-        await AspireManager.DisposeAsync();
-        await PlaywrightManager.DisposeAsync();
 
         #endregion
     }

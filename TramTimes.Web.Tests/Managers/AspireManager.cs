@@ -54,7 +54,7 @@ public class AspireManager : IAsyncLifetime
         #endregion
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         #region initialize manager
 
@@ -63,8 +63,14 @@ public class AspireManager : IAsyncLifetime
         #endregion
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
+        #region suppress finalizer
+
+        GC.SuppressFinalize(obj: this);
+
+        #endregion
+
         #region stop application
 
         await Application!.StopAsync();

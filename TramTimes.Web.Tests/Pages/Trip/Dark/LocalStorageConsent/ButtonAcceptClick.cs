@@ -10,9 +10,9 @@ using Xunit.Sdk;
 
 namespace TramTimes.Web.Tests.Pages.Trip.Dark.LocalStorageConsent;
 
+[Collection(name: "AspireCollection")]
 public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireManager: aspireManager)
 {
-    private AspireManager AspireManager { get; } = aspireManager ?? throw new ArgumentNullException(paramName: nameof(aspireManager));
     private byte[]? Screenshot { get; set; }
     private string? Error { get; set; }
 
@@ -37,7 +37,9 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
         #region check test
 
         if (DateTime.Now.Second > 30)
-            await Task.Delay(delay: TimeSpan.FromSeconds(value: 60 - DateTime.Now.Second + 1));
+            await Task.Delay(
+                delay: TimeSpan.FromSeconds(value: 60 - DateTime.Now.Second + 1),
+                cancellationToken: TestContext.Current.CancellationToken);
 
         #endregion
 
@@ -196,7 +198,9 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
         #region check test
 
         if (DateTime.Now.Second > 30)
-            await Task.Delay(delay: TimeSpan.FromSeconds(value: 60 - DateTime.Now.Second + 1));
+            await Task.Delay(
+                delay: TimeSpan.FromSeconds(value: 60 - DateTime.Now.Second + 1),
+                cancellationToken: TestContext.Current.CancellationToken);
 
         #endregion
 

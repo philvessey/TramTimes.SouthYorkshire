@@ -9,9 +9,9 @@ using Xunit.Sdk;
 
 namespace TramTimes.Web.Tests.Pages.Trip.Light.TelerikAutoComplete;
 
+[Collection(name: "AspireCollection")]
 public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager: aspireManager)
 {
-    private AspireManager AspireManager { get; } = aspireManager ?? throw new ArgumentNullException(paramName: nameof(aspireManager));
     private byte[]? Screenshot { get; set; }
     private string? Error { get; set; }
 
@@ -38,7 +38,9 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
         #region check test
 
         if (DateTime.Now.Second > 30)
-            await Task.Delay(delay: TimeSpan.FromSeconds(value: 60 - DateTime.Now.Second + 1));
+            await Task.Delay(
+                delay: TimeSpan.FromSeconds(value: 60 - DateTime.Now.Second + 1),
+                cancellationToken: TestContext.Current.CancellationToken);
 
         #endregion
 
@@ -197,7 +199,9 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
         #region check test
 
         if (DateTime.Now.Second > 30)
-            await Task.Delay(delay: TimeSpan.FromSeconds(value: 60 - DateTime.Now.Second + 1));
+            await Task.Delay(
+                delay: TimeSpan.FromSeconds(value: 60 - DateTime.Now.Second + 1),
+                cancellationToken: TestContext.Current.CancellationToken);
 
         #endregion
 

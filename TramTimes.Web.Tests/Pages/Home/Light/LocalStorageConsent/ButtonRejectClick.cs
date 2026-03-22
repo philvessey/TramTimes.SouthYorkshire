@@ -6,9 +6,9 @@ using Xunit;
 
 namespace TramTimes.Web.Tests.Pages.Home.Light.LocalStorageConsent;
 
+[Collection(name: "AspireCollection")]
 public class ButtonRejectClick(AspireManager aspireManager) : BaseTest(aspireManager: aspireManager)
 {
-    private AspireManager AspireManager { get; } = aspireManager ?? throw new ArgumentNullException(paramName: nameof(aspireManager));
     private byte[]? Screenshot { get; set; }
     private string? Error { get; set; }
 
