@@ -11,9 +11,9 @@
     <circle cx="32"
             cy="32"
             fill="#0078c8"
-            r="32"
-            stroke="#ffffff"
-            stroke-width="2"/>
+            r="30"
+            stroke="#333333"
+            stroke-width="4"/>
 
     <text dominant-baseline="middle"
           dy="0"
