@@ -95,6 +95,17 @@ RESTful API service providing programmatic access to tram schedules and stop dat
 - 🔐 Health checks and monitoring
 - 🚀 Fast API responses with caching
 
+### TramTimes.Web.Jobs
+
+Production monitoring service that continuously validates the web application advertisements using 
+Playwright automated testing.
+
+**Key Features:**
+
+- 🎯 Banner advertisement validation
+- 🌐 Production website validation
+- ✅ Playwright automation
+
 ### TramTimes.Web.Site
 
 Blazor web application providing an interactive user interface for accessing tram schedules and stop information.
@@ -108,7 +119,7 @@ Offers scheduled and stop updates with responsive design for an optimal user exp
 
 ### TramTimes.Web.Tests
 
-Comprehensive playwright test suite for website pages including validation of API endpoints and core
+Comprehensive Playwright test suite for website pages including validation of API endpoints and core
 functionality. Screenshots uploaded to blob storage for review.
 
 **Key Features:**
@@ -266,8 +277,9 @@ TramTimes.SouthYorkshire/
 ├── TramTimes.Database.Jobs/      # PostgreSQL database jobs
 ├── TramTimes.Search.Jobs/        # Elasticsearch index jobs
 ├── TramTimes.Web.Api/            # Web backend application
+├── TramTimes.Web.Jobs/           # Web frontend jobs
 ├── TramTimes.Web.Site/           # Web frontend application
-├── TramTimes.Web.Tests/          # Web frontend playwright tests
+├── TramTimes.Web.Tests/          # Web frontend tests
 ├── TramTimes.Web.Utilities/      # Web utilities library
 ├── Directory.Build.props         # Shared build configuration
 ├── Directory.Packages.props      # Centralized package management

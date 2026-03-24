@@ -8,4 +8,5 @@ public class WebResources
     [UsedImplicitly] public WebParameters? Parameters { get; set; }
     [UsedImplicitly] public IResourceBuilder<ProjectResource>? Backend { get; set; }
     [UsedImplicitly] public IResourceBuilder<ProjectResource>? Frontend { get; set; }
+    [UsedImplicitly] public IResourceBuilder<ContainerResource>? Worker { get; set; }
 }

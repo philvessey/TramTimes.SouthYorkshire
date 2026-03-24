@@ -134,8 +134,9 @@ TramTimes.SouthYorkshire/
 ├── TramTimes.Database.Jobs/      # PostgreSQL database jobs
 ├── TramTimes.Search.Jobs/        # Elasticsearch index jobs
 ├── TramTimes.Web.Api/            # Web backend application
+├── TramTimes.Web.Jobs/           # Web frontend jobs
 ├── TramTimes.Web.Site/           # Web frontend application
-├── TramTimes.Web.Tests/          # Web frontend playwright tests
+├── TramTimes.Web.Tests/          # Web frontend tests
 ├── TramTimes.Web.Utilities/      # Web utilities library
 ├── Directory.Build.props         # Shared build configuration
 ├── Directory.Packages.props      # Centralized package management

@@ -124,6 +124,7 @@ jobs:
       matrix:
         repository:
           - web-api
+          - web-jobs
           - web-site
     steps:
       - name: Azure login

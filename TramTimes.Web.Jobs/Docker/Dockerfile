@@ -1,0 +1,22 @@
+﻿FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS builder
+WORKDIR /src
+
+COPY ["Directory.Build.props", "Directory.Packages.props", "./"]
+COPY ["TramTimes.Web.Jobs/TramTimes.Web.Jobs.csproj", "TramTimes.Web.Jobs/"]
+RUN dotnet restore "TramTimes.Web.Jobs/TramTimes.Web.Jobs.csproj"
+
+COPY . .
+RUN dotnet build "TramTimes.Web.Jobs/TramTimes.Web.Jobs.csproj" -c Release -o /app/build
+RUN dotnet publish "TramTimes.Web.Jobs/TramTimes.Web.Jobs.csproj" -c Release -o /app/publish
+
+FROM mcr.microsoft.com/playwright/dotnet:v1.58.0-noble AS runtime
+
+RUN apt-get update
+RUN apt-get install -y dotnet-runtime-10.0
+RUN apt-get install -y xvfb
+RUN rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+COPY --from=builder /app/publish .
+
+ENTRYPOINT ["sh", "-c", "xvfb-run -a -s '-screen 0 1440x900x24' dotnet TramTimes.Web.Jobs.dll"]

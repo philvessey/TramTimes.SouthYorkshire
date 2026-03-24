@@ -36,6 +36,7 @@
 
 # TramTimes.Web projects
 /TramTimes.Web.Api/ @philvessey
+/TramTimes.Web.Jobs/ @philvessey
 /TramTimes.Web.Site/ @philvessey
 /TramTimes.Web.Tests/ @philvessey
 /TramTimes.Web.Utilities/ @philvessey

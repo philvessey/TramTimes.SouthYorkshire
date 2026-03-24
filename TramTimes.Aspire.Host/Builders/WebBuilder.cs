@@ -384,5 +384,32 @@ public static class WebBuilder
                 });
 
         #endregion
+
+        #region add jobs
+
+        if (builder.ExecutionContext.IsPublishMode)
+            web.Worker = builder
+                .AddDockerfile(
+                    name: "web-jobs",
+                    contextPath: "..",
+                    dockerfilePath: "TramTimes.Web.Jobs/Docker/Dockerfile",
+                    stage: "runtime")
+                .WaitFor(dependency: web.Frontend ?? throw new InvalidOperationException(message: "Web frontend is not available."))
+                .WithImageTag(tag: "latest")
+                .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>
+                {
+                    var container = job.Template.Containers.Single().Value;
+
+                    if (container is not null)
+                    {
+                        container.Resources.Cpu = 1.0;
+                        container.Resources.Memory = "2.0Gi";
+                    }
+
+                    job.Configuration.TriggerType = ContainerAppJobTriggerType.Schedule;
+                    job.Configuration.ScheduleTriggerConfig.CronExpression = "0 8 * * 1";
+                });
+
+        #endregion
     }
 }
