@@ -87,7 +87,7 @@ public class PlaceholderVisible(AspireManager aspireManager) : BaseTest(aspireMa
 
             await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -209,7 +209,7 @@ public class PlaceholderVisible(AspireManager aspireManager) : BaseTest(aspireMa
 
         #endregion
 
-        await RunTestAsync(cookies: ConsentCookies.Rejected, scheme: ColorScheme.Light, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Accepted, scheme: ColorScheme.Light, test: async page =>
         {
             #region configure page
 
@@ -223,7 +223,7 @@ public class PlaceholderVisible(AspireManager aspireManager) : BaseTest(aspireMa
 
             await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion

@@ -87,7 +87,7 @@ public class PlaceholderVisible(AspireManager aspireManager) : BaseTest(aspireMa
 
             await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -203,7 +203,7 @@ public class PlaceholderVisible(AspireManager aspireManager) : BaseTest(aspireMa
 
         #endregion
 
-        await RunTestAsync(cookies: ConsentCookies.Rejected, scheme: ColorScheme.Dark, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Accepted, scheme: ColorScheme.Dark, test: async page =>
         {
             #region configure page
 
@@ -217,7 +217,7 @@ public class PlaceholderVisible(AspireManager aspireManager) : BaseTest(aspireMa
 
             await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -245,7 +245,13 @@ public class PlaceholderVisible(AspireManager aspireManager) : BaseTest(aspireMa
                 var parent = page.GetByTestId(testId: "banner-horizontal");
 
                 await Assertions
-                    .Expect(locator: parent).Not
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
+
+                var child = parent.GetByTestId(testId: "placeholder");
+
+                await Assertions
+                    .Expect(locator: child)
                     .ToBeInViewportAsync();
             }
             catch (Exception e)
