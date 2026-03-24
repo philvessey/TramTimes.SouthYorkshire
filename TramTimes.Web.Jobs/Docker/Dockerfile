@@ -19,4 +19,4 @@ RUN rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY --from=builder /app/publish .
 
-ENTRYPOINT ["sh", "-c", "xvfb-run -a -s '-screen 0 1440x900x24' dotnet TramTimes.Web.Jobs.dll"]
+ENTRYPOINT ["sh", "-c", "xvfb-run -a -s '-screen 0 1920x1080x24' dotnet TramTimes.Web.Jobs.dll"]

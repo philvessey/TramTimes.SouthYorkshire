@@ -8,7 +8,7 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+    <link rel="icon" id="local-favicon" href="/favicon.svg" type="image/svg+xml"/>
     <link rel="stylesheet" id="kendo-light" href="https://unpkg.com/@@progress/kendo-theme-default@@@(_version)/dist/default-main.css"/>
     <link rel="stylesheet" id="kendo-dark" href="https://unpkg.com/@@progress/kendo-theme-default@@@(_version)/dist/default-main-dark.css"/>
     <link rel="stylesheet" id="custom-light" href="@Assets["css/default-main.css"]"/>
@@ -43,6 +43,14 @@
             } else {
                 stylesheets.light.forEach(id => document.getElementById(id).disabled = scheme !== "light");
                 stylesheets.dark.forEach(id => document.getElementById(id).disabled = scheme !== "dark");
+            }
+
+            const icon = document.getElementById("local-favicon");
+
+            if (scheme === "system") {
+                icon.href = matches ? "/favicon-main-dark.svg" : "/favicon-main.svg";
+            } else {
+                icon.href = scheme === "dark" ? "/favicon-main-dark.svg" : "/favicon-main.svg";
             }
         }
 

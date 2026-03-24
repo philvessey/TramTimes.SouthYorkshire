@@ -88,7 +88,7 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
 
             await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -122,7 +122,7 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
                 await parent.ClickAsync();
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
-                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+                await page.WaitForLoadStateAsync(state: LoadState.Load);
 
                 await Assertions
                     .Expect(page: page)
@@ -223,7 +223,7 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
 
         #endregion
 
-        await RunTestAsync(cookies: ConsentCookies.Rejected, scheme: ColorScheme.Dark, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Accepted, scheme: ColorScheme.Dark, test: async page =>
         {
             #region configure page
 
@@ -237,7 +237,7 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
 
             await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -271,7 +271,7 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
                 await parent.ClickAsync();
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
-                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+                await page.WaitForLoadStateAsync(state: LoadState.Load);
 
                 await Assertions
                     .Expect(page: page)

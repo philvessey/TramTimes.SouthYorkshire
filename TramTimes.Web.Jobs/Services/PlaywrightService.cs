@@ -47,7 +47,7 @@ public class PlaywrightService : IHostedService
                 (Width: 1440, Height: 300),
                 (Width: 1440, Height: 600),
                 (Width: 320, Height: 640),
-                (Width: 480, Height: 640),
+                (Width: 468, Height: 640),
                 (Width: 728, Height: 640),
             };
 
@@ -75,8 +75,16 @@ public class PlaywrightService : IHostedService
                     UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
                     ExtraHTTPHeaders = new Dictionary<string, string>
                     {
-                        { "Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8" },
-                        { "Accept-Language", "en-US,en;q=0.9" }
+                        { "Accept", "*/*" },
+                        { "Accept-Encoding", "gzip, deflate, br, zstd" },
+                        { "Accept-Language", "en-GB,en;q=0.9" },
+                        { "Referer", "https://southyorkshire.tramtimes.net/" },
+                        { "Sec-Fetch-Dest", "script" },
+                        { "Sec-Fetch-Mode", "no-cors" },
+                        { "Sec-Fetch-Site", "cross-site" },
+                        { "Sec-Fetch-Storage-Access", "none" },
+                        { "Sec-Fetch-User", "?1" },
+                        { "Upgrade-Insecure-Requests", "1" }
                     }
                 });
 
@@ -146,6 +154,7 @@ public class PlaywrightService : IHostedService
                     }
 
                     await page.WaitForTimeoutAsync(timeout: 5000);
+                    await page.WaitForLoadStateAsync(state: LoadState.Load);
 
                     if (_logger.IsEnabled(logLevel: LogLevel.Information))
                         _logger.LogInformation(
