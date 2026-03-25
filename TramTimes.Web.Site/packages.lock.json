@@ -44,9 +44,9 @@
       },
       "Telerik.UI.for.Blazor": {
         "type": "Direct",
-        "requested": "[13.0.0, )",
-        "resolved": "13.0.0",
-        "contentHash": "QCnfxmfz93QehtVbvXv/dPcHsb4nJrtK3PbPvCsaAj7LEKwmqRcG/DkfEUzNLalGsa4ngPvA02mdHRRAp9BPZQ==",
+        "requested": "[13.1.0, )",
+        "resolved": "13.1.0",
+        "contentHash": "VIIs0CGsmz9orrxyvnGFaOS9ezsynp7RWjOAgtPGoU1z69IFV8cEPMFJX88qG103uMsp7gjXste9ccQMqFt6/A==",
         "dependencies": {
           "Microsoft.Extensions.AI.Abstractions": "9.5.0",
           "Telerik.AI.SmartComponents.Extensions": "2.1.0",

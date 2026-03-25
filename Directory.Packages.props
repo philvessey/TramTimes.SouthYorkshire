@@ -78,7 +78,7 @@
     <PackageVersion Include="Polly" Version="8.6.6"/>
     <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.16.1"/>
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.1.6"/>
-    <PackageVersion Include="Telerik.UI.for.Blazor" Version="13.0.0"/>
+    <PackageVersion Include="Telerik.UI.for.Blazor" Version="13.1.0"/>
   </ItemGroup>
 
 </Project>
