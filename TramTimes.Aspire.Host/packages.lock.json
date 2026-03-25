@@ -2,11 +2,11 @@
   "version": 2,
   "dependencies": {
     "net10.0": {
-      "Aspire.Dashboard.Sdk.osx-arm64": {
+      "Aspire.Dashboard.Sdk.linux-x64": {
         "type": "Direct",
         "requested": "[13.1.3, )",
         "resolved": "13.1.3",
-        "contentHash": "c/0jo6RKafjBYEcz0z9ToL+6eUQnyOe0OdjBvO8/6uY+BMCqKrw+NvGeaIHJVtqkpGhGb45b7OoKrQ/zLtvS6w=="
+        "contentHash": "IIrGu711t+5BF3sT319YzaX5nvN5JZY51oWkc5/FbwmpdjLCbWe1jIqEIxBSOLnFX1+ms6Z6Et6TfltmzYCRqA=="
       },
       "Aspire.Hosting.AppHost": {
         "type": "Direct",
@@ -191,11 +191,11 @@
           "MinVer": "6.0.0"
         }
       },
-      "Aspire.Hosting.Orchestration.osx-arm64": {
+      "Aspire.Hosting.Orchestration.linux-x64": {
         "type": "Direct",
         "requested": "[13.1.3, )",
         "resolved": "13.1.3",
-        "contentHash": "oLJ0rjE7jioTU6Uwb31/SVJhxRd15VaxU2C0zMQJneayEVzCf51CPhS5xHo5nnb8MJ7AglYILaDI+2qY6xMjTQ=="
+        "contentHash": "AN5J5bJQ525fb61yTu/g9XZdsALg5OJXJJdzY4uK5HnHCgPAplsD2AT5CIur22Rp6EhreMx/iaIQ5ux4UA1Ijw=="
       },
       "Aspire.Hosting.PostgreSQL": {
         "type": "Direct",
@@ -268,9 +268,9 @@
       },
       "CliWrap": {
         "type": "Direct",
-        "requested": "[3.10.0, )",
-        "resolved": "3.10.0",
-        "contentHash": "Igph39WNImUFqQrpTeBDPafcCnM1u/8IooZHqMRF/5JdV5H78p+AbZkeYY1Nkz1WlbI/Gt2Hq/3rYh55jxRF9Q=="
+        "requested": "[3.10.1, )",
+        "resolved": "3.10.1",
+        "contentHash": "C+WzXwzpQsJVNqvuh19ZO/bw/vR43L+DC/CmvK+PATUBkail2AWYE6an17dOGgWaVGzF9sU28YwRwfNfkPrQdg=="
       },
       "JetBrains.Annotations": {
         "type": "Direct",
