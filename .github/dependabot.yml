@@ -19,7 +19,6 @@ updates:
     schedule:
       interval: "weekly"
       time: "09:00"
-    open-pull-requests-limit: 20
     reviewers:
       - "philvessey"
     labels:
@@ -27,5 +26,9 @@ updates:
     commit-message:
       prefix: "chore"
       include: "scope"
+    groups:
+      dependency-updates:
+        patterns:
+          - "*"
     ignore:
       - dependency-name: "Aspire.*"
