@@ -70,7 +70,7 @@
     <PackageVersion Include="AutoMapper" Version="16.1.1"/>
     <PackageVersion Include="CliWrap" Version="3.10.1"/>
     <PackageVersion Include="CsvHelper" Version="33.1.0"/>
-    <PackageVersion Include="FluentFTP" Version="53.0.2"/>
+    <PackageVersion Include="FluentFTP" Version="54.0.2"/>
     <PackageVersion Include="Flurl.Http" Version="4.0.2"/>
     <PackageVersion Include="Geolocation" Version="1.2.1"/>
     <PackageVersion Include="IeuanWalker.GeoUK" Version="1.4.0"/>
