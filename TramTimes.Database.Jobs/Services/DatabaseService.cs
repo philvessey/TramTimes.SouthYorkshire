@@ -14,7 +14,7 @@ public class DatabaseService : IHostedService
         NpgsqlDataSource service,
         ILogger<DatabaseService> logger) {
 
-        #region inject servics
+        #region inject services
 
         _service = service;
         _logger = logger;

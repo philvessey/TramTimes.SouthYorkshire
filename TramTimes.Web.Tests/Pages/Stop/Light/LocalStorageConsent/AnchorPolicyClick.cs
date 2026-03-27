@@ -37,7 +37,7 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
 
             await page.GotoAsync(url: $"/stop/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -77,7 +77,7 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
                 await child.ClickAsync();
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
-                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+                await page.WaitForLoadStateAsync(state: LoadState.Load);
 
                 parent = page.GetByTestId(testId: "local-storage-consent__policy");
 
@@ -138,7 +138,7 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
 
             await page.GotoAsync(url: $"/stop/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -178,7 +178,7 @@ public class AnchorPolicyClick(AspireManager aspireManager) : BaseTest(aspireMan
                 await child.ClickAsync();
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
-                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+                await page.WaitForLoadStateAsync(state: LoadState.Load);
 
                 parent = page.GetByTestId(testId: "local-storage-consent__policy");
 

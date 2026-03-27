@@ -20,7 +20,7 @@ public class PlaywrightService : IHostedService
         ILogger<PlaywrightService> logger,
         IHostApplicationLifetime host) {
 
-        #region inject servics
+        #region inject services
 
         _logger = logger;
         _host = host;

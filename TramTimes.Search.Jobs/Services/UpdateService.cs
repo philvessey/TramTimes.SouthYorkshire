@@ -21,7 +21,7 @@ public class UpdateService : IHostedService
         ILogger<UpdateService> logger,
         IHostApplicationLifetime host) {
 
-        #region inject servics
+        #region inject services
 
         _service = service;
         _logger = logger;

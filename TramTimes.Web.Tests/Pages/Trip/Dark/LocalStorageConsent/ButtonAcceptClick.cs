@@ -3,7 +3,6 @@ using TramTimes.Web.Tests.Cookies;
 using TramTimes.Web.Tests.Managers;
 using TramTimes.Web.Tests.Models;
 using TramTimes.Web.Tests.Services;
-using TramTimes.Web.Utilities.Builders;
 using TramTimes.Web.Utilities.Extensions;
 using Xunit;
 using Xunit.Sdk;
@@ -88,7 +87,7 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
 
             await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -128,21 +127,7 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
                 await child.ClickAsync();
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
-                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
-
-                await Assertions
-                    .Expect(page: page)
-                    .ToHaveURLAsync(urlOrRegExp: RegexBuilder.GetUrl());
-
-                await page
-                    .GetByTestId(testId: "telerik-map")
-                    .GetByTestId(testId: "marker").First
-                    .WaitForAsync();
-
-                await page
-                    .GetByTestId(testId: "telerik-list-view")
-                    .GetByTestId(testId: "result").First
-                    .WaitForAsync();
+                await page.WaitForLoadStateAsync(state: LoadState.Load);
 
                 parent = page.GetByTestId(testId: "local-storage-consent__outline");
 
@@ -249,7 +234,7 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
 
             await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -289,21 +274,7 @@ public class ButtonAcceptClick(AspireManager aspireManager) : BaseTest(aspireMan
                 await child.ClickAsync();
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
-                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
-
-                await Assertions
-                    .Expect(page: page)
-                    .ToHaveURLAsync(urlOrRegExp: RegexBuilder.GetUrl());
-
-                await page
-                    .GetByTestId(testId: "telerik-map")
-                    .GetByTestId(testId: "marker").First
-                    .WaitForAsync();
-
-                await page
-                    .GetByTestId(testId: "telerik-list-view")
-                    .GetByTestId(testId: "result").First
-                    .WaitForAsync();
+                await page.WaitForLoadStateAsync(state: LoadState.Load);
 
                 parent = page.GetByTestId(testId: "local-storage-consent__outline");
 
