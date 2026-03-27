@@ -27,7 +27,7 @@ updates:
       prefix: "chore"
       include: "scope"
     groups:
-      dependency-updates:
+      packages:
         patterns:
           - "*"
     ignore:

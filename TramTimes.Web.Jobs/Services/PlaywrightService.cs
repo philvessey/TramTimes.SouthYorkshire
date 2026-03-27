@@ -1,6 +1,7 @@
 using Microsoft.Playwright;
 using Polly;
 using Polly.Retry;
+using TramTimes.Web.Jobs.Builders;
 
 namespace TramTimes.Web.Jobs.Services;
 
@@ -10,6 +11,11 @@ public class PlaywrightService : IHostedService
     private readonly IHostApplicationLifetime _host;
     private readonly AsyncRetryPolicy _result;
 
+    private readonly string _hostname;
+    private readonly string _hostport;
+    private readonly string _username;
+    private readonly string _password;
+
     public PlaywrightService(
         ILogger<PlaywrightService> logger,
         IHostApplicationLifetime host) {
@@ -18,6 +24,34 @@ public class PlaywrightService : IHostedService
 
         _logger = logger;
         _host = host;
+
+        #endregion
+
+        #region build proxy
+
+        var random = new Random();
+
+        _hostname = Environment.GetEnvironmentVariable(variable: "PROXY_HOSTNAME") ?? string.Empty;
+        _hostport = Environment.GetEnvironmentVariable(variable: "PROXY_HOSTPORT") ?? string.Empty;
+        _username = Environment.GetEnvironmentVariable(variable: "PROXY_USERNAME") ?? string.Empty;
+
+        const string characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        _password = RegexBuilder.GetSession().Replace(
+            input: Environment.GetEnvironmentVariable(variable: "PROXY_PASSWORD") ?? string.Empty,
+            evaluator: match =>
+            {
+                var fullMatch = match.Groups[0].Value;
+                var oldSession = match.Groups[1].Value;
+
+                var newSession = new string(value: Enumerable.Range(start: 0, count: 8)
+                    .Select(selector: _ => characters[random.Next(maxValue: characters.Length)])
+                    .ToArray());
+
+                return fullMatch.Replace(
+                    oldValue: oldSession,
+                    newValue: newSession);
+            });
 
         #endregion
 
@@ -48,20 +82,22 @@ public class PlaywrightService : IHostedService
                 (Width: 1440, Height: 600),
                 (Width: 320, Height: 640),
                 (Width: 468, Height: 640),
-                (Width: 728, Height: 640),
+                (Width: 728, Height: 640)
             };
 
             var browser = await playwright.Chromium.LaunchAsync(options: new BrowserTypeLaunchOptions
             {
                 Headless = false,
+                Proxy = new Proxy
+                {
+                    Server = $"{_hostname}:{_hostport}",
+                    Username = _username,
+                    Password = _password
+                },
                 Args =
                 [
                     "--disable-blink-features=AutomationControlled",
                     "--disable-dev-shm-usage",
-                    "--disable-extensions",
-                    "--disable-gpu",
-                    "--disable-plugins",
-                    "--disable-software-rasterizer",
                     "--no-sandbox"
                 ]
             });
@@ -70,34 +106,49 @@ public class PlaywrightService : IHostedService
             {
                 var context = await browser.NewContextAsync(options: new BrowserNewContextOptions
                 {
-                    BaseURL = "https://southyorkshire.tramtimes.net",
+                    BypassCSP = true,
                     ColorScheme = ColorScheme.Light,
-                    UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-                    ExtraHTTPHeaders = new Dictionary<string, string>
-                    {
-                        { "Accept", "*/*" },
-                        { "Accept-Encoding", "gzip, deflate, br, zstd" },
-                        { "Accept-Language", "en-GB,en;q=0.9" },
-                        { "Referer", "https://southyorkshire.tramtimes.net/" },
-                        { "Sec-Fetch-Dest", "script" },
-                        { "Sec-Fetch-Mode", "no-cors" },
-                        { "Sec-Fetch-Site", "cross-site" },
-                        { "Sec-Fetch-Storage-Access", "none" },
-                        { "Sec-Fetch-User", "?1" },
-                        { "Upgrade-Insecure-Requests", "1" }
-                    }
+                    Permissions = ["storage-access"]
                 });
 
-                await context.AddInitScriptAsync(script:
-                    """
-                        Object.defineProperty(navigator, 'webdriver', {
-                            get: () => false,
-                        });
-                    """);
+                context.SetDefaultTimeout(timeout: 60000);
+                context.SetDefaultNavigationTimeout(timeout: 60000);
+
+                await context.AddInitScriptAsync(
+                    script: await File.ReadAllTextAsync(
+                        path: Path.Combine(
+                            path1: "Scripts",
+                            path2: "chromium.js"),
+                    cancellationToken: cancellationToken));
 
                 foreach (var item in dimensions)
                 {
                     var page = await context.NewPageAsync();
+
+                    await page.SetViewportSizeAsync(
+                        width: item.Width,
+                        height: item.Height);
+
+                    if (_logger.IsEnabled(logLevel: LogLevel.Information))
+                        _logger.LogInformation(
+                            message: "Playwright service page viewport: {width}x{height}",
+                            args:
+                            [
+                                item.Width,
+                                item.Height
+                            ]);
+
+                    await page.GotoAsync(url: "https://ipv4.icanhazip.com", options: new PageGotoOptions
+                    {
+                        WaitUntil = WaitUntilState.Load
+                    });
+
+                    var text = await page.InnerTextAsync(selector: "body");
+
+                    if (_logger.IsEnabled(logLevel: LogLevel.Information))
+                        _logger.LogInformation(
+                            message: "Playwright service ip address: {ip}",
+                            args: text.Trim());
 
                     page.Request += (_, request) =>
                     {
@@ -123,11 +174,7 @@ public class PlaywrightService : IHostedService
                                 ]);
                     };
 
-                    await page.SetViewportSizeAsync(
-                        width: item.Width,
-                        height: item.Height);
-
-                    await page.GotoAsync(url: "/-1.468535662/53.382525584", options: new PageGotoOptions
+                    await page.GotoAsync(url: "https://southyorkshire.tramtimes.net/-1.468535662/53.382525584", options: new PageGotoOptions
                     {
                         WaitUntil = WaitUntilState.Load
                     });
@@ -153,17 +200,8 @@ public class PlaywrightService : IHostedService
                         await child.ClickAsync();
                     }
 
-                    await page.WaitForTimeoutAsync(timeout: 5000);
+                    await page.WaitForTimeoutAsync(timeout: 30000);
                     await page.WaitForLoadStateAsync(state: LoadState.Load);
-
-                    if (_logger.IsEnabled(logLevel: LogLevel.Information))
-                        _logger.LogInformation(
-                            message: "Playwright service page viewport: {width}x{height}",
-                            args:
-                            [
-                                item.Width,
-                                item.Height
-                            ]);
 
                     await page.CloseAsync();
                 }

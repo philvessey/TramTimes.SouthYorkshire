@@ -76,6 +76,8 @@ jobs:
           ConnectionStrings__database: ${{ secrets.DATABASE_CONNECTION_STRING }}
           ConnectionStrings__search: ${{ secrets.SEARCH_CONNECTION_STRING }}
           Parameters__frontend-certificate: ${{ secrets.FRONTEND_CERTIFICATE }}
+          Parameters__iproyal-username: ${{ secrets.IPROYAL_USERNAME }}
+          Parameters__iproyal-userpass: ${{ secrets.IPROYAL_USERPASS }}
           Parameters__license-automapper: ${{ secrets.LICENSE_AUTOMAPPER }}
           Parameters__license-telerik: ${{ secrets.LICENSE_TELERIK }}
           Parameters__revenue-160x300: ${{ secrets.REVENUE_160X300 }}

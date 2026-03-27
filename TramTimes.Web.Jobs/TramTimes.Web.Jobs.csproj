@@ -6,4 +6,10 @@
     <PackageReference Include="Polly"/>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Scripts\chromium.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

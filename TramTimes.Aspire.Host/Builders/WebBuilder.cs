@@ -40,6 +40,26 @@ public static class WebBuilder
                 name: "frontend-domain",
                 value: "southyorkshire.tramtimes.net");
 
+        if (builder.ExecutionContext.IsPublishMode)
+            web.Parameters.Hostname = builder.AddParameter(
+                name: "iproyal-hostname",
+                value: "geo.iproyal.com");
+
+        if (builder.ExecutionContext.IsPublishMode)
+            web.Parameters.Hostport = builder.AddParameter(
+                name: "iproyal-hostport",
+                value: "12321");
+
+        if (builder.ExecutionContext.IsPublishMode)
+            web.Parameters.Username = builder.AddParameter(
+                name: "iproyal-username",
+                secret: false);
+
+        if (builder.ExecutionContext.IsPublishMode)
+            web.Parameters.Userpass = builder.AddParameter(
+                name: "iproyal-userpass",
+                secret: true);
+
         #endregion
 
         #region add api
@@ -256,6 +276,8 @@ public static class WebBuilder
                 .WaitFor(dependency: revenue.Parameters?._320x50 ?? throw new InvalidOperationException(message: "Revenue parameter is not available."))
                 .WaitFor(dependency: revenue.Parameters?._468x60 ?? throw new InvalidOperationException(message: "Revenue parameter is not available."))
                 .WaitFor(dependency: revenue.Parameters?._728x90 ?? throw new InvalidOperationException(message: "Revenue parameter is not available."))
+                .WaitFor(dependency: web.Parameters?.Certificate ?? throw new InvalidOperationException(message: "Certificate parameter is not available."))
+                .WaitFor(dependency: web.Parameters?.Domain ?? throw new InvalidOperationException(message: "Domain parameter is not available."))
                 .WaitFor(dependency: web.Backend ?? throw new InvalidOperationException(message: "Web backend is not available."))
                 .WithEnvironment(
                     name: "API_ENDPOINT",
@@ -379,8 +401,8 @@ public static class WebBuilder
                         }));
 
                     app.ConfigureCustomDomain(
-                        certificateName: web.Parameters.Certificate ?? throw new InvalidOperationException(message: "Certificate parameter is not available."),
-                        customDomain: web.Parameters.Domain ?? throw new InvalidOperationException(message: "Domain parameter is not available."));
+                        certificateName: web.Parameters.Certificate,
+                        customDomain: web.Parameters.Domain);
                 });
 
         #endregion
@@ -394,7 +416,23 @@ public static class WebBuilder
                     contextPath: "..",
                     dockerfilePath: "TramTimes.Web.Jobs/Docker/Dockerfile",
                     stage: "runtime")
+                .WaitFor(dependency: web.Parameters.Hostname ?? throw new InvalidOperationException(message: "Hostname parameter is not available."))
+                .WaitFor(dependency: web.Parameters.Hostport ?? throw new InvalidOperationException(message: "Hostport parameter is not available."))
+                .WaitFor(dependency: web.Parameters.Username ?? throw new InvalidOperationException(message: "Username parameter is not available."))
+                .WaitFor(dependency: web.Parameters.Userpass ?? throw new InvalidOperationException(message: "Password parameter is not available."))
                 .WaitFor(dependency: web.Frontend ?? throw new InvalidOperationException(message: "Web frontend is not available."))
+                .WithEnvironment(
+                    name: "PROXY_HOSTNAME",
+                    parameter: web.Parameters.Hostname)
+                .WithEnvironment(
+                    name: "PROXY_HOSTPORT",
+                    parameter: web.Parameters.Hostport)
+                .WithEnvironment(
+                    name: "PROXY_USERNAME",
+                    parameter: web.Parameters.Username)
+                .WithEnvironment(
+                    name: "PROXY_PASSWORD",
+                    parameter: web.Parameters.Userpass)
                 .WithImageTag(tag: "latest")
                 .PublishAsAzureContainerAppJob(configure: (infrastructure, job) =>
                 {
