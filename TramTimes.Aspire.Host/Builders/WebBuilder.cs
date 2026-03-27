@@ -444,8 +444,14 @@ public static class WebBuilder
                         container.Resources.Memory = "2.0Gi";
                     }
 
+                    var random = new Random();
+
+                    var hour = random.Next(minValue: 7, maxValue: 9);
+                    var minute = random.Next(minValue: 0, maxValue: 60);
+                    var day = random.Next(minValue: 1, maxValue: 6);
+
                     job.Configuration.TriggerType = ContainerAppJobTriggerType.Schedule;
-                    job.Configuration.ScheduleTriggerConfig.CronExpression = "0 8 * * 1";
+                    job.Configuration.ScheduleTriggerConfig.CronExpression = $"{minute} {hour} * * {day}";
                 });
 
         #endregion
