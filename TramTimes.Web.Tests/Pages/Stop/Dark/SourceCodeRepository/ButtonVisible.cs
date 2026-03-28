@@ -37,7 +37,7 @@ public class ButtonVisible(AspireManager aspireManager) : BaseTest(aspireManager
 
             await page.GotoAsync(url: $"/stop/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -107,7 +107,7 @@ public class ButtonVisible(AspireManager aspireManager) : BaseTest(aspireManager
 
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
 
-        await RunTestAsync(cookies: ConsentCookies.Rejected, scheme: ColorScheme.Dark, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Accepted, scheme: ColorScheme.Dark, test: async page =>
         {
             #region configure page
 
@@ -121,7 +121,7 @@ public class ButtonVisible(AspireManager aspireManager) : BaseTest(aspireManager
 
             await page.GotoAsync(url: $"/stop/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
