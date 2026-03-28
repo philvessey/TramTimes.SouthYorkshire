@@ -446,8 +446,8 @@ public static class WebBuilder
 
                     var random = new Random();
 
-                    var hour = random.Next(minValue: 7, maxValue: 9);
                     var minute = random.Next(minValue: 0, maxValue: 60);
+                    var hour = random.Next(minValue: 7, maxValue: 9);
                     var day = random.Next(minValue: 1, maxValue: 6);
 
                     job.Configuration.TriggerType = ContainerAppJobTriggerType.Schedule;

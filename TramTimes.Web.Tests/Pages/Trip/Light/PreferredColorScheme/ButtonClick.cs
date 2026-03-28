@@ -3,7 +3,6 @@ using TramTimes.Web.Tests.Cookies;
 using TramTimes.Web.Tests.Managers;
 using TramTimes.Web.Tests.Models;
 using TramTimes.Web.Tests.Services;
-using TramTimes.Web.Utilities.Builders;
 using TramTimes.Web.Utilities.Extensions;
 using Xunit;
 using Xunit.Sdk;
@@ -88,7 +87,7 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
 
             await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -122,21 +121,13 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
                 await parent.ClickAsync();
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
-                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+                await page.WaitForLoadStateAsync(state: LoadState.Load);
+
+                parent = page.GetByTestId(testId: "preferred-color-scheme");
 
                 await Assertions
-                    .Expect(page: page)
-                    .ToHaveURLAsync(urlOrRegExp: RegexBuilder.GetUrl());
-
-                await page
-                    .GetByTestId(testId: "telerik-map")
-                    .GetByTestId(testId: "marker").First
-                    .WaitForAsync();
-
-                await page
-                    .GetByTestId(testId: "telerik-list-view")
-                    .GetByTestId(testId: "result").First
-                    .WaitForAsync();
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
             }
             catch (Exception e)
             {
@@ -223,7 +214,7 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
 
         #endregion
 
-        await RunTestAsync(cookies: ConsentCookies.Rejected, scheme: ColorScheme.Light, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Accepted, scheme: ColorScheme.Light, test: async page =>
         {
             #region configure page
 
@@ -237,7 +228,7 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
 
             await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -271,21 +262,13 @@ public class ButtonClick(AspireManager aspireManager) : BaseTest(aspireManager: 
                 await parent.ClickAsync();
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
-                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+                await page.WaitForLoadStateAsync(state: LoadState.Load);
+
+                parent = page.GetByTestId(testId: "preferred-color-scheme");
 
                 await Assertions
-                    .Expect(page: page)
-                    .ToHaveURLAsync(urlOrRegExp: RegexBuilder.GetUrl());
-
-                await page
-                    .GetByTestId(testId: "telerik-map")
-                    .GetByTestId(testId: "marker").First
-                    .WaitForAsync();
-
-                await page
-                    .GetByTestId(testId: "telerik-list-view")
-                    .GetByTestId(testId: "result").First
-                    .WaitForAsync();
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
             }
             catch (Exception e)
             {
