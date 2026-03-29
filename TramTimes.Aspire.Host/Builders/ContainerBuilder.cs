@@ -19,7 +19,12 @@ public static class ContainerBuilder
         #region add registry
 
         if (builder.ExecutionContext.IsPublishMode)
-            container.Service = builder.AddAzureContainerRegistry(name: "container-registry");
+            container.Service = builder
+                .AddAzureContainerRegistry(name: "container-registry")
+                .WithPurgeTask(
+                    schedule: "0 0 * * 0",
+                    ago: TimeSpan.FromDays(days: 30),
+                    keep: 6);
 
         #endregion
 

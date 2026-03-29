@@ -1,13 +1,13 @@
 <Project>
 
   <PropertyGroup>
-    <AspireVersion>13.1.3</AspireVersion>
-    <AspireElasticVersion>13.1.0</AspireElasticVersion>
-    <NextDeparturesVersion>3.9.5</NextDeparturesVersion>
+    <AspireVersion>13.2.0</AspireVersion>
+    <AspireElasticVersion>13.2.0</AspireElasticVersion>
+    <NextDeparturesVersion>3.9.6</NextDeparturesVersion>
   </PropertyGroup>
 
   <PropertyGroup>
-    <AspirePreviewVersion>13.1.3-preview.1.26166.8</AspirePreviewVersion>
+    <AspirePreviewVersion>13.2.0-preview.1.26170.3</AspirePreviewVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -70,7 +70,7 @@
     <PackageVersion Include="AutoMapper" Version="16.1.1"/>
     <PackageVersion Include="CliWrap" Version="3.10.1"/>
     <PackageVersion Include="CsvHelper" Version="33.1.0"/>
-    <PackageVersion Include="FluentFTP" Version="54.0.2"/>
+    <PackageVersion Include="FluentFTP" Version="54.0.3"/>
     <PackageVersion Include="Flurl.Http" Version="4.0.2"/>
     <PackageVersion Include="Geolocation" Version="1.2.1"/>
     <PackageVersion Include="IeuanWalker.GeoUK" Version="1.4.0"/>

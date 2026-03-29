@@ -23,10 +23,29 @@ public static class NaptanStopBuilder
 
         stops.TryGetValue(
             key: reference ?? "unknown",
-            value: out var result);
+            value: out var stop);
 
-        if (result is null)
+        if (stop is null)
             return unknown;
+
+        var result = new NaptanStop
+        {
+            AtcoCode = reference ?? "unknown",
+            CommonName = stop.CommonName,
+            ShortCommonName = stop.ShortCommonName,
+            Landmark = stop.Landmark,
+            Street = stop.Street,
+            Crossing = stop.Crossing,
+            Indicator = stop.Indicator,
+            NptgLocalityCode = stop.NptgLocalityCode,
+            LocalityName = stop.LocalityName,
+            ParentLocalityName = stop.ParentLocalityName,
+            GridType = stop.GridType,
+            Easting = stop.Easting,
+            Northing = stop.Northing,
+            StopType = stop.StopType,
+            AdministrativeAreaCode = stop.AdministrativeAreaCode
+        };
 
         var commonName = result.CommonName ?? string.Empty;
 
