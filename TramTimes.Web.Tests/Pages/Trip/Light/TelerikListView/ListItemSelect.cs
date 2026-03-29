@@ -121,7 +121,7 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
 
             await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -169,7 +169,7 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
                 await item.ClickAsync();
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
-                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+                await page.WaitForLoadStateAsync(state: LoadState.Load);
 
                 await Assertions
                     .Expect(page: page)
@@ -303,7 +303,7 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
 
         #endregion
 
-        await RunTestAsync(cookies: ConsentCookies.Rejected, scheme: ColorScheme.Light, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Accepted, scheme: ColorScheme.Light, test: async page =>
         {
             #region configure page
 
@@ -317,7 +317,7 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
 
             await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -365,7 +365,7 @@ public class ListItemSelect(AspireManager aspireManager) : BaseTest(aspireManage
                 await item.ClickAsync();
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
-                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+                await page.WaitForLoadStateAsync(state: LoadState.Load);
 
                 await Assertions
                     .Expect(page: page)

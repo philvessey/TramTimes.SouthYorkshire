@@ -87,7 +87,7 @@ public class MarkerHover(AspireManager aspireManager) : BaseTest(aspireManager: 
 
             await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -127,7 +127,7 @@ public class MarkerHover(AspireManager aspireManager) : BaseTest(aspireManager: 
                 await child.HoverAsync();
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
-                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+                await page.WaitForLoadStateAsync(state: LoadState.Load);
 
                 parent = page.GetByTestId(testId: "tooltip");
 
@@ -220,7 +220,7 @@ public class MarkerHover(AspireManager aspireManager) : BaseTest(aspireManager: 
 
         #endregion
 
-        await RunTestAsync(cookies: ConsentCookies.Rejected, scheme: ColorScheme.Dark, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Accepted, scheme: ColorScheme.Dark, test: async page =>
         {
             #region configure page
 
@@ -234,7 +234,7 @@ public class MarkerHover(AspireManager aspireManager) : BaseTest(aspireManager: 
 
             await page.GotoAsync(url: $"/trip/{tripId}/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -274,7 +274,7 @@ public class MarkerHover(AspireManager aspireManager) : BaseTest(aspireManager: 
                 await child.HoverAsync();
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
-                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+                await page.WaitForLoadStateAsync(state: LoadState.Load);
 
                 parent = page.GetByTestId(testId: "tooltip");
 
