@@ -39,7 +39,7 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
 
             await page.GotoAsync(url: $"/stop/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -79,7 +79,7 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
                 await child.FillAsync(value: query);
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
-                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+                await page.WaitForLoadStateAsync(state: LoadState.Load);
 
                 parent = page.GetByLabel(text: "Options list");
 
@@ -140,7 +140,7 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
 
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
 
-        await RunTestAsync(cookies: ConsentCookies.Rejected, scheme: ColorScheme.Light, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Accepted, scheme: ColorScheme.Light, test: async page =>
         {
             #region configure page
 
@@ -154,7 +154,7 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
 
             await page.GotoAsync(url: $"/stop/{id}/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -194,7 +194,7 @@ public class ComboBoxFill(AspireManager aspireManager) : BaseTest(aspireManager:
                 await child.FillAsync(value: query);
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
-                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+                await page.WaitForLoadStateAsync(state: LoadState.Load);
 
                 parent = page.GetByLabel(text: "Options list");
 

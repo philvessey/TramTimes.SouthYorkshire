@@ -37,7 +37,7 @@ public class ComboBoxBlur(AspireManager aspireManager) : BaseTest(aspireManager:
 
             await page.GotoAsync(url: $"/privacy/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -77,12 +77,36 @@ public class ComboBoxBlur(AspireManager aspireManager) : BaseTest(aspireManager:
                 await child.FillAsync(value: query);
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
-                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+                await page.WaitForLoadStateAsync(state: LoadState.Load);
+
+                parent = page.GetByLabel(text: "Options list");
+
+                await Assertions
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
+
+                parent = page.GetByTestId(testId: "telerik-auto-complete");
+
+                await Assertions
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
+
+                child = parent.GetByRole(role: AriaRole.Combobox);
+
+                await Assertions
+                    .Expect(locator: child)
+                    .ToBeInViewportAsync();
 
                 await child.BlurAsync();
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
-                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+                await page.WaitForLoadStateAsync(state: LoadState.Load);
+
+                parent = page.GetByLabel(text: "Options list");
+
+                await Assertions
+                    .Expect(locator: parent).Not
+                    .ToBeInViewportAsync();
             }
             catch (Exception e)
             {
@@ -123,7 +147,7 @@ public class ComboBoxBlur(AspireManager aspireManager) : BaseTest(aspireManager:
 
         await ConfigureTestAsync<Projects.TramTimes_Aspire_Host>();
 
-        await RunTestAsync(cookies: ConsentCookies.Rejected, scheme: ColorScheme.Light, test: async page =>
+        await RunTestAsync(cookies: ConsentCookies.Accepted, scheme: ColorScheme.Light, test: async page =>
         {
             #region configure page
 
@@ -137,7 +161,7 @@ public class ComboBoxBlur(AspireManager aspireManager) : BaseTest(aspireManager:
 
             await page.GotoAsync(url: $"/privacy/{lon}/{lat}", options: new PageGotoOptions
             {
-                WaitUntil = WaitUntilState.NetworkIdle
+                WaitUntil = WaitUntilState.Load
             });
 
             #endregion
@@ -177,12 +201,36 @@ public class ComboBoxBlur(AspireManager aspireManager) : BaseTest(aspireManager:
                 await child.FillAsync(value: query);
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
-                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+                await page.WaitForLoadStateAsync(state: LoadState.Load);
+
+                parent = page.GetByLabel(text: "Options list");
+
+                await Assertions
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
+
+                parent = page.GetByTestId(testId: "telerik-auto-complete");
+
+                await Assertions
+                    .Expect(locator: parent)
+                    .ToBeInViewportAsync();
+
+                child = parent.GetByRole(role: AriaRole.Combobox);
+
+                await Assertions
+                    .Expect(locator: child)
+                    .ToBeInViewportAsync();
 
                 await child.BlurAsync();
 
                 await page.WaitForTimeoutAsync(timeout: 5000);
-                await page.WaitForLoadStateAsync(state: LoadState.NetworkIdle);
+                await page.WaitForLoadStateAsync(state: LoadState.Load);
+
+                parent = page.GetByLabel(text: "Options list");
+
+                await Assertions
+                    .Expect(locator: parent).Not
+                    .ToBeInViewportAsync();
             }
             catch (Exception e)
             {
