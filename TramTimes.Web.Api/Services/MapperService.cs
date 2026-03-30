@@ -9,12 +9,27 @@ namespace TramTimes.Web.Api.Services;
 
 public class MapperService : Profile
 {
+    private readonly TimeZoneInfo _timezone = TimeZoneInfo.FindSystemTimeZoneById(id: "Europe/London");
+
     public MapperService()
     {
         #region service -> search stop point
 
-        CreateMap<Service, SearchStopPoint>();
-        CreateMap<SearchStopPoint, Service>();
+        CreateMap<Service, SearchStopPoint>()
+            .ForMember(
+                destinationMember: point => point.DepartureDateTime,
+                memberOptions: member => member.MapFrom(mapExpression: service =>
+                    TimeZoneInfo.ConvertTimeToUtc(
+                        dateTime: service.DepartureDateTime,
+                        sourceTimeZone: _timezone)));
+
+        CreateMap<SearchStopPoint, Service>()
+            .ForMember(
+                destinationMember: service => service.DepartureDateTime,
+                memberOptions: member => member.MapFrom(mapExpression: point =>
+                    TimeZoneInfo.ConvertTimeFromUtc(
+                        dateTime: point.DepartureDateTime!.Value,
+                        destinationTimeZone: _timezone)));
 
         #endregion
 
@@ -24,13 +39,21 @@ public class MapperService : Profile
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: service =>
-                    service.DepartureDateTime.ToString(CultureInfo.InvariantCulture)));
+                    TimeZoneInfo
+                        .ConvertTimeToUtc(
+                            dateTime: service.DepartureDateTime,
+                            sourceTimeZone: _timezone)
+                        .ToString(provider: CultureInfo.InvariantCulture)));
 
         CreateMap<WorkerStopPoint, Service>()
             .ForMember(
                 destinationMember: service => service.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    DateTime.Parse(point.DepartureDateTime ?? string.Empty, CultureInfo.InvariantCulture)));
+                    TimeZoneInfo.ConvertTimeFromUtc(
+                        dateTime: DateTime.Parse(
+                            s: point.DepartureDateTime ?? string.Empty,
+                            provider: CultureInfo.InvariantCulture),
+                        destinationTimeZone: _timezone)));
 
         #endregion
 
@@ -61,13 +84,15 @@ public class MapperService : Profile
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    point.DepartureDateTime!.Value.ToString(CultureInfo.InvariantCulture)));
+                    point.DepartureDateTime!.Value.ToString(provider: CultureInfo.InvariantCulture)));
 
         CreateMap<WebStopPoint, CacheStopPoint>()
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    DateTime.Parse(point.DepartureDateTime ?? string.Empty, CultureInfo.InvariantCulture)));
+                    DateTime.Parse(
+                        s: point.DepartureDateTime ?? string.Empty,
+                        provider: CultureInfo.InvariantCulture)));
 
         #endregion
 
@@ -77,13 +102,15 @@ public class MapperService : Profile
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    point.DepartureDateTime!.Value.ToString(CultureInfo.InvariantCulture)));
+                    point.DepartureDateTime!.Value.ToString(provider: CultureInfo.InvariantCulture)));
 
         CreateMap<WorkerStopPoint, CacheStopPoint>()
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    DateTime.Parse(point.DepartureDateTime ?? string.Empty, CultureInfo.InvariantCulture)));
+                    DateTime.Parse(
+                        s: point.DepartureDateTime ?? string.Empty,
+                        provider: CultureInfo.InvariantCulture)));
 
         #endregion
 
@@ -114,13 +141,15 @@ public class MapperService : Profile
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    point.DepartureDateTime!.Value.ToString(CultureInfo.InvariantCulture)));
+                    point.DepartureDateTime!.Value.ToString(provider: CultureInfo.InvariantCulture)));
 
         CreateMap<WebStopPoint, DatabaseStopPoint>()
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    DateTime.Parse(point.DepartureDateTime ?? string.Empty, CultureInfo.InvariantCulture)));
+                    DateTime.Parse(
+                        s: point.DepartureDateTime ?? string.Empty,
+                        provider: CultureInfo.InvariantCulture)));
 
         #endregion
 
@@ -130,13 +159,15 @@ public class MapperService : Profile
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    point.DepartureDateTime!.Value.ToString(CultureInfo.InvariantCulture)));
+                    point.DepartureDateTime!.Value.ToString(provider: CultureInfo.InvariantCulture)));
 
         CreateMap<WorkerStopPoint, DatabaseStopPoint>()
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    DateTime.Parse(point.DepartureDateTime ?? string.Empty, CultureInfo.InvariantCulture)));
+                    DateTime.Parse(
+                        s: point.DepartureDateTime ?? string.Empty,
+                        provider: CultureInfo.InvariantCulture)));
 
         #endregion
 
@@ -167,13 +198,15 @@ public class MapperService : Profile
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    point.DepartureDateTime!.Value.ToString(CultureInfo.InvariantCulture)));
+                    point.DepartureDateTime!.Value.ToString(provider: CultureInfo.InvariantCulture)));
 
         CreateMap<WebStopPoint, SearchStopPoint>()
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    DateTime.Parse(point.DepartureDateTime ?? string.Empty, CultureInfo.InvariantCulture)));
+                    DateTime.Parse(
+                        s: point.DepartureDateTime ?? string.Empty,
+                        provider: CultureInfo.InvariantCulture)));
 
         #endregion
 
@@ -183,13 +216,15 @@ public class MapperService : Profile
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    point.DepartureDateTime!.Value.ToString(CultureInfo.InvariantCulture)));
+                    point.DepartureDateTime!.Value.ToString(provider: CultureInfo.InvariantCulture)));
 
         CreateMap<WorkerStopPoint, SearchStopPoint>()
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    DateTime.Parse(point.DepartureDateTime ?? string.Empty, CultureInfo.InvariantCulture)));
+                    DateTime.Parse(
+                        s: point.DepartureDateTime ?? string.Empty,
+                        provider: CultureInfo.InvariantCulture)));
 
         #endregion
     }

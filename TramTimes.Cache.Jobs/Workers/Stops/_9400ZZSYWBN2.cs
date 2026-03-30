@@ -37,7 +37,7 @@ public class _9400ZZSYWBN2(
 
             #region check cache feed
 
-            if (mappedResults.LastOrDefault()?.DepartureDateTime > DateTime.Now.AddHours(value: 4))
+            if (mappedResults.LastOrDefault()?.DepartureDateTime > DateTime.UtcNow.AddHours(value: 4))
                 return;
 
             #endregion
@@ -48,7 +48,7 @@ public class _9400ZZSYWBN2(
 
             var databaseResults = await databaseFeed.GetServicesByStopAsync(
                 id: "9400ZZSYWBN2",
-                target: DateTime.Now,
+                target: DateTime.UtcNow,
                 offset: TimeSpan.FromMinutes(value: -60),
                 comparison: ComparisonType.Exact,
                 tolerance: TimeSpan.FromHours(value: 12),
@@ -81,7 +81,7 @@ public class _9400ZZSYWBN2(
             {
                 databaseResults = await databaseFeed.GetServicesByTripAsync(
                     id: item,
-                    target: DateTime.Now,
+                    target: DateTime.UtcNow,
                     offset: TimeSpan.FromMinutes(value: -60),
                     comparison: ComparisonType.Exact,
                     tolerance: TimeSpan.FromHours(value: 12),

@@ -23,7 +23,7 @@ public static class CacheBuilder
 
         var databaseResults = await databaseFeed.GetServicesByStopAsync(
             id: id,
-            target: DateTime.Now,
+            target: DateTime.UtcNow,
             offset: TimeSpan.FromMinutes(minutes: -60),
             comparison: ComparisonType.Exact,
             tolerance: TimeSpan.FromHours(value: 12),
@@ -56,7 +56,7 @@ public static class CacheBuilder
         {
             databaseResults = await databaseFeed.GetServicesByTripAsync(
                 id: item,
-                target: DateTime.Now,
+                target: DateTime.UtcNow,
                 offset: TimeSpan.FromMinutes(value: -60),
                 comparison: ComparisonType.Exact,
                 tolerance: TimeSpan.FromHours(value: 12),

@@ -8,12 +8,27 @@ namespace TramTimes.Cache.Jobs.Services;
 
 public class MapperService : Profile
 {
+    private readonly TimeZoneInfo _timezone = TimeZoneInfo.FindSystemTimeZoneById(id: "Europe/London");
+
     public MapperService()
     {
         #region service -> cache stop point
 
-        CreateMap<Service, CacheStopPoint>();
-        CreateMap<CacheStopPoint, Service>();
+        CreateMap<Service, CacheStopPoint>()
+            .ForMember(
+                destinationMember: point => point.DepartureDateTime,
+                memberOptions: member => member.MapFrom(mapExpression: service =>
+                    TimeZoneInfo.ConvertTimeToUtc(
+                        dateTime: service.DepartureDateTime,
+                        sourceTimeZone: _timezone)));
+
+        CreateMap<CacheStopPoint, Service>()
+            .ForMember(
+                destinationMember: service => service.DepartureDateTime,
+                memberOptions: member => member.MapFrom(mapExpression: point =>
+                    TimeZoneInfo.ConvertTimeFromUtc(
+                        dateTime: point.DepartureDateTime!.Value,
+                        destinationTimeZone: _timezone)));
 
         #endregion
 
@@ -23,13 +38,21 @@ public class MapperService : Profile
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: service =>
-                    service.DepartureDateTime.ToString(CultureInfo.InvariantCulture)));
+                    TimeZoneInfo
+                        .ConvertTimeToUtc(
+                            dateTime: service.DepartureDateTime,
+                            sourceTimeZone: _timezone)
+                        .ToString(provider: CultureInfo.InvariantCulture)));
 
         CreateMap<WorkerStopPoint, Service>()
             .ForMember(
                 destinationMember: service => service.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    DateTime.Parse(point.DepartureDateTime ?? string.Empty, CultureInfo.InvariantCulture)));
+                    TimeZoneInfo.ConvertTimeFromUtc(
+                        dateTime: DateTime.Parse(
+                            s: point.DepartureDateTime ?? string.Empty,
+                            provider: CultureInfo.InvariantCulture),
+                        destinationTimeZone: _timezone)));
 
         #endregion
 
@@ -53,13 +76,15 @@ public class MapperService : Profile
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    point.DepartureDateTime!.Value.ToString(CultureInfo.InvariantCulture)));
+                    point.DepartureDateTime!.Value.ToString(provider: CultureInfo.InvariantCulture)));
 
         CreateMap<WorkerStopPoint, CacheStopPoint>()
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    DateTime.Parse(point.DepartureDateTime ?? string.Empty, CultureInfo.InvariantCulture)));
+                    DateTime.Parse(
+                        s: point.DepartureDateTime ?? string.Empty,
+                        provider: CultureInfo.InvariantCulture)));
 
         #endregion
     }

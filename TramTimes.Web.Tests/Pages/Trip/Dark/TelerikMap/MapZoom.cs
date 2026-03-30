@@ -36,9 +36,9 @@ public class MapZoom(AspireManager aspireManager) : BaseTest(aspireManager: aspi
 
         #region check test
 
-        if (DateTime.Now.Second > 30)
+        if (DateTime.UtcNow.Second > 30)
             await Task.Delay(
-                delay: TimeSpan.FromSeconds(value: 60 - DateTime.Now.Second + 1),
+                delay: TimeSpan.FromSeconds(value: 60 - DateTime.UtcNow.Second + 1),
                 cancellationToken: TestContext.Current.CancellationToken);
 
         #endregion
@@ -61,11 +61,11 @@ public class MapZoom(AspireManager aspireManager) : BaseTest(aspireManager: aspi
 
         var tripId = points
             .Where(predicate: point => point.DepartureDateTime >= new DateTime(
-                year: DateTime.Now.Year,
-                month: DateTime.Now.Month,
-                day: DateTime.Now.Day,
-                hour: DateTime.Now.Hour,
-                minute: DateTime.Now.Minute,
+                year: DateTime.UtcNow.Year,
+                month: DateTime.UtcNow.Month,
+                day: DateTime.UtcNow.Day,
+                hour: DateTime.UtcNow.Hour,
+                minute: DateTime.UtcNow.Minute,
                 second: 0))
             .ElementAtOrDefault(index: 0)?.TripId ?? string.Empty;
 
@@ -189,9 +189,9 @@ public class MapZoom(AspireManager aspireManager) : BaseTest(aspireManager: aspi
 
         #region check test
 
-        if (DateTime.Now.Second > 30)
+        if (DateTime.UtcNow.Second > 30)
             await Task.Delay(
-                delay: TimeSpan.FromSeconds(value: 60 - DateTime.Now.Second + 1),
+                delay: TimeSpan.FromSeconds(value: 60 - DateTime.UtcNow.Second + 1),
                 cancellationToken: TestContext.Current.CancellationToken);
 
         #endregion
@@ -214,11 +214,11 @@ public class MapZoom(AspireManager aspireManager) : BaseTest(aspireManager: aspi
 
         var tripId = points
             .Where(predicate: point => point.DepartureDateTime >= new DateTime(
-                year: DateTime.Now.Year,
-                month: DateTime.Now.Month,
-                day: DateTime.Now.Day,
-                hour: DateTime.Now.Hour,
-                minute: DateTime.Now.Minute,
+                year: DateTime.UtcNow.Year,
+                month: DateTime.UtcNow.Month,
+                day: DateTime.UtcNow.Day,
+                hour: DateTime.UtcNow.Hour,
+                minute: DateTime.UtcNow.Minute,
                 second: 0))
             .ElementAtOrDefault(index: 0)?.TripId ?? string.Empty;
 

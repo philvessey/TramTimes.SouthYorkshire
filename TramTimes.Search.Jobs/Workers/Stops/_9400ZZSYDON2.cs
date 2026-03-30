@@ -36,7 +36,7 @@ public class _9400ZZSYDON2(
 
             #region check search feed
 
-            if (mappedResults.LastOrDefault()?.DepartureDateTime > DateTime.Now.AddHours(value: 4))
+            if (mappedResults.LastOrDefault()?.DepartureDateTime > DateTime.UtcNow.AddHours(value: 4))
                 return;
 
             #endregion
@@ -51,7 +51,7 @@ public class _9400ZZSYDON2(
 
             var serviceResults = await databaseFeed.GetServicesByStopAsync(
                 id: "9400ZZSYDON2",
-                target: DateTime.Now,
+                target: DateTime.UtcNow,
                 offset: TimeSpan.FromMinutes(value: -60),
                 comparison: ComparisonType.Exact,
                 tolerance: TimeSpan.FromHours(value: 12),

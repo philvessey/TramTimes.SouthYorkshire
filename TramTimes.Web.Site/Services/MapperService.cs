@@ -22,11 +22,11 @@ public class MapperService : Profile
             .ForMember(
                 destinationMember: stop => stop.Name,
                 memberOptions: member => member.MapFrom(mapExpression: stop =>
-                    RegexTools.RemoveDirection(stop.Name ?? string.Empty)))
+                    RegexTools.RemoveDirection(input: stop.Name ?? string.Empty)))
             .ForMember(
                 destinationMember: stop => stop.Direction,
                 memberOptions: member => member.MapFrom(mapExpression: stop =>
-                    RegexTools.RemoveName(stop.Name ?? string.Empty)))
+                    RegexTools.RemoveName(input: stop.Name ?? string.Empty)))
             .ForMember(
                 destinationMember: stop => stop.Location,
                 memberOptions: member => member.MapFrom(mapExpression: stop =>
@@ -40,7 +40,7 @@ public class MapperService : Profile
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    point.DepartureDateTime!.Value.ToString(CultureInfo.InvariantCulture)))
+                    point.DepartureDateTime!.Value.ToString(provider: CultureInfo.InvariantCulture)))
             .ForMember(
                 destinationMember: point => point.DestinationName,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
@@ -54,23 +54,25 @@ public class MapperService : Profile
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    DateTime.Parse(point.DepartureDateTime ?? string.Empty, CultureInfo.InvariantCulture)))
+                    DateTime.Parse(
+                        s: point.DepartureDateTime ?? string.Empty,
+                        provider: CultureInfo.InvariantCulture)))
             .ForMember(
                 destinationMember: point => point.DestinationName,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    RegexTools.RemoveDirection(point.DestinationName ?? string.Empty)))
+                    RegexTools.RemoveDirection(input: point.DestinationName ?? string.Empty)))
             .ForMember(
                 destinationMember: point => point.DestinationDirection,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    RegexTools.RemoveName(point.DestinationName ?? string.Empty)))
+                    RegexTools.RemoveName(input: point.DestinationName ?? string.Empty)))
             .ForMember(
                 destinationMember: point => point.StopName,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    RegexTools.RemoveDirection(point.StopName ?? string.Empty)))
+                    RegexTools.RemoveDirection(input: point.StopName ?? string.Empty)))
             .ForMember(
                 destinationMember: point => point.StopDirection,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    RegexTools.RemoveName(point.StopName ?? string.Empty)));
+                    RegexTools.RemoveName(input: point.StopName ?? string.Empty)));
 
         #endregion
     }

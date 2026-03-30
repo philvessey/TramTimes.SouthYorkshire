@@ -150,7 +150,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
             var storage = await StorageService.GetAsync<List<TelerikStop>>(key: "cache");
 
             if (storage is { Success: true, Value.Count: > 0 })
-                cache = storage.Value.All(predicate: stop => stop.HasAllProperties()) ? storage.Value : [];
+                cache = storage.Value.All(predicate: stop => stop.HasRequiredProperties()) ? storage.Value : [];
         }
         catch (Exception)
         {
@@ -203,11 +203,11 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         #region get local time
 
         var currentDateTime = new DateTime(
-            year: DateTime.Now.Year,
-            month: DateTime.Now.Month,
-            day: DateTime.Now.Day,
-            hour: DateTime.Now.Hour,
-            minute: DateTime.Now.Minute,
+            year: DateTime.UtcNow.Year,
+            month: DateTime.UtcNow.Month,
+            day: DateTime.UtcNow.Day,
+            hour: DateTime.UtcNow.Hour,
+            minute: DateTime.UtcNow.Minute,
             second: 0);
 
         var offsetDateTime = currentDateTime
@@ -572,11 +572,11 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         #region get local time
 
         var currentDateTime = new DateTime(
-            year: DateTime.Now.Year,
-            month: DateTime.Now.Month,
-            day: DateTime.Now.Day,
-            hour: DateTime.Now.Hour,
-            minute: DateTime.Now.Minute,
+            year: DateTime.UtcNow.Year,
+            month: DateTime.UtcNow.Month,
+            day: DateTime.UtcNow.Day,
+            hour: DateTime.UtcNow.Hour,
+            minute: DateTime.UtcNow.Minute,
             second: 0);
 
         var offsetDateTime = currentDateTime
@@ -1033,7 +1033,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
             var storage = await StorageService.GetAsync<List<TelerikStop>>(key: "cache");
 
             if (storage is { Success: true, Value.Count: > 0 })
-                cache = storage.Value.All(predicate: stop => stop.HasAllProperties()) ? storage.Value : [];
+                cache = storage.Value.All(predicate: stop => stop.HasRequiredProperties()) ? storage.Value : [];
         }
         catch (Exception)
         {
@@ -1051,11 +1051,11 @@ public partial class Trip : ComponentBase, IAsyncDisposable
         #region get local time
 
         var currentDateTime = new DateTime(
-            year: DateTime.Now.Year,
-            month: DateTime.Now.Month,
-            day: DateTime.Now.Day,
-            hour: DateTime.Now.Hour,
-            minute: DateTime.Now.Minute,
+            year: DateTime.UtcNow.Year,
+            month: DateTime.UtcNow.Month,
+            day: DateTime.UtcNow.Day,
+            hour: DateTime.UtcNow.Hour,
+            minute: DateTime.UtcNow.Minute,
             second: 0);
 
         var offsetDateTime = currentDateTime

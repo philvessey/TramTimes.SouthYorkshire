@@ -26,7 +26,7 @@ public static class IndexBuilder
 
         var serviceResults = await databaseFeed.GetServicesByStopAsync(
             id: id,
-            target: DateTime.Now,
+            target: DateTime.UtcNow,
             offset: TimeSpan.FromMinutes(minutes: -60),
             comparison: ComparisonType.Exact,
             tolerance: TimeSpan.FromHours(value: 12),

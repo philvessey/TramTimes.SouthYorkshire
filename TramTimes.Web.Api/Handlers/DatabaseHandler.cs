@@ -22,7 +22,7 @@ public static class DatabaseHandler
 
         var request = await feed.GetServicesByStopAsync(
             id: id.ToUpperInvariant(),
-            target: DateTime.Now,
+            target: DateTime.UtcNow,
             offset: TimeSpan.FromMinutes(minutes: -60),
             comparison: ComparisonType.Exact,
             tolerance: TimeSpan.FromHours(value: 12),
@@ -55,7 +55,7 @@ public static class DatabaseHandler
 
         var request = await feed.GetServicesByTripAsync(
             id: id.ToLowerInvariant(),
-            target: DateTime.Now,
+            target: DateTime.UtcNow,
             offset: TimeSpan.FromMinutes(minutes: -60),
             comparison: ComparisonType.Exact,
             tolerance: TimeSpan.FromHours(value: 12),
@@ -104,7 +104,7 @@ public static class DatabaseHandler
                 source: mapperService.Map<List<WorkerStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
                         id: item.Id,
-                        target: DateTime.Now,
+                        target: DateTime.UtcNow,
                         offset: TimeSpan.FromMinutes(minutes: -60),
                         comparison: ComparisonType.Exact,
                         tolerance: TimeSpan.FromHours(value: 12),
@@ -142,7 +142,7 @@ public static class DatabaseHandler
                 source: mapperService.Map<List<WorkerStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
                         id: item.Id,
-                        target: DateTime.Now,
+                        target: DateTime.UtcNow,
                         offset: TimeSpan.FromMinutes(minutes: -60),
                         comparison: ComparisonType.Exact,
                         tolerance: TimeSpan.FromHours(value: 12),
@@ -180,7 +180,7 @@ public static class DatabaseHandler
                 source: mapperService.Map<List<WorkerStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
                         id: item.Id,
-                        target: DateTime.Now,
+                        target: DateTime.UtcNow,
                         offset: TimeSpan.FromMinutes(minutes: -60),
                         comparison: ComparisonType.Exact,
                         tolerance: TimeSpan.FromHours(value: 12),
@@ -224,7 +224,7 @@ public static class DatabaseHandler
                 source: mapperService.Map<List<WorkerStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
                         id: item.Id,
-                        target: DateTime.Now,
+                        target: DateTime.UtcNow,
                         offset: TimeSpan.FromMinutes(minutes: -60),
                         comparison: ComparisonType.Exact,
                         tolerance: TimeSpan.FromHours(value: 12),
@@ -265,7 +265,7 @@ public static class DatabaseHandler
                 source: mapperService.Map<List<WorkerStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
                         id: item.Id,
-                        target: DateTime.Now,
+                        target: DateTime.UtcNow,
                         offset: TimeSpan.FromMinutes(minutes: -60),
                         comparison: ComparisonType.Exact,
                         tolerance: TimeSpan.FromHours(value: 12),

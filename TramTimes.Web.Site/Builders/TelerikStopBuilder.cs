@@ -15,7 +15,7 @@ public static class TelerikStopBuilder
             Distance = 0,
             Points = Enumerable
                 .Range(start: 0, count: 5)
-                .Select(selector: count => new TelerikStopPoint { DepartureDateTime = DateTime.Now.AddMinutes(value: count * 10) })
+                .Select(selector: count => new TelerikStopPoint { DepartureDateTime = DateTime.UtcNow.AddMinutes(value: count * 10) })
                 .ToList()
         };
 

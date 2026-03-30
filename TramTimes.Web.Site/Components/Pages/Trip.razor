@@ -82,9 +82,13 @@
 
                                                 foreach (var item in points)
                                                 {
-                                                    var departureTime = item.DepartureDateTime?.ToString(
-                                                        format: "HH:mm",
-                                                        provider: CultureInfo.InvariantCulture);
+                                                    var departureTime = TimeZoneInfo
+                                                        .ConvertTimeFromUtc(
+                                                            dateTime: item.DepartureDateTime ?? DateTime.UtcNow,
+                                                            destinationTimeZone: TimeZoneInfo.FindSystemTimeZoneById(id: "Europe/London"))
+                                                        .ToString(
+                                                            format: "HH:mm",
+                                                            provider: CultureInfo.InvariantCulture);
 
                                                     var routeName = item.RouteName?.Replace(
                                                         oldValue: "Line",
@@ -231,9 +235,13 @@
                     <div class="services">
                         <ul>
                             @{
-                                var departureTime = context.DepartureDateTime?.ToString(
-                                    format: "HH:mm",
-                                    provider: CultureInfo.InvariantCulture);
+                                var departureTime = TimeZoneInfo
+                                    .ConvertTimeFromUtc(
+                                        dateTime: context.DepartureDateTime ?? DateTime.UtcNow,
+                                        destinationTimeZone: TimeZoneInfo.FindSystemTimeZoneById(id: "Europe/London"))
+                                    .ToString(
+                                        format: "HH:mm",
+                                        provider: CultureInfo.InvariantCulture);
 
                                 var routeName = context.RouteName?.Replace(
                                     oldValue: "Line",
@@ -367,9 +375,13 @@
 
                                 foreach (var item in points)
                                 {
-                                    var departureTime = item.DepartureDateTime?.ToString(
-                                        format: "HH:mm",
-                                        provider: CultureInfo.InvariantCulture);
+                                    var departureTime = TimeZoneInfo
+                                        .ConvertTimeFromUtc(
+                                            dateTime: item.DepartureDateTime ?? DateTime.UtcNow,
+                                            destinationTimeZone: TimeZoneInfo.FindSystemTimeZoneById(id: "Europe/London"))
+                                        .ToString(
+                                            format: "HH:mm",
+                                            provider: CultureInfo.InvariantCulture);
 
                                     var routeName = item.RouteName?.Replace(
                                         oldValue: "Line",

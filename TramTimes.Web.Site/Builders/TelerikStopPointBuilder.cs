@@ -10,7 +10,7 @@ public static class TelerikStopPointBuilder
 
         var result = new TelerikStopPoint
         {
-            DepartureDateTime = DateTime.Now,
+            DepartureDateTime = DateTime.UtcNow,
             DestinationName = "No Services Found",
             DestinationDirection = "Within Two Hours",
             StopName = "No Services Found",

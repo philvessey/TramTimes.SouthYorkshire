@@ -25,20 +25,20 @@ public static class TelerikStopPointExtensions
         return result;
     }
 
-    public static bool HasNoProperties(this TelerikStopPoint baseStopPoint)
+    public static bool HasRequiredProperties(this TelerikStopPoint baseStopPoint)
     {
         #region build result
 
         var result = baseStopPoint is
         {
-            DepartureDateTime: null,
-            DestinationName: null,
-            DestinationDirection: null,
-            RouteName: null,
-            StopId: null,
-            StopName: null,
-            StopDirection: null,
-            TripId: null
+            DepartureDateTime: not null,
+            DestinationName: not null,
+            DestinationDirection: not null,
+            RouteName: not null,
+            StopId: not null,
+            StopName: not null,
+            StopDirection: not null,
+            TripId: not null
         };
 
         #endregion
