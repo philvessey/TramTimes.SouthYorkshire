@@ -3,12 +3,6 @@
 [Oo]bj/
 [Pp]ackages/
 
-# aspire
-**/.aspire
-
-# bicep
-**/*.bicep
-
 # nuget
 **/nuget.config
 
