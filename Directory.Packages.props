@@ -1,13 +1,13 @@
 <Project>
 
   <PropertyGroup>
-    <AspireVersion>13.2.0</AspireVersion>
+    <AspireVersion>13.2.1</AspireVersion>
     <AspireElasticVersion>13.2.0</AspireElasticVersion>
     <NextDeparturesVersion>3.9.6</NextDeparturesVersion>
   </PropertyGroup>
 
   <PropertyGroup>
-    <AspirePreviewVersion>13.2.0-preview.1.26170.3</AspirePreviewVersion>
+    <AspirePreviewVersion>13.2.1-preview.1.26180.6</AspirePreviewVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -76,7 +76,7 @@
     <PackageVersion Include="IeuanWalker.GeoUK" Version="1.4.0"/>
     <PackageVersion Include="JetBrains.Annotations" Version="2025.2.4"/>
     <PackageVersion Include="Polly" Version="8.6.6"/>
-    <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.16.1"/>
+    <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.17.0"/>
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.1.7"/>
     <PackageVersion Include="Telerik.UI.for.Blazor" Version="13.1.0"/>
   </ItemGroup>

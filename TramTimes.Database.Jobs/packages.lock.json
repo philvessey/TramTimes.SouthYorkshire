@@ -4,9 +4,9 @@
     "net10.0": {
       "Aspire.Azure.Data.Tables": {
         "type": "Direct",
-        "requested": "[13.2.0, )",
-        "resolved": "13.2.0",
-        "contentHash": "x0wjnl6AXA6spuP7vetw75XvQ7Dz7WJcWf7IaQud1MZ3TwGcEF0UtPjwYZkvhCg0fOXZ6rmd8R633eBffH+XVA==",
+        "requested": "[13.2.1, )",
+        "resolved": "13.2.1",
+        "contentHash": "9lcEUco5FjdPwfgGpVBKC50JGzj5BwNRkP6X7lrXv/U9vgqesKi8mKcyv5TnLwDMB7TV/n4rWIksI8WzR61xjQ==",
         "dependencies": {
           "AspNetCore.HealthChecks.Azure.Data.Tables": "9.0.0",
           "Azure.Core": "1.51.1",
@@ -26,9 +26,9 @@
       },
       "Aspire.Azure.Storage.Blobs": {
         "type": "Direct",
-        "requested": "[13.2.0, )",
-        "resolved": "13.2.0",
-        "contentHash": "M2z6vdAQqxITMdCi8YCGtt7KUgUPXSHy2yNOlrY4BvtxYdGNc9MqlwJ3JLRVCeeFUA40FyklTVKzivvVFU634A==",
+        "requested": "[13.2.1, )",
+        "resolved": "13.2.1",
+        "contentHash": "2aJuIKVV6/4bXaqqPFaiYyM9N5Q+PzS/U5oPxfQS13uDBILsS2NBv2rbJDvY8oPfQ6JeuphEGJC+ZRyoUbXvpg==",
         "dependencies": {
           "AspNetCore.HealthChecks.Azure.Storage.Blobs": "9.0.0",
           "Azure.Core": "1.51.1",
@@ -49,9 +49,9 @@
       },
       "Aspire.Azure.Storage.Queues": {
         "type": "Direct",
-        "requested": "[13.2.0, )",
-        "resolved": "13.2.0",
-        "contentHash": "G1GxAa0N9yIIfntJnt2vBw+++9IDwD04elEsirJPOOUv4a8tFjOxme/pETrl5GZz5SWh/vo3biWhm1X2iqaR1Q==",
+        "requested": "[13.2.1, )",
+        "resolved": "13.2.1",
+        "contentHash": "mC13ve8FkXkQ9b7zzy4qhgxma1dAHZs3w+TVM0qgOjCC0pGyEeijPEEyWv/5q/mRMUlYQ1jEr/99/7aTZoKdlQ==",
         "dependencies": {
           "AspNetCore.HealthChecks.Azure.Storage.Queues": "9.0.0",
           "Azure.Core": "1.51.1",
@@ -72,9 +72,9 @@
       },
       "Aspire.Npgsql": {
         "type": "Direct",
-        "requested": "[13.2.0, )",
-        "resolved": "13.2.0",
-        "contentHash": "YYzedssJdaHCSMeb9Q6V2H22p8vdRGhaJ7lMBSjSLzxghSYzkePDS4dzVoIypv7iC88Tl8opYyGuebAlLtjHXw==",
+        "requested": "[13.2.1, )",
+        "resolved": "13.2.1",
+        "contentHash": "k1JIdi9QoMPl0KNDlqMKe+158z3jE46Si6BNe12vreG7DjR3eDilXx2B9M7tL8ExH/DhP+DPGxSu43nS7+xOdg==",
         "dependencies": {
           "AspNetCore.HealthChecks.NpgSql": "9.0.0",
           "Microsoft.Extensions.Configuration.Abstractions": "10.0.5",
@@ -185,12 +185,12 @@
       },
       "Quartz.Extensions.Hosting": {
         "type": "Direct",
-        "requested": "[3.16.1, )",
-        "resolved": "3.16.1",
-        "contentHash": "mTnELjDUbGTfCjqWv/IxL2DMrb4AnJSEggzd1hVHjSlWHb/1dE+o5dkPYGrfcksRtExKSyOOCrQuv4XGHi1wEQ==",
+        "requested": "[3.17.0, )",
+        "resolved": "3.17.0",
+        "contentHash": "6XgnbMBMsn5a7u2amkZVWKljVCQnO45SxDznpaRonXWolLNeX6Fx5t/73zigVshGLs3Q1A+NSv5z6oPTgv37sA==",
         "dependencies": {
           "Microsoft.Extensions.Hosting.Abstractions": "10.0.0",
-          "Quartz.Extensions.DependencyInjection": "3.16.1"
+          "Quartz.Extensions.DependencyInjection": "3.17.0"
         }
       },
       "AspNetCore.HealthChecks.Azure.Data.Tables": {
@@ -803,20 +803,20 @@
       },
       "Quartz": {
         "type": "Transitive",
-        "resolved": "3.16.1",
-        "contentHash": "U8SCG2bOmmVdM4tArsJcYbFF8GYTUXj9Zjl9fL7Xt0BWTRIFAmqx3T7k20eJUcmIqYBa3eAk7MOS/yJhfG5xAA==",
+        "resolved": "3.17.0",
+        "contentHash": "Ko3I49Yz1DqlxWi+fXqdG0FYJlHyGnra86m9RSlhPjIoXy7ip8FxyYJ70HcHc5s3xije0QvX81qG2dlxLEI7hQ==",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "2.1.1"
         }
       },
       "Quartz.Extensions.DependencyInjection": {
         "type": "Transitive",
-        "resolved": "3.16.1",
-        "contentHash": "yfjS7e9hgVugIP4etIns+QFGCb1fi3I7PwidE/DluHob8nF2hDIM4DvEsYzF0AJ/go1oJiWLB8RnEaP0fcAA0w==",
+        "resolved": "3.17.0",
+        "contentHash": "SYPUS3eOwbYFv9mXwAqz6R0G5SHztRg0qG7GzQBsncSEW7y2vRvcMxnaYM5bGP1fF4SFBMdYAj25gGgQvD+tOA==",
         "dependencies": {
           "Microsoft.Extensions.Configuration.Abstractions": "10.0.0",
           "Microsoft.Extensions.Options": "10.0.0",
-          "Quartz": "3.16.1"
+          "Quartz": "3.17.0"
         }
       },
       "System.ClientModel": {
