@@ -39,6 +39,7 @@ Fixes #
 - [ ] TramTimes.Database.Jobs
 - [ ] TramTimes.Search.Jobs
 - [ ] TramTimes.Web.Api
+- [ ] TramTimes.Web.Jobs
 - [ ] TramTimes.Web.Site
 - [ ] TramTimes.Web.Tests
 - [ ] TramTimes.Web.Utilities

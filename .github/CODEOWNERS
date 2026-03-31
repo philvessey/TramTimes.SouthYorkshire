@@ -42,7 +42,9 @@
 /TramTimes.Web.Utilities/ @philvessey
 
 # Security and community files
+/CHANGELOG.md @philvessey
 /CODE_OF_CONDUCT.md @philvessey
 /CONTRIBUTING.md @philvessey
+/README.md @philvessey
 /SECURITY.md @philvessey
 /LICENSE @philvessey
