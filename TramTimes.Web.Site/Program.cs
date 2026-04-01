@@ -23,14 +23,6 @@ builder.AddServiceDefaults();
 
 #region inject services
 
-var licenseKey = Environment.GetEnvironmentVariable(variable: "AUTOMAPPER_LICENSE") ?? string.Empty;
-
-builder.Services.AddAutoMapper(configAction: expression =>
-{
-    expression.LicenseKey = licenseKey;
-    expression.AddProfile<MapperService>();
-});
-
 var connectionString = builder.Configuration.GetConnectionString(name: "cache") ?? string.Empty;
 
 if (!string.IsNullOrEmpty(value: connectionString))
@@ -77,14 +69,14 @@ builder.Services
     .AddStandardResilienceHandler(configure: options =>
     {
         options.AttemptTimeout.Timeout = TimeSpan.FromSeconds(seconds: 10);
-        options.TotalRequestTimeout.Timeout = TimeSpan.FromSeconds(seconds: 115);
+        options.TotalRequestTimeout.Timeout = TimeSpan.FromSeconds(seconds: 120);
         options.CircuitBreaker.BreakDuration = TimeSpan.FromSeconds(seconds: 60);
         options.CircuitBreaker.FailureRatio = 0.75;
         options.CircuitBreaker.MinimumThroughput = 5;
         options.CircuitBreaker.SamplingDuration = TimeSpan.FromSeconds(seconds: 60);
         options.Retry.BackoffType = DelayBackoffType.Exponential;
         options.Retry.Delay = TimeSpan.FromMilliseconds(milliseconds: 1000);
-        options.Retry.MaxRetryAttempts = 4;
+        options.Retry.MaxRetryAttempts = 5;
         options.Retry.UseJitter = true;
         options.Retry.ShouldHandle = arguments => ValueTask.FromResult(result:
             arguments.Outcome.Exception is TimeoutException ||
@@ -129,6 +121,14 @@ builder.Services.AddTelerikBlazor();
 #endregion
 
 #region configure services
+
+var licenseKey = Environment.GetEnvironmentVariable(variable: "AUTOMAPPER_LICENSE") ?? string.Empty;
+
+builder.Services.AddAutoMapper(configAction: expression =>
+{
+    expression.LicenseKey = licenseKey;
+    expression.AddProfile<MapperService>();
+});
 
 builder.Services.Configure<CookiePolicyOptions>(configureOptions: options =>
 {

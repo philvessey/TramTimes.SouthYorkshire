@@ -111,8 +111,8 @@ public class PlaywrightService : IHostedService
                     Permissions = ["storage-access"]
                 });
 
-                context.SetDefaultTimeout(timeout: 60000);
-                context.SetDefaultNavigationTimeout(timeout: 60000);
+                context.SetDefaultTimeout(timeout: 300000);
+                context.SetDefaultNavigationTimeout(timeout: 300000);
 
                 await context.AddInitScriptAsync(
                     script: await File.ReadAllTextAsync(
@@ -200,7 +200,7 @@ public class PlaywrightService : IHostedService
                         await child.ClickAsync();
                     }
 
-                    await page.WaitForTimeoutAsync(timeout: 30000);
+                    await page.WaitForTimeoutAsync(timeout: 10000);
                     await page.WaitForLoadStateAsync(state: LoadState.Load);
 
                     await page.CloseAsync();

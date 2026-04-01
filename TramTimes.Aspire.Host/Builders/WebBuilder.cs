@@ -153,7 +153,7 @@ public static class WebBuilder
                     }
 
                     app.Template.Scale.CooldownPeriod = 900;
-                    app.Template.Scale.MinReplicas = 0;
+                    app.Template.Scale.MinReplicas = 1;
                     app.Template.Scale.MaxReplicas = 5;
 
                     app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(
@@ -193,40 +193,6 @@ public static class WebBuilder
                                 {
                                     { "type", "Utilization" },
                                     { "value", "75" }
-                                }
-                            }
-                        }));
-
-                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(
-                        literal: new ContainerAppScaleRule
-                        {
-                            Name = "prewarm-am",
-                            Custom = new ContainerAppCustomScaleRule
-                            {
-                                CustomScaleRuleType = "cron",
-                                Metadata = new BicepDictionary<string>
-                                {
-                                    { "timezone", "UTC" },
-                                    { "start", "0 7 * * 1,2,3,4,5" },
-                                    { "end", "0 9 * * 1,2,3,4,5" },
-                                    { "desiredReplicas", "1" }
-                                }
-                            }
-                        }));
-
-                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(
-                        literal: new ContainerAppScaleRule
-                        {
-                            Name = "prewarm-pm",
-                            Custom = new ContainerAppCustomScaleRule
-                            {
-                                CustomScaleRuleType = "cron",
-                                Metadata = new BicepDictionary<string>
-                                {
-                                    { "timezone", "UTC" },
-                                    { "start", "0 16 * * 1,2,3,4,5" },
-                                    { "end", "0 18 * * 1,2,3,4,5" },
-                                    { "desiredReplicas", "1" }
                                 }
                             }
                         }));
@@ -366,40 +332,6 @@ public static class WebBuilder
                             }
                         }));
 
-                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(
-                        literal: new ContainerAppScaleRule
-                        {
-                            Name = "prewarm-am",
-                            Custom = new ContainerAppCustomScaleRule
-                            {
-                                CustomScaleRuleType = "cron",
-                                Metadata = new BicepDictionary<string>
-                                {
-                                    { "timezone", "UTC" },
-                                    { "start", "0 7 * * 1,2,3,4,5" },
-                                    { "end", "0 9 * * 1,2,3,4,5" },
-                                    { "desiredReplicas", "1" }
-                                }
-                            }
-                        }));
-
-                    app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(
-                        literal: new ContainerAppScaleRule
-                        {
-                            Name = "prewarm-pm",
-                            Custom = new ContainerAppCustomScaleRule
-                            {
-                                CustomScaleRuleType = "cron",
-                                Metadata = new BicepDictionary<string>
-                                {
-                                    { "timezone", "UTC" },
-                                    { "start", "0 16 * * 1,2,3,4,5" },
-                                    { "end", "0 18 * * 1,2,3,4,5" },
-                                    { "desiredReplicas", "1" }
-                                }
-                            }
-                        }));
-
                     app.ConfigureCustomDomain(
                         certificateName: web.Parameters.Certificate,
                         customDomain: web.Parameters.Domain);
@@ -447,7 +379,7 @@ public static class WebBuilder
                     var random = new Random();
 
                     var minute = random.Next(minValue: 0, maxValue: 60);
-                    var hour = random.Next(minValue: 7, maxValue: 9);
+                    var hour = random.Next(minValue: 9, maxValue: 17);
                     var day = random.Next(minValue: 1, maxValue: 6);
 
                     job.Configuration.TriggerType = ContainerAppJobTriggerType.Schedule;
