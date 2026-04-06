@@ -4,13 +4,8 @@
     <PackageReference Include="Aspire.Azure.Data.Tables"/>
     <PackageReference Include="Aspire.Azure.Storage.Blobs"/>
     <PackageReference Include="Aspire.Azure.Storage.Queues"/>
-    <PackageReference Include="Aspire.Elastic.Clients.Elasticsearch"/>
-    <PackageReference Include="Aspire.Npgsql"/>
-    <PackageReference Include="Aspire.StackExchange.Redis"/>
     <PackageReference Include="AutoMapper"/>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
-    <PackageReference Include="NextDepartures.Standard"/>
-    <PackageReference Include="NextDepartures.Storage.Postgres.Aspire"/>
     <PackageReference Include="Swashbuckle.AspNetCore"/>
   </ItemGroup>
 

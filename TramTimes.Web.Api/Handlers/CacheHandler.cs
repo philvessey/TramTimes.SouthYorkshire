@@ -1,7 +1,6 @@
 using System.Text.Json;
 using AutoMapper;
 using StackExchange.Redis;
-using TramTimes.Web.Api.Models;
 using TramTimes.Web.Utilities.Models;
 
 namespace TramTimes.Web.Api.Handlers;

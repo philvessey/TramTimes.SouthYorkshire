@@ -4,7 +4,7 @@ using NextDepartures.Standard;
 using NextDepartures.Standard.Types;
 using NextDepartures.Storage.Postgres.Aspire;
 using Npgsql;
-using TramTimes.Web.Api.Models;
+using TramTimes.Web.Utilities.Models;
 
 namespace TramTimes.Web.Api.Builders;
 

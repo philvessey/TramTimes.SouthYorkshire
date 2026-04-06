@@ -46,42 +46,6 @@
           "System.IO.Hashing": "10.0.3"
         }
       },
-      "Aspire.Elastic.Clients.Elasticsearch": {
-        "type": "Direct",
-        "requested": "[13.2.0, )",
-        "resolved": "13.2.0",
-        "contentHash": "RvqKmOVlrVtvRkG76elskF8fDZh5aw5aYMvhpm2RbiziEFVAMEscKg8tdJSQpq5Oj65dhSv6r+mpY0JDKoSLlw==",
-        "dependencies": {
-          "Elastic.Clients.Elasticsearch": "8.19.4",
-          "MinVer": "6.0.0",
-          "OpenTelemetry.Extensions.Hosting": "1.12.0"
-        }
-      },
-      "Aspire.Npgsql": {
-        "type": "Direct",
-        "requested": "[13.2.1, )",
-        "resolved": "13.2.1",
-        "contentHash": "k1JIdi9QoMPl0KNDlqMKe+158z3jE46Si6BNe12vreG7DjR3eDilXx2B9M7tL8ExH/DhP+DPGxSu43nS7+xOdg==",
-        "dependencies": {
-          "AspNetCore.HealthChecks.NpgSql": "9.0.0",
-          "Npgsql.DependencyInjection": "10.0.1",
-          "Npgsql.OpenTelemetry": "10.0.1",
-          "OpenTelemetry.Extensions.Hosting": "1.15.0"
-        }
-      },
-      "Aspire.StackExchange.Redis": {
-        "type": "Direct",
-        "requested": "[13.2.1, )",
-        "resolved": "13.2.1",
-        "contentHash": "V7tatWoJj5HPa6oolIDVEQg73rhiRFi7l8gyE7/QOkroKa31mpN1eYfNs3JQrkco8LbL84bcjXYv0ErE0oWIjw==",
-        "dependencies": {
-          "AspNetCore.HealthChecks.Redis": "9.0.0",
-          "Microsoft.Extensions.DependencyInjection.AutoActivation": "10.2.0",
-          "OpenTelemetry.Extensions.Hosting": "1.15.0",
-          "StackExchange.Redis": "2.11.0",
-          "System.IO.Hashing": "10.0.3"
-        }
-      },
       "AutoMapper": {
         "type": "Direct",
         "requested": "[16.1.1, )",
@@ -98,27 +62,6 @@
         "contentHash": "vTcxIfOPyfFbYk1g8YcXJfkMnlEWVkSnnjxcZLy60zgwiHMRf2SnZR+9E4HlpwKxgE3yfKMOti8J6WfKuKsw6w==",
         "dependencies": {
           "Microsoft.OpenApi": "2.0.0"
-        }
-      },
-      "NextDepartures.Standard": {
-        "type": "Direct",
-        "requested": "[3.9.6, )",
-        "resolved": "3.9.6",
-        "contentHash": "ETGQ3Hs9hrQWNsblt4b8GGrIn7TMPkPyFyJPTSuKtmiAdfQKAO2XSGpsQ3wiYZm/1zLzxlsRPx4mzbq3vbr1Wg==",
-        "dependencies": {
-          "GTFS": "3.0.0-pre006",
-          "JetBrains.Annotations": "2025.2.4",
-          "NodaTime": "3.3.1"
-        }
-      },
-      "NextDepartures.Storage.Postgres.Aspire": {
-        "type": "Direct",
-        "requested": "[3.9.6, )",
-        "resolved": "3.9.6",
-        "contentHash": "Rawow5ho8EP3DCh9u5gqKdKWnj4jTODtWklGmBISS2u8JFlC1s8loVfwdCk3CRanLU8TOXmFKwlFZIwxTJ4EMQ==",
-        "dependencies": {
-          "Aspire.Npgsql": "13.2.0",
-          "NextDepartures.Standard": "3.9.6"
         }
       },
       "Swashbuckle.AspNetCore": {
@@ -525,7 +468,48 @@
       "tramtimes.web.utilities": {
         "type": "Project",
         "dependencies": {
-          "JetBrains.Annotations": "[2025.2.4, )"
+          "Aspire.Elastic.Clients.Elasticsearch": "[13.2.0, )",
+          "Aspire.Npgsql": "[13.2.1, )",
+          "Aspire.StackExchange.Redis": "[13.2.1, )",
+          "JetBrains.Annotations": "[2025.2.4, )",
+          "NextDepartures.Standard": "[3.9.6, )",
+          "NextDepartures.Storage.Postgres.Aspire": "[3.9.6, )"
+        }
+      },
+      "Aspire.Elastic.Clients.Elasticsearch": {
+        "type": "CentralTransitive",
+        "requested": "[13.2.0, )",
+        "resolved": "13.2.0",
+        "contentHash": "RvqKmOVlrVtvRkG76elskF8fDZh5aw5aYMvhpm2RbiziEFVAMEscKg8tdJSQpq5Oj65dhSv6r+mpY0JDKoSLlw==",
+        "dependencies": {
+          "Elastic.Clients.Elasticsearch": "8.19.4",
+          "MinVer": "6.0.0",
+          "OpenTelemetry.Extensions.Hosting": "1.12.0"
+        }
+      },
+      "Aspire.Npgsql": {
+        "type": "CentralTransitive",
+        "requested": "[13.2.1, )",
+        "resolved": "13.2.1",
+        "contentHash": "k1JIdi9QoMPl0KNDlqMKe+158z3jE46Si6BNe12vreG7DjR3eDilXx2B9M7tL8ExH/DhP+DPGxSu43nS7+xOdg==",
+        "dependencies": {
+          "AspNetCore.HealthChecks.NpgSql": "9.0.0",
+          "Npgsql.DependencyInjection": "10.0.1",
+          "Npgsql.OpenTelemetry": "10.0.1",
+          "OpenTelemetry.Extensions.Hosting": "1.15.0"
+        }
+      },
+      "Aspire.StackExchange.Redis": {
+        "type": "CentralTransitive",
+        "requested": "[13.2.1, )",
+        "resolved": "13.2.1",
+        "contentHash": "V7tatWoJj5HPa6oolIDVEQg73rhiRFi7l8gyE7/QOkroKa31mpN1eYfNs3JQrkco8LbL84bcjXYv0ErE0oWIjw==",
+        "dependencies": {
+          "AspNetCore.HealthChecks.Redis": "9.0.0",
+          "Microsoft.Extensions.DependencyInjection.AutoActivation": "10.2.0",
+          "OpenTelemetry.Extensions.Hosting": "1.15.0",
+          "StackExchange.Redis": "2.11.0",
+          "System.IO.Hashing": "10.0.3"
         }
       },
       "JetBrains.Annotations": {
@@ -551,6 +535,27 @@
         "contentHash": "RznZAH6L4RNvroECT5JpqfFQJjHTn+8N7+ThSgYutbshkuymFeL/uBIZt1CM8LOdpPPhn4//a5fLUah9/k7ayQ==",
         "dependencies": {
           "Microsoft.Extensions.ServiceDiscovery.Abstractions": "10.4.0"
+        }
+      },
+      "NextDepartures.Standard": {
+        "type": "CentralTransitive",
+        "requested": "[3.9.6, )",
+        "resolved": "3.9.6",
+        "contentHash": "ETGQ3Hs9hrQWNsblt4b8GGrIn7TMPkPyFyJPTSuKtmiAdfQKAO2XSGpsQ3wiYZm/1zLzxlsRPx4mzbq3vbr1Wg==",
+        "dependencies": {
+          "GTFS": "3.0.0-pre006",
+          "JetBrains.Annotations": "2025.2.4",
+          "NodaTime": "3.3.1"
+        }
+      },
+      "NextDepartures.Storage.Postgres.Aspire": {
+        "type": "CentralTransitive",
+        "requested": "[3.9.6, )",
+        "resolved": "3.9.6",
+        "contentHash": "Rawow5ho8EP3DCh9u5gqKdKWnj4jTODtWklGmBISS2u8JFlC1s8loVfwdCk3CRanLU8TOXmFKwlFZIwxTJ4EMQ==",
+        "dependencies": {
+          "Aspire.Npgsql": "13.2.0",
+          "NextDepartures.Standard": "3.9.6"
         }
       },
       "OpenTelemetry.Exporter.OpenTelemetryProtocol": {

@@ -1,8 +1,8 @@
 using JetBrains.Annotations;
 
-namespace TramTimes.Web.Api.Models;
+namespace TramTimes.Web.Utilities.Models;
 
-public class DatabaseStopPoint
+public class SearchStopPoint
 {
     [UsedImplicitly] public DateTime? DepartureDateTime { get; set; }
     [UsedImplicitly] public string? DestinationName { get; set; }

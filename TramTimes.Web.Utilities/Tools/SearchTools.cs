@@ -1,6 +1,6 @@
 using Elastic.Clients.Elasticsearch;
 
-namespace TramTimes.Web.Api.Tools;
+namespace TramTimes.Web.Utilities.Tools;
 
 public static class SearchTools
 {

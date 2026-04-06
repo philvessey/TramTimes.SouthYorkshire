@@ -1,8 +1,9 @@
+using Elastic.Clients.Elasticsearch;
 using JetBrains.Annotations;
 
-namespace TramTimes.Web.Api.Models;
+namespace TramTimes.Web.Utilities.Models;
 
-public class CacheStop
+public class SearchStop
 {
     [UsedImplicitly] public string? Id { get; set; }
     [UsedImplicitly] public string? Code { get; set; }
@@ -10,5 +11,6 @@ public class CacheStop
     [UsedImplicitly] public double? Latitude { get; set; }
     [UsedImplicitly] public double? Longitude { get; set; }
     [UsedImplicitly] public string? Platform { get; set; }
-    [UsedImplicitly] public List<CacheStopPoint>? Points { get; set; }
+    [UsedImplicitly] public GeoLocation? Location { get; set; }
+    [UsedImplicitly] public List<SearchStopPoint>? Points { get; set; }
 }

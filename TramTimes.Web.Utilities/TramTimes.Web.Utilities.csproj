@@ -1,7 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <PackageReference Include="Aspire.Elastic.Clients.Elasticsearch"/>
+    <PackageReference Include="Aspire.Npgsql"/>
+    <PackageReference Include="Aspire.StackExchange.Redis"/>
     <PackageReference Include="JetBrains.Annotations"/>
+    <PackageReference Include="NextDepartures.Standard"/>
+    <PackageReference Include="NextDepartures.Storage.Postgres.Aspire"/>
   </ItemGroup>
 
 </Project>
