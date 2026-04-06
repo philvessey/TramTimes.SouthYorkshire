@@ -36,7 +36,7 @@ public static class DatabaseHandler
         #region build results
 
         var results = mapperService.Map<List<DatabaseStopPoint>>(
-            source: mapperService.Map<List<WorkerStopPoint>>(
+            source: mapperService.Map<List<WebStopPoint>>(
                 source: request));
 
         #endregion
@@ -69,7 +69,7 @@ public static class DatabaseHandler
         #region build results
 
         var results = mapperService.Map<List<DatabaseStopPoint>>(
-            source: mapperService.Map<List<WorkerStopPoint>>(
+            source: mapperService.Map<List<WebStopPoint>>(
                 source: request));
 
         #endregion
@@ -101,7 +101,7 @@ public static class DatabaseHandler
 
         foreach (var item in results)
             item.Points = mapperService.Map<List<DatabaseStopPoint>>(
-                source: mapperService.Map<List<WorkerStopPoint>>(
+                source: mapperService.Map<List<WebStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
                         id: item.Id,
                         target: DateTime.UtcNow,
@@ -139,7 +139,7 @@ public static class DatabaseHandler
 
         foreach (var item in results)
             item.Points = mapperService.Map<List<DatabaseStopPoint>>(
-                source: mapperService.Map<List<WorkerStopPoint>>(
+                source: mapperService.Map<List<WebStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
                         id: item.Id,
                         target: DateTime.UtcNow,
@@ -177,7 +177,7 @@ public static class DatabaseHandler
 
         foreach (var item in results)
             item.Points = mapperService.Map<List<DatabaseStopPoint>>(
-                source: mapperService.Map<List<WorkerStopPoint>>(
+                source: mapperService.Map<List<WebStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
                         id: item.Id,
                         target: DateTime.UtcNow,
@@ -221,7 +221,7 @@ public static class DatabaseHandler
 
         foreach (var item in results)
             item.Points = mapperService.Map<List<DatabaseStopPoint>>(
-                source: mapperService.Map<List<WorkerStopPoint>>(
+                source: mapperService.Map<List<WebStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
                         id: item.Id,
                         target: DateTime.UtcNow,
@@ -262,7 +262,7 @@ public static class DatabaseHandler
 
         foreach (var item in results)
             item.Points = mapperService.Map<List<DatabaseStopPoint>>(
-                source: mapperService.Map<List<WorkerStopPoint>>(
+                source: mapperService.Map<List<WebStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
                         id: item.Id,
                         target: DateTime.UtcNow,

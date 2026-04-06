@@ -5,7 +5,7 @@ using NextDepartures.Standard.Types;
 using NextDepartures.Storage.Postgres.Aspire;
 using Npgsql;
 using StackExchange.Redis;
-using TramTimes.Web.Api.Models;
+using TramTimes.Web.Utilities.Models;
 
 namespace TramTimes.Web.Api.Builders;
 
@@ -37,7 +37,7 @@ public static class CacheBuilder
             .GetDatabase()
             .StringSetAsync(
                 key: $"southyorkshire:stop:{id}",
-                value: JsonSerializer.Serialize(value: mapperService.Map<List<WorkerStopPoint>>(source: databaseResults)),
+                value: JsonSerializer.Serialize(value: mapperService.Map<List<WebStopPoint>>(source: databaseResults)),
                 expiry: TimeSpan.FromHours(value: 12));
 
         #endregion
@@ -66,7 +66,7 @@ public static class CacheBuilder
                 .GetDatabase()
                 .StringSetAsync(
                     key: $"southyorkshire:trip:{item}",
-                    value: JsonSerializer.Serialize(value: mapperService.Map<List<WorkerStopPoint>>(source: databaseResults)),
+                    value: JsonSerializer.Serialize(value: mapperService.Map<List<WebStopPoint>>(source: databaseResults)),
                     expiry: TimeSpan.FromHours(value: 12));
         }
 

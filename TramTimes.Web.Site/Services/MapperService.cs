@@ -10,13 +10,7 @@ public class MapperService : Profile
 {
     public MapperService()
     {
-        #region telerik stop -> web stop
-
-        CreateMap<TelerikStop, WebStop>()
-            .ForMember(
-                destinationMember: stop => stop.Name,
-                memberOptions: member => member.MapFrom(mapExpression: stop =>
-                    $"{stop.Name} {stop.Direction}"));
+        #region web stop -> telerik stop
 
         CreateMap<WebStop, TelerikStop>()
             .ForMember(
@@ -34,21 +28,7 @@ public class MapperService : Profile
 
         #endregion
 
-        #region telerik stop point -> web stop point
-
-        CreateMap<TelerikStopPoint, WebStopPoint>()
-            .ForMember(
-                destinationMember: point => point.DepartureDateTime,
-                memberOptions: member => member.MapFrom(mapExpression: point =>
-                    point.DepartureDateTime!.Value.ToString(provider: CultureInfo.InvariantCulture)))
-            .ForMember(
-                destinationMember: point => point.DestinationName,
-                memberOptions: member => member.MapFrom(mapExpression: point =>
-                    $"{point.DestinationName} {point.DestinationDirection}"))
-            .ForMember(
-                destinationMember: point => point.StopName,
-                memberOptions: member => member.MapFrom(mapExpression: point =>
-                    $"{point.StopName} {point.StopDirection}"));
+        #region web stop point -> telerik stop point
 
         CreateMap<WebStopPoint, TelerikStopPoint>()
             .ForMember(

@@ -27,7 +27,7 @@ public static class CacheHandler
         #region build results
 
         var results = mapperService.Map<List<CacheStopPoint>>(
-            source: JsonSerializer.Deserialize<List<WorkerStopPoint>>(
+            source: JsonSerializer.Deserialize<List<WebStopPoint>>(
                 json: request.ToString()));
 
         #endregion
@@ -54,7 +54,7 @@ public static class CacheHandler
         #region build results
 
         var results = mapperService.Map<List<CacheStopPoint>>(
-            source: JsonSerializer.Deserialize<List<WorkerStopPoint>>(
+            source: JsonSerializer.Deserialize<List<WebStopPoint>>(
                 json: request.ToString()));
 
         #endregion
