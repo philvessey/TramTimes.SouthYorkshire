@@ -1,7 +1,6 @@
 using Geolocation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using Polly.Timeout;
 using Telerik.Blazor.Components;
 using Telerik.DataSource;
 using TramTimes.Web.Site.Builders;
@@ -260,7 +259,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #region build query data
 
-        HttpResponseMessage? response = null;
+        List<WebStop>? data = null;
 
         if (MapSource is not null)
             await MapSource.CancelAsync();
@@ -269,12 +268,9 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         try
         {
-            var client = HttpService.CreateClient(name: "search");
-
-            response = await client.GetAsync(
-                requestUri: QueryBuilder.GetStopsFromSearch(
-                    type: QueryType.StopPoint,
-                    value: MapCenter),
+            data = await SearchService.GetStopsByPointAsync(
+                lon: MapCenter.ElementAt(index: 1),
+                lat: MapCenter.ElementAt(index: 0),
                 cancellationToken: MapSource.Token);
         }
         catch (OperationCanceledException)
@@ -284,24 +280,21 @@ public partial class Trip : ComponentBase, IAsyncDisposable
                     identifier: "writeConsole",
                     args: "trip: search cancel");
         }
-        catch (TimeoutRejectedException)
+        catch (Exception)
         {
             if (JavascriptManager is not null)
                 await JavascriptManager.InvokeVoidAsync(
                     identifier: "writeConsole",
-                    args: "trip: search timeout");
+                    args: "trip: search error");
         }
 
-        if (response?.IsSuccessStatusCode is not true)
+        if (data is null)
         {
             try
             {
-                var client = HttpService.CreateClient(name: "database");
-
-                response = await client.GetAsync(
-                    requestUri: QueryBuilder.GetStopsFromDatabase(
-                        type: QueryType.StopPoint,
-                        value: MapCenter),
+                data = await DatabaseService.GetStopsByPointAsync(
+                    lon: MapCenter.ElementAt(index: 1),
+                    lat: MapCenter.ElementAt(index: 0),
                     cancellationToken: MapSource.Token);
             }
             catch (OperationCanceledException)
@@ -311,12 +304,12 @@ public partial class Trip : ComponentBase, IAsyncDisposable
                         identifier: "writeConsole",
                         args: "trip: database cancel");
             }
-            catch (TimeoutRejectedException)
+            catch (Exception)
             {
                 if (JavascriptManager is not null)
                     await JavascriptManager.InvokeVoidAsync(
                         identifier: "writeConsole",
-                        args: "trip: database timeout");
+                        args: "trip: database error");
             }
         }
 
@@ -324,12 +317,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #region build remote data
 
-        List<WebStop> data = [];
-
-        if (response?.IsSuccessStatusCode is true)
-            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
-
-        var results = MapperService.Map<List<TelerikStop>>(source: data);
+        var results = MapperService.Map<List<TelerikStop>>(source: data ?? []);
 
         foreach (var item in results)
         {
@@ -588,7 +576,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #region build query data
 
-        HttpResponseMessage? response = null;
+        List<WebStopPoint>? data = null;
 
         if (ListSource is not null)
             await ListSource.CancelAsync();
@@ -597,20 +585,20 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         try
         {
-            Response = ListData.Count > 0 ? ResponseType.Syncing : ResponseType.Loading;
+            Response = ListData.Count > 0
+                ? ResponseType.Syncing
+                : ResponseType.Loading;
 
             if (Response is ResponseType.Loading)
                 StateHasChanged();
 
-            var client = HttpService.CreateClient(name: "cache");
-
-            response = await client.GetAsync(
-                requestUri: QueryBuilder.GetServicesFromCache(
-                    type: QueryType.TripId,
-                    value: TripId),
+            data = await CacheService.GetServicesByTripAsync(
+                id: TripId,
                 cancellationToken: ListSource.Token);
 
-            Response = response.IsSuccessStatusCode ? ResponseType.Success : ResponseType.Failure;
+            Response = data is not null
+                ? ResponseType.Success
+                : ResponseType.Failure;
 
             if (Response is not ResponseType.Idle)
                 StateHasChanged();
@@ -627,12 +615,12 @@ public partial class Trip : ComponentBase, IAsyncDisposable
             if (Response is not ResponseType.Idle)
                 StateHasChanged();
         }
-        catch (TimeoutRejectedException)
+        catch (Exception)
         {
             if (JavascriptManager is not null)
                 await JavascriptManager.InvokeVoidAsync(
                     identifier: "writeConsole",
-                    args: "trip: cache timeout");
+                    args: "trip: cache error");
 
             Response = ResponseType.Exception;
 
@@ -640,24 +628,24 @@ public partial class Trip : ComponentBase, IAsyncDisposable
                 StateHasChanged();
         }
 
-        if (response?.IsSuccessStatusCode is not true)
+        if (data is null)
         {
             try
             {
-                Response = ListData.Count > 0 ? ResponseType.Syncing : ResponseType.Loading;
+                Response = ListData.Count > 0
+                    ? ResponseType.Syncing
+                    : ResponseType.Loading;
 
                 if (Response is ResponseType.Loading)
                     StateHasChanged();
 
-                var client = HttpService.CreateClient(name: "database");
-
-                response = await client.GetAsync(
-                    requestUri: QueryBuilder.GetServicesFromDatabase(
-                        type: QueryType.TripId,
-                        value: TripId),
+                data = await DatabaseService.GetServicesByTripAsync(
+                    id: TripId,
                     cancellationToken: ListSource.Token);
 
-                Response = response.IsSuccessStatusCode ? ResponseType.Success : ResponseType.Failure;
+                Response = data is not null
+                    ? ResponseType.Success
+                    : ResponseType.Failure;
 
                 if (Response is not ResponseType.Idle)
                     StateHasChanged();
@@ -674,12 +662,12 @@ public partial class Trip : ComponentBase, IAsyncDisposable
                 if (Response is not ResponseType.Idle)
                     StateHasChanged();
             }
-            catch (TimeoutRejectedException)
+            catch (Exception)
             {
                 if (JavascriptManager is not null)
                     await JavascriptManager.InvokeVoidAsync(
                         identifier: "writeConsole",
-                        args: "trip: database timeout");
+                        args: "trip: database error");
 
                 Response = ResponseType.Exception;
 
@@ -692,12 +680,8 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #region build remote data
 
-        List<WebStopPoint> data = [];
+        ListData = MapperService.Map<List<TelerikStopPoint>>(source: data ?? []);
 
-        if (response?.IsSuccessStatusCode is true)
-            data = await response.Content.ReadFromJsonAsync<List<WebStopPoint>>() ?? [];
-
-        ListData = MapperService.Map<List<TelerikStopPoint>>(source: data);
         ListData.RemoveAll(match: point => point.DepartureDateTime < currentDateTime);
         ListData.RemoveAll(match: point => point.DepartureDateTime > offsetDateTime);
 
@@ -1113,7 +1097,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #region build query data
 
-        HttpResponseMessage? response = null;
+        List<WebStop>? data = null;
 
         if (SearchSource is not null)
             await SearchSource.CancelAsync();
@@ -1122,12 +1106,8 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         try
         {
-            var client = HttpService.CreateClient(name: "search");
-
-            response = await client.GetAsync(
-                requestUri: QueryBuilder.GetStopsFromSearch(
-                    type: QueryType.StopName,
-                    value: name),
+            data = await SearchService.GetStopsByNameAsync(
+                name: name,
                 cancellationToken: SearchSource.Token);
         }
         catch (OperationCanceledException)
@@ -1137,24 +1117,20 @@ public partial class Trip : ComponentBase, IAsyncDisposable
                     identifier: "writeConsole",
                     args: "trip: search cancel");
         }
-        catch (TimeoutRejectedException)
+        catch (Exception)
         {
             if (JavascriptManager is not null)
                 await JavascriptManager.InvokeVoidAsync(
                     identifier: "writeConsole",
-                    args: "trip: search timeout");
+                    args: "trip: search error");
         }
 
-        if (response?.IsSuccessStatusCode is not true)
+        if (data is null)
         {
             try
             {
-                var client = HttpService.CreateClient(name: "database");
-
-                response = await client.GetAsync(
-                    requestUri: QueryBuilder.GetStopsFromDatabase(
-                        type: QueryType.StopName,
-                        value: name),
+                data = await DatabaseService.GetStopsByNameAsync(
+                    name: name,
                     cancellationToken: SearchSource.Token);
             }
             catch (OperationCanceledException)
@@ -1164,12 +1140,12 @@ public partial class Trip : ComponentBase, IAsyncDisposable
                         identifier: "writeConsole",
                         args: "trip: database cancel");
             }
-            catch (TimeoutRejectedException)
+            catch (Exception)
             {
                 if (JavascriptManager is not null)
                     await JavascriptManager.InvokeVoidAsync(
                         identifier: "writeConsole",
-                        args: "trip: database timeout");
+                        args: "trip: database error");
             }
         }
 
@@ -1177,12 +1153,7 @@ public partial class Trip : ComponentBase, IAsyncDisposable
 
         #region build remote data
 
-        List<WebStop> data = [];
-
-        if (response?.IsSuccessStatusCode is true)
-            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
-
-        var results = MapperService.Map<List<TelerikStop>>(source: data);
+        var results = MapperService.Map<List<TelerikStop>>(source: data ?? []);
 
         foreach (var item in results)
         {

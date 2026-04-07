@@ -59,12 +59,12 @@
       },
       "Microsoft.NET.Test.Sdk": {
         "type": "Direct",
-        "requested": "[18.3.0, )",
-        "resolved": "18.3.0",
-        "contentHash": "xW3kXuWRQtgoxJp4J+gdhHSQyK+6Wb/AZDSd7lMvuMRYlZ1tnpkojyfZlWilB5G4dmZ0Y0ZxU/M23TlubndNkw==",
+        "requested": "[18.4.0, )",
+        "resolved": "18.4.0",
+        "contentHash": "w49iZdL4HL6V25l41NVQLXWQ+e71GvSkKVteMrOL02gP/PUkcnO/1yEb2s9FntU4wGmJWfKnyrRAhcMHd9ZZNA==",
         "dependencies": {
-          "Microsoft.CodeCoverage": "18.3.0",
-          "Microsoft.TestPlatform.TestHost": "18.3.0"
+          "Microsoft.CodeCoverage": "18.4.0",
+          "Microsoft.TestPlatform.TestHost": "18.4.0"
         }
       },
       "Microsoft.Playwright": {
@@ -558,8 +558,8 @@
       },
       "Microsoft.CodeCoverage": {
         "type": "Transitive",
-        "resolved": "18.3.0",
-        "contentHash": "23BNy/vziREC20Wwhb50K7+kZe0m07KlLWDQv4qjJ9tt3QjpDpDIqJFrhYHmMEo9xDkuSp55U/8h4bMF7MiB+g=="
+        "resolved": "18.4.0",
+        "contentHash": "9O0BtCfzCWrkAmK187ugKdq72HHOXoOUjuWFDVc2LsZZ0pOnA9bTt+Sg9q4cF+MoAaUU+MuWtvBuFsnduviJow=="
       },
       "Microsoft.Extensions.AI.Abstractions": {
         "type": "Transitive",
@@ -1031,15 +1031,15 @@
       },
       "Microsoft.TestPlatform.ObjectModel": {
         "type": "Transitive",
-        "resolved": "18.3.0",
-        "contentHash": "AEIEX2aWdPO9XbtR96eBaJxmXRD9vaI9uQ1T/JbPEKlTAZwYx0ZrMzKyULMdh/HH9Sg03kXCoN7LszQ90o6nPQ=="
+        "resolved": "18.4.0",
+        "contentHash": "4L6m2kS2pY5uJ9cpeRxzW22opr6ttScIRqsOpMDQpgENp/ZwxkkQCcmc6LRSURo2dFaaSW5KVflQZvroiJ7Wzg=="
       },
       "Microsoft.TestPlatform.TestHost": {
         "type": "Transitive",
-        "resolved": "18.3.0",
-        "contentHash": "twmsoelXnp1uWMU3VGip9f0Jr1mZ0PZqgJdF35CIrdYgYrkHIJMV1m8uKyhcdjLdsQDESHAgkR7KhS9i1qpJag==",
+        "resolved": "18.4.0",
+        "contentHash": "gZsCHI+zOmZCcKZieIL4Jg14qKD2OGZOmX5DehuIk1EA9BN6Crm0+taXQNEuajOH1G9CCyBxw8VWR4t5tumcng==",
         "dependencies": {
-          "Microsoft.TestPlatform.ObjectModel": "18.3.0",
+          "Microsoft.TestPlatform.ObjectModel": "18.4.0",
           "Newtonsoft.Json": "13.0.3"
         }
       },
@@ -1354,8 +1354,8 @@
           "Aspire.Npgsql": "[13.2.1, )",
           "Aspire.StackExchange.Redis": "[13.2.1, )",
           "JetBrains.Annotations": "[2025.2.4, )",
-          "NextDepartures.Standard": "[3.9.6, )",
-          "NextDepartures.Storage.Postgres.Aspire": "[3.9.6, )"
+          "NextDepartures.Standard": "[4.0.0, )",
+          "NextDepartures.Storage.Postgres.Aspire": "[4.0.0, )"
         }
       },
       "Aspire.Elastic.Clients.Elasticsearch": {
@@ -1723,9 +1723,9 @@
       },
       "NextDepartures.Standard": {
         "type": "CentralTransitive",
-        "requested": "[3.9.6, )",
-        "resolved": "3.9.6",
-        "contentHash": "ETGQ3Hs9hrQWNsblt4b8GGrIn7TMPkPyFyJPTSuKtmiAdfQKAO2XSGpsQ3wiYZm/1zLzxlsRPx4mzbq3vbr1Wg==",
+        "requested": "[4.0.0, )",
+        "resolved": "4.0.0",
+        "contentHash": "jGV3ZrlBr2jaj+LdWLnw8PEgyXemu208gF3mBrGSOZ0ePXGqLsDWGGkBmh0Wk5RwD88985/g3mR+bcijmTrjDw==",
         "dependencies": {
           "GTFS": "3.0.0-pre006",
           "JetBrains.Annotations": "2025.2.4",
@@ -1734,12 +1734,12 @@
       },
       "NextDepartures.Storage.Postgres.Aspire": {
         "type": "CentralTransitive",
-        "requested": "[3.9.6, )",
-        "resolved": "3.9.6",
-        "contentHash": "Rawow5ho8EP3DCh9u5gqKdKWnj4jTODtWklGmBISS2u8JFlC1s8loVfwdCk3CRanLU8TOXmFKwlFZIwxTJ4EMQ==",
+        "requested": "[4.0.0, )",
+        "resolved": "4.0.0",
+        "contentHash": "TZeK39e3XjPmbUYExcllG1wxpiT1TYS3ZWVK8dSqD9lEpmmbsu2vGJhYxQR9XF5xJFom233uSNl6RD9pgDQt3A==",
         "dependencies": {
-          "Aspire.Npgsql": "13.2.0",
-          "NextDepartures.Standard": "3.9.6"
+          "Aspire.Npgsql": "13.2.1",
+          "NextDepartures.Standard": "4.0.0"
         }
       },
       "OpenTelemetry.Extensions.Hosting": {

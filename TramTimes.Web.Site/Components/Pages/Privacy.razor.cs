@@ -1,7 +1,6 @@
 using Geolocation;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using Polly.Timeout;
 using Telerik.Blazor.Components;
 using Telerik.DataSource;
 using TramTimes.Web.Site.Builders;
@@ -254,7 +253,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #region build query data
 
-        HttpResponseMessage? response = null;
+        List<WebStop>? data = null;
 
         if (MapSource is not null)
             await MapSource.CancelAsync();
@@ -263,20 +262,21 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         try
         {
-            Response = MapData.Count > 0 ? ResponseType.Syncing : ResponseType.Loading;
+            Response = MapData.Count > 0
+                ? ResponseType.Syncing
+                : ResponseType.Loading;
 
             if (Response is ResponseType.Loading)
                 StateHasChanged();
 
-            var client = HttpService.CreateClient(name: "search");
-
-            response = await client.GetAsync(
-                requestUri: QueryBuilder.GetStopsFromSearch(
-                    type: QueryType.StopPoint,
-                    value: MapCenter),
+            data = await SearchService.GetStopsByPointAsync(
+                lon: MapCenter.ElementAt(index: 1),
+                lat: MapCenter.ElementAt(index: 0),
                 cancellationToken: MapSource.Token);
 
-            Response = response.IsSuccessStatusCode ? ResponseType.Success : ResponseType.Failure;
+            Response = data is not null
+                ? ResponseType.Success
+                : ResponseType.Failure;
 
             if (Response is not ResponseType.Idle)
                 StateHasChanged();
@@ -293,12 +293,12 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
             if (Response is not ResponseType.Idle)
                 StateHasChanged();
         }
-        catch (TimeoutRejectedException)
+        catch (Exception)
         {
             if (JavascriptManager is not null)
                 await JavascriptManager.InvokeVoidAsync(
                     identifier: "writeConsole",
-                    args: "privacy: search timeout");
+                    args: "privacy: search error");
 
             Response = ResponseType.Exception;
 
@@ -306,24 +306,25 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
                 StateHasChanged();
         }
 
-        if (response?.IsSuccessStatusCode is not true)
+        if (data is null)
         {
             try
             {
-                Response = MapData.Count > 0 ? ResponseType.Syncing : ResponseType.Loading;
+                Response = MapData.Count > 0
+                    ? ResponseType.Syncing
+                    : ResponseType.Loading;
 
                 if (Response is ResponseType.Loading)
                     StateHasChanged();
 
-                var client = HttpService.CreateClient(name: "database");
-
-                response = await client.GetAsync(
-                    requestUri: QueryBuilder.GetStopsFromDatabase(
-                        type: QueryType.StopPoint,
-                        value: MapCenter),
+                data = await DatabaseService.GetStopsByPointAsync(
+                    lon: MapCenter.ElementAt(index: 1),
+                    lat: MapCenter.ElementAt(index: 0),
                     cancellationToken: MapSource.Token);
 
-                Response = response.IsSuccessStatusCode ? ResponseType.Success : ResponseType.Failure;
+                Response = data is not null
+                    ? ResponseType.Success
+                    : ResponseType.Failure;
 
                 if (Response is not ResponseType.Idle)
                     StateHasChanged();
@@ -340,12 +341,12 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
                 if (Response is not ResponseType.Idle)
                     StateHasChanged();
             }
-            catch (TimeoutRejectedException)
+            catch (Exception)
             {
                 if (JavascriptManager is not null)
                     await JavascriptManager.InvokeVoidAsync(
                         identifier: "writeConsole",
-                        args: "privacy: database timeout");
+                        args: "privacy: database error");
 
                 Response = ResponseType.Exception;
 
@@ -358,12 +359,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #region build remote data
 
-        List<WebStop> data = [];
-
-        if (response?.IsSuccessStatusCode is true)
-            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
-
-        var results = MapperService.Map<List<TelerikStop>>(source: data);
+        var results = MapperService.Map<List<TelerikStop>>(source: data ?? []);
 
         foreach (var item in results)
         {
@@ -1051,7 +1047,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #region build query data
 
-        HttpResponseMessage? response = null;
+        List<WebStop>? data = null;
 
         if (SearchSource is not null)
             await SearchSource.CancelAsync();
@@ -1060,12 +1056,8 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         try
         {
-            var client = HttpService.CreateClient(name: "search");
-
-            response = await client.GetAsync(
-                requestUri: QueryBuilder.GetStopsFromSearch(
-                    type: QueryType.StopName,
-                    value: name),
+            data = await SearchService.GetStopsByNameAsync(
+                name: name,
                 cancellationToken: SearchSource.Token);
         }
         catch (OperationCanceledException)
@@ -1075,24 +1067,20 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
                     identifier: "writeConsole",
                     args: "privacy: search cancel");
         }
-        catch (TimeoutRejectedException)
+        catch (Exception)
         {
             if (JavascriptManager is not null)
                 await JavascriptManager.InvokeVoidAsync(
                     identifier: "writeConsole",
-                    args: "privacy: search timeout");
+                    args: "privacy: search error");
         }
 
-        if (response?.IsSuccessStatusCode is not true)
+        if (data is null)
         {
             try
             {
-                var client = HttpService.CreateClient(name: "database");
-
-                response = await client.GetAsync(
-                    requestUri: QueryBuilder.GetStopsFromDatabase(
-                        type: QueryType.StopName,
-                        value: name),
+                data = await DatabaseService.GetStopsByNameAsync(
+                    name: name,
                     cancellationToken: SearchSource.Token);
             }
             catch (OperationCanceledException)
@@ -1102,12 +1090,12 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
                         identifier: "writeConsole",
                         args: "privacy: database cancel");
             }
-            catch (TimeoutRejectedException)
+            catch (Exception)
             {
                 if (JavascriptManager is not null)
                     await JavascriptManager.InvokeVoidAsync(
                         identifier: "writeConsole",
-                        args: "privacy: database timeout");
+                        args: "privacy: database error");
             }
         }
 
@@ -1115,12 +1103,7 @@ public partial class Privacy : ComponentBase, IAsyncDisposable
 
         #region build remote data
 
-        List<WebStop> data = [];
-
-        if (response?.IsSuccessStatusCode is true)
-            data = await response.Content.ReadFromJsonAsync<List<WebStop>>() ?? [];
-
-        var results = MapperService.Map<List<TelerikStop>>(source: data);
+        var results = MapperService.Map<List<TelerikStop>>(source: data ?? []);
 
         foreach (var item in results)
         {

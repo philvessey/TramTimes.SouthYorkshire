@@ -1,8 +1,5 @@
-using System.Net;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.SignalR;
-using Polly;
-using Polly.Timeout;
 using StackExchange.Redis;
 using TramTimes.Web.Site.Components;
 using TramTimes.Web.Site.Services;
@@ -23,6 +20,10 @@ builder.AddServiceDefaults();
 
 #region inject services
 
+builder.AddNpgsqlDataSource(connectionName: "database");
+builder.AddRedisClient(connectionName: "cache");
+builder.AddElasticsearchClient(connectionName: "search");
+
 var connectionString = builder.Configuration.GetConnectionString(name: "cache") ?? string.Empty;
 
 if (!string.IsNullOrEmpty(value: connectionString))
@@ -37,84 +38,6 @@ if (string.IsNullOrEmpty(value: connectionString))
     builder.Services
         .AddDataProtection()
         .SetApplicationName(applicationName: "web-site");
-
-builder.Services
-    .AddHttpClient(name: "cache")
-    .AddStandardResilienceHandler(configure: options =>
-    {
-        options.AttemptTimeout.Timeout = TimeSpan.FromSeconds(seconds: 2);
-        options.TotalRequestTimeout.Timeout = TimeSpan.FromSeconds(seconds: 5);
-        options.CircuitBreaker.BreakDuration = TimeSpan.FromSeconds(seconds: 30);
-        options.CircuitBreaker.FailureRatio = 0.50;
-        options.CircuitBreaker.MinimumThroughput = 10;
-        options.CircuitBreaker.SamplingDuration = TimeSpan.FromSeconds(seconds: 30);
-        options.Retry.BackoffType = DelayBackoffType.Constant;
-        options.Retry.Delay = TimeSpan.FromMilliseconds(milliseconds: 50);
-        options.Retry.MaxRetryAttempts = 1;
-        options.Retry.UseJitter = false;
-        options.Retry.ShouldHandle = arguments => ValueTask.FromResult(result:
-            arguments.Outcome.Exception is TimeoutException ||
-            arguments.Outcome.Exception is TimeoutRejectedException ||
-            arguments.Outcome.Result?.StatusCode is
-                HttpStatusCode.RequestTimeout or
-                HttpStatusCode.TooManyRequests or
-                HttpStatusCode.InternalServerError or
-                HttpStatusCode.BadGateway or
-                HttpStatusCode.ServiceUnavailable or
-                HttpStatusCode.GatewayTimeout);
-    });
-
-builder.Services
-    .AddHttpClient(name: "database")
-    .AddStandardResilienceHandler(configure: options =>
-    {
-        options.AttemptTimeout.Timeout = TimeSpan.FromSeconds(seconds: 10);
-        options.TotalRequestTimeout.Timeout = TimeSpan.FromSeconds(seconds: 120);
-        options.CircuitBreaker.BreakDuration = TimeSpan.FromSeconds(seconds: 60);
-        options.CircuitBreaker.FailureRatio = 0.75;
-        options.CircuitBreaker.MinimumThroughput = 5;
-        options.CircuitBreaker.SamplingDuration = TimeSpan.FromSeconds(seconds: 60);
-        options.Retry.BackoffType = DelayBackoffType.Exponential;
-        options.Retry.Delay = TimeSpan.FromMilliseconds(milliseconds: 1000);
-        options.Retry.MaxRetryAttempts = 5;
-        options.Retry.UseJitter = true;
-        options.Retry.ShouldHandle = arguments => ValueTask.FromResult(result:
-            arguments.Outcome.Exception is TimeoutException ||
-            arguments.Outcome.Exception is TimeoutRejectedException ||
-            arguments.Outcome.Result?.StatusCode is
-                HttpStatusCode.RequestTimeout or
-                HttpStatusCode.TooManyRequests or
-                HttpStatusCode.InternalServerError or
-                HttpStatusCode.BadGateway or
-                HttpStatusCode.ServiceUnavailable or
-                HttpStatusCode.GatewayTimeout);
-    });
-
-builder.Services
-    .AddHttpClient(name: "search")
-    .AddStandardResilienceHandler(configure: options =>
-    {
-        options.AttemptTimeout.Timeout = TimeSpan.FromSeconds(seconds: 2);
-        options.TotalRequestTimeout.Timeout = TimeSpan.FromSeconds(seconds: 5);
-        options.CircuitBreaker.BreakDuration = TimeSpan.FromSeconds(seconds: 30);
-        options.CircuitBreaker.FailureRatio = 0.50;
-        options.CircuitBreaker.MinimumThroughput = 10;
-        options.CircuitBreaker.SamplingDuration = TimeSpan.FromSeconds(seconds: 30);
-        options.Retry.BackoffType = DelayBackoffType.Constant;
-        options.Retry.Delay = TimeSpan.FromMilliseconds(milliseconds: 50);
-        options.Retry.MaxRetryAttempts = 1;
-        options.Retry.UseJitter = false;
-        options.Retry.ShouldHandle = arguments => ValueTask.FromResult(result:
-            arguments.Outcome.Exception is TimeoutException ||
-            arguments.Outcome.Exception is TimeoutRejectedException ||
-            arguments.Outcome.Result?.StatusCode is
-                HttpStatusCode.RequestTimeout or
-                HttpStatusCode.TooManyRequests or
-                HttpStatusCode.InternalServerError or
-                HttpStatusCode.BadGateway or
-                HttpStatusCode.ServiceUnavailable or
-                HttpStatusCode.GatewayTimeout);
-    });
 
 builder.Services.AddTelerikBlazor();
 
@@ -147,9 +70,12 @@ builder.Services.Configure<HubOptions>(configureOptions: options =>
 
 #region add scoped
 
+builder.Services.AddScoped<CacheService>();
 builder.Services.AddScoped<ConsentService>();
+builder.Services.AddScoped<DatabaseService>();
 builder.Services.AddScoped<LayoutService>();
 builder.Services.AddScoped<SchemeService>();
+builder.Services.AddScoped<SearchService>();
 builder.Services.AddScoped<StorageService>();
 
 #endregion

@@ -153,7 +153,7 @@ public static class WebBuilder
                     }
 
                     app.Template.Scale.CooldownPeriod = 900;
-                    app.Template.Scale.MinReplicas = 1;
+                    app.Template.Scale.MinReplicas = 0;
                     app.Template.Scale.MaxReplicas = 5;
 
                     app.Template.Scale.Rules.Add(item: new BicepValue<ContainerAppScaleRule>(
@@ -209,11 +209,6 @@ public static class WebBuilder
                 .WaitFor(dependency: license.Parameters?.Telerik ?? throw new InvalidOperationException(message: "License parameter is not available."))
                 .WaitFor(dependency: web.Backend ?? throw new InvalidOperationException(message: "Web backend is not available."))
                 .WithEnvironment(
-                    name: "API_ENDPOINT",
-                    endpointReference: web.Backend.GetEndpoint(name: "https").Exists
-                        ? web.Backend.GetEndpoint(name: "https")
-                        : web.Backend.GetEndpoint(name: "http"))
-                .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
                     value: _context)
                 .WithEnvironment(
@@ -224,7 +219,9 @@ public static class WebBuilder
                     parameter: license.Parameters.Telerik)
                 .WithExternalHttpEndpoints()
                 .WithHttpHealthCheck(path: "/healthz")
+                .WithReference(source: database.Resource ?? throw new InvalidOperationException(message: "Database resource is not available."))
                 .WithReference(source: cache.Service ?? throw new InvalidOperationException(message: "Cache service is not available."))
+                .WithReference(source: search.Service ?? throw new InvalidOperationException(message: "Search service is not available."))
                 .WithUrlForEndpoint(
                     callback: (ResourceUrlAnnotation url) => url.DisplayText = "Primary",
                     endpointName: "https")
@@ -245,11 +242,6 @@ public static class WebBuilder
                 .WaitFor(dependency: web.Parameters?.Certificate ?? throw new InvalidOperationException(message: "Certificate parameter is not available."))
                 .WaitFor(dependency: web.Parameters?.Domain ?? throw new InvalidOperationException(message: "Domain parameter is not available."))
                 .WaitFor(dependency: web.Backend ?? throw new InvalidOperationException(message: "Web backend is not available."))
-                .WithEnvironment(
-                    name: "API_ENDPOINT",
-                    endpointReference: web.Backend.GetEndpoint(name: "https").Exists
-                        ? web.Backend.GetEndpoint(name: "https")
-                        : web.Backend.GetEndpoint(name: "http"))
                 .WithEnvironment(
                     name: "ASPIRE_CONTEXT",
                     value: "Production")
@@ -276,7 +268,9 @@ public static class WebBuilder
                     parameter: license.Parameters.Telerik)
                 .WithExternalHttpEndpoints()
                 .WithHttpHealthCheck(path: "/healthz")
+                .WithReference(source: database.Connection ?? throw new InvalidOperationException(message: "Database connection is not available."))
                 .WithReference(source: cache.Connection ?? throw new InvalidOperationException(message: "Cache connection is not available."))
+                .WithReference(source: search.Connection ?? throw new InvalidOperationException(message: "Search connection is not available."))
                 .PublishAsAzureContainerApp(configure: (infrastructure, app) =>
                 {
                     var container = app.Template.Containers.Single().Value;
