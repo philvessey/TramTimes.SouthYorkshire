@@ -32,3 +32,20 @@ updates:
           - "*"
     ignore:
       - dependency-name: "Aspire.*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      time: "09:00"
+    reviewers:
+      - "philvessey"
+    labels:
+      - "dependencies"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    groups:
+      actions:
+        patterns:
+          - "*"
