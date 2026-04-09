@@ -1,13 +1,13 @@
 <Project>
 
   <PropertyGroup>
-    <AspireVersion>13.2.1</AspireVersion>
+    <AspireVersion>13.2.2</AspireVersion>
     <AspireElasticVersion>13.2.0</AspireElasticVersion>
     <NextDeparturesVersion>4.0.0</NextDeparturesVersion>
   </PropertyGroup>
 
   <PropertyGroup>
-    <AspirePreviewVersion>13.2.1-preview.1.26180.6</AspirePreviewVersion>
+    <AspirePreviewVersion>13.2.2-preview.1.26207.2</AspirePreviewVersion>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -54,8 +54,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.15.1"/>
-    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.15.1"/>
+    <PackageVersion Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.15.2"/>
+    <PackageVersion Include="OpenTelemetry.Extensions.Hosting" Version="1.15.2"/>
     <PackageVersion Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.15.1"/>
     <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.15.0"/>
     <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.15.0"/>
