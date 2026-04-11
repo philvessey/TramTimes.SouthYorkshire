@@ -78,6 +78,12 @@ public static class NaptanStopBuilder
 
         commonName = commonName.Trim();
 
+        commonName = GeneratedRegexBuilder.GetEntrance().Replace(
+            input: commonName,
+            replacement: string.Empty);
+
+        commonName = commonName.Trim();
+
         commonName = GeneratedRegexBuilder.GetPlatform().Replace(
             input: commonName,
             replacement: string.Empty);

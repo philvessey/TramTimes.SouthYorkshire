@@ -10,10 +10,10 @@ using TramTimes.Database.Jobs.Models;
 
 namespace TramTimes.Database.Jobs.Workers.Stops;
 
-public class _9400ZZSYMAG1(
+public class _3700ZZSYMAG1(
     BlobContainerClient containerClient,
     NpgsqlDataSource dataSource,
-    ILogger<_9400ZZSYMAG1> logger) : IJob {
+    ILogger<_3700ZZSYMAG1> logger) : IJob {
 
     private static readonly JsonSerializerOptions _options = new() { WriteIndented = true };
 
@@ -32,7 +32,7 @@ public class _9400ZZSYMAG1(
             var activeSchedule = JsonSerializer.Deserialize<WorkerSchedule>(json: await File.ReadAllTextAsync(path: Path.Combine(
                 path1: "Workers",
                 path2: "Schedules",
-                path3: "_9400ZZSYMAG1.json")));
+                path3: "_3700ZZSYMAG1.json")));
 
             #endregion
 
@@ -41,7 +41,7 @@ public class _9400ZZSYMAG1(
             var databaseFeed = await Feed.LoadAsync(dataStorage: PostgresStorage.Load(dataSource: dataSource));
 
             var databaseResults = await databaseFeed.GetServicesByStopAsync(
-                id: "9400ZZSYMAG1",
+                id: "3700ZZSYMAG1",
                 target: context.FireTimeUtc.Date,
                 offset: TimeSpan.FromHours(value: 12),
                 comparison: ComparisonType.Exact,
@@ -56,55 +56,55 @@ public class _9400ZZSYMAG1(
                 case DayOfWeek.Monday:
                 {
                     if (databaseResults.Count != activeSchedule?.Monday?.Count)
-                        logger.LogWarning(message: "9400ZZSYMAG1: Service count does not match schedule");
+                        logger.LogWarning(message: "3700ZZSYMAG1: Service count does not match schedule");
 
                     break;
                 }
                 case DayOfWeek.Tuesday:
                 {
                     if (databaseResults.Count != activeSchedule?.Tuesday?.Count)
-                        logger.LogWarning(message: "9400ZZSYMAG1: Service count does not match schedule");
+                        logger.LogWarning(message: "3700ZZSYMAG1: Service count does not match schedule");
 
                     break;
                 }
                 case DayOfWeek.Wednesday:
                 {
                     if (databaseResults.Count != activeSchedule?.Wednesday?.Count)
-                        logger.LogWarning(message: "9400ZZSYMAG1: Service count does not match schedule");
+                        logger.LogWarning(message: "3700ZZSYMAG1: Service count does not match schedule");
 
                     break;
                 }
                 case DayOfWeek.Thursday:
                 {
                     if (databaseResults.Count != activeSchedule?.Thursday?.Count)
-                        logger.LogWarning(message: "9400ZZSYMAG1: Service count does not match schedule");
+                        logger.LogWarning(message: "3700ZZSYMAG1: Service count does not match schedule");
 
                     break;
                 }
                 case DayOfWeek.Friday:
                 {
                     if (databaseResults.Count != activeSchedule?.Friday?.Count)
-                        logger.LogWarning(message: "9400ZZSYMAG1: Service count does not match schedule");
+                        logger.LogWarning(message: "3700ZZSYMAG1: Service count does not match schedule");
 
                     break;
                 }
                 case DayOfWeek.Saturday:
                 {
                     if (databaseResults.Count != activeSchedule?.Saturday?.Count)
-                        logger.LogWarning(message: "9400ZZSYMAG1: Service count does not match schedule");
+                        logger.LogWarning(message: "3700ZZSYMAG1: Service count does not match schedule");
 
                     break;
                 }
                 case DayOfWeek.Sunday:
                 {
                     if (databaseResults.Count != activeSchedule?.Sunday?.Count)
-                        logger.LogWarning(message: "9400ZZSYMAG1: Service count does not match schedule");
+                        logger.LogWarning(message: "3700ZZSYMAG1: Service count does not match schedule");
 
                     break;
                 }
                 default:
                 {
-                    logger.LogWarning(message: "9400ZZSYMAG1: Service count does not match schedule");
+                    logger.LogWarning(message: "3700ZZSYMAG1: Service count does not match schedule");
                     break;
                 }
             }
@@ -322,7 +322,7 @@ public class _9400ZZSYMAG1(
                 }
                 default:
                 {
-                    logger.LogWarning(message: "9400ZZSYMAG1: Service not found in schedule");
+                    logger.LogWarning(message: "3700ZZSYMAG1: Service not found in schedule");
                     break;
                 }
             }
@@ -333,7 +333,7 @@ public class _9400ZZSYMAG1(
 
             var localPath = Path.Combine(
                 path1: storage.FullName,
-                path2: "9400ZZSYMAG1.json");
+                path2: "3700ZZSYMAG1.json");
 
             await File.WriteAllTextAsync(
                 path: localPath,
@@ -344,7 +344,7 @@ public class _9400ZZSYMAG1(
             await containerClient
                 .GetBlobClient(blobName: Path.Combine(
                     path1: "schedules",
-                    path2: "9400ZZSYMAG1.json"))
+                    path2: "3700ZZSYMAG1.json"))
                 .UploadAsync(
                     path: localPath,
                     options: new BlobUploadOptions { HttpHeaders = new BlobHttpHeaders { ContentType = "application/json" } });

@@ -9,10 +9,10 @@ using TramTimes.Search.Jobs.Models;
 
 namespace TramTimes.Search.Jobs.Workers.Stops;
 
-public class _9400ZZSYMAG1(
+public class _3700ZZSYMAG1(
     NpgsqlDataSource dataSource,
     ElasticsearchClient searchService,
-    ILogger<_9400ZZSYMAG1> logger,
+    ILogger<_3700ZZSYMAG1> logger,
     IMapper mapper) : IJob {
 
     public async Task Execute(IJobExecutionContext context)
@@ -23,7 +23,7 @@ public class _9400ZZSYMAG1(
 
             var searchFeed = await searchService.GetAsync<SearchStop>(request: new GetRequest
             {
-                Id = "9400ZZSYMAG1",
+                Id = "3700ZZSYMAG1",
                 Index = "southyorkshire"
             });
 
@@ -46,11 +46,11 @@ public class _9400ZZSYMAG1(
             var databaseFeed = await Feed.LoadAsync(dataStorage: PostgresStorage.Load(dataSource: dataSource));
 
             var stopResults = await databaseFeed.GetStopsByIdAsync(
-                id: "9400ZZSYMAG1",
+                id: "3700ZZSYMAG1",
                 comparison: ComparisonType.Exact);
 
             var serviceResults = await databaseFeed.GetServicesByStopAsync(
-                id: "9400ZZSYMAG1",
+                id: "3700ZZSYMAG1",
                 target: DateTime.UtcNow,
                 offset: TimeSpan.FromMinutes(value: -60),
                 comparison: ComparisonType.Exact,
@@ -78,7 +78,7 @@ public class _9400ZZSYMAG1(
             await searchService.IndexAsync(request: new IndexRequest<SearchStop>
             {
                 Document = databaseResults,
-                Id = databaseResults.Id ?? "9400ZZSYMAG1",
+                Id = databaseResults.Id ?? "3700ZZSYMAG1",
                 Index = "southyorkshire"
             });
 

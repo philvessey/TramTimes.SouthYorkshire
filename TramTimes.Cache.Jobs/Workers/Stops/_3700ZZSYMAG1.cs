@@ -10,10 +10,10 @@ using TramTimes.Cache.Jobs.Models;
 
 namespace TramTimes.Cache.Jobs.Workers.Stops;
 
-public class _9400ZZSYMAG1(
+public class _3700ZZSYMAG1(
     NpgsqlDataSource dataSource,
     IConnectionMultiplexer cacheService,
-    ILogger<_9400ZZSYMAG1> logger,
+    ILogger<_3700ZZSYMAG1> logger,
     IMapper mapper) : IJob {
 
     public async Task Execute(IJobExecutionContext context)
@@ -24,7 +24,7 @@ public class _9400ZZSYMAG1(
 
             var cacheFeed = await cacheService
                 .GetDatabase()
-                .StringGetAsync(key: "southyorkshire:stop:9400ZZSYMAG1");
+                .StringGetAsync(key: "southyorkshire:stop:3700ZZSYMAG1");
 
             List<CacheStopPoint> mappedResults = [];
 
@@ -47,7 +47,7 @@ public class _9400ZZSYMAG1(
             var databaseFeed = await Feed.LoadAsync(dataStorage: PostgresStorage.Load(dataSource: dataSource));
 
             var databaseResults = await databaseFeed.GetServicesByStopAsync(
-                id: "9400ZZSYMAG1",
+                id: "3700ZZSYMAG1",
                 target: DateTime.UtcNow,
                 offset: TimeSpan.FromMinutes(value: -60),
                 comparison: ComparisonType.Exact,
@@ -61,7 +61,7 @@ public class _9400ZZSYMAG1(
             await cacheService
                 .GetDatabase()
                 .StringSetAsync(
-                    key: "southyorkshire:stop:9400ZZSYMAG1",
+                    key: "southyorkshire:stop:3700ZZSYMAG1",
                     value: JsonSerializer.Serialize(value: mapper.Map<List<WorkerStopPoint>>(source: databaseResults)),
                     expiry: TimeSpan.FromHours(value: 12));
 
