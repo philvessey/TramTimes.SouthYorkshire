@@ -9,7 +9,7 @@ COPY . .
 RUN dotnet build "TramTimes.Web.Jobs/TramTimes.Web.Jobs.csproj" -c Release -o /app/build
 RUN dotnet publish "TramTimes.Web.Jobs/TramTimes.Web.Jobs.csproj" -c Release -o /app/publish
 
-FROM mcr.microsoft.com/playwright/dotnet:v1.58.0-noble AS runtime
+FROM mcr.microsoft.com/playwright/dotnet:v1.59.0-noble AS runtime
 
 RUN apt-get update
 RUN apt-get install -y dotnet-runtime-10.0
