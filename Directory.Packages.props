@@ -44,8 +44,8 @@
     <PackageVersion Include="Microsoft.Extensions.Http.Resilience" Version="10.4.0"/>
     <PackageVersion Include="Microsoft.Extensions.ServiceDiscovery" Version="10.4.0"/>
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="18.4.0"/>
-    <PackageVersion Include="Microsoft.Playwright" Version="1.58.0"/>
-    <PackageVersion Include="Microsoft.Playwright.Xunit.v3" Version="1.58.0"/>
+    <PackageVersion Include="Microsoft.Playwright" Version="1.59.0"/>
+    <PackageVersion Include="Microsoft.Playwright.Xunit.v3" Version="1.59.0"/>
   </ItemGroup>
 
   <ItemGroup>
@@ -70,13 +70,13 @@
     <PackageVersion Include="AutoMapper" Version="16.1.1"/>
     <PackageVersion Include="CliWrap" Version="3.10.1"/>
     <PackageVersion Include="CsvHelper" Version="33.1.0"/>
-    <PackageVersion Include="FluentFTP" Version="54.1.0"/>
+    <PackageVersion Include="FluentFTP" Version="54.1.1"/>
     <PackageVersion Include="Flurl.Http" Version="4.0.2"/>
     <PackageVersion Include="Geolocation" Version="1.2.1"/>
     <PackageVersion Include="IeuanWalker.GeoUK" Version="1.4.0"/>
     <PackageVersion Include="JetBrains.Annotations" Version="2025.2.4"/>
     <PackageVersion Include="Polly" Version="8.6.6"/>
-    <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.17.1"/>
+    <PackageVersion Include="Quartz.Extensions.Hosting" Version="3.18.0"/>
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="10.1.7"/>
     <PackageVersion Include="Telerik.UI.for.Blazor" Version="13.1.0"/>
   </ItemGroup>

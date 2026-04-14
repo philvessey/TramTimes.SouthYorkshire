@@ -122,12 +122,12 @@
       },
       "Quartz.Extensions.Hosting": {
         "type": "Direct",
-        "requested": "[3.17.1, )",
-        "resolved": "3.17.1",
-        "contentHash": "cqhcWOtistLUYyEDaXRsLaEzPzs3Ch95sQbsMmI15BhMcTUbNN8Oc0w+9czWBDVUAMZxhegYwNOYvkLTBzNZsw==",
+        "requested": "[3.18.0, )",
+        "resolved": "3.18.0",
+        "contentHash": "DOIgnLibu9sEYqHAKRQYz+0oWZ5q2LP55oNUtosOygEiIxCvTtHAwkZdf6Ea0VCucZ1oO9SeWLoA4q4WFbZspw==",
         "dependencies": {
           "Microsoft.Extensions.Hosting.Abstractions": "10.0.0",
-          "Quartz.Extensions.DependencyInjection": "3.17.1"
+          "Quartz.Extensions.DependencyInjection": "3.18.0"
         }
       },
       "AspNetCore.HealthChecks.NpgSql": {
@@ -652,20 +652,20 @@
       },
       "Quartz": {
         "type": "Transitive",
-        "resolved": "3.17.1",
-        "contentHash": "RE8zuYOBQnkKcjxmU/77Ju3sMZ+EoQYRDQbWQkQtsa7jC6q0cJPlEd9a2tXEbSRkdno2VB430sZYAXYSEWfKOw==",
+        "resolved": "3.18.0",
+        "contentHash": "l+PY20yF32ljFkP/OROYc7Z7Wv3rhGARqxGkDMaCwOJ3aGA/94fPSBYtJpZKciLbc/89xfVlpEZbIzIPE0hHHQ==",
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "2.1.1"
         }
       },
       "Quartz.Extensions.DependencyInjection": {
         "type": "Transitive",
-        "resolved": "3.17.1",
-        "contentHash": "b8+Bp4rdu9aWiRPBgJt80qzg+FotFS3CpGT1XYGT+mIo2lUWgaQqgkB96a0hNV0iAfsGtgL52hMal058oMex8A==",
+        "resolved": "3.18.0",
+        "contentHash": "YAtrZ+pYtPPnWKKuHII1x16E6HxyT1eHWQCvAR4zkMT8xmfuz1KCRHCg3+b8z/nGXpWyR6WpSoIh7dsR4jI+iA==",
         "dependencies": {
           "Microsoft.Extensions.Configuration.Abstractions": "10.0.0",
           "Microsoft.Extensions.Options": "10.0.0",
-          "Quartz": "3.17.1"
+          "Quartz": "3.18.0"
         }
       },
       "StackExchange.Redis": {
