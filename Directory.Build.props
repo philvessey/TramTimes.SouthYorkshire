@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
+    <RestoreLockedMode>false</RestoreLockedMode>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
   </PropertyGroup>

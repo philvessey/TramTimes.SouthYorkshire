@@ -5,6 +5,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <UserSecretsId>dde565df-f43e-46a5-b6ea-1f3c9df2ceb4</UserSecretsId>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <ItemGroup>

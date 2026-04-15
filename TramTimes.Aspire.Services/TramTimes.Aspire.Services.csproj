@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <IsAspireSharedProject>true</IsAspireSharedProject>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <ItemGroup>
