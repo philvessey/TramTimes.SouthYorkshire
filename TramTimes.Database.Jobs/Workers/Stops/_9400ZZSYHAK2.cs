@@ -131,10 +131,16 @@ public class _9400ZZSYHAK2(
                         var routeName = "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is not null)
-                            departureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                            departureTime = databaseResults.ElementAt(index: i).DepartureTime.HasValue
+                                ? databaseResults.ElementAt(index: i).DepartureTime.ToString()
+                                : "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is not null)
-                            routeName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
+                            routeName = !string.IsNullOrEmpty(value: databaseResults.ElementAt(index: i).RouteName)
+                                ? databaseResults.ElementAt(index: i).RouteName
+                                : "unknown";
+
+                        departureTime ??= "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is null ||
                             !departureTime.Equals(value: value.DepartureTime) ||
@@ -160,10 +166,16 @@ public class _9400ZZSYHAK2(
                         var routeName = "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is not null)
-                            departureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                            departureTime = databaseResults.ElementAt(index: i).DepartureTime.HasValue
+                                ? databaseResults.ElementAt(index: i).DepartureTime.ToString()
+                                : "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is not null)
-                            routeName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
+                            routeName = !string.IsNullOrEmpty(value: databaseResults.ElementAt(index: i).RouteName)
+                                ? databaseResults.ElementAt(index: i).RouteName
+                                : "unknown";
+
+                        departureTime ??= "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is null ||
                             !departureTime.Equals(value: value.DepartureTime) ||
@@ -189,10 +201,16 @@ public class _9400ZZSYHAK2(
                         var routeName = "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is not null)
-                            departureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                            departureTime = databaseResults.ElementAt(index: i).DepartureTime.HasValue
+                                ? databaseResults.ElementAt(index: i).DepartureTime.ToString()
+                                : "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is not null)
-                            routeName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
+                            routeName = !string.IsNullOrEmpty(value: databaseResults.ElementAt(index: i).RouteName)
+                                ? databaseResults.ElementAt(index: i).RouteName
+                                : "unknown";
+
+                        departureTime ??= "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is null ||
                             !departureTime.Equals(value: value.DepartureTime) ||
@@ -218,10 +236,16 @@ public class _9400ZZSYHAK2(
                         var routeName = "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is not null)
-                            departureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                            departureTime = databaseResults.ElementAt(index: i).DepartureTime.HasValue
+                                ? databaseResults.ElementAt(index: i).DepartureTime.ToString()
+                                : "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is not null)
-                            routeName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
+                            routeName = !string.IsNullOrEmpty(value: databaseResults.ElementAt(index: i).RouteName)
+                                ? databaseResults.ElementAt(index: i).RouteName
+                                : "unknown";
+
+                        departureTime ??= "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is null ||
                             !departureTime.Equals(value: value.DepartureTime) ||
@@ -247,10 +271,16 @@ public class _9400ZZSYHAK2(
                         var routeName = "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is not null)
-                            departureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                            departureTime = databaseResults.ElementAt(index: i).DepartureTime.HasValue
+                                ? databaseResults.ElementAt(index: i).DepartureTime.ToString()
+                                : "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is not null)
-                            routeName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
+                            routeName = !string.IsNullOrEmpty(value: databaseResults.ElementAt(index: i).RouteName)
+                                ? databaseResults.ElementAt(index: i).RouteName
+                                : "unknown";
+
+                        departureTime ??= "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is null ||
                             !departureTime.Equals(value: value.DepartureTime) ||
@@ -276,10 +306,16 @@ public class _9400ZZSYHAK2(
                         var routeName = "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is not null)
-                            departureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                            departureTime = databaseResults.ElementAt(index: i).DepartureTime.HasValue
+                                ? databaseResults.ElementAt(index: i).DepartureTime.ToString()
+                                : "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is not null)
-                            routeName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
+                            routeName = !string.IsNullOrEmpty(value: databaseResults.ElementAt(index: i).RouteName)
+                                ? databaseResults.ElementAt(index: i).RouteName
+                                : "unknown";
+
+                        departureTime ??= "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is null ||
                             !departureTime.Equals(value: value.DepartureTime) ||
@@ -305,10 +341,16 @@ public class _9400ZZSYHAK2(
                         var routeName = "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is not null)
-                            departureTime = databaseResults.ElementAt(index: i).DepartureTime.ToString() ?? "unknown";
+                            departureTime = databaseResults.ElementAt(index: i).DepartureTime.HasValue
+                                ? databaseResults.ElementAt(index: i).DepartureTime.ToString()
+                                : "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is not null)
-                            routeName = databaseResults.ElementAt(index: i).RouteName ?? "unknown";
+                            routeName = !string.IsNullOrEmpty(value: databaseResults.ElementAt(index: i).RouteName)
+                                ? databaseResults.ElementAt(index: i).RouteName
+                                : "unknown";
+
+                        departureTime ??= "unknown";
 
                         if (databaseResults.ElementAtOrDefault(index: i) is null ||
                             !departureTime.Equals(value: value.DepartureTime) ||

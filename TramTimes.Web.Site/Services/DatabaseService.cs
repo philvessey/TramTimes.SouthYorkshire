@@ -110,7 +110,7 @@ public class DatabaseService(
             item.Points = mapperService.Map<List<DatabaseStopPoint>>(
                 source: mapperService.Map<List<WebStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
-                        id: item.Id,
+                        id: item.Id ?? "9400ZZSYZZZ1",
                         target: DateTime.UtcNow,
                         offset: TimeSpan.FromMinutes(minutes: -60),
                         comparison: ComparisonType.Exact,
@@ -151,7 +151,7 @@ public class DatabaseService(
             item.Points = mapperService.Map<List<DatabaseStopPoint>>(
                 source: mapperService.Map<List<WebStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
-                        id: item.Id,
+                        id: item.Id ?? "9400ZZSYZZZ1",
                         target: DateTime.UtcNow,
                         offset: TimeSpan.FromMinutes(minutes: -60),
                         comparison: ComparisonType.Exact,
@@ -192,7 +192,7 @@ public class DatabaseService(
             item.Points = mapperService.Map<List<DatabaseStopPoint>>(
                 source: mapperService.Map<List<WebStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
-                        id: item.Id,
+                        id: item.Id ?? "9400ZZSYZZZ1",
                         target: DateTime.UtcNow,
                         offset: TimeSpan.FromMinutes(minutes: -60),
                         comparison: ComparisonType.Exact,
@@ -239,7 +239,7 @@ public class DatabaseService(
             item.Points = mapperService.Map<List<DatabaseStopPoint>>(
                 source: mapperService.Map<List<WebStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
-                        id: item.Id,
+                        id: item.Id ?? "9400ZZSYZZZ1",
                         target: DateTime.UtcNow,
                         offset: TimeSpan.FromMinutes(minutes: -60),
                         comparison: ComparisonType.Exact,
@@ -283,7 +283,7 @@ public class DatabaseService(
             item.Points = mapperService.Map<List<DatabaseStopPoint>>(
                 source: mapperService.Map<List<WebStopPoint>>(
                     source: await feed.GetServicesByStopAsync(
-                        id: item.Id,
+                        id: item.Id ?? "9400ZZSYZZZ1",
                         target: DateTime.UtcNow,
                         offset: TimeSpan.FromMinutes(minutes: -60),
                         comparison: ComparisonType.Exact,

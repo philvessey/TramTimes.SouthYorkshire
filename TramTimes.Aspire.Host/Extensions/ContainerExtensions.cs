@@ -1,3 +1,5 @@
+// ReSharper disable all
+
 using Aspire.Hosting.Pipelines;
 using CliWrap;
 using Microsoft.Extensions.Logging;

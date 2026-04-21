@@ -1,3 +1,5 @@
+// ReSharper disable all
+
 namespace TramTimes.Aspire.Host.Tools;
 
 public static class ContainerTools

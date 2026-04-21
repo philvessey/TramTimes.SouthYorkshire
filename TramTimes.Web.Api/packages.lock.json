@@ -472,8 +472,8 @@
           "Aspire.Npgsql": "[13.2.2, )",
           "Aspire.StackExchange.Redis": "[13.2.2, )",
           "JetBrains.Annotations": "[2025.2.4, )",
-          "NextDepartures.Standard": "[4.0.0, )",
-          "NextDepartures.Storage.Postgres.Aspire": "[4.0.0, )"
+          "NextDepartures.Standard": "[4.0.1, )",
+          "NextDepartures.Storage.Postgres.Aspire": "[4.0.1, )"
         }
       },
       "Aspire.Elastic.Clients.Elasticsearch": {
@@ -539,9 +539,9 @@
       },
       "NextDepartures.Standard": {
         "type": "CentralTransitive",
-        "requested": "[4.0.0, )",
-        "resolved": "4.0.0",
-        "contentHash": "jGV3ZrlBr2jaj+LdWLnw8PEgyXemu208gF3mBrGSOZ0ePXGqLsDWGGkBmh0Wk5RwD88985/g3mR+bcijmTrjDw==",
+        "requested": "[4.0.1, )",
+        "resolved": "4.0.1",
+        "contentHash": "WmA/4aP82STe7ERYLxaEGOU/dRlXLswhalDN8WK7/ny+p7csQZ23F7MGydKVwuTu0c1o4jzmtdx8Ev47t/YTow==",
         "dependencies": {
           "GTFS": "3.0.0-pre006",
           "JetBrains.Annotations": "2025.2.4",
@@ -550,12 +550,12 @@
       },
       "NextDepartures.Storage.Postgres.Aspire": {
         "type": "CentralTransitive",
-        "requested": "[4.0.0, )",
-        "resolved": "4.0.0",
-        "contentHash": "TZeK39e3XjPmbUYExcllG1wxpiT1TYS3ZWVK8dSqD9lEpmmbsu2vGJhYxQR9XF5xJFom233uSNl6RD9pgDQt3A==",
+        "requested": "[4.0.1, )",
+        "resolved": "4.0.1",
+        "contentHash": "yJDZEfQC+//oIWpm5wDr4xd1VAhowlEkkHQn7L1lkxwgj3xpZVbLatqFJoiWgZ+2IZEi8NrQtKMo3gI/FzU3tQ==",
         "dependencies": {
-          "Aspire.Npgsql": "13.2.1",
-          "NextDepartures.Standard": "4.0.0"
+          "Aspire.Npgsql": "13.2.2",
+          "NextDepartures.Standard": "4.0.1"
         }
       },
       "OpenTelemetry.Exporter.OpenTelemetryProtocol": {
