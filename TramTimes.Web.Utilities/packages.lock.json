@@ -65,9 +65,9 @@
       },
       "NextDepartures.Standard": {
         "type": "Direct",
-        "requested": "[4.0.1, )",
-        "resolved": "4.0.1",
-        "contentHash": "WmA/4aP82STe7ERYLxaEGOU/dRlXLswhalDN8WK7/ny+p7csQZ23F7MGydKVwuTu0c1o4jzmtdx8Ev47t/YTow==",
+        "requested": "[4.0.2, )",
+        "resolved": "4.0.2",
+        "contentHash": "BGcmHET0U47ftrTycsyXw0TSJaVcp36YNQS82uOnRRIBs7eu6uUGtgxj+blRHAO3Q8Rd9ouXtWyNcGHzBaDV4g==",
         "dependencies": {
           "GTFS": "3.0.0-pre006",
           "JetBrains.Annotations": "2025.2.4",
@@ -76,12 +76,12 @@
       },
       "NextDepartures.Storage.Postgres.Aspire": {
         "type": "Direct",
-        "requested": "[4.0.1, )",
-        "resolved": "4.0.1",
-        "contentHash": "yJDZEfQC+//oIWpm5wDr4xd1VAhowlEkkHQn7L1lkxwgj3xpZVbLatqFJoiWgZ+2IZEi8NrQtKMo3gI/FzU3tQ==",
+        "requested": "[4.0.2, )",
+        "resolved": "4.0.2",
+        "contentHash": "fJlUwU7fKipZpeveaGInRhDWXAfrxaYjceo882wbAtjOyeI6N3HBk/GKBJfEYqcXiZ07DMKthKvktD9OWqHmCw==",
         "dependencies": {
           "Aspire.Npgsql": "13.2.2",
-          "NextDepartures.Standard": "4.0.1"
+          "NextDepartures.Standard": "4.0.2"
         }
       },
       "AspNetCore.HealthChecks.NpgSql": {
