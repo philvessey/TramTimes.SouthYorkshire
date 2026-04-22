@@ -18,7 +18,7 @@ public class MapperService : Profile
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: service =>
                     TimeZoneInfo.ConvertTimeToUtc(
-                        dateTime: service.DepartureDateTime,
+                        dateTime: service.DepartureDateTime ?? DateTime.UtcNow,
                         sourceTimeZone: _timezone)));
 
         #endregion

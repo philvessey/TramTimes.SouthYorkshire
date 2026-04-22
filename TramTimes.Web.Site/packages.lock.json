@@ -405,8 +405,8 @@
         "type": "Project",
         "dependencies": {
           "Aspire.Elastic.Clients.Elasticsearch": "[13.2.0, )",
-          "Aspire.Npgsql": "[13.2.2, )",
-          "Aspire.StackExchange.Redis": "[13.2.2, )",
+          "Aspire.Npgsql": "[13.2.3, )",
+          "Aspire.StackExchange.Redis": "[13.2.3, )",
           "JetBrains.Annotations": "[2025.2.4, )",
           "NextDepartures.Standard": "[4.0.2, )",
           "NextDepartures.Storage.Postgres.Aspire": "[4.0.2, )"
@@ -425,9 +425,9 @@
       },
       "Aspire.Npgsql": {
         "type": "CentralTransitive",
-        "requested": "[13.2.2, )",
-        "resolved": "13.2.2",
-        "contentHash": "nEYgziWN7hksgEQEWy24JypcMCU8gKYcIIyPL05JfdXxUWuPRLotH/KOeuHevAjSEOYkL3dtGakBkJAuPobGmA==",
+        "requested": "[13.2.3, )",
+        "resolved": "13.2.3",
+        "contentHash": "Y2wVtU3KDqZ3Z31QZLu8K/6xmFpIVItn4Azj38aYLzeym8cauhZO2jo1gCGYiDNiWQaIxmRRxgdKOag4Czro+w==",
         "dependencies": {
           "AspNetCore.HealthChecks.NpgSql": "9.0.0",
           "Npgsql.DependencyInjection": "10.0.1",
@@ -437,9 +437,9 @@
       },
       "Aspire.StackExchange.Redis": {
         "type": "CentralTransitive",
-        "requested": "[13.2.2, )",
-        "resolved": "13.2.2",
-        "contentHash": "xx88SWRALt+j+jD1T0vzDvBslilrorOEBRZBb6fIE5vl7p7PQ8+1un5vMs/2un7dXjRd/RDnYBUxPQkaGVQy4w==",
+        "requested": "[13.2.3, )",
+        "resolved": "13.2.3",
+        "contentHash": "ZBfP8yv6/9VbrRad2j0xtbXPB2RzpOgToQQKuhOqvPhwRppZ8/YlqkTOb4uWqNHl9U3+MkeWL2OkJ3Tn5kD6Zw==",
         "dependencies": {
           "AspNetCore.HealthChecks.Redis": "9.0.0",
           "Microsoft.Extensions.DependencyInjection.AutoActivation": "10.2.0",

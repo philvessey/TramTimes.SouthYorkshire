@@ -3,33 +3,43 @@
 <!DOCTYPE html>
 <html lang="en">
 
+@code {
+    private const string KendoBaseHref = "https://unpkg.com/@progress/kendo-theme-default";
+    private string KendoLightHref => $"{KendoBaseHref}@{_version}/dist/default-main.css";
+    private string KendoDarkHref => $"{KendoBaseHref}@{_version}/dist/default-main-dark.css";
+}
+
 <head>
     <base href="/"/>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 
-    <link rel="icon" id="local-favicon" href="/favicon.svg" type="image/svg+xml"/>
-    <link rel="stylesheet" id="kendo-light" href="https://unpkg.com/@@progress/kendo-theme-default@@@(_version)/dist/default-main.css"/>
-    <link rel="stylesheet" id="kendo-dark" href="https://unpkg.com/@@progress/kendo-theme-default@@@(_version)/dist/default-main-dark.css"/>
-    <link rel="stylesheet" id="custom-light" href="@Assets["css/default-main.css"]"/>
-    <link rel="stylesheet" id="custom-dark" href="@Assets["css/default-main-dark.css"]"/>
-    <link rel="stylesheet" id="local-components" href="@Assets["TramTimes.Web.Site.styles.css"]"/>
-
-    <title>TramTimes - South Yorkshire</title>
-    <HeadOutlet @rendermode="new InteractiveServerRenderMode(prerender: false)"/>
-
     <script>
-        (function() {
-            let scheme = "@_scheme"
+        window.handleError = function (link, fileName) {
+            const failedHref = link.href;
 
-            scheme = (scheme === "system")
-                ? window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
-                : scheme;
+            if (link.dataset.fallbackTried === "1") {
+                console.error("Kendo CSS fallback failed.", {
+                    failedHref: failedHref,
+                    fileName: fileName
+                });
 
-            setScheme(scheme);
-        })();
+                return;
+            }
 
-        function setScheme(scheme) {
+            const fallbackHref = "https://unpkg.com/@@progress/kendo-theme-default@@latest/dist/" + fileName;
+
+            console.warn("Kendo CSS failed to load. Falling back to latest.", {
+                failedHref: failedHref,
+                fallbackHref: fallbackHref,
+                fileName: fileName
+            });
+
+            link.dataset.fallbackTried = "1";
+            link.href = fallbackHref;
+        };
+
+        window.setScheme = function (scheme) {
             const stylesheets = {
                 light: ["kendo-light", "custom-light"],
                 dark: ["kendo-dark", "custom-dark"]
@@ -38,23 +48,97 @@
             const matches = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
             if (scheme === "system") {
-                stylesheets.light.forEach(id => document.getElementById(id).disabled = matches);
-                stylesheets.dark.forEach(id => document.getElementById(id).disabled = !matches);
+                stylesheets.light.forEach(id => {
+                    const element = document.getElementById(id);
+
+                    if (element) {
+                        element.disabled = matches;
+                    }
+                });
+
+                stylesheets.dark.forEach(id => {
+                    const element = document.getElementById(id);
+
+                    if (element) {
+                        element.disabled = !matches;
+                    }
+                });
             } else {
-                stylesheets.light.forEach(id => document.getElementById(id).disabled = scheme !== "light");
-                stylesheets.dark.forEach(id => document.getElementById(id).disabled = scheme !== "dark");
+                stylesheets.light.forEach(id => {
+                    const element = document.getElementById(id);
+
+                    if (element) {
+                        element.disabled = scheme !== "light";
+                    }
+                });
+
+                stylesheets.dark.forEach(id => {
+                    const element = document.getElementById(id);
+
+                    if (element) {
+                        element.disabled = scheme !== "dark";
+                    }
+                });
             }
 
             const icon = document.getElementById("local-favicon");
 
-            if (scheme === "system") {
-                icon.href = matches ? "/favicon-main-dark.svg" : "/favicon-main.svg";
-            } else {
-                icon.href = scheme === "dark" ? "/favicon-main-dark.svg" : "/favicon-main.svg";
+            if (icon) {
+                if (scheme === "system") {
+                    icon.href = matches
+                        ? "/favicon-main-dark.svg"
+                        : "/favicon-main.svg";
+                } else {
+                    icon.href = scheme === "dark"
+                        ? "/favicon-main-dark.svg"
+                        : "/favicon-main.svg";
+                }
             }
-        }
+        };
+    </script>
 
-        window.setScheme = setScheme;
+    <link rel="icon"
+          id="local-favicon"
+          href="/favicon.svg"
+          type="image/svg+xml"/>
+
+    <link rel="stylesheet"
+          id="kendo-light"
+          href="@KendoLightHref"
+          onerror="window.handleError(this, `default-main.css`)"/>
+
+    <link rel="stylesheet"
+          id="kendo-dark"
+          href="@KendoDarkHref"
+          onerror="window.handleError(this, `default-main-dark.css`)"/>
+
+    <link rel="stylesheet"
+          id="custom-light"
+          href="@Assets["css/default-main.css"]"/>
+
+    <link rel="stylesheet"
+          id="custom-dark"
+          href="@Assets["css/default-main-dark.css"]"/>
+
+    <link rel="stylesheet"
+          id="local-components"
+          href="@Assets["TramTimes.Web.Site.styles.css"]"/>
+
+    <title>TramTimes - South Yorkshire</title>
+    <HeadOutlet @rendermode="new InteractiveServerRenderMode(prerender: false)"/>
+
+    <script>
+        (function () {
+            let scheme = "@_scheme";
+
+            scheme = (scheme === "system")
+                ? (window.matchMedia("(prefers-color-scheme: dark)").matches
+                    ? "dark"
+                    : "light")
+                : scheme;
+
+            window.setScheme(scheme);
+        })();
     </script>
 
     <script src="_content/Telerik.UI.for.Blazor/js/telerik-blazor.js" defer></script>

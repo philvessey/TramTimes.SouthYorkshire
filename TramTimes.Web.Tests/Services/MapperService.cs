@@ -24,7 +24,9 @@ public static class MapperService
                     destinationMember: point => point.DepartureDateTime,
                     memberOptions: member => member.MapFrom(mapExpression: point =>
                         DateTime.Parse(
-                            s: point.DepartureDateTime ?? string.Empty,
+                            s: string.IsNullOrEmpty(value: point.DepartureDateTime)
+                                ? DateTime.UtcNow.ToString(provider: CultureInfo.InvariantCulture)
+                                : point.DepartureDateTime,
                             provider: CultureInfo.InvariantCulture)))
                 .ForMember(
                     destinationMember: point => point.DestinationName,

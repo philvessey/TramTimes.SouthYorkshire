@@ -2,6 +2,7 @@ using System.Globalization;
 using AutoMapper;
 using GTFS.Entities;
 using NextDepartures.Standard.Models;
+using TramTimes.Web.Site.Defaults;
 using TramTimes.Web.Site.Models;
 using TramTimes.Web.Utilities.Models;
 using TramTimes.Web.Utilities.Tools;
@@ -20,7 +21,9 @@ public class MapperService : Profile
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    point.DepartureDateTime!.Value.ToString(provider: CultureInfo.InvariantCulture)));
+                    point.DepartureDateTime.HasValue
+                        ? point.DepartureDateTime.Value.ToString(provider: CultureInfo.InvariantCulture)
+                        : DateTime.UtcNow.ToString(provider: CultureInfo.InvariantCulture)));
 
         #endregion
 
@@ -36,7 +39,9 @@ public class MapperService : Profile
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    point.DepartureDateTime!.Value.ToString(provider: CultureInfo.InvariantCulture)));
+                    point.DepartureDateTime.HasValue
+                        ? point.DepartureDateTime.Value.ToString(provider: CultureInfo.InvariantCulture)
+                        : DateTime.UtcNow.ToString(provider: CultureInfo.InvariantCulture)));
 
         #endregion
 
@@ -52,7 +57,9 @@ public class MapperService : Profile
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    point.DepartureDateTime!.Value.ToString(provider: CultureInfo.InvariantCulture)));
+                    point.DepartureDateTime.HasValue
+                        ? point.DepartureDateTime.Value.ToString(provider: CultureInfo.InvariantCulture)
+                        : DateTime.UtcNow.ToString(provider: CultureInfo.InvariantCulture)));
 
         #endregion
 
@@ -63,7 +70,7 @@ public class MapperService : Profile
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: service =>
                     TimeZoneInfo.ConvertTimeToUtc(
-                        dateTime: service.DepartureDateTime,
+                        dateTime: service.DepartureDateTime ?? DateTime.UtcNow,
                         sourceTimeZone: _timezone)));
 
         #endregion
@@ -76,7 +83,7 @@ public class MapperService : Profile
                 memberOptions: member => member.MapFrom(mapExpression: service =>
                     TimeZoneInfo
                         .ConvertTimeToUtc(
-                            dateTime: service.DepartureDateTime,
+                            dateTime: service.DepartureDateTime ?? DateTime.UtcNow,
                             sourceTimeZone: _timezone)
                         .ToString(provider: CultureInfo.InvariantCulture)));
 
@@ -113,8 +120,11 @@ public class MapperService : Profile
                     RegexTools.RemoveName(input: stop.Name ?? string.Empty)))
             .ForMember(
                 destinationMember: stop => stop.Location,
-                memberOptions: member => member.MapFrom(mapExpression: stop =>
-                    new[] { stop.Latitude ?? 0, stop.Longitude ?? 0 }));
+                memberOptions: member => member.MapFrom(mapExpression: stop => new[]
+                {
+                    stop.Latitude ?? TelerikMapDefaults.Center[0],
+                    stop.Longitude ?? TelerikMapDefaults.Center[1]
+                }));
 
         #endregion
 
@@ -125,7 +135,9 @@ public class MapperService : Profile
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
                     DateTime.Parse(
-                        s: point.DepartureDateTime ?? string.Empty,
+                        s: string.IsNullOrEmpty(value: point.DepartureDateTime)
+                            ? DateTime.UtcNow.ToString(provider: CultureInfo.InvariantCulture)
+                            : point.DepartureDateTime,
                         provider: CultureInfo.InvariantCulture)));
 
         #endregion
@@ -137,7 +149,9 @@ public class MapperService : Profile
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
                     DateTime.Parse(
-                        s: point.DepartureDateTime ?? string.Empty,
+                        s: string.IsNullOrEmpty(value: point.DepartureDateTime)
+                            ? DateTime.UtcNow.ToString(provider: CultureInfo.InvariantCulture)
+                            : point.DepartureDateTime,
                         provider: CultureInfo.InvariantCulture)));
 
         #endregion
@@ -149,7 +163,9 @@ public class MapperService : Profile
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
                     DateTime.Parse(
-                        s: point.DepartureDateTime ?? string.Empty,
+                        s: string.IsNullOrEmpty(value: point.DepartureDateTime)
+                            ? DateTime.UtcNow.ToString(provider: CultureInfo.InvariantCulture)
+                            : point.DepartureDateTime,
                         provider: CultureInfo.InvariantCulture)))
             .ForMember(
                 destinationMember: point => point.DestinationName,

@@ -19,7 +19,7 @@ public class MapperService : Profile
                 memberOptions: member => member.MapFrom(mapExpression: service =>
                     TimeZoneInfo
                         .ConvertTimeToUtc(
-                            dateTime: service.DepartureDateTime,
+                            dateTime: service.DepartureDateTime ?? DateTime.UtcNow,
                             sourceTimeZone: _timezone)
                         .ToString(provider: CultureInfo.InvariantCulture)));
 
@@ -32,7 +32,9 @@ public class MapperService : Profile
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
                     DateTime.Parse(
-                        s: point.DepartureDateTime ?? string.Empty,
+                        s: string.IsNullOrEmpty(value: point.DepartureDateTime)
+                            ? DateTime.UtcNow.ToString(provider: CultureInfo.InvariantCulture)
+                            : point.DepartureDateTime,
                         provider: CultureInfo.InvariantCulture)));
 
         #endregion

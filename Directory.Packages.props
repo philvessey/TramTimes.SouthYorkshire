@@ -1,13 +1,13 @@
 <Project>
 
   <PropertyGroup>
-    <AspireVersion>13.2.2</AspireVersion>
+    <AspireVersion>13.2.3</AspireVersion>
     <AspireElasticVersion>13.2.0</AspireElasticVersion>
     <NextDeparturesVersion>4.0.2</NextDeparturesVersion>
   </PropertyGroup>
 
   <PropertyGroup>
-    <AspirePreviewVersion>13.2.2-preview.1.26207.2</AspirePreviewVersion>
+    <AspirePreviewVersion>13.2.3-preview.1.26217.6</AspirePreviewVersion>
   </PropertyGroup>
 
   <PropertyGroup>

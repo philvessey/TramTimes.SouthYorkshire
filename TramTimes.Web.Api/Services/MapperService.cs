@@ -18,7 +18,9 @@ public class MapperService : Profile
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    point.DepartureDateTime!.Value.ToString(provider: CultureInfo.InvariantCulture)));
+                    point.DepartureDateTime.HasValue
+                        ? point.DepartureDateTime.Value.ToString(provider: CultureInfo.InvariantCulture)
+                        : DateTime.UtcNow.ToString(provider: CultureInfo.InvariantCulture)));
 
         #endregion
 
@@ -34,7 +36,9 @@ public class MapperService : Profile
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    point.DepartureDateTime!.Value.ToString(provider: CultureInfo.InvariantCulture)));
+                    point.DepartureDateTime.HasValue
+                        ? point.DepartureDateTime.Value.ToString(provider: CultureInfo.InvariantCulture)
+                        : DateTime.UtcNow.ToString(provider: CultureInfo.InvariantCulture)));
 
         #endregion
 
@@ -50,7 +54,9 @@ public class MapperService : Profile
             .ForMember(
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
-                    point.DepartureDateTime!.Value.ToString(provider: CultureInfo.InvariantCulture)));
+                    point.DepartureDateTime.HasValue
+                        ? point.DepartureDateTime.Value.ToString(provider: CultureInfo.InvariantCulture)
+                        : DateTime.UtcNow.ToString(provider: CultureInfo.InvariantCulture)));
 
         #endregion
 
@@ -61,7 +67,7 @@ public class MapperService : Profile
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: service =>
                     TimeZoneInfo.ConvertTimeToUtc(
-                        dateTime: service.DepartureDateTime,
+                        dateTime: service.DepartureDateTime ?? DateTime.UtcNow,
                         sourceTimeZone: _timezone)));
 
         #endregion
@@ -74,7 +80,7 @@ public class MapperService : Profile
                 memberOptions: member => member.MapFrom(mapExpression: service =>
                     TimeZoneInfo
                         .ConvertTimeToUtc(
-                            dateTime: service.DepartureDateTime,
+                            dateTime: service.DepartureDateTime ?? DateTime.UtcNow,
                             sourceTimeZone: _timezone)
                         .ToString(provider: CultureInfo.InvariantCulture)));
 
@@ -105,7 +111,9 @@ public class MapperService : Profile
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
                     DateTime.Parse(
-                        s: point.DepartureDateTime ?? string.Empty,
+                        s: string.IsNullOrEmpty(value: point.DepartureDateTime)
+                            ? DateTime.UtcNow.ToString(provider: CultureInfo.InvariantCulture)
+                            : point.DepartureDateTime,
                         provider: CultureInfo.InvariantCulture)));
 
         #endregion
@@ -117,7 +125,9 @@ public class MapperService : Profile
                 destinationMember: point => point.DepartureDateTime,
                 memberOptions: member => member.MapFrom(mapExpression: point =>
                     DateTime.Parse(
-                        s: point.DepartureDateTime ?? string.Empty,
+                        s: string.IsNullOrEmpty(value: point.DepartureDateTime)
+                            ? DateTime.UtcNow.ToString(provider: CultureInfo.InvariantCulture)
+                            : point.DepartureDateTime,
                         provider: CultureInfo.InvariantCulture)));
 
         #endregion
