@@ -98,9 +98,9 @@
       },
       "FluentFTP": {
         "type": "Direct",
-        "requested": "[54.1.1, )",
-        "resolved": "54.1.1",
-        "contentHash": "kJaZD+HIS13XrE140ToNSaOWyirEvWz31O5IGjCry8Idprmh2xVmxN/VjXkXWtK58inO1AsOJTtJimMQ8Pkaiw=="
+        "requested": "[54.1.2, )",
+        "resolved": "54.1.2",
+        "contentHash": "tB9cnhTjpnkArYW/H06ntIod+KU9Da+XpbZLUJSJQVrHmm3Hx/xW3KsBMAu0Er6RZzisvORSjzF9TaeGumrkfA=="
       },
       "Flurl.Http": {
         "type": "Direct",
