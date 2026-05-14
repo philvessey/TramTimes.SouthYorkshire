@@ -1,47 +1,19 @@
-using CsvHelper.Configuration.Attributes;
+// ReSharper disable all
+
 using JetBrains.Annotations;
 
 namespace TramTimes.Database.Jobs.Models;
 
 public class GtfsTrip
 {
-    [UsedImplicitly]
-    [Name(name: "route_id")]
-    public string? RouteId { get; set; }
-
-    [UsedImplicitly]
-    [Name(name: "service_id")]
-    public string? ServiceId { get; set; }
-
-    [UsedImplicitly]
-    [Name(name: "trip_id")]
-    public string? TripId { get; set; }
-
-    [UsedImplicitly]
-    [Name(name: "trip_headsign")]
-    public string? TripHeadsign { get; set; }
-
-    [UsedImplicitly]
-    [Name(name: "trip_short_name")]
-    public string? TripShortName { get; set; }
-
-    [UsedImplicitly]
-    [Name(name: "direction_id")]
-    public string? DirectionId { get; set; }
-
-    [UsedImplicitly]
-    [Name(name: "block_id")]
-    public string? BlockId { get; set; }
-
-    [UsedImplicitly]
-    [Name(name: "shape_id")]
-    public string? ShapeId { get; set; }
-
-    [UsedImplicitly]
-    [Name(name: "wheelchair_accessible")]
-    public string? WheelchairAccessible { get; set; }
-
-    [UsedImplicitly]
-    [Name(name: "bikes_allowed")]
-    public string? BikesAllowed { get; set; }
+    [UsedImplicitly] public string? route_id { get; set; }
+    [UsedImplicitly] public string? service_id { get; set; }
+    [UsedImplicitly] public string? trip_id { get; set; }
+    [UsedImplicitly] public string? trip_headsign { get; set; }
+    [UsedImplicitly] public string? trip_short_name { get; set; }
+    [UsedImplicitly] public string? direction_id { get; set; }
+    [UsedImplicitly] public string? block_id { get; set; }
+    [UsedImplicitly] public string? shape_id { get; set; }
+    [UsedImplicitly] public string? wheelchair_accessible { get; set; }
+    [UsedImplicitly] public string? bikes_allowed { get; set; }
 }

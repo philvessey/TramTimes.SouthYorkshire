@@ -1,5 +1,5 @@
-using System.Globalization;
-using CsvHelper;
+using Sylvan.Data;
+using Sylvan.Data.Csv;
 using TramTimes.Database.Jobs.Models;
 using TramTimes.Database.Jobs.Tools;
 
@@ -19,19 +19,12 @@ public static class GtfsTripBuilder
 
         #region build results
 
-        StreamWriter writer = new(path: Path.Combine(
+        await using var streamWriter = new StreamWriter(path: Path.Combine(
             path1: path,
             path2: "trips.txt"));
 
-        CsvWriter csv = new(
-            writer: writer,
-            culture: CultureInfo.InvariantCulture);
-
-        csv.WriteHeader<GtfsTrip>();
-
-        await csv.NextRecordAsync();
-        await csv.WriteRecordsAsync(records: trips.Values);
-        await csv.FlushAsync();
+        await using var dataWriter = CsvDataWriter.Create(writer: streamWriter);
+        await dataWriter.WriteAsync(reader: trips.Values.AsDataReader());
 
         #endregion
 

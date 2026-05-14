@@ -15,53 +15,61 @@ public static class GtfsAgencyTools
 
             GtfsCalendar calendar = new()
             {
-                Monday = item.Calendar is { Monday: not null }
+                monday = item.Calendar is { Monday: not null }
                     ? item.Calendar.Monday.ToInt().ToString()
                     : "0",
-                Tuesday = item.Calendar is { Tuesday: not null }
+
+                tuesday = item.Calendar is { Tuesday: not null }
                     ? item.Calendar.Tuesday.ToInt().ToString()
                     : "0",
-                Wednesday = item.Calendar is { Wednesday: not null }
+
+                wednesday = item.Calendar is { Wednesday: not null }
                     ? item.Calendar.Wednesday.ToInt().ToString()
                     : "0",
-                Thursday = item.Calendar is { Thursday: not null }
+
+                thursday = item.Calendar is { Thursday: not null }
                     ? item.Calendar.Thursday.ToInt().ToString()
                     : "0",
-                Friday = item.Calendar is { Friday: not null }
+
+                friday = item.Calendar is { Friday: not null }
                     ? item.Calendar.Friday.ToInt().ToString()
                     : "0",
-                Saturday = item.Calendar is { Saturday: not null }
+
+                saturday = item.Calendar is { Saturday: not null }
                     ? item.Calendar.Saturday.ToInt().ToString()
                     : "0",
-                Sunday = item.Calendar is { Sunday: not null }
+
+                sunday = item.Calendar is { Sunday: not null }
                     ? item.Calendar.Sunday.ToInt().ToString()
                     : "0",
-                StartDate = $"{item.Calendar?.StartDate?.ToString(format: "yyyy")}" +
-                            $"{item.Calendar?.StartDate?.ToString(format: "MM")}" +
-                            $"{item.Calendar?.StartDate?.ToString(format: "dd")}",
-                EndDate = $"{item.Calendar?.EndDate?.ToString(format: "yyyy")}" +
-                          $"{item.Calendar?.EndDate?.ToString(format: "MM")}" +
-                          $"{item.Calendar?.EndDate?.ToString(format: "dd")}"
+
+                start_date = $"{item.Calendar?.StartDate?.ToString(format: "yyyy")}" +
+                             $"{item.Calendar?.StartDate?.ToString(format: "MM")}" +
+                             $"{item.Calendar?.StartDate?.ToString(format: "dd")}",
+
+                end_date = $"{item.Calendar?.EndDate?.ToString(format: "yyyy")}" +
+                           $"{item.Calendar?.EndDate?.ToString(format: "MM")}" +
+                           $"{item.Calendar?.EndDate?.ToString(format: "dd")}"
             };
 
             if (item.Calendar is { StartDate: not null, EndDate: not null })
-                calendar.ServiceId = $"{item.ServiceCode}" +
-                                     $"-" +
-                                     $"{item.Calendar?.StartDate:yyyy}" +
-                                     $"{item.Calendar?.StartDate:MM}" +
-                                     $"{item.Calendar?.StartDate:dd}" +
-                                     $"-" +
-                                     $"{item.Calendar?.EndDate:yyyy}" +
-                                     $"{item.Calendar?.EndDate:MM}" +
-                                     $"{item.Calendar?.EndDate:dd}" +
-                                     $"-" +
-                                     $"{item.Calendar?.Monday.ToInt()}" +
-                                     $"{item.Calendar?.Tuesday.ToInt()}" +
-                                     $"{item.Calendar?.Wednesday.ToInt()}" +
-                                     $"{item.Calendar?.Thursday.ToInt()}" +
-                                     $"{item.Calendar?.Friday.ToInt()}" +
-                                     $"{item.Calendar?.Saturday.ToInt()}" +
-                                     $"{item.Calendar?.Sunday.ToInt()}";
+                calendar.service_id = $"{item.ServiceCode}" +
+                                      $"-" +
+                                      $"{item.Calendar?.StartDate:yyyy}" +
+                                      $"{item.Calendar?.StartDate:MM}" +
+                                      $"{item.Calendar?.StartDate:dd}" +
+                                      $"-" +
+                                      $"{item.Calendar?.EndDate:yyyy}" +
+                                      $"{item.Calendar?.EndDate:MM}" +
+                                      $"{item.Calendar?.EndDate:dd}" +
+                                      $"-" +
+                                      $"{item.Calendar?.Monday.ToInt()}" +
+                                      $"{item.Calendar?.Tuesday.ToInt()}" +
+                                      $"{item.Calendar?.Wednesday.ToInt()}" +
+                                      $"{item.Calendar?.Thursday.ToInt()}" +
+                                      $"{item.Calendar?.Friday.ToInt()}" +
+                                      $"{item.Calendar?.Saturday.ToInt()}" +
+                                      $"{item.Calendar?.Sunday.ToInt()}";
 
             #endregion
 
@@ -69,24 +77,24 @@ public static class GtfsAgencyTools
 
             GtfsAgency agency = new()
             {
-                AgencyId = item.OperatorCode,
-                AgencyName = item.OperatorName,
-                AgencyUrl = $"https://www.google.com/search?q={item.OperatorName}",
-                AgencyTimezone = "Europe/London",
-                AgencyLang = "EN",
-                AgencyPhone = item.OperatorPhone
+                agency_id = item.OperatorCode,
+                agency_name = item.OperatorName,
+                agency_url = $"https://www.google.com/search?q={item.OperatorName}",
+                agency_timezone = "Europe/London",
+                agency_lang = "EN",
+                agency_phone = item.OperatorPhone
             };
 
-            if (agency.AgencyId is not null)
+            if (agency.agency_id is not null)
                 results.TryAdd(
-                    key: agency.AgencyId,
+                    key: agency.agency_id,
                     value: agency);
 
             #endregion
         }
 
         return results
-            .OrderBy(keySelector: agency => agency.Value.AgencyId)
+            .OrderBy(keySelector: agency => agency.Value.agency_id)
             .ToDictionary();
     }
 }

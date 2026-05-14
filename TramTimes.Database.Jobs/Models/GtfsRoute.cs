@@ -1,47 +1,19 @@
-using CsvHelper.Configuration.Attributes;
+// ReSharper disable all
+
 using JetBrains.Annotations;
 
 namespace TramTimes.Database.Jobs.Models;
 
 public class GtfsRoute
 {
-    [UsedImplicitly]
-    [Name(name: "route_id")]
-    public string? RouteId { get; set; }
-
-    [UsedImplicitly]
-    [Name(name: "agency_id")]
-    public string? AgencyId { get; set; }
-
-    [UsedImplicitly]
-    [Name(name: "route_short_name")]
-    public string? RouteShortName { get; set; }
-
-    [UsedImplicitly]
-    [Name(name: "route_long_name")]
-    public string? RouteLongName { get; set; }
-
-    [UsedImplicitly]
-    [Name(name: "route_desc")]
-    public string? RouteDesc { get; set; }
-
-    [UsedImplicitly]
-    [Name(name: "route_type")]
-    public string? RouteType { get; set; }
-
-    [UsedImplicitly]
-    [Name(name: "route_url")]
-    public string? RouteUrl { get; set; }
-
-    [UsedImplicitly]
-    [Name(name: "route_color")]
-    public string? RouteColor { get; set; }
-
-    [UsedImplicitly]
-    [Name(name: "route_text_color")]
-    public string? RouteTextColor { get; set; }
-
-    [UsedImplicitly]
-    [Name(name: "route_sort_order")]
-    public string? RouteSortOrder { get; set; }
+    [UsedImplicitly] public string? route_id { get; set; }
+    [UsedImplicitly] public string? agency_id { get; set; }
+    [UsedImplicitly] public string? route_short_name { get; set; }
+    [UsedImplicitly] public string? route_long_name { get; set; }
+    [UsedImplicitly] public string? route_desc { get; set; }
+    [UsedImplicitly] public string? route_type { get; set; }
+    [UsedImplicitly] public string? route_url { get; set; }
+    [UsedImplicitly] public string? route_color { get; set; }
+    [UsedImplicitly] public string? route_text_color { get; set; }
+    [UsedImplicitly] public string? route_sort_order { get; set; }
 }
