@@ -75,43 +75,43 @@ public static class DatabaseCalendarBuilder
             await importer.StartRowAsync();
 
             await importer.WriteAsync(
-                value: item.ServiceId,
+                value: item.service_id,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.Monday,
+                value: item.monday,
                 npgsqlDbType: NpgsqlDbType.Smallint);
 
             await importer.WriteAsync(
-                value: item.Tuesday,
+                value: item.tuesday,
                 npgsqlDbType: NpgsqlDbType.Smallint);
 
             await importer.WriteAsync(
-                value: item.Wednesday,
+                value: item.wednesday,
                 npgsqlDbType: NpgsqlDbType.Smallint);
 
             await importer.WriteAsync(
-                value: item.Thursday,
+                value: item.thursday,
                 npgsqlDbType: NpgsqlDbType.Smallint);
 
             await importer.WriteAsync(
-                value: item.Friday,
+                value: item.friday,
                 npgsqlDbType: NpgsqlDbType.Smallint);
 
             await importer.WriteAsync(
-                value: item.Saturday,
+                value: item.saturday,
                 npgsqlDbType: NpgsqlDbType.Smallint);
 
             await importer.WriteAsync(
-                value: item.Sunday,
+                value: item.sunday,
                 npgsqlDbType: NpgsqlDbType.Smallint);
 
             await importer.WriteAsync(
-                value: item.StartDate,
+                value: item.start_date,
                 npgsqlDbType: NpgsqlDbType.Date);
 
             await importer.WriteAsync(
-                value: item.EndDate,
+                value: item.end_date,
                 npgsqlDbType: NpgsqlDbType.Date);
         }
 

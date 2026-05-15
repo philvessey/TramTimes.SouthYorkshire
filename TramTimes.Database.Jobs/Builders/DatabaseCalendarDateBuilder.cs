@@ -61,15 +61,15 @@ public static class DatabaseCalendarDateBuilder
             await importer.StartRowAsync();
 
             await importer.WriteAsync(
-                value: item.ServiceId,
+                value: item.service_id,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.ExceptionDate,
+                value: item.exception_date,
                 npgsqlDbType: NpgsqlDbType.Date);
 
             await importer.WriteAsync(
-                value: item.ExceptionType,
+                value: item.exception_type,
                 npgsqlDbType: NpgsqlDbType.Smallint);
         }
 

@@ -75,43 +75,43 @@ public static class DatabaseStopTimeBuilder
             await importer.StartRowAsync();
 
             await importer.WriteAsync(
-                value: item.TripId,
+                value: item.trip_id,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.ArrivalTime,
+                value: item.arrival_time,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.DepartureTime,
+                value: item.departure_time,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.StopId,
+                value: item.stop_id,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.StopSequence,
+                value: item.stop_sequence,
                 npgsqlDbType: NpgsqlDbType.Smallint);
 
             await importer.WriteAsync(
-                value: item.StopHeadsign,
+                value: item.stop_headsign,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.PickupType,
+                value: item.pickup_type,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.DropOffType,
+                value: item.drop_off_type,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.ShapeDistTraveled,
+                value: item.shape_dist_traveled,
                 npgsqlDbType: NpgsqlDbType.Real);
 
             await importer.WriteAsync(
-                value: item.Timepoint,
+                value: item.timepoint,
                 npgsqlDbType: NpgsqlDbType.Smallint);
         }
 

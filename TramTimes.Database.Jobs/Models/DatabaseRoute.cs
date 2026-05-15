@@ -1,17 +1,19 @@
+// ReSharper disable all
+
 using JetBrains.Annotations;
 
 namespace TramTimes.Database.Jobs.Models;
 
 public class DatabaseRoute
 {
-    [UsedImplicitly] public string? RouteId { get; set; }
-    [UsedImplicitly] public string? AgencyId { get; set; }
-    [UsedImplicitly] public string? RouteShortName { get; set; }
-    [UsedImplicitly] public string? RouteLongName { get; set; }
-    [UsedImplicitly] public string? RouteDesc { get; set; }
-    [UsedImplicitly] public short? RouteType { get; set; }
-    [UsedImplicitly] public string? RouteUrl { get; set; }
-    [UsedImplicitly] public string? RouteColor { get; set; }
-    [UsedImplicitly] public string? RouteTextColor { get; set; }
-    [UsedImplicitly] public short? RouteSortOrder { get; set; }
+    [UsedImplicitly] public string? route_id { get; set; }
+    [UsedImplicitly] public string? agency_id { get; set; }
+    [UsedImplicitly] public string? route_short_name { get; set; }
+    [UsedImplicitly] public string? route_long_name { get; set; }
+    [UsedImplicitly] public string? route_desc { get; set; }
+    [UsedImplicitly] public short? route_type { get; set; }
+    [UsedImplicitly] public string? route_url { get; set; }
+    [UsedImplicitly] public string? route_color { get; set; }
+    [UsedImplicitly] public string? route_text_color { get; set; }
+    [UsedImplicitly] public short? route_sort_order { get; set; }
 }

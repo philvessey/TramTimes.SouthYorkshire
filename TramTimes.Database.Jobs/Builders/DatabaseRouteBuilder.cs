@@ -75,43 +75,43 @@ public static class DatabaseRouteBuilder
             await importer.StartRowAsync();
 
             await importer.WriteAsync(
-                value: item.RouteId,
+                value: item.route_id,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.AgencyId,
+                value: item.agency_id,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.RouteShortName,
+                value: item.route_short_name,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.RouteLongName,
+                value: item.route_long_name,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.RouteDesc,
+                value: item.route_desc,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.RouteType,
+                value: item.route_type,
                 npgsqlDbType: NpgsqlDbType.Smallint);
 
             await importer.WriteAsync(
-                value: item.RouteUrl,
+                value: item.route_url,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.RouteColor,
+                value: item.route_color,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.RouteTextColor,
+                value: item.route_text_color,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.RouteSortOrder,
+                value: item.route_sort_order,
                 npgsqlDbType: NpgsqlDbType.Smallint);
         }
 

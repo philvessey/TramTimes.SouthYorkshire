@@ -1,21 +1,23 @@
+// ReSharper disable all
+
 using JetBrains.Annotations;
 
 namespace TramTimes.Database.Jobs.Models;
 
 public class DatabaseStop
 {
-    [UsedImplicitly] public string? StopId { get; set; }
-    [UsedImplicitly] public string? StopCode { get; set; }
-    [UsedImplicitly] public string? StopName { get; set; }
-    [UsedImplicitly] public string? StopDesc { get; set; }
-    [UsedImplicitly] public float? StopLat { get; set; }
-    [UsedImplicitly] public float? StopLon { get; set; }
-    [UsedImplicitly] public string? ZoneId { get; set; }
-    [UsedImplicitly] public string? StopUrl { get; set; }
-    [UsedImplicitly] public string? LocationType { get; set; }
-    [UsedImplicitly] public string? ParentStation { get; set; }
-    [UsedImplicitly] public string? StopTimezone { get; set; }
-    [UsedImplicitly] public string? WheelchairBoarding { get; set; }
-    [UsedImplicitly] public string? LevelId { get; set; }
-    [UsedImplicitly] public string? PlatformCode { get; set; }
+    [UsedImplicitly] public string? stop_id { get; set; }
+    [UsedImplicitly] public string? stop_code { get; set; }
+    [UsedImplicitly] public string? stop_name { get; set; }
+    [UsedImplicitly] public string? stop_desc { get; set; }
+    [UsedImplicitly] public float? stop_lat { get; set; }
+    [UsedImplicitly] public float? stop_lon { get; set; }
+    [UsedImplicitly] public string? zone_id { get; set; }
+    [UsedImplicitly] public string? stop_url { get; set; }
+    [UsedImplicitly] public string? location_type { get; set; }
+    [UsedImplicitly] public string? parent_station { get; set; }
+    [UsedImplicitly] public string? stop_timezone { get; set; }
+    [UsedImplicitly] public string? wheelchair_boarding { get; set; }
+    [UsedImplicitly] public string? level_id { get; set; }
+    [UsedImplicitly] public string? platform_code { get; set; }
 }

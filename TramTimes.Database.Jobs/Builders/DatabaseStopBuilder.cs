@@ -83,59 +83,59 @@ public static class DatabaseStopBuilder
             await importer.StartRowAsync();
 
             await importer.WriteAsync(
-                value: item.StopId,
+                value: item.stop_id,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.StopCode,
+                value: item.stop_code,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.StopName,
+                value: item.stop_name,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.StopDesc,
+                value: item.stop_desc,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.StopLat,
+                value: item.stop_lat,
                 npgsqlDbType: NpgsqlDbType.Real);
 
             await importer.WriteAsync(
-                value: item.StopLon,
+                value: item.stop_lon,
                 npgsqlDbType: NpgsqlDbType.Real);
 
             await importer.WriteAsync(
-                value: item.ZoneId,
+                value: item.zone_id,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.StopUrl,
+                value: item.stop_url,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.LocationType,
+                value: item.location_type,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.ParentStation,
+                value: item.parent_station,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.StopTimezone,
+                value: item.stop_timezone,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.WheelchairBoarding,
+                value: item.wheelchair_boarding,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.LevelId,
+                value: item.level_id,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.PlatformCode,
+                value: item.platform_code,
                 npgsqlDbType: NpgsqlDbType.Varchar);
         }
 

@@ -71,35 +71,35 @@ public static class DatabaseAgencyBuilder
             await importer.StartRowAsync();
 
             await importer.WriteAsync(
-                value: item.AgencyId,
+                value: item.agency_id,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.AgencyName,
+                value: item.agency_name,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.AgencyUrl,
+                value: item.agency_url,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.AgencyTimezone,
+                value: item.agency_timezone,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.AgencyLang,
+                value: item.agency_lang,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.AgencyPhone,
+                value: item.agency_phone,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.AgencyFareUrl,
+                value: item.agency_fare_url,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.AgencyEmail,
+                value: item.agency_email,
                 npgsqlDbType: NpgsqlDbType.Varchar);
         }
 

@@ -75,43 +75,43 @@ public static class DatabaseTripBuilder
             await importer.StartRowAsync();
 
             await importer.WriteAsync(
-                value: item.RouteId,
+                value: item.route_id,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.ServiceId,
+                value: item.service_id,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.TripId,
+                value: item.trip_id,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.TripHeadsign,
+                value: item.trip_headsign,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.TripShortName,
+                value: item.trip_short_name,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.DirectionId,
+                value: item.direction_id,
                 npgsqlDbType: NpgsqlDbType.Smallint);
 
             await importer.WriteAsync(
-                value: item.BlockId,
+                value: item.block_id,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.ShapeId,
+                value: item.shape_id,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.WheelchairAccessible,
+                value: item.wheelchair_accessible,
                 npgsqlDbType: NpgsqlDbType.Varchar);
 
             await importer.WriteAsync(
-                value: item.BikesAllowed,
+                value: item.bikes_allowed,
                 npgsqlDbType: NpgsqlDbType.Varchar);
         }
 

@@ -15,49 +15,52 @@ public static class DatabaseRouteTools
 
             DatabaseCalendar calendar = new()
             {
-                Monday = item.Calendar is { Monday: not null }
+                monday = item.Calendar is { Monday: not null }
                     ? item.Calendar.Monday.ToShort()
                     : short.Parse(s: "0"),
-                Tuesday = item.Calendar is { Tuesday: not null }
+
+                tuesday = item.Calendar is { Tuesday: not null }
                     ? item.Calendar.Tuesday.ToShort()
                     : short.Parse(s: "0"),
-                Wednesday = item.Calendar is { Wednesday: not null }
+
+                wednesday = item.Calendar is { Wednesday: not null }
                     ? item.Calendar.Wednesday.ToShort()
                     : short.Parse(s: "0"),
-                Thursday = item.Calendar is { Thursday: not null }
+
+                thursday = item.Calendar is { Thursday: not null }
                     ? item.Calendar.Thursday.ToShort()
                     : short.Parse(s: "0"),
-                Friday = item.Calendar is { Friday: not null }
+
+                friday = item.Calendar is { Friday: not null }
                     ? item.Calendar.Friday.ToShort()
                     : short.Parse(s: "0"),
-                Saturday = item.Calendar is { Saturday: not null }
+
+                saturday = item.Calendar is { Saturday: not null }
                     ? item.Calendar.Saturday.ToShort()
                     : short.Parse(s: "0"),
-                Sunday = item.Calendar is { Sunday: not null }
+
+                sunday = item.Calendar is { Sunday: not null }
                     ? item.Calendar.Sunday.ToShort()
                     : short.Parse(s: "0"),
-                StartDate = item.Calendar?.StartDate,
-                EndDate = item.Calendar?.EndDate
+
+                start_date = item.Calendar?.StartDate,
+                end_date = item.Calendar?.EndDate
             };
 
             if (item.Calendar is { StartDate: not null, EndDate: not null })
-                calendar.ServiceId = $"{item.ServiceCode}" +
-                                     $"-" +
-                                     $"{item.Calendar?.StartDate:yyyy}" +
-                                     $"{item.Calendar?.StartDate:MM}" +
-                                     $"{item.Calendar?.StartDate:dd}" +
-                                     $"-" +
-                                     $"{item.Calendar?.EndDate:yyyy}" +
-                                     $"{item.Calendar?.EndDate:MM}" +
-                                     $"{item.Calendar?.EndDate:dd}" +
-                                     $"-" +
-                                     $"{item.Calendar?.Monday.ToInt()}" +
-                                     $"{item.Calendar?.Tuesday.ToInt()}" +
-                                     $"{item.Calendar?.Wednesday.ToInt()}" +
-                                     $"{item.Calendar?.Thursday.ToInt()}" +
-                                     $"{item.Calendar?.Friday.ToInt()}" +
-                                     $"{item.Calendar?.Saturday.ToInt()}" +
-                                     $"{item.Calendar?.Sunday.ToInt()}";
+                calendar.service_id = $"{item.ServiceCode}" +
+                                      $"-" +
+                                      $"{item.Calendar?.StartDate:yyyyMMdd}" +
+                                      $"-" +
+                                      $"{item.Calendar?.EndDate:yyyyMMdd}" +
+                                      $"-" +
+                                      $"{item.Calendar?.Monday.ToInt()}" +
+                                      $"{item.Calendar?.Tuesday.ToInt()}" +
+                                      $"{item.Calendar?.Wednesday.ToInt()}" +
+                                      $"{item.Calendar?.Thursday.ToInt()}" +
+                                      $"{item.Calendar?.Friday.ToInt()}" +
+                                      $"{item.Calendar?.Saturday.ToInt()}" +
+                                      $"{item.Calendar?.Sunday.ToInt()}";
 
             #endregion
 
@@ -65,23 +68,23 @@ public static class DatabaseRouteTools
 
             DatabaseRoute route = new()
             {
-                RouteId = item.ServiceCode,
-                AgencyId = item.OperatorCode,
-                RouteShortName = item.Line,
-                RouteLongName = item.Description,
-                RouteType = item.Mode.ToShort()
+                route_id = item.ServiceCode,
+                agency_id = item.OperatorCode,
+                route_short_name = item.Line,
+                route_long_name = item.Description,
+                route_type = item.Mode.ToShort()
             };
 
-            if (route.RouteId is not null)
+            if (route.route_id is not null)
                 results.TryAdd(
-                    key: route.RouteId,
+                    key: route.route_id,
                     value: route);
 
             #endregion
         }
 
         return results
-            .OrderBy(keySelector: route => route.Value.RouteId)
+            .OrderBy(keySelector: route => route.Value.route_id)
             .ToDictionary();
     }
 }

@@ -43,25 +43,16 @@ public static class GtfsTripTools
                     ? item.Calendar.Sunday.ToInt().ToString()
                     : "0",
 
-                start_date = $"{item.Calendar?.StartDate?.ToString(format: "yyyy")}" +
-                             $"{item.Calendar?.StartDate?.ToString(format: "MM")}" +
-                             $"{item.Calendar?.StartDate?.ToString(format: "dd")}",
-
-                end_date = $"{item.Calendar?.EndDate?.ToString(format: "yyyy")}" +
-                           $"{item.Calendar?.EndDate?.ToString(format: "MM")}" +
-                           $"{item.Calendar?.EndDate?.ToString(format: "dd")}"
+                start_date = item.Calendar?.StartDate?.ToString(format: "yyyyMMdd"),
+                end_date = item.Calendar?.EndDate?.ToString(format: "yyyyMMdd")
             };
 
             if (item.Calendar is { StartDate: not null, EndDate: not null })
                 calendar.service_id = $"{item.ServiceCode}" +
                                       $"-" +
-                                      $"{item.Calendar?.StartDate:yyyy}" +
-                                      $"{item.Calendar?.StartDate:MM}" +
-                                      $"{item.Calendar?.StartDate:dd}" +
+                                      $"{item.Calendar?.StartDate:yyyyMMdd}" +
                                       $"-" +
-                                      $"{item.Calendar?.EndDate:yyyy}" +
-                                      $"{item.Calendar?.EndDate:MM}" +
-                                      $"{item.Calendar?.EndDate:dd}" +
+                                      $"{item.Calendar?.EndDate:yyyyMMdd}" +
                                       $"-" +
                                       $"{item.Calendar?.Monday.ToInt()}" +
                                       $"{item.Calendar?.Tuesday.ToInt()}" +

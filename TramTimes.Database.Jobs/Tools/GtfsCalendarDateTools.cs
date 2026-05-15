@@ -45,25 +45,16 @@ public static class GtfsCalendarDateTools
                         ? item.Calendar.Sunday.ToInt().ToString()
                         : "0",
 
-                    start_date = $"{item.Calendar?.StartDate?.ToString(format: "yyyy")}" +
-                                 $"{item.Calendar?.StartDate?.ToString(format: "MM")}" +
-                                 $"{item.Calendar?.StartDate?.ToString(format: "dd")}",
-
-                    end_date = $"{item.Calendar?.EndDate?.ToString(format: "yyyy")}" +
-                               $"{item.Calendar?.EndDate?.ToString(format: "MM")}" +
-                               $"{item.Calendar?.EndDate?.ToString(format: "dd")}"
+                    start_date = item.Calendar?.StartDate?.ToString(format: "yyyyMMdd"),
+                    end_date = item.Calendar?.EndDate?.ToString(format: "yyyyMMdd")
                 };
 
                 if (item.Calendar is { StartDate: not null, EndDate: not null })
                     calendar.service_id = $"{item.ServiceCode}" +
                                           $"-" +
-                                          $"{item.Calendar?.StartDate:yyyy}" +
-                                          $"{item.Calendar?.StartDate:MM}" +
-                                          $"{item.Calendar?.StartDate:dd}" +
+                                          $"{item.Calendar?.StartDate:yyyyMMdd}" +
                                           $"-" +
-                                          $"{item.Calendar?.EndDate:yyyy}" +
-                                          $"{item.Calendar?.EndDate:MM}" +
-                                          $"{item.Calendar?.EndDate:dd}" +
+                                          $"{item.Calendar?.EndDate:yyyyMMdd}" +
                                           $"-" +
                                           $"{item.Calendar?.Monday.ToInt()}" +
                                           $"{item.Calendar?.Tuesday.ToInt()}" +
@@ -80,11 +71,7 @@ public static class GtfsCalendarDateTools
                 GtfsCalendarDate calendarDate = new()
                 {
                     service_id = calendar.service_id,
-
-                    date = $"{item.Calendar?.SupplementRunningDates.ElementAt(index: i):yyyy}" +
-                           $"{item.Calendar?.SupplementRunningDates.ElementAt(index: i):MM}" +
-                           $"{item.Calendar?.SupplementRunningDates.ElementAt(index: i):dd}",
-
+                    date = item.Calendar?.SupplementRunningDates.ElementAt(index: i).ToString(format: "yyyyMMdd"),
                     exception_type = "1"
                 };
 
@@ -129,25 +116,16 @@ public static class GtfsCalendarDateTools
                         ? item.Calendar.Sunday.ToInt().ToString()
                         : "0",
 
-                    start_date = $"{item.Calendar?.StartDate?.ToString(format: "yyyy")}" +
-                                 $"{item.Calendar?.StartDate?.ToString(format: "MM")}" +
-                                 $"{item.Calendar?.StartDate?.ToString(format: "dd")}",
-
-                    end_date = $"{item.Calendar?.EndDate?.ToString(format: "yyyy")}" +
-                               $"{item.Calendar?.EndDate?.ToString(format: "MM")}" +
-                               $"{item.Calendar?.EndDate?.ToString(format: "dd")}"
+                    start_date = item.Calendar?.StartDate?.ToString(format: "yyyyMMdd"),
+                    end_date = item.Calendar?.EndDate?.ToString(format: "yyyyMMdd")
                 };
 
                 if (item.Calendar is { StartDate: not null, EndDate: not null })
                     calendar.service_id = $"{item.ServiceCode}" +
                                           $"-" +
-                                          $"{item.Calendar?.StartDate:yyyy}" +
-                                          $"{item.Calendar?.StartDate:MM}" +
-                                          $"{item.Calendar?.StartDate:dd}" +
+                                          $"{item.Calendar?.StartDate:yyyyMMdd}" +
                                           $"-" +
-                                          $"{item.Calendar?.EndDate:yyyy}" +
-                                          $"{item.Calendar?.EndDate:MM}" +
-                                          $"{item.Calendar?.EndDate:dd}" +
+                                          $"{item.Calendar?.EndDate:yyyyMMdd}" +
                                           $"-" +
                                           $"{item.Calendar?.Monday.ToInt()}" +
                                           $"{item.Calendar?.Tuesday.ToInt()}" +
@@ -164,11 +142,7 @@ public static class GtfsCalendarDateTools
                 GtfsCalendarDate calendarDate = new()
                 {
                     service_id = calendar.service_id,
-
-                    date = $"{item.Calendar?.SupplementNonRunningDates.ElementAt(index: i):yyyy}" +
-                           $"{item.Calendar?.SupplementNonRunningDates.ElementAt(index: i):MM}" +
-                           $"{item.Calendar?.SupplementNonRunningDates.ElementAt(index: i):dd}",
-
+                    date = item.Calendar?.SupplementNonRunningDates.ElementAt(index: i).ToString(format: "yyyyMMdd"),
                     exception_type = "2"
                 };
 

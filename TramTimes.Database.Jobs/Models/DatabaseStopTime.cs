@@ -1,17 +1,19 @@
+// ReSharper disable all
+
 using JetBrains.Annotations;
 
 namespace TramTimes.Database.Jobs.Models;
 
 public class DatabaseStopTime
 {
-    [UsedImplicitly] public string? TripId { get; set; }
-    [UsedImplicitly] public string? ArrivalTime { get; set; }
-    [UsedImplicitly] public string? DepartureTime { get; set; }
-    [UsedImplicitly] public string? StopId { get; set; }
-    [UsedImplicitly] public short? StopSequence { get; set; }
-    [UsedImplicitly] public string? StopHeadsign { get; set; }
-    [UsedImplicitly] public string? PickupType { get; set; }
-    [UsedImplicitly] public string? DropOffType { get; set; }
-    [UsedImplicitly] public float? ShapeDistTraveled { get; set; }
-    [UsedImplicitly] public short? Timepoint { get; set; }
+    [UsedImplicitly] public string? trip_id { get; set; }
+    [UsedImplicitly] public string? arrival_time { get; set; }
+    [UsedImplicitly] public string? departure_time { get; set; }
+    [UsedImplicitly] public string? stop_id { get; set; }
+    [UsedImplicitly] public short? stop_sequence { get; set; }
+    [UsedImplicitly] public string? stop_headsign { get; set; }
+    [UsedImplicitly] public string? pickup_type { get; set; }
+    [UsedImplicitly] public string? drop_off_type { get; set; }
+    [UsedImplicitly] public float? shape_dist_traveled { get; set; }
+    [UsedImplicitly] public short? timepoint { get; set; }
 }
